@@ -7,7 +7,7 @@
         <!--配置数据库的驱动程序，Hibernate在连接数据库时，需要用到数据库的驱动程序-->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <!--设置数据库的连接url:jdbc:mysql://localhost/hibernate,其中localhost表示mysql服务器名称，此处为本机，    hibernate是数据库名-->
-        <property name="hibernate.connection.url">jdbc:mysql://128.0.0.1:3306/name</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/unisle</property>
         <!--连接数据库是用户名-->
         <property name="connection.username">root</property>
         <!--连接数据库是密码-->
@@ -29,6 +29,8 @@
         <property name="Connection.useUnicode">true</property>
         <!--connection.characterEncoding连接数据库时数据的传输字符集编码方式，最好设置为gbk，用gb2312有的字符不全-->
         <property name="connection.characterEncoding">gbk</property>
+        <!--设置自动根据实体类生成数据表功能-->
+        <property name="hbm2ddl.auto">update</property>
 
         <!--hibernate.dialect 只是Hibernate使用的数据库方言,就是要用Hibernate连接那种类型的数据库服务器。-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -45,5 +47,6 @@
         <mapping resource="store/entity/Property.hbm.xml"/>
         <mapping resource="store/entity/ShoppingInfo.hbm.xml"/>
         <mapping resource="store/entity/Ownership.hbm.xml"/>-->
+        <mapping resource="models/User.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
