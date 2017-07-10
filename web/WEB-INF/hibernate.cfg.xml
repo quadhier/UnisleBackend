@@ -47,6 +47,6 @@
         <mapping resource="store/entity/Property.hbm.xml"/>
         <mapping resource="store/entity/ShoppingInfo.hbm.xml"/>
         <mapping resource="store/entity/Ownership.hbm.xml"/>-->
-        <mapping resource="models/User.hbm.xml"/>
+        <mapping class="models.User" resource="models/User.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
