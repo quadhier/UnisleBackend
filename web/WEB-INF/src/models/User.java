@@ -5,8 +5,10 @@ package models;
  */
 public class User {
 
-    String name;
-    String password;
+    private String name;
+    private String password;
+
+    public User(){};
 
     public String getName() {
         return name;
