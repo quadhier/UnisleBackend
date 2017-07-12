@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.FriendshipEntity" table="friendship" schema="public" catalog="Unisle">
+        <composite-id name="friendshipEntityPK" class="entity.FriendshipEntityPK">
+            <key-property name="userid1">
+                <column name="userid1" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="userid2">
+                <column name="userid2" sql-type="varchar(30)" length="30"/>
+            </key-property>
+        </composite-id>
+        <property name="friendshipdatetime">
+            <column name="friendshipdatetime" sql-type="timestamp" not-null="true"/>
+        </property>
+        <property name="user1Note">
+            <column name="user1note" sql-type="varchar(20)" length="20" />
+        </property>
+        <property name="user2Note">
+            <column name="user2note" sql-type="varchar(20)" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

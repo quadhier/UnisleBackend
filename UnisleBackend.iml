@@ -18,7 +18,8 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="web:WEB-INF:hibernate.cfg.xml" value="41e173d3-0a3e-45c7-91ca-406886924056" />
+          <unit-entry name="a.xml" value="6df5b53f-2c19-4fc4-afd7-1cc95a19aa86" />
+          <unit-entry name="web:WEB-INF:hibernate.cfg.xml" value="6df5b53f-2c19-4fc4-afd7-1cc95a19aa86" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/web/WEB-INF/hibernate.cfg.xml" />
@@ -35,5 +36,7 @@
     <orderEntry type="library" name="Spring-4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="Spring MVC-4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="antlr-2.7.7 " level="project" />
+    <orderEntry type="library" name="servlet-api" level="application" />
+    <orderEntry type="library" name="postgresql-42.1.1" level="project" />
   </component>
 </module>

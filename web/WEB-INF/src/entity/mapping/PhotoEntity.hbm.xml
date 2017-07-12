@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.PhotoEntity" table="photo" schema="public" catalog="Unisle">
+        <composite-id name="photoEntityPK" class="entity.PhotoEntityPK">
+            <key-property name="albumid">
+                <column name="albumid" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="uploaddatetime">
+                <column name="uploaddatetime" sql-type="timestamp"/>
+            </key-property>
+            <key-property name="content">
+                <column name="content" sql-type="bytea"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.ShieldEntity" table="shield" schema="public" catalog="Unisle">
+        <composite-id class="entity.ShieldEntityPK" name = "shieldEntityPK">
+            <key-property name="coaction">
+                <column name="coaction" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="coactee">
+                <column name="coactee" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="activityid">
+                <column name="activityid" sql-type="varchar(30)" length="30"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.AlbumEntity" table="album" schema="public" catalog="Unisle">
+        <id name="albumid">
+            <column name="albumid" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="userid">
+            <column name="userid" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+        <property name="name">
+            <column name="name" sql-type="varchar(100)" length="100" />
+        </property>
+        <property name="createdatetime">
+            <column name="createdatetime" sql-type="timestamp" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -3,11 +3,11 @@ package controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import models.*;
+
 
 /**
  * Created by qudaohan on 2017/7/8.
- */
+
 
 @Controller
 @RequestMapping("/")
@@ -30,3 +30,4 @@ public class HelloController {
 
 
 }
+ */
