@@ -34,19 +34,9 @@
 
         <!--hibernate.dialect 只是Hibernate使用的数据库方言,就是要用Hibernate连接那种类型的数据库服务器。-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <!--指定映射文件为“hibernate/ch1/UserInfo.hbm.xml”
-        <mapping resource="login/UserEntity.hbm.xml"></mapping>
-        <mapping resource="login/LoginRecordEntity.hbm.xml"/>
-        <mapping resource="community/entity/FriendsEntity.hbm.xml"/>
-        <mapping resource="community/entity/ApplyForFriendEntity.hbm.xml"/>
-        <mapping resource="community/entity/WorldMessageEntity.hbm.xml"/>
-        <mapping resource="community/entity/BlackListEntity.hbm.xml"/>
-        <mapping resource="community/entity/MessageRecordEntity.hbm.xml"/>
-        <mapping resource="store/entity/ChargingRecord.hbm.xml"/>
-        <mapping resource="store/entity/ConsumeRecord.hbm.xml"/>
-        <mapping resource="store/entity/Property.hbm.xml"/>
-        <mapping resource="store/entity/ShoppingInfo.hbm.xml"/>
-        <mapping resource="store/entity/Ownership.hbm.xml"/>-->
-        <mapping class="models.User" resource="models/User.hbm.xml"/>
+
+        <!--映射文件指定-->
+        <mapping resource="models/TestUser.hbm.xml"/>
+        <!--mapping标签没有class属性！-->
     </session-factory>
 </hibernate-configuration>

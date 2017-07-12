@@ -4,12 +4,12 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="models">
 
-    <class name="User" table="user">
-        <id name="name">
-            <column name="name" sql-type="int" />
+    <class name="TestUser" table="user">
+        <id name="userID">
+            <column name="name" sql-type="varchar" />
         </id>
         <property name="password">
-            <column name="password" sql-type="int" not-null="false" />
+            <column name="password" sql-type="varchar" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

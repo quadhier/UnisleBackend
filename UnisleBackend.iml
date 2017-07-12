@@ -9,9 +9,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/src" />
-        </sourceRoots>
+        <sourceRoots />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -20,7 +18,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="web:WEB-INF:hibernate.cfg.xml" />
+          <unit-entry name="web:WEB-INF:hibernate.cfg.xml" value="41e173d3-0a3e-45c7-91ca-406886924056" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/web/WEB-INF/hibernate.cfg.xml" />
@@ -36,7 +34,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Spring-4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="Spring MVC-4.3.9.RELEASE" level="project" />
-    <orderEntry type="library" name="mysql-connector-java-5.1.38" level="project" />
-    <orderEntry type="library" name="antlr-2.7.7" level="project" />
+    <orderEntry type="library" name="antlr-2.7.7 " level="project" />
   </component>
 </module>
