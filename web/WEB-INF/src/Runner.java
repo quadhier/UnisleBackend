@@ -1,12 +1,6 @@
-import Utils.HibernateUtil;
+import util.HibernateUtil;
 
 import dao.UserInfoDAO;
-import entity.ShieldEntity;
-import entity.ShieldEntityPK;
-import entity.UuserEntity;
-import org.hibernate.Session;
-
-import java.sql.Timestamp;
 
 /**
  * Created by Administrator on 2017/7/10.
@@ -41,14 +35,18 @@ public class Runner {
             if(s!=null)
                 s.close();
         }*/
-
-        if(UserInfoDAO.validateUser("test002@163.com","test"))
+        UserInfoDAO.saveToken("8as76d86ffas86d786","10000000002");
+        if(UserInfoDAO.validateToken("8as76d86ffas86d786"))
             System.out.println("yes");
         else
             System.out.println("no");
+        //UserInfoDAO.deleteToken("a12w143dfs5s86d786");
+        /*
+        if(UserInfoDAO.validateUser("test002@163.com","test"))
+
 
         System.out.println("User id: " + UserInfoDAO.getUserID("test001@163.com"));
-        /*
+
         UserInfoDAO.createUser("test001@163.com","test001","test","male",null,"测试员",null,null);
 
         System.out.println(

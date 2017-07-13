@@ -1,5 +1,5 @@
 package dao;
-import Utils.HibernateUtil;
+import util.HibernateUtil;
 import entity.TokenEntity;
 import entity.UuserEntity;
 import org.hibernate.Criteria;
@@ -16,6 +16,7 @@ import java.util.List;
  * Created by Administrator on 2017/7/12.
  */
 public class UserInfoDAO {
+    private static final long TOKEN_OUT_OF_TIME_COUNT = 600000;
 
     private UserInfoDAO(){}
 
@@ -107,13 +108,13 @@ public class UserInfoDAO {
         return true;
     }
     //tested
-    public static String getUserID(String context){
+    public static String getUserID(String contact){
         Session s = null;
         String userid = "";
         try{
             s = HibernateUtil.getSession();
             Criteria user = s.createCriteria(UuserEntity.class);
-            user.add(Restrictions.eq("email",context));
+            user.add(Restrictions.eq("email",contact));
             List result = user.list();
 
             UuserEntity entity = (UuserEntity) result.get(0);
@@ -126,7 +127,7 @@ public class UserInfoDAO {
 
         return userid;
     }
-
+    //tested
     public static boolean saveToken(String id,String userid){
         Session s = null;
         try{
@@ -134,7 +135,7 @@ public class UserInfoDAO {
             s.beginTransaction();
             TokenEntity tk = new TokenEntity();
             tk.setTokenid(id);
-            tk.setUserid(id);
+            tk.setUserid(userid);
             tk.setLastactivetime(System.currentTimeMillis());
             s.save(tk);
             s.getTransaction().commit();
@@ -148,11 +149,13 @@ public class UserInfoDAO {
 
         return true;
     }
-
+    //tested
     public static boolean deleteToken(String tokenID){
         Session s = null;
+        Session t = null;
         try{
             s = HibernateUtil.getSession();
+
             String hql = "from TokenEntity as token where token.tokenid = :id";
             Query query = s.createQuery(hql);
             query.setString("id",tokenID);
@@ -161,17 +164,22 @@ public class UserInfoDAO {
             if(list.isEmpty())
                 return true;
 
+            t = HibernateUtil.getSession();
+
             TokenEntity token = new TokenEntity();
             token.setTokenid(tokenID);
-            s.beginTransaction();
-            s.delete(token);
-            s.getTransaction().commit();
+            token.setLastactivetime(666l);
+            token.setUserid("非主键字段在删除时属性无所谓，但不能为空");
+            t.beginTransaction();
+            t.delete(token);
+            t.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();
-            s.getTransaction().rollback();
+            t.getTransaction().rollback();
             return false;
         }finally {
             HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(t);
         }
 
         return true;
@@ -179,10 +187,40 @@ public class UserInfoDAO {
 
     public static boolean validateToken(String tokenid){
         Session s = null;
+        Session t = null;
         try{
+            //如果该token不存在，直接返回false
+            s = HibernateUtil.getSession();
+            Criteria nulltest = s.createCriteria(TokenEntity.class);
+            nulltest.add(Restrictions.eq("tokenid",tokenid));
+            List nulltestList = nulltest.list();
+            if(nulltestList.isEmpty())
+                return false;
+
+            //如果该token存在但超时，返回false并删除该token
+            long tokenTime = ((TokenEntity)nulltestList.get(0)).getLastactivetime();
+            if(System.currentTimeMillis() - tokenTime >= TOKEN_OUT_OF_TIME_COUNT)
+            {
+                deleteToken(((TokenEntity)nulltestList.get(0)).getTokenid());
+                return false;
+            }
+
+            //否则，更新此token的时间字段，并返回true
+            t = HibernateUtil.getSession();
+            t.beginTransaction();
+            String hql = "update TokenEntity as token set token.lastactivetime =:currentTime where token.tokenid =:id";
+            Query query = t.createQuery(hql);
+            query.setString("currentTime",String.valueOf(System.currentTimeMillis()));
+            query.setString("id",tokenid);
+            t.getTransaction().commit();
 
         }catch(Exception e){
-
+            e.printStackTrace();
+            t.getTransaction().rollback();
+            return false;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(t);
         }
         return true;
     }
