@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.ProfileEntity" table="profile" schema="public" catalog="Unisle">
+        <composite-id name="profileEntityPK" class="entity.ProfileEntityPK">
+            <key-property name="userid">
+                <column name="userid" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="startdate">
+                <column name="startdate" sql-type="timestamp"/>
+            </key-property>
+        </composite-id>
+        <property name="enddate">
+            <column name="enddate" sql-type="timestamp" not-null="true"/>
+        </property>
+        <property name="content">
+            <column name="content" sql-type="varchar(500)" length="500" />
+        </property>
+    </class>
+</hibernate-mapping>

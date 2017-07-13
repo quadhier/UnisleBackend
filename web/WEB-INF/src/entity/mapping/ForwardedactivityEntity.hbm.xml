@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.ForwardedactivityEntity" table="forwardedactivity" schema="public" catalog="Unisle">
+        <id name="forwardedactivityid">
+            <column name="forwardedactivityid" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="forwardinguser">
+            <column name="forwardinguser" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="originalactivityid">
+            <column name="originalactivityid" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="forwardingdatetime">
+            <column name="forwardingdatetime" sql-type="timestamp" />
+        </property>
+    </class>
+</hibernate-mapping>

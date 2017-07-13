@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.InterestEntity" table="interest" schema="public" catalog="Unisle">
+        <id name="userid">
+            <column name="userid" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="music">
+            <column name="music" sql-type="varchar(100)" length="100" />
+        </property>
+        <property name="sport">
+            <column name="sport" sql-type="varchar(100)" length="100" />
+        </property>
+        <property name="book">
+            <column name="book" sql-type="varchar(100)" length="100" />
+        </property>
+        <property name="movie">
+            <column name="movie" sql-type="varchar(100)" length="100" />
+        </property>
+        <property name="game">
+            <column name="game" sql-type="varchar(100)" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>
