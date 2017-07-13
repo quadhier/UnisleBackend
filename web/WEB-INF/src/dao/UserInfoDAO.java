@@ -210,8 +210,9 @@ public class UserInfoDAO {
             t.beginTransaction();
             String hql = "update TokenEntity as token set token.lastactivetime =:currentTime where token.tokenid =:id";
             Query query = t.createQuery(hql);
-            query.setString("currentTime",String.valueOf(System.currentTimeMillis()));
-            query.setString("id",tokenid);
+            query.setParameter("currentTime",System.currentTimeMillis());
+            query.setParameter("id",tokenid);
+            query.executeUpdate();
             t.getTransaction().commit();
 
         }catch(Exception e){
