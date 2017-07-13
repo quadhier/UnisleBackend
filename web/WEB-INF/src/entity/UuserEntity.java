@@ -9,8 +9,9 @@ import java.util.Arrays;
 public class UuserEntity {
     private String userid;
     private String password;
-    private String name;
-    private Integer sex;
+    private String realname;
+    private String nickname;
+    private String sex;
     private Timestamp birthday;
     private String department;
     private String grade;
@@ -38,19 +39,27 @@ public class UuserEntity {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getRealname() {
+        return realname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
-    public Integer getSex() {
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -134,49 +143,5 @@ public class UuserEntity {
         this.registerdatetime = registerdatetime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        UuserEntity that = (UuserEntity) o;
-
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
-        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
-        if (department != null ? !department.equals(that.department) : that.department != null) return false;
-        if (grade != null ? !grade.equals(that.grade) : that.grade != null) return false;
-        if (!Arrays.equals(userpic, that.userpic)) return false;
-        if (hometown != null ? !hometown.equals(that.hometown) : that.hometown != null) return false;
-        if (telephone != null ? !telephone.equals(that.telephone) : that.telephone != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (numnotice != null ? !numnotice.equals(that.numnotice) : that.numnotice != null) return false;
-        if (activityvisibility != null ? !activityvisibility.equals(that.activityvisibility) : that.activityvisibility != null)
-            return false;
-        if (registerdatetime != null ? !registerdatetime.equals(that.registerdatetime) : that.registerdatetime != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (department != null ? department.hashCode() : 0);
-        result = 31 * result + (grade != null ? grade.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(userpic);
-        result = 31 * result + (hometown != null ? hometown.hashCode() : 0);
-        result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (numnotice != null ? numnotice.hashCode() : 0);
-        result = 31 * result + (activityvisibility != null ? activityvisibility.hashCode() : 0);
-        result = 31 * result + (registerdatetime != null ? registerdatetime.hashCode() : 0);
-        return result;
-    }
 }

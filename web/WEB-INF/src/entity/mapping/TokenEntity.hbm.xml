@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.TokenEntity" table="token" schema="public" catalog="Unisle">
+        <id name="tokenid">
+            <column name="tokenid" sql-type="varchar(50)" length="50"/>
+        </id>
+        <property name="lastactivetime">
+            <column name="lastactivetime" sql-type="bigint" not-null="true"/>
+        </property>
+        <property name="userid">
+            <column name="userid" sql-type="varchar(30)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
