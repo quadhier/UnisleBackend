@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="models">
 
-    <class name="User" table="user">
+    <class name="User" table="UUser">
         <id name="name">
             <column name="name" sql-type="int" />
         </id>
