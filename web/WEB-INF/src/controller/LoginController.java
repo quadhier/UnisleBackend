@@ -1,14 +1,12 @@
-package controllers;
+package controller;
 
-import com.sun.org.apache.regexp.internal.RE;
-import jdk.nashorn.internal.codegen.CompilerConstants;
+import entity.ActivitycommentEntity;
+import entity.OriginalactivityEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import entity.*;
 import org.springframework.web.portlet.ModelAndView;
-import org.w3c.dom.html.HTMLModElement;
-import sun.misc.Request;
+
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -26,17 +24,31 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("userid") String userid,
+    public ModelAndView login(@RequestParam("userid") String userAccount,
                               @RequestParam("password") String password) {
 
         ModelAndView modelview = null;
         // If userid and password both are valid
-        if(userid != null && password != null && validatePassword(userid, password)) {
+        if(userAccount != null && password != null && validatePassword(userAccount, password)) {
 
             modelview = new ModelAndView("home");
+
+            // Add Token
+            String userid = getUserID(userAccount);
+            String tokenid = createToken(userid);
+            saveToken(tokenid, userid);
+            modelview.addObject("tokenid", tokenid);
+
             // Add Activities of user
-            HashMap activities = new HashMap();
-            activities.put();
+            ActivityEntity[] activities = getActivities("1980-01-01", 10);
+            HashMap<String, Object> comments = new HashMap<>();
+            for(ActivityEntity activity : activities) {
+                String actid = activity.getActivityID();
+                ActivitycommentEntity[] actComments = getActivityComments(actid);
+                comments.put(actid, actComments);
+            }
+            modelview.addObject("activities", activities);
+            modelview.addObject("comments", comments);
             return modelview;
         }
         // If userid is invalid of password is not correct
@@ -52,6 +64,14 @@ public class LoginController {
         Calendar cal = Calendar.getInstance();
         long currentTime = cal.getTimeInMillis();
         return userid + String.valueOf(currentTime);
+    }
+
+    private boolean saveToken(String tokenid, String userid) {
+        return true;
+    }
+
+    private boolean validatePassword(String userid, String password) {
+        return true;
     }
 
 

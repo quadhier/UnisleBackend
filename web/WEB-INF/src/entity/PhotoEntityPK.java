@@ -46,9 +46,7 @@ public class PhotoEntityPK implements Serializable {
         if (albumid != null ? !albumid.equals(that.albumid) : that.albumid != null) return false;
         if (uploaddatetime != null ? !uploaddatetime.equals(that.uploaddatetime) : that.uploaddatetime != null)
             return false;
-        if (!Arrays.equals(content, that.content)) return false;
-
-        return true;
+        return Arrays.equals(content, that.content);
     }
 
     @Override

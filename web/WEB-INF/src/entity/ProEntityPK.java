@@ -44,10 +44,7 @@ public class ProEntityPK implements Serializable {
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (activityid != null ? !activityid.equals(that.activityid) : that.activityid != null) return false;
-        if (publicdatetime != null ? !publicdatetime.equals(that.publicdatetime) : that.publicdatetime != null)
-            return false;
-
-        return true;
+        return publicdatetime != null ? publicdatetime.equals(that.publicdatetime) : that.publicdatetime == null;
     }
 
     @Override

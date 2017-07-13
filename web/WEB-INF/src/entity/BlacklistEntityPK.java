@@ -33,9 +33,7 @@ public class BlacklistEntityPK implements Serializable {
         BlacklistEntityPK that = (BlacklistEntityPK) o;
 
         if (coaction != null ? !coaction.equals(that.coaction) : that.coaction != null) return false;
-        if (coactee != null ? !coactee.equals(that.coactee) : that.coactee != null) return false;
-
-        return true;
+        return coactee != null ? coactee.equals(that.coactee) : that.coactee == null;
     }
 
     @Override

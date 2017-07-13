@@ -1,4 +1,4 @@
-import Utils.HibernateUtil;
+import util.HibernateUtil;
 
 import entity.ShieldEntity;
 import entity.ShieldEntityPK;

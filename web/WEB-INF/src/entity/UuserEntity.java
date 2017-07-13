@@ -155,10 +155,7 @@ public class UuserEntity {
         if (numnotice != null ? !numnotice.equals(that.numnotice) : that.numnotice != null) return false;
         if (activityvisibility != null ? !activityvisibility.equals(that.activityvisibility) : that.activityvisibility != null)
             return false;
-        if (registerdatetime != null ? !registerdatetime.equals(that.registerdatetime) : that.registerdatetime != null)
-            return false;
-
-        return true;
+        return registerdatetime != null ? registerdatetime.equals(that.registerdatetime) : that.registerdatetime == null;
     }
 
     @Override

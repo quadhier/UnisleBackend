@@ -56,10 +56,7 @@ public class ForwardedactivityEntity {
             return false;
         if (originalactivityid != null ? !originalactivityid.equals(that.originalactivityid) : that.originalactivityid != null)
             return false;
-        if (forwardingdatetime != null ? !forwardingdatetime.equals(that.forwardingdatetime) : that.forwardingdatetime != null)
-            return false;
-
-        return true;
+        return forwardingdatetime != null ? forwardingdatetime.equals(that.forwardingdatetime) : that.forwardingdatetime == null;
     }
 
     @Override

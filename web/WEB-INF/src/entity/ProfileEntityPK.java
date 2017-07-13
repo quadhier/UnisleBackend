@@ -34,9 +34,7 @@ public class ProfileEntityPK implements Serializable {
         ProfileEntityPK that = (ProfileEntityPK) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (startdate != null ? !startdate.equals(that.startdate) : that.startdate != null) return false;
-
-        return true;
+        return startdate != null ? startdate.equals(that.startdate) : that.startdate == null;
     }
 
     @Override

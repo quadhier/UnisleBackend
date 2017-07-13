@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,8 +18,8 @@ public class HibernateUtil {
     public static synchronized SessionFactory getSessionFactroy(){
         if(sf == null){
             Configuration cfg = new Configuration();
-            File file = new File("G:\\GitProjects\\UnisleBackend\\web\\WEB-INF\\hibernate.cfg.xml");
-            cfg.configure(file);
+            //File file = new File("G:\\GitProjects\\UnisleBackend\\web\\WEB-INF\\hibernate.cfg.xml");
+            cfg.configure("/WEB-INF/src/hibernate.cfg.xml");
             sf = cfg.buildSessionFactory();
         }
 

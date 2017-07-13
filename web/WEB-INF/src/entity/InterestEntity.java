@@ -71,9 +71,7 @@ public class InterestEntity {
         if (sport != null ? !sport.equals(that.sport) : that.sport != null) return false;
         if (book != null ? !book.equals(that.book) : that.book != null) return false;
         if (movie != null ? !movie.equals(that.movie) : that.movie != null) return false;
-        if (game != null ? !game.equals(that.game) : that.game != null) return false;
-
-        return true;
+        return game != null ? game.equals(that.game) : that.game == null;
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.util.Arrays;
 /**
  * Created by Administrator on 2017/7/12.
  */
-public class ActivityEntity {
-    private String activityid;
+public class OriginalactivityEntity {
+    private String originalactivityid;
     private String content;
     private byte[] attachment;
     private String publisher;
@@ -76,9 +76,7 @@ public class ActivityEntity {
         if (publisher != null ? !publisher.equals(that.publisher) : that.publisher != null) return false;
         if (publicdatetime != null ? !publicdatetime.equals(that.publicdatetime) : that.publicdatetime != null)
             return false;
-        if (pros != null ? !pros.equals(that.pros) : that.pros != null) return false;
-
-        return true;
+        return pros != null ? pros.equals(that.pros) : that.pros == null;
     }
 
     @Override

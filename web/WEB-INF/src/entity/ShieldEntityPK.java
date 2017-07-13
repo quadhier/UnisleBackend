@@ -43,9 +43,7 @@ public class ShieldEntityPK implements Serializable {
 
         if (coaction != null ? !coaction.equals(that.coaction) : that.coaction != null) return false;
         if (coactee != null ? !coactee.equals(that.coactee) : that.coactee != null) return false;
-        if (activityid != null ? !activityid.equals(that.activityid) : that.activityid != null) return false;
-
-        return true;
+        return activityid != null ? activityid.equals(that.activityid) : that.activityid == null;
     }
 
     @Override

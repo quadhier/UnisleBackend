@@ -36,7 +36,8 @@
     <orderEntry type="library" name="Spring-4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="Spring MVC-4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="antlr-2.7.7 " level="project" />
-    <orderEntry type="library" name="servlet-api" level="application" />
     <orderEntry type="library" name="postgresql-42.1.1" level="project" />
+    <orderEntry type="library" name="jstl-1.2" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

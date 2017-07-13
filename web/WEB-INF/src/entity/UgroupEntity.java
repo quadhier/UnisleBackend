@@ -114,9 +114,7 @@ public class UgroupEntity {
             return false;
         if (!Arrays.equals(grouppic, that.grouppic)) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (numnotice != null ? !numnotice.equals(that.numnotice) : that.numnotice != null) return false;
-
-        return true;
+        return numnotice != null ? numnotice.equals(that.numnotice) : that.numnotice == null;
     }
 
     @Override

@@ -33,9 +33,7 @@ public class FriendshipEntityPK implements Serializable {
         FriendshipEntityPK that = (FriendshipEntityPK) o;
 
         if (userid1 != null ? !userid1.equals(that.userid1) : that.userid1 != null) return false;
-        if (userid2 != null ? !userid2.equals(that.userid2) : that.userid2 != null) return false;
-
-        return true;
+        return userid2 != null ? userid2.equals(that.userid2) : that.userid2 == null;
     }
 
     @Override
