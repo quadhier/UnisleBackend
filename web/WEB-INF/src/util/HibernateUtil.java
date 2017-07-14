@@ -19,8 +19,7 @@ public class HibernateUtil {
         if(sf == null){
             Configuration cfg = new Configuration();
             //File file = new File("G:\\GitProjects\\UnisleBackend\\web\\WEB-INF\\hibernate.cfg.xml");
-            File file = new File("web\\WEB-INF\\hibernate.cfg.xml");
-            cfg.configure(file);
+            cfg.configure("../hibernate.cfg.xml");
             sf = cfg.buildSessionFactory();
         }
 

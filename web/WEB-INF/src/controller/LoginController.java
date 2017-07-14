@@ -1,24 +1,14 @@
 package controller;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.deploy.net.HttpResponse;
-import entity.ActivityEntity;
-import entity.ActivitycommentEntity;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.servlet.HttpServletBean;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import dao.*;
+import util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +24,18 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getLoginPage() {
-        return "login";
+        return "login.html";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(@RequestParam("userAccount") String userAccount,
-                        @RequestParam("password") String password,
+    public Object login(@RequestParam(value = "userAccount", required = false) String userAccount,
+                        @RequestParam(value = "password", required = false) String password,
                         HttpServletResponse response) {
 
-        // If userid and password both are valid
+        ResultInfo rinfo = new ResultInfo();
+
+        // 用户名和密码均有效
         if(userAccount != null && password != null && UserInfoDAO.validateUser(userAccount, password)) {
 
             // generate token and add token id to cookie
@@ -52,16 +44,19 @@ public class LoginController {
             UserInfoDAO.saveToken(tokenid, userid);
             Cookie tokenCookie = new Cookie("tokenid", tokenid);
             response.addCookie(tokenCookie);
-            ModelAndView modelView = new ModelAndView("home");
-            return modelView;
+            rinfo.setResult("LOGIN_SUCCESS");
+            return rinfo;
         }
-        // If userid is invalid of password is not correct
+        // 用户名不存在或密码错误
         else
         {
-            return "E_WRONG_USER_OR_PASSWD";
+            rinfo.setResult("ERROR");
+            rinfo.setReason("E_WRONG_USER_OR_PASSWD");
+            return rinfo;
         }
     }
 
+    // 产生一个token并且返回
     private String createToken(String userid) {
         Calendar cal = Calendar.getInstance();
         long currentTime = cal.getTimeInMillis();

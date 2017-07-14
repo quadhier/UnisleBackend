@@ -1,9 +1,7 @@
 package controller;
 
-import com.sun.org.apache.regexp.internal.RE;
 import dao.UserInfoDAO;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 
@@ -18,13 +16,6 @@ import util.*;
 public class RegisterController {
 
     private String vcode;
-
-    // 获取注册页面
-    @RequestMapping(method = RequestMethod.GET)
-    public String getRegisterPage() {
-        System.out.println("This is signup page");
-        return "signup";
-    }
 
     // 发送注册信息等待验证
     @RequestMapping(method = RequestMethod.POST)

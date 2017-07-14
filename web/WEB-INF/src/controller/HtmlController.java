@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
  */
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/000")
 public class HtmlController {
     @RequestMapping(value = "{htmlPage}", method = RequestMethod.GET)
     public String returnHtml(@PathVariable("htmlPage") String htmlPage){

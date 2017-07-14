@@ -9,24 +9,23 @@
 
     <mvc:annotation-driven />
 
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/src/pages/" />
-        <property name="suffix" value=".html" />
-    </bean>
+    <!--<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />-->
+        <!--<property name="prefix" value="/WEB-INF/src/pages" />-->
+        <!--<property name="suffix" value=".html" />-->
+    <!--</bean>-->
 
 
 
     <!-- static resources -->
-    <mvc:resources mapping="/data/**" location="/WEB-INF/res/data/" />
-    <mvc:resources mapping="/files/**" location="/WEB-INF/res/files/" />
-    <mvc:resources mapping="/images/**" location="/WEB-INF/res/images/" />
-    <mvc:resources mapping="/plugins/**" location="/WEB-INF/res/plugins/" />
-    <mvc:resources mapping="/resources/**" location="/WEB-INF/res/resources/" />
-    <!--<mvc:resources mapping="/*.html" location="/WEB-INF/src/pages/" />-->
-    
 
-    <!--
+    <mvc:resources mapping="/data/**" location="/data/" />
+    <mvc:resources mapping="/files/**" location="/files/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/plugins/**" location="/plugins/" />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
+
     <bean id="jsonMessageConvertor" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
@@ -34,6 +33,6 @@
             </list>
         </property>
     </bean>
-    -->
+
 
 </beans>

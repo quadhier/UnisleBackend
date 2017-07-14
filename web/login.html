@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/login/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="resources/scripts/prototypePre.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/prototypePost.js"></script>
+    <script src="files/login/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+      
+      $(document).ready(function () {
+          $("#u18").click(function () {
+              var user = $("#u17_input");
+              var pswd = $("#u13_input");
+     
+              $.ajax({
+            	  
+                  type:"POST",
+                  //服务端url
+                  url:"login",
+                  dataType:"json",
+                  //以下数据通过json传递到服务端
+                  data:{
+                      "userAccount":user.val(),
+                      "password":pswd.val()
+                  },
+                  timeout: 1000, 
+                  cache: false, 
+                  beforeSend:function(){
+                	//加载中...	  
+                  },
+                  //以下函数获取服务端传递给客户端的json格式数据
+                  error:function(){
+                      alert("Request Failed!");
+                  },
+                  success:function (res) {
+                	  if(res.result === "LOGIN_SUCCESS"){
+                		  //alert(result.value);
+                		  window.location.href="home.html";
+                	  }else{
+                		  alert("您的用户名或密码错误，请重新输入！");
+                	  }
+                	  
+                  }
+             });
+              //alert(result);
+			 
+          });
+          
+          $("#CrtAcc").click(function(){
+        	  //alert("click");
+        	  window.location.href="signup.html"; 
+          
+          });
+      });
+      
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Log (动态面板) -->
+      <div id="u0" class="ax_default" data-label="Log">
+        <div id="u0_state0" class="panel_state" data-label="State1" style="">
+          <div id="u0_state0_content" class="panel_state_content">
+
+            <!-- LoginBox (组合) -->
+            <div id="u1" class="ax_default" data-label="LoginBox" data-left="0" data-top="0" data-width="446" data-height="260">
+
+              <!-- LoginContainer (矩形) -->
+              <div id="u2" class="ax_default box_1" data-label="LoginContainer">
+                <div id="u2_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u3" class="text" style="display:none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Label_head (矩形) -->
+              <div id="u4" class="ax_default _三级标题" data-label="Label_head">
+                <div id="u4_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u5" class="text">
+                  <p><span>Everyone is a piece of the continent.</span></p>
+                </div>
+              </div>
+
+              <!-- SignUp (矩形) -->
+              <div id="u6" class="ax_default _三级标题" data-label="SignUp">
+                <div id="u6_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u7" class="text">
+                  <p><span id="CrtAcc">Create an account.</span></p>
+                </div>
+              </div>
+
+              <!-- Label_signup (矩形) -->
+              <div id="u8" class="ax_default _三级标题" data-label="Label_signup">
+                <div id="u8_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u9" class="text">
+                  <p><span>New to UnIsle? </span></p>
+                </div>
+              </div>
+
+              <!-- Password (组合) -->
+              <div id="u10" class="ax_default" data-label="Password" data-left="43" data-top="120" data-width="360" data-height="40">
+
+                <!-- textFieldContainer (矩形) -->
+                <div id="u11" class="ax_default form_text_field" data-label="textFieldContainer">
+                  <div id="u11_div" class=""></div>
+                  <!-- Unnamed () -->
+                  <div id="u12" class="text" style="display:none; visibility: hidden">
+                    <p><span></span></p>
+                  </div>
+                </div>
+
+                <!-- password (文本框) -->
+                <div id="u13" class="ax_default form_text_field" data-label="password">
+                  <input id="u13_input" type="password" value="Password"/>
+                </div>
+              </div>
+
+              <!-- Username (组合) -->
+              <div id="u14" class="ax_default" data-label="Username" data-left="42" data-top="70" data-width="360" data-height="40">
+
+                <!-- textFieldContainer (矩形) -->
+                <div id="u15" class="ax_default form_text_field" data-label="textFieldContainer">
+                  <div id="u15_div" class=""></div>
+                  <!-- Unnamed () -->
+                  <div id="u16" class="text" style="display:none; visibility: hidden">
+                    <p><span></span></p>
+                  </div>
+                </div>
+
+                <!-- username (文本框) -->
+                <div id="u17" class="ax_default form_text_field" data-label="username">
+                  <input id="u17_input" type="text" value="User name"/>
+                </div>
+              </div>
+
+              <!-- Login[submit btn] (矩形) -->
+              <div id="u18" class="ax_default _btn-default" data-label="Login[submit btn]">
+                <div id="u18_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u19" class="text">
+                  <p><span>Log&nbsp; in</span></p>
+                </div>
+              </div>
+
+              <!-- Visitor[submit btn] (矩形) -->
+              <div id="u20" class="ax_default _btn-default" data-label="Visitor[submit btn]">
+                <div id="u20_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u21" class="text">
+                  <p><span>Visitor</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- header (组合) -->
+      <div id="u22" class="ax_default" data-label="header" data-left="0" data-top="0" data-width="1" data-height="50">
+
+        <!-- Unnamed (动态面板) -->
+        <div id="u23" class="ax_default">
+          <div id="u23_state0" class="panel_state" data-label="State1" style="">
+            <div id="u23_state0_content" class="panel_state_content">
+
+              <!-- Unnamed (矩形) -->
+              <div id="u24" class="ax_default box_1">
+                <div id="u24_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u25" class="text" style="display:none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unnamed (动态面板) -->
+        <div id="u26" class="ax_default">
+          <div id="u26_state0" class="panel_state" data-label="State1" style="">
+            <div id="u26_state0_content" class="panel_state_content">
+
+              <!-- Unnamed (组合) -->
+              <div id="u27" class="ax_default" data-left="0" data-top="5" data-width="115" data-height="40">
+
+                <!-- Unnamed (图片) -->
+                <div id="u28" class="ax_default image">
+                  <img id="u28_img" class="img " src="images/login/u28.png"/>
+                  <!-- Unnamed () -->
+                  <div id="u29" class="text" style="display:none; visibility: hidden">
+                    <p><span></span></p>
+                  </div>
+                </div>
+
+                <!-- Logo (图片) -->
+                <div id="u30" class="ax_default image" data-label="Logo">
+                  <img id="u30_img" class="img " src="images/login/logo_u30.jpg"/>
+                  <!-- Unnamed () -->
+                  <div id="u31" class="text" style="display:none; visibility: hidden">
+                    <p><span></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
