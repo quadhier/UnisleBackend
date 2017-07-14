@@ -166,10 +166,10 @@ public class UserInfoDAO {
 
             t = HibernateUtil.getSession();
 
-            TokenEntity token = new TokenEntity();
-            token.setTokenid(tokenID);
-            token.setLastactivetime(666l);
-            token.setUserid("非主键字段在删除时属性无所谓，但不能为空");
+            TokenEntity token = t.get(TokenEntity.class,tokenID);
+            if(token == null)
+                return true;
+
             t.beginTransaction();
             t.delete(token);
             t.getTransaction().commit();
