@@ -26,5 +26,4 @@ public class ActivityController {
         return new Object();
     }
 
-
 }
