@@ -1,16 +1,20 @@
 package dao;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/14.
  */
 public class CommonDAO {
     private CommonDAO(){}
-
+    //tested
     public static boolean deleteItemByPK(Class aClass, Serializable pk){
         Session s = null;
         try{
@@ -31,7 +35,7 @@ public class CommonDAO {
 
         return true;
     }
-
+    //tested
     public static Object getItemByPK(Class aClass, Serializable pk){
         Session s = null;
         Object entity = null;
@@ -48,7 +52,7 @@ public class CommonDAO {
 
         return entity;
     }
-
+    //tested
     public static boolean saveItem(Object o){
         Session s = null;
         try{
@@ -66,7 +70,8 @@ public class CommonDAO {
 
         return true;
     }
-
+    //tested
+    //对于主键自增的类的update，决不能使用此方法！
     public static boolean updateItem(Class aClass, Serializable pk, Object newInstance){
         Session s = null;
         try{
@@ -75,6 +80,45 @@ public class CommonDAO {
             Object entity = s.get(aClass,pk);
             s.delete(aClass.cast(entity));
             s.save(newInstance);
+            s.getTransaction().commit();
+        }catch(Exception e){
+            s.getTransaction().rollback();
+            e.printStackTrace();
+            return false;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return true;
+    }
+
+    public static List queryHql(String hql, Map<String,Object> param){
+        Session s = null;
+        List resultList = null;
+        try{
+            s = HibernateUtil.getSession();
+            Query query = s.createQuery(hql);
+            for(Map.Entry<String,Object> entry:param.entrySet())
+                query.setParameter(entry.getKey(),entry.getValue());
+            resultList = query.list();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return resultList;
+    }
+    //使用此方法进行删除时，应确保所删除的对象存在，否则返回值与预期不符。可以与上方法配合使用
+    public static boolean updateHql(String hql, Map<String,Object> param){
+        Session s = null;
+        try{
+            s = HibernateUtil.getSession();
+            Query query = s.createQuery(hql);
+            for(Map.Entry<String,Object> entry:param.entrySet())
+                query.setParameter(entry.getKey(),entry.getValue());
+            s.beginTransaction();
+            query.executeUpdate();
             s.getTransaction().commit();
         }catch(Exception e){
             s.getTransaction().rollback();

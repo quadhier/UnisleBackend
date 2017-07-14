@@ -7,7 +7,7 @@ public class NoticeEntity {
     private NoticeEntityPK noticeEntityPK;
     private String type;
     private String content;
-    private Integer status;
+    private String status;
 
     public NoticeEntityPK getNoticeEntityPK() {
         return noticeEntityPK;
@@ -33,11 +33,11 @@ public class NoticeEntity {
         this.content = content;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

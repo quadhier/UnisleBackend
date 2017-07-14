@@ -1,13 +1,6 @@
-import dao.ActivityDAO;
-import dao.CommonDAO;
-import dao.FriendshipDAO;
-import entity.ActivityEntity;
-import entity.ActivitycommentEntity;
-import entity.BlacklistEntity;
-import entity.BlacklistEntityPK;
+import dao.*;
+import entity.*;
 import util.HibernateUtil;
-
-import dao.UserInfoDAO;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -93,7 +86,22 @@ public class Runner {
                 System.out.println(activitycommentEntity[i].getContent());
             else
                 break;
+
+          String forwardid = ActivityDAO.forwardActivity("10000000002",null,"20100000004");
+           System.out.println(ActivityDAO.getAuthorID("20100000008"));
+
         */
+
+       // NoticeDAO.sendNotice("1000000002","1000000004","i want to be your friend2","friendshipAsk");
+        //NoticeDAO.sendNotice("1000000003","1000000004","i want to be your friend3","friendshipAsk");
+        NoticeEntity[] noticeIngoreRead = NoticeDAO.getAllNoticeList("10000000004","friendshipAsk");
+        NoticeDAO.setNoticeRead(noticeIngoreRead[0].getNoticeEntityPK());
+        noticeIngoreRead = NoticeDAO.getNewNoticeList("10000000004","friendshipAsk");
+        for(int i=0;i<noticeIngoreRead.length;i++)
+            System.out.println(noticeIngoreRead[i].getContent());
+
+        /*
+
         BlacklistEntityPK pk = new BlacklistEntityPK();
         pk.setCoaction("10000000003");
         pk.setCoactee("10000000001");
@@ -106,7 +114,7 @@ public class Runner {
         entity.setCreatedatetime(new Timestamp(System.currentTimeMillis()));
 
         CommonDAO.updateItem(BlacklistEntity.class,pk,entity);
-        /*
+
         FriendshipDAO.addFriendship("10000000001","10000000004");
         ActivityDAO.publishComment("20100000002","10000000002","lzsb+1");
         ActivityDAO.publishComment("20100000002","10000000004","lzsb+2");

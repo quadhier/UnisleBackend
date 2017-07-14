@@ -1,3 +1,6 @@
+/*
+    注意：(...) not in null 在sql中会报错。null不等于空集。
+ */
 package dao;
 
 import entity.*;
@@ -11,11 +14,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/7/13.
- *
-
- */
 public class ActivityDAO {
     private ActivityDAO(){}
     //tested
@@ -87,6 +85,91 @@ public class ActivityDAO {
         return newActivityID;
     }
     //tested
+    public static String forwardActivity(String userid,List shieldIDList,String originalActivity){
+        ActivityEntity original = (ActivityEntity) CommonDAO.getItemByPK(ActivityEntity.class,originalActivity);
+        Session s = null;
+        Session c = null;
+        String newActivityID = null;
+        try{
+            c = HibernateUtil.getSession();
+            Criteria counter = c.createCriteria(ActivityEntity.class);
+            counter.setProjection(Projections.rowCount());
+            long result = (Long)counter.uniqueResult();
+            String newActivityIDBuilder = String.format("%08d",result+1);
+            newActivityID = "201" + newActivityIDBuilder;
+
+            s = HibernateUtil.getSession();
+            ActivityEntity activity = new ActivityEntity();
+            activity.setActivityid(newActivityID);
+            activity.setPublisher(userid);
+            activity.setContent(original.getContent());
+            activity.setPros((short)0);
+            activity.setPublicdatetime(new Timestamp(System.currentTimeMillis()));
+            activity.setType("forwarded");
+            activity.setOriginalactivityid(original.getActivityid());
+            if(original.getAttachment() != null)activity.setAttachment(original.getAttachment());
+            s.beginTransaction();
+            s.save(activity);
+            s.getTransaction().commit();
+        }catch(Exception e){
+            s.getTransaction().rollback();
+            e.printStackTrace();
+            return null;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(c);
+        }
+
+        if(shieldIDList!=null  && !shieldIDList.isEmpty()) {
+            try {
+                s = HibernateUtil.getSession();
+                List shieldEntityList = new ArrayList<ShieldEntity>(shieldIDList.size());
+                for(Object o:shieldIDList){
+                    ShieldEntityPK pk = new ShieldEntityPK();
+                    pk.setActivityid(newActivityID);
+                    pk.setCoaction(userid);
+                    pk.setCoactee(o.toString());
+                    ShieldEntity entity = new ShieldEntity();
+                    entity.setShieldEntityPK(pk);
+                    shieldEntityList.add(entity);
+                }
+                s.beginTransaction();
+                for(int i=0;i<shieldEntityList.size();i++){
+                    s.save(shieldEntityList.get(i));
+                    if(i%24==0){
+                        s.flush();
+                        s.clear();
+                    }
+                }
+                s.getTransaction().commit();
+            }catch (Exception e){
+                e.printStackTrace();
+                s.getTransaction().rollback();
+                deleteActivity(newActivityID);
+                return null;
+            }finally {
+                HibernateUtil.safeCloseSession(s);
+            }
+        }
+
+        return newActivityID;
+    }
+    //tested
+    public static String getAuthorID(String activityID){
+        ActivityEntity entity = (ActivityEntity) CommonDAO.getItemByPK(ActivityEntity.class,activityID);
+        while(entity.getType().equals("forwarded")){
+            String originalid = entity.getOriginalactivityid();
+            entity = (ActivityEntity) CommonDAO.getItemByPK(ActivityEntity.class,originalid);
+            /*
+                这里如果把originalid变成后边的表达式代入entity的赋值语句
+                ，理论上是可以的，但实际上会产生BUG。可以从此了解到编译方式
+                并不是从后向前。神奇的bug。
+             */
+        }
+
+        return entity.getPublisher();
+    }
+    //tested
     //!!!如果没有预先配置好activityComment、pros、shield的外键依赖和级联删除，该方法不能正确运行
     public static boolean deleteActivity(String activityID){
         Session s = null;
@@ -109,10 +192,6 @@ public class ActivityDAO {
 
         return true;
     }
-
-    /*
-        注意：(...) not in null 在sql中会报错。null不等于空集。
-     */
     //tested
     public static ActivityEntity[] getActivities(String userid,Timestamp lastdate,int number,String view){
         Session s = null;

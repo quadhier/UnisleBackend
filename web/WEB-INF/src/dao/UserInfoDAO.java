@@ -184,7 +184,7 @@ public class UserInfoDAO {
 
         return true;
     }
-
+    //tested
     public static boolean validateToken(String tokenid){
         Session s = null;
         Session t = null;
@@ -224,5 +224,10 @@ public class UserInfoDAO {
             HibernateUtil.safeCloseSession(t);
         }
         return true;
+    }
+
+    public static String getUserByToken(String token){
+        TokenEntity entity = (TokenEntity) CommonDAO.getItemByPK(TokenEntity.class,token);
+        return entity.getUserid();
     }
 }

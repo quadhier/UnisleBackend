@@ -17,6 +17,7 @@ import java.util.List;
 
 
 public class FriendshipDAO {
+    private FriendshipDAO(){}
     //tested
     public static boolean existFriendship(String user1id,String user2id){
         Session s = null;

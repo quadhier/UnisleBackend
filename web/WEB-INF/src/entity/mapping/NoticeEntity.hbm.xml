@@ -17,13 +17,13 @@
             </key-property>
         </composite-id>
         <property name="type">
-            <column name="type" sql-type="varchar(30)" length="30" />
+            <column name="type" sql-type="varchar(30)" length="30" not-null="true"/>
         </property>
         <property name="content">
             <column name="content" sql-type="varchar(200)" length="200" />
         </property>
         <property name="status">
-            <column name="status" sql-type="noticestatusdomain" />
+            <column name="status" sql-type="varchar(30)" />
         </property>
     </class>
 </hibernate-mapping>
