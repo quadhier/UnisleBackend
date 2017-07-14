@@ -92,15 +92,22 @@ public class Runner {
 
         */
 
-       // NoticeDAO.sendNotice("1000000002","1000000004","i want to be your friend2","friendshipAsk");
-        //NoticeDAO.sendNotice("1000000003","1000000004","i want to be your friend3","friendshipAsk");
-        NoticeEntity[] noticeIngoreRead = NoticeDAO.getAllNoticeList("10000000004","friendshipAsk");
-        NoticeDAO.setNoticeRead(noticeIngoreRead[0].getNoticeEntityPK());
-        noticeIngoreRead = NoticeDAO.getNewNoticeList("10000000004","friendshipAsk");
-        for(int i=0;i<noticeIngoreRead.length;i++)
-            System.out.println(noticeIngoreRead[i].getContent());
+
+
+
 
         /*
+        System.out.println(NoticeDAO.deleteSomebodyNotice("1000000001","10000000004")?"yes":"no");
+        System.out.println(NoticeDAO.deleteSomebodyNotice("1000000001","1000000004")?"yes":"no");
+        System.out.println(NoticeDAO.deleteAKindNotice("1000000004","friendShipAsk")?"yes":"no");
+        System.out.println(NoticeDAO.deleteAKindNotice("1000000004","friendshipAsk")?"yes":"no");
+        NoticeDAO.sendNotice("1000000002","1000000004","i want to be your friend2","friendshipAsk");
+        NoticeDAO.sendNotice("1000000003","1000000004","i want to be your friend3","friendshipAsk");
+        NoticeEntity[] noticeIngoreRead = NoticeDAO.getAllNoticeList("1000000004","friendshipAsk");
+        NoticeDAO.setNoticeRead(noticeIngoreRead[0].getNoticeEntityPK());
+        noticeIngoreRead = NoticeDAO.getNewNoticeList("1000000004","friendshipAsk");
+        for(int i=0;i<noticeIngoreRead.length;i++)
+            System.out.println(noticeIngoreRead[i].getContent());
 
         BlacklistEntityPK pk = new BlacklistEntityPK();
         pk.setCoaction("10000000003");

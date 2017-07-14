@@ -52,10 +52,10 @@ public class NoticeDAO {
         else
             return true;
     }
-
+    //tested
     //type字段可以为Null。如果为null，表示获得所有消息
     public static NoticeEntity[] getAllNoticeList(String receiver, String type) {
-        String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type =:tp";
+        String hql = "from NoticeEntity entity where entity.noticeEntityPK.receiver=:rc and entity.type =:tp order by entity.noticeEntityPK.gendatetime desc";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("rc", receiver);
         params.put("tp", type);
@@ -69,10 +69,10 @@ public class NoticeDAO {
 
         return result;
     }
-
+    //tested
     //type字段可以为Null。如果为null，表示获得所有消息
     public static NoticeEntity[] getNewNoticeList(String receiver, String type) {
-        String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type =:tp and n.status = unread";
+        String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type =:tp and n.status = 'unread' order by n.noticeEntityPK.gendatetime desc";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("rc", receiver);
         params.put("tp", type);
@@ -91,7 +91,7 @@ public class NoticeDAO {
     public static boolean deleteANotice(NoticeEntityPK pk) {
         return CommonDAO.deleteItemByPK(NoticeEntity.class, pk);
     }
-
+    //tested
     //此方法可以用于删除拉黑用户对你发送的所有消息
     public static boolean deleteSomebodyNotice(String sender, String receiver) {
         String existhql = "from NoticeEntity n where n.noticeEntityPK.sender = :sd and n.noticeEntityPK.receiver=:rc";
@@ -104,7 +104,7 @@ public class NoticeDAO {
 
         return CommonDAO.updateHql(deletehql, param);
     }
-
+    //tested
     //清空某一类型的消息列表
     public static boolean deleteAKindNotice(String user, String type) {
         String existhql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type = :tp";
@@ -117,7 +117,7 @@ public class NoticeDAO {
 
         return CommonDAO.updateHql(deletehql, param);
     }
-
+    //tested
     public static boolean setNoticeRead(NoticeEntityPK pk) {
         NoticeEntity original = (NoticeEntity) CommonDAO.getItemByPK(NoticeEntity.class, pk);
         original.setStatus("read");
