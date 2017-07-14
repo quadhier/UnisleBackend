@@ -53,10 +53,7 @@ public class AlbumEntity {
         if (albumid != null ? !albumid.equals(that.albumid) : that.albumid != null) return false;
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (createdatetime != null ? !createdatetime.equals(that.createdatetime) : that.createdatetime != null)
-            return false;
-
-        return true;
+        return createdatetime != null ? createdatetime.equals(that.createdatetime) : that.createdatetime == null;
     }
 
     @Override

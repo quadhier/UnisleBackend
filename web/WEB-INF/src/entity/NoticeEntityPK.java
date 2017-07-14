@@ -44,9 +44,7 @@ public class NoticeEntityPK implements Serializable {
 
         if (sender != null ? !sender.equals(that.sender) : that.sender != null) return false;
         if (receiver != null ? !receiver.equals(that.receiver) : that.receiver != null) return false;
-        if (gendatetime != null ? !gendatetime.equals(that.gendatetime) : that.gendatetime != null) return false;
-
-        return true;
+        return gendatetime != null ? gendatetime.equals(that.gendatetime) : that.gendatetime == null;
     }
 
     @Override

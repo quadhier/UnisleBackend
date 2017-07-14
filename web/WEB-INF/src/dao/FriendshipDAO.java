@@ -164,7 +164,7 @@ public class FriendshipDAO {
             pk.setCoaction(coaction);
             pk.setCoactee(coactee);
 
-            BlacklistEntity entity = (BlacklistEntity)s.get(BlacklistEntity.class,pk);
+            BlacklistEntity entity = s.get(BlacklistEntity.class,pk);
             s.beginTransaction();
             s.delete(entity);
             s.getTransaction().commit();

@@ -33,9 +33,7 @@ public class GroupmemberEntityPK implements Serializable {
         GroupmemberEntityPK that = (GroupmemberEntityPK) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (groupid != null ? !groupid.equals(that.groupid) : that.groupid != null) return false;
-
-        return true;
+        return groupid != null ? groupid.equals(that.groupid) : that.groupid == null;
     }
 
     @Override

@@ -76,9 +76,7 @@ public class OriginalactivityEntity {
         if (publisher != null ? !publisher.equals(that.publisher) : that.publisher != null) return false;
         if (publicdatetime != null ? !publicdatetime.equals(that.publicdatetime) : that.publicdatetime != null)
             return false;
-        if (pros != null ? !pros.equals(that.pros) : that.pros != null) return false;
-
-        return true;
+        return pros != null ? pros.equals(that.pros) : that.pros == null;
     }
 
     @Override
