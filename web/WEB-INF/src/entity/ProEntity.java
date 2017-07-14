@@ -1,16 +1,27 @@
 package entity;
 
+import java.sql.Timestamp;
+
 /**
  * Created by Administrator on 2017/7/12.
  */
 public class ProEntity {
-    private PhotoEntityPK photoEntityPK;
+    private ProEntityPK proEntityPK;
+    private Timestamp publicdatetime;
 
-    public PhotoEntityPK getPhotoEntityPK() {
-        return photoEntityPK;
+    public ProEntityPK getProEntityPK() {
+        return proEntityPK;
     }
 
-    public void setPhotoEntityPK(PhotoEntityPK photoEntityPK) {
-        this.photoEntityPK = photoEntityPK;
+    public void setProEntityPK(ProEntityPK proEntityPK) {
+        this.proEntityPK = proEntityPK;
+    }
+
+    public Timestamp getPublicdatetime() {
+        return publicdatetime;
+    }
+
+    public void setPublicdatetime(Timestamp publicdatetime) {
+        this.publicdatetime = publicdatetime;
     }
 }

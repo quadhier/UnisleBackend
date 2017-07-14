@@ -13,27 +13,9 @@ import util.HibernateUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/7/13.
- *
- * template
- Session s = null;
- try{
-    s = HibernateUtil.getSession();
 
- }catch(Exception e){
- e.printStackTrace();
- }finally {
- HibernateUtil.safeCloseSession(s);
- }
-
-
-
- FriendshipEntity friendpk1 = new FriendshipEntity();
- */
 public class FriendshipDAO {
     //tested
     public static boolean existFriendship(String user1id,String user2id){

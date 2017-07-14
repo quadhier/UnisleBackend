@@ -1,8 +1,16 @@
+import dao.ActivityDAO;
+import dao.CommonDAO;
 import dao.FriendshipDAO;
+import entity.ActivityEntity;
+import entity.ActivitycommentEntity;
+import entity.BlacklistEntity;
+import entity.BlacklistEntityPK;
 import util.HibernateUtil;
 
 import dao.UserInfoDAO;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,9 +45,77 @@ public class Runner {
         }finally{
             if(s!=null)
                 s.close();
-        }*/
 
+        }
+        List list = new ArrayList<String>(1);
+        list.add("10000000003");
+        String id = ActivityDAO.publishActivity("10000000001",list,"my second ancivity!",null);
+
+        UserInfoDAO.createUser("test004@163.com","miku","test","female",null,null,null,null);
+        List list = new ArrayList(1);
+        list.add("10000000001");
+        ActivityDAO.publishActivity("10000000002",list,"2's act",null);
+        list = new ArrayList(1);
+        list.add("10000000002");
+        ActivityDAO.publishActivity("10000000003",list,"3's act",null);
+        list = new ArrayList(1);
+        list.add("10000000003");
+        ActivityDAO.publishActivity("10000000001",list,"1's act",null);
+
+        ActivityEntity[] activityEntity = null;
+        activityEntity = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
+        for(int i=0;i<activityEntity.length;i++)
+            if(activityEntity[i] != null)
+                System.out.println(activityEntity[i].getActivityid());
+            else
+                break;
+
+        activityEntity = null;
+        activityEntity = ActivityDAO.getActivities("10000000002",new Timestamp(System.currentTimeMillis()),10,"friend");
+        for(int i=0;i<activityEntity.length;i++)
+            if(activityEntity[i] != null)
+                System.out.println(activityEntity[i].getActivityid());
+            else
+                break;
+
+        activityEntity = null;
+        activityEntity = ActivityDAO.getActivities("10000000003",new Timestamp(System.currentTimeMillis()),10,"I");
+        for(int i=0;i<activityEntity.length;i++)
+            if(activityEntity[i] != null)
+                System.out.println(activityEntity[i].getActivityid());
+            else
+                break;
+
+        ActivitycommentEntity[] activitycommentEntity = null;
+        activitycommentEntity = ActivityDAO.getActivityComments("20100000002");
+        for(int i=0;i<activitycommentEntity.length;i++)
+            if(activitycommentEntity[i] != null)
+                System.out.println(activitycommentEntity[i].getContent());
+            else
+                break;
+        */
+        BlacklistEntityPK pk = new BlacklistEntityPK();
+        pk.setCoaction("10000000003");
+        pk.setCoactee("10000000001");
+
+        BlacklistEntityPK pk2 = new BlacklistEntityPK();
+        pk.setCoaction("10000000002");
+
+        BlacklistEntity entity = new BlacklistEntity();
+        entity.setBlacklistEntityPK(pk2);
+        entity.setCreatedatetime(new Timestamp(System.currentTimeMillis()));
+
+        CommonDAO.updateItem(BlacklistEntity.class,pk,entity);
         /*
+        FriendshipDAO.addFriendship("10000000001","10000000004");
+        ActivityDAO.publishComment("20100000002","10000000002","lzsb+1");
+        ActivityDAO.publishComment("20100000002","10000000004","lzsb+2");
+        System.out.println(ActivityDAO.whetherCanDeleteComment("10000000004","10000000002","20100000002")?"yes":"no");
+
+
+
+        System.out.println(ActivityDAO.cancelPro("20100000001","1000000002")?"yes":"no");
+
         FriendshipDAO.addBlackListItem("10000000002","10000000003");
         FriendshipDAO.addBlackListItem("10000000003","10000000001");
         List l1 = FriendshipDAO.getBlacklist("10000000001");

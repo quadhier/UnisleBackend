@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 public class ProEntityPK implements Serializable {
     private String userid;
     private String activityid;
-    private Timestamp publicdatetime;
 
     public String getUserid() {
         return userid;
@@ -27,14 +26,6 @@ public class ProEntityPK implements Serializable {
         this.activityid = activityid;
     }
 
-    public Timestamp getPublicdatetime() {
-        return publicdatetime;
-    }
-
-    public void setPublicdatetime(Timestamp publicdatetime) {
-        this.publicdatetime = publicdatetime;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,16 +33,14 @@ public class ProEntityPK implements Serializable {
 
         ProEntityPK that = (ProEntityPK) o;
 
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (activityid != null ? !activityid.equals(that.activityid) : that.activityid != null) return false;
-        return publicdatetime != null ? publicdatetime.equals(that.publicdatetime) : that.publicdatetime == null;
+        if (!userid.equals(that.userid)) return false;
+        return activityid.equals(that.activityid);
     }
 
     @Override
     public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (activityid != null ? activityid.hashCode() : 0);
-        result = 31 * result + (publicdatetime != null ? publicdatetime.hashCode() : 0);
+        int result = userid.hashCode();
+        result = 31 * result + activityid.hashCode();
         return result;
     }
 }

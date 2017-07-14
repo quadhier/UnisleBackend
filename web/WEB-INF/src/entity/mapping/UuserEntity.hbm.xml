@@ -46,7 +46,7 @@
             <column name="numnotice" sql-type="smallint" />
         </property>
         <property name="activityvisibility">
-            <column name="activityvisibility" sql-type="actvisibilitydomain" />
+            <column name="activityvisibility" sql-type="varchar(20)" default="friend" />
         </property>
         <property name="registerdatetime">
             <column name="registerdatetime" sql-type="timestamp" />
