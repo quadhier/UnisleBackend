@@ -92,8 +92,8 @@ public class UserInfoDAO {
             s = HibernateUtil.getSession();
             String hql = "from UuserEntity as user where user.email=:mail and user.password =:pswd";
             Query query = s.createQuery(hql);
-            query.setString("mail",email);
-            query.setString("pswd",password);
+            query.setParameter("mail",email);
+            query.setParameter("pswd",password);
 
             List list = query.list();
             if(list.isEmpty())
