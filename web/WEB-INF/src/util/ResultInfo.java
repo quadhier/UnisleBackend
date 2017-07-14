@@ -12,7 +12,7 @@ public class ResultInfo {
         return result;
     }
 
-    public  String getReason() {
+    public String getReason() {
         return reason;
     }
 

@@ -30,7 +30,7 @@ public class LogoutController {
         }
         if(tokenid != null)
             UserInfoDAO.deleteToken(tokenid);
-        return "login";
+        return "/";
     }
 
 }
