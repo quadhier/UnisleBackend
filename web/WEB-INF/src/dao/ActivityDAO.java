@@ -14,15 +14,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/7/13.
  *
- Session s = null;
- try{
- s = HibernateUtil.getSession();
 
- }catch(Exception e){
- e.printStackTrace();
- }finally {
- HibernateUtil.safeCloseSession(s);
- }
  */
 public class ActivityDAO {
     private ActivityDAO(){}

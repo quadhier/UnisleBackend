@@ -1,7 +1,10 @@
 import dao.ActivityDAO;
+import dao.CommonDAO;
 import dao.FriendshipDAO;
 import entity.ActivityEntity;
 import entity.ActivitycommentEntity;
+import entity.BlacklistEntity;
+import entity.BlacklistEntityPK;
 import util.HibernateUtil;
 
 import dao.UserInfoDAO;
@@ -82,7 +85,7 @@ public class Runner {
                 System.out.println(activityEntity[i].getActivityid());
             else
                 break;
-        */
+
         ActivitycommentEntity[] activitycommentEntity = null;
         activitycommentEntity = ActivityDAO.getActivityComments("20100000002");
         for(int i=0;i<activitycommentEntity.length;i++)
@@ -90,7 +93,20 @@ public class Runner {
                 System.out.println(activitycommentEntity[i].getContent());
             else
                 break;
-/*
+        */
+        BlacklistEntityPK pk = new BlacklistEntityPK();
+        pk.setCoaction("10000000003");
+        pk.setCoactee("10000000001");
+
+        BlacklistEntityPK pk2 = new BlacklistEntityPK();
+        pk.setCoaction("10000000002");
+
+        BlacklistEntity entity = new BlacklistEntity();
+        entity.setBlacklistEntityPK(pk2);
+        entity.setCreatedatetime(new Timestamp(System.currentTimeMillis()));
+
+        CommonDAO.updateItem(BlacklistEntity.class,pk,entity);
+        /*
         FriendshipDAO.addFriendship("10000000001","10000000004");
         ActivityDAO.publishComment("20100000002","10000000002","lzsb+1");
         ActivityDAO.publishComment("20100000002","10000000004","lzsb+2");
