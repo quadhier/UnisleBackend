@@ -1,12 +1,10 @@
 package controller;
 
 import com.sun.org.apache.regexp.internal.RE;
+import dao.UserInfoDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 
 import util.*;
@@ -16,62 +14,64 @@ import util.*;
  */
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/signup")
 public class RegisterController {
 
     private String vcode;
 
+    // 获取注册页面
     @RequestMapping(method = RequestMethod.GET)
     public String getRegisterPage() {
-        return "register";
+        System.out.println("This is signup page");
+        return "signup";
     }
 
+    // 发送注册信息等待验证
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView register(@RequestParam("userAccount") String userAccount,
-                                 @RequestParam("validationCode") String validationCode,
-                                 @RequestParam("nickname") String nickname,
-                                 @RequestParam("password") String password,
-                                 @RequestParam("sex") String sex,
-                                 @RequestParam("birthday") String birthday,
-                                 @RequestParam("realname") String realname,
-                                 @RequestParam("school") String school,
-                                 @RequestParam("grade") String grade) {
-
-        ModelAndView modelview = new ModelAndView();
+    @ResponseBody
+    public Object register(@RequestParam(value = "userAccount", required = false) String userAccount,
+                           @RequestParam(value = "validationCode", required = false) String validationCode,
+                           @RequestParam(value = "nickname", required = false) String nickname,
+                           @RequestParam(value = "password", required = false) String password,
+                           @RequestParam(value = "sex", required = false) String sex,
+                           @RequestParam(value = "birthday", required = false) String birthday,
+                           @RequestParam(value = "realname", required = false) String realname,
+                           @RequestParam(value = "school", required = false) String school,
+                           @RequestParam(value = "grade", required = false) String grade) {
 
         // If information is not complete
-        if(userAccount == null || nickname == null || password == null) {
-            modelview.setViewName("error");
-            modelview.addObject("errorType", "E_INCOMPELETE_INFO");
+        if(userAccount == null || nickname == null || password == null || vcode == null) {
+
+            return "E_INCOMPELETE_INFO";
         }
         else {
-            if(accountExist(userAccount)) {
-                modelview.setViewName("error");
-                modelview.addObject("errorType", "E_ACCOUNT_USED");
+            if(UserInfoDAO.seekReuseEmail(userAccount)) {
+                return "E_ACCOUNT_USED";
             }
-            if(validationCode == null && !validationCode.equals(vcode))
+            else if(validationCode == null && !validationCode.equals(vcode))
             {
-                modelview.setViewName("error");
-                modelview.addObject("errorType", "E_WRONG_VCODE");
+                return "E_WRONG_VCODE";
             }
             else {
-                createUser(userAccount, nickname, password, sex, birthday, realname, school, grade);
-                modelview.setViewName("login");
+                UserInfoDAO.createUser(userAccount, nickname, password, sex, birthday, realname, school, grade);
+                ModelAndView modelview = new ModelAndView("login");
+                return modelview;
             }
-
-            return modelview;
         }
     }
 
+    // 通过此URL获取验证码，通过手机或者邮箱接收
     @RequestMapping(value = "/vcode", method = RequestMethod.POST)
-    public void sendVCode(@RequestParam("contact") String contact) {
+    @ResponseBody
+    public Object sendVCode(@RequestParam("contact") String contact) {
 
         vcode = ControllerUtil.genVCode();
         if(contact.contains("@")) {
-            ControllerUtil.sendEmail(vcode);
+            ControllerUtil.sendEmail(contact, vcode);
         }
         else
-            ControllerUtil.sendText(vcode);
+            ControllerUtil.sendText(contact, vcode);
+        return "SUCCESS";
     }
 
 }

@@ -1,5 +1,5 @@
 package dao;
-import Utils.HibernateUtil;
+import util.HibernateUtil;
 import entity.TokenEntity;
 import entity.UuserEntity;
 import org.hibernate.Criteria;
@@ -96,13 +96,17 @@ public class UserInfoDAO {
 
             List list = query.list();
             if(list.isEmpty())
+            {
                 return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
             return false;
         }finally {
             HibernateUtil.safeCloseSession(s);
         }
+
+        System.out.println(email + password);
 
         return true;
     }
@@ -127,14 +131,14 @@ public class UserInfoDAO {
         return userid;
     }
 
-    public static boolean saveToken(String id,String userid){
+    public static boolean saveToken(String id, String userid){
         Session s = null;
         try{
             s = HibernateUtil.getSession();
             s.beginTransaction();
             TokenEntity tk = new TokenEntity();
             tk.setTokenid(id);
-            tk.setUserid(id);
+            tk.setUserid(userid);
             tk.setLastactivetime(System.currentTimeMillis());
             s.save(tk);
             s.getTransaction().commit();

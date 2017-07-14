@@ -1,62 +1,64 @@
 package controller;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.deploy.net.HttpResponse;
+import entity.ActivityEntity;
 import entity.ActivitycommentEntity;
-import entity.OriginalactivityEntity;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.HttpServletBean;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import dao.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by qudaohan on 2017/7/8.
  */
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getLoginPage(@RequestParam String tokenid) {
+    public String getLoginPage() {
         return "login";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("userid") String userAccount,
-                              @RequestParam("password") String password) {
+    @ResponseBody
+    public Object login(@RequestParam("userAccount") String userAccount,
+                        @RequestParam("password") String password,
+                        HttpServletResponse response) {
 
-        ModelAndView modelview = null;
         // If userid and password both are valid
-        if(userAccount != null && password != null && validatePassword(userAccount, password)) {
+        if(userAccount != null && password != null && UserInfoDAO.validateUser(userAccount, password)) {
 
-            modelview = new ModelAndView("home");
-
-            // Add Token
-            String userid = getUserID(userAccount);
+            // generate token and add token id to cookie
+            String userid = UserInfoDAO.getUserID(userAccount);
             String tokenid = createToken(userid);
-            saveToken(tokenid, userid);
-            modelview.addObject("tokenid", tokenid);
-
-            // Add Activities of user
-            ActivityEntity[] activities = getActivities("1980-01-01", 10);
-            HashMap<String, Object> comments = new HashMap<>();
-            for(ActivityEntity activity : activities) {
-                String actid = activity.getActivityID();
-                ActivitycommentEntity[] actComments = getActivityComments(actid);
-                comments.put(actid, actComments);
-            }
-            modelview.addObject("activities", activities);
-            modelview.addObject("comments", comments);
-            return modelview;
+            UserInfoDAO.saveToken(tokenid, userid);
+            Cookie tokenCookie = new Cookie("tokenid", tokenid);
+            response.addCookie(tokenCookie);
+            ModelAndView modelView = new ModelAndView("home");
+            return modelView;
         }
         // If userid is invalid of password is not correct
         else
         {
-            modelview = new ModelAndView("error");
-            modelview.addObject("errorType", "E_USER_OR_PASSWD");
-            return modelview;
+            return "E_WRONG_USER_OR_PASSWD";
         }
     }
 
@@ -65,14 +67,5 @@ public class LoginController {
         long currentTime = cal.getTimeInMillis();
         return userid + String.valueOf(currentTime);
     }
-
-    private boolean saveToken(String tokenid, String userid) {
-        return true;
-    }
-
-    private boolean validatePassword(String userid, String password) {
-        return true;
-    }
-
 
 }
