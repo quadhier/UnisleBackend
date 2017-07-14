@@ -5,16 +5,16 @@
 <hibernate-mapping>
 
     <class name="entity.ProEntity" table="pro" schema="public" catalog="Unisle">
-        <composite-id name="photoEntityPK" class="entity.ProEntityPK">
+        <composite-id name="proEntityPK" class="entity.ProEntityPK">
             <key-property name="userid">
                 <column name="userid" sql-type="varchar(30)" length="30"/>
             </key-property>
             <key-property name="activityid">
                 <column name="activityid" sql-type="varchar(30)" length="30"/>
             </key-property>
-            <key-property name="publicdatetime">
-                <column name="publicdatetime" sql-type="timestamp"/>
-            </key-property>
         </composite-id>
+        <property name="publicdatetime">
+            <column name="publicdatetime" sql-type="timestamp"/>
+        </property>
     </class>
 </hibernate-mapping>
