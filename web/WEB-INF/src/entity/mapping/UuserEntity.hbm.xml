@@ -12,11 +12,14 @@
         <property name="password">
             <column name="password" sql-type="varchar(30)" length="30" not-null="true"/>
         </property>
-        <property name="name">
-            <column name="name" sql-type="varchar(30)" length="30" />
+        <property name="realname">
+            <column name="realname" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="nickname">
+            <column name="nickname" sql-type="varchar(30)" length="30" />
         </property>
         <property name="sex">
-            <column name="sex" sql-type="sexdomain" />
+            <column name="sex" sql-type="vatchar(6)" />
         </property>
         <property name="birthday">
             <column name="birthday" sql-type="timestamp" />

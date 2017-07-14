@@ -56,17 +56,17 @@
         <mapping resource="entity/mapping/ActivitycommentEntity.hbm.xml"/>
         <mapping resource="entity/mapping/AlbumEntity.hbm.xml"/>
         <mapping resource="entity/mapping/BlacklistEntity.hbm.xml"/>
-        <mapping resource="entity/mapping/ForwardedactivityEntity.hbm.xml"/>
+        <mapping resource="entity/mapping/ActivityEntity.hbm.xml"/>
         <mapping resource="entity/mapping/FriendshipEntity.hbm.xml"/>
         <mapping resource="entity/mapping/GroupmemberEntity.hbm.xml"/>
         <mapping resource="entity/mapping/InterestEntity.hbm.xml"/>
         <mapping resource="entity/mapping/NoticeEntity.hbm.xml"/>
-        <mapping resource="entity/mapping/OriginalactivityEntity.hbm.xml"/>
         <mapping resource="entity/mapping/PhotoEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ProEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ProfileEntity.hbm.xml"/>
         <mapping resource="entity/mapping/UgroupEntity.hbm.xml"/>
         <mapping resource="entity/mapping/UuserEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ShieldEntity.hbm.xml"/>
+        <mapping resource="entity/mapping/TokenEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
