@@ -20,6 +20,7 @@ public class LogoutController {
     // 注销用户并且使token无效
     @RequestMapping(method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
+        System.out.println("logouting");
         String tokenid = null;
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
@@ -30,7 +31,7 @@ public class LogoutController {
         }
         if(tokenid != null)
             UserInfoDAO.deleteToken(tokenid);
-        return "/";
+        return "redirect:/";
     }
 
 }

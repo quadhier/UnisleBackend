@@ -3,8 +3,12 @@ package util;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.messaging.saaj.util.JAXMStreamSource;
+import dao.UserInfoDAO;
 import sun.util.resources.cldr.ta.CalendarData_ta_LK;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.util.JAXBSource;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
@@ -18,6 +22,13 @@ import java.util.Random;
  * Created by qudaohan on 2017/7/13.
  */
 public class ControllerUtil {
+
+    // 产生一个token并且返回
+    public static String createToken(String userid) {
+        Calendar cal = Calendar.getInstance();
+        long currentTime = cal.getTimeInMillis();
+        return userid + String.valueOf(currentTime);
+    }
 
     // 产生验证码
     public static String genVCode() {
@@ -69,6 +80,21 @@ public class ControllerUtil {
         }
 
         return null;
+    }
+
+    // 从request中获取tokenid
+    public static String getTidFromReq(HttpServletRequest request) {
+
+        String tokenid = null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals("tokenid")){
+                    tokenid = cookie.getValue();
+                }
+            }
+        }
+        return tokenid;
     }
 
 }
