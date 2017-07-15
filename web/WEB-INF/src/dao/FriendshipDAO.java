@@ -13,7 +13,9 @@ import util.HibernateUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FriendshipDAO {
@@ -204,6 +206,32 @@ public class FriendshipDAO {
         }
 
         return resultList;
+    }
+    public static Map getFriendIDNoteMap(String userid){
+        Session s = null;
+        Map<String,String> resultMap = null;
+        try {
+            s = HibernateUtil.getSession();
+            String hql = "from FriendshipEntity friendship where friendship.friendshipEntityPK.userid1=:id or friendship.friendshipEntityPK.userid2=:id";
+            Query query = s.createQuery(hql);
+            query.setParameter("id", userid);
+
+            List list = query.list();
+            resultMap = new HashMap<String,String>(list.size());
+            for (Object o : list) {
+                if (((FriendshipEntity) o).getFriendshipEntityPK().getUserid1().equals(userid))
+                    resultMap.put(((FriendshipEntity) o).getFriendshipEntityPK().getUserid2(),((FriendshipEntity) o).getUser1Note());
+                else
+                    resultMap.put(((FriendshipEntity) o).getFriendshipEntityPK().getUserid1(),((FriendshipEntity) o).getUser2Note());
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return resultMap;
     }
     //tested
     public static List getBlacklist(String userid){
