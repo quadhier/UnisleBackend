@@ -20,7 +20,7 @@ public class UuserEntity {
     private String telephone;
     private String email;
     private Short numnotice;
-    private Integer activityvisibility;
+    private String activityvisibility;
     private Timestamp registerdatetime;
 
     public String getUserid() {
@@ -127,11 +127,11 @@ public class UuserEntity {
         this.numnotice = numnotice;
     }
 
-    public Integer getActivityvisibility() {
+    public String getActivityvisibility() {
         return activityvisibility;
     }
 
-    public void setActivityvisibility(Integer activityvisibility) {
+    public void setActivityvisibility(String activityvisibility) {
         this.activityvisibility = activityvisibility;
     }
 
