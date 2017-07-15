@@ -1,6 +1,7 @@
 import dao.*;
 import entity.*;
 import util.HibernateUtil;
+import util.Rewrapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -91,12 +92,30 @@ public class Runner {
            System.out.println(ActivityDAO.getAuthorID("20100000008"));
 
         */
-
-
-
-
-
+        ActivityEntity[] array = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
+        List list = new ArrayList();
+        for(ActivityEntity e:array)
+            list.add(e);
+        try {
+            Rewrapper.wrapList(list, ActivityEntity.class, "11101011");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         /*
+        ActivityEntity[] activityEntity = null;
+        activityEntity = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
+        for(int i=0;i<activityEntity.length;i++)
+            if(activityEntity[i] != null)
+                System.out.println(activityEntity[i].getActivityid());
+            else
+                break;
+        UuserEntity[] activitycommentEntity = UserInfoDAO.searchNickname("m");
+
+        for(int i=0;i<activitycommentEntity.length;i++)
+        if(activitycommentEntity[i] != null)
+            System.out.println(activitycommentEntity[i].getNickname());
+        else
+            break;
         System.out.println(NoticeDAO.deleteSomebodyNotice("1000000001","10000000004")?"yes":"no");
         System.out.println(NoticeDAO.deleteSomebodyNotice("1000000001","1000000004")?"yes":"no");
         System.out.println(NoticeDAO.deleteAKindNotice("1000000004","friendShipAsk")?"yes":"no");

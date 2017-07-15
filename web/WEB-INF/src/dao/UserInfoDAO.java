@@ -10,7 +10,9 @@ import org.hibernate.query.Query;
 
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/12.
@@ -229,5 +231,21 @@ public class UserInfoDAO {
     public static String getUserByToken(String token){
         TokenEntity entity = (TokenEntity) CommonDAO.getItemByPK(TokenEntity.class,token);
         return entity.getUserid();
+    }
+    //tested
+    public static UuserEntity[] searchNickname(String nickname){
+        String hql="from UuserEntity e where e.nickname like :genStr";
+        String advanced = "%" + nickname + "%";
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("genStr",advanced);
+        List list = CommonDAO.queryHql(hql,params);
+        if(list == null)
+            return null;
+
+        UuserEntity[] array = new UuserEntity[list.size()];
+        for(int i=0;i<array.length;i++)
+            array[i] = (UuserEntity)list.get(i);
+
+        return array;
     }
 }
