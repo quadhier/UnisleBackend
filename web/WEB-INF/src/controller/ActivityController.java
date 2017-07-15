@@ -1,18 +1,19 @@
 package controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import dao.ActivityDAO;
 import dao.CommonDAO;
 import dao.UserInfoDAO;
 import entity.ActivityEntity;
 import entity.ActivitycommentEntity;
+import entity.ShieldEntity;
 import entity.UuserEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import util.ActivityAndComment;
+import util.ActivityCreation;
 import util.ControllerUtil;
+import util.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.smartcardio.CommandAPDU;
@@ -22,71 +23,140 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
+import util.*;
 
 /**
  * Created by qudaohan on 2017/7/13.
  */
 
 @Controller
-@RequestMapping("/activities")
+@RequestMapping("/activity")
 public class ActivityController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    // 创建一条动态
+    // 如果将request作为第一个参数，则会报错，目前不清楚原因
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    public String createActivity(@RequestBody ActivityCreation activityCreation,
+                                 HttpServletRequest request) {
+
+        String[] shieldIDList = activityCreation.getShieldIDList();
+        String content = activityCreation.getContent();
+        byte[] attachment = activityCreation.getAttachment();
+
+        System.out.println(shieldIDList);
+        System.out.println(content);
+        System.out.println(attachment);
+
+        String userid = ControllerUtil.getUidFromReq(request);
+        System.out.println("Start Creating");
+        List<String> shields = null;
+        if(shieldIDList != null && shieldIDList.length != 0) {
+            shields = ControllerUtil.arrToList(shieldIDList);
+            System.out.println("Shields Constructed");
+        }
+        if((content != null && content.length() != 0) || (attachment != null && attachment.length != 0)) {
+
+            ActivityDAO.publishActivity(userid, shields, content, null);
+            System.out.println("Activity Constructed");
+        }
+        return "redirect:/activity/all";
+    }
+
+    // 删除一条动态
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object getActivity(HttpServletRequest request,
+                              @RequestParam("activityid") String activityid) {
+
+        ResultInfo rinfo = new ResultInfo();
+        if(ActivityDAO.deleteActivity(activityid) == true) {
+            rinfo.setResult("SUCCESS");
+        } else {
+            rinfo.setResult("ERROR");
+            rinfo.setReason("E_NOT_DELETE");
+        }
+        return rinfo;
+    }
+
+    // 转发动态
+    // 如果将request作为第一个参数，则会报错，目前不清楚原因
+    @RequestMapping(value = "/forward", method = RequestMethod.POST)
+    public String forwardActivity(@RequestBody ActivityForward activityForward,
+                                  HttpServletRequest request) {
+
+        String[] shieldIDList = activityForward.getShieldIDList();
+        String orgActivityID = activityForward.getOriginalActivityID();
+
+        String userid = ControllerUtil.getUidFromReq(request);
+        List<String> shields = null;
+        if(shieldIDList != null && shieldIDList.length != 0)
+            shields = ControllerUtil.arrToList(shieldIDList);
+        ActivityDAO.forwardActivity(userid, shields, orgActivityID);
+        return "redirect:/activity/all";
+    }
+
+
+    // 一次一条的获取所有动态
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public Object allActivities(HttpServletRequest request,
-                                @RequestParam(value = "lastTime", required = false) String lastTime){
+                                @RequestParam(value = "lastTime", required = false) String lastTime,
+                                @RequestParam(value = "view", required = false) String view ){
 
+        // 默认为当前时间
         Timestamp time = null;
-        Date date = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            date = sdf.parse(lastTime);
+            time = new Timestamp(Long.valueOf(lastTime));
 
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-
-            try {
-                date = sdf.parse("1970-01-01 00:00:00");
-            // 此处不应该捕获到错误
-            } catch (ParseException e) {
-                System.out.println("Fatal Error!");
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            time = new Timestamp(System.currentTimeMillis());
         }
 
-        time = new Timestamp(date.getTime());
+        // 默认为显示所有动态
+        if(view == null || view.length() == 0)
+        {
+            view = "self";
+        }
+
+        //System.out.println(System.currentTimeMillis());
+        //System.out.println(time);
 
         String tokenid = ControllerUtil.getTidFromReq(request);
         String userid = UserInfoDAO.getUserByToken(tokenid);
 
-        // 获取一定数量的动态数组，建立与之对应的用户昵称数组
+        // 初始化返回对象
+        ActivityAndComment actAndCom = new ActivityAndComment();
+
+        // 获取一条动态，其发布用户的昵称，所有评论，以及评论者昵称
+
         UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
-        //String view = user.getActivityvisibility();
-        ActivityEntity[] activityEntities = ActivityDAO.getActivities(userid, new Timestamp(System.currentTimeMillis()), 2, "friend");
+        ActivityEntity[] activities = ActivityDAO.getActivities(userid, time, 1, view);
 
-        System.out.println(userid);
-        System.out.println(time);
-        System.out.println(activityEntities);
-
-        ArrayList<String> usernames = new ArrayList<String>();
-
-        // 将动态id对应的用户名放入用户名数组链表中，同时将对应的评论数组储存在HaspMap中
-        HashMap<String, ActivitycommentEntity[]> allActivityComments = new HashMap<String, ActivitycommentEntity[]>();
-        for(ActivityEntity activity : activityEntities) {
-            user = (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class, activity.getPublisher());
-            usernames.add(user.getNickname());
-            ActivitycommentEntity[] activityComments = ActivityDAO.getActivityComments(activity.getActivityid());
-            allActivityComments.put(activity.getActivityid(), activityComments);
+        if(activities == null || activities.length == 0) {
+            System.out.println("Non Activity");
+            actAndCom.setTag(false);
+            return actAndCom;
         }
-        String[] names = (String [])usernames.toArray();
+        String userName = user.getNickname();
+        ActivityEntity activity = activities[0];
+        ActivitycommentEntity[] comments = ActivityDAO.getActivityComments(activity.getActivityid());
+        ArrayList<String> commenterArray = new ArrayList<String>();
 
-        ActivityAndComment actcom = new ActivityAndComment();
-        actcom.setActivities(activityEntities);
-        actcom.setAllComments(allActivityComments);
-        actcom.setUsers(names);
+        for(ActivitycommentEntity comment : comments) {
+             user =  (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class, comment.getActivitycommentEntityPK().getUserid());
+             commenterArray.add(user.getNickname());
+        }
+        String[] commenters = commenterArray.toArray(new String[0]);
 
-        return actcom;
+        actAndCom.setTag(true);
+        actAndCom.setUserName(userName);
+        actAndCom.setActivity(activity);
+        actAndCom.setComments(comments);
+        actAndCom.setCommenters(commenters);
+
+        return actAndCom;
 
     }
 

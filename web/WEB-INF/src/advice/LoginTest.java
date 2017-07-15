@@ -43,7 +43,7 @@ public class LoginTest {
 
         if(UserInfoDAO.validateToken(ControllerUtil.getTidFromReq(request))){
             try {
-                return pjp.proceed();
+                return pjp.proceed(pjp.getArgs());
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

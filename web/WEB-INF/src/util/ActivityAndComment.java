@@ -1,5 +1,6 @@
 package util;
 
+import dao.ActivityDAO;
 import entity.ActivityEntity;
 import entity.ActivitycommentEntity;
 import entity.UuserEntity;
@@ -11,34 +12,54 @@ import java.util.HashMap;
  */
 public class ActivityAndComment {
 
-    String[] userNames;
+    boolean tag;
 
-    ActivityEntity[] activities;
+    String userName;
 
-    HashMap<String, ActivitycommentEntity[]> allComments;
+    ActivityEntity activity;
 
-    public String[] getUsers() {
-        return userNames;
+    ActivitycommentEntity[] comments;
+
+    String[] commenters;
+
+    public boolean isTag() {
+        return tag;
     }
 
-    public ActivityEntity[] getActivities() {
-        return activities;
+    public String getUserName() {
+        return userName;
     }
 
-    public HashMap<String, ActivitycommentEntity[]> getAllComments() {
-        return allComments;
+    public ActivityEntity getActivity() {
+        return activity;
     }
 
-    public void setUsers(String[] userNames) {
-        this.userNames = userNames;
+    public ActivitycommentEntity[] getComments() {
+        return comments;
     }
 
-    public void setActivities(ActivityEntity[] activities) {
-        this.activities = activities;
+    public String[] getCommentors() {
+        return commenters;
     }
 
-    public void setAllComments(HashMap<String, ActivitycommentEntity[]> allComments) {
-        this.allComments = allComments;
+    public void setTag(boolean tag) {
+        this.tag = tag;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setActivity(ActivityEntity activity) {
+        this.activity = activity;
+    }
+
+    public void setComments(ActivitycommentEntity[] comments) {
+        this.comments = comments;
+    }
+
+    public void setCommenters(String[] commenters) {
+        this.commenters = commenters;
     }
 
 }

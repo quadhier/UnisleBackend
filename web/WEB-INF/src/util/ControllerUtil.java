@@ -14,9 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by qudaohan on 2017/7/13.
@@ -95,6 +93,23 @@ public class ControllerUtil {
             }
         }
         return tokenid;
+    }
+
+    // 从request中获取userid
+    public static String getUidFromReq(HttpServletRequest request) {
+
+        String userid = null;
+        userid = UserInfoDAO.getUserByToken(getTidFromReq(request));
+        return userid;
+    }
+
+    // Array转化为List
+    public static List arrToList(Object[] arr) {
+        List list = new ArrayList<Object>();
+        for(Object obj : arr) {
+            list.add(obj);
+        }
+        return list;
     }
 
 }
