@@ -14,10 +14,12 @@ import converter.ActivityCreation;
 import util.ControllerUtil;
 import converter.ResultInfo;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by qudaohan on 2017/7/13.
@@ -151,8 +153,5 @@ public class ActivityController {
         return actAndCom;
 
     }
-
-
-
 
 }
