@@ -198,7 +198,7 @@ public class ActivityDAO {
         List resultList = null;
         try{
             s = HibernateUtil.getSession();
-            if(view.equals("I")) {
+            if(view.equals("self")) {
                 String hql = "from ActivityEntity as activity where activity.publicdatetime<=:current and activity.publisher=:userid order by activity.publicdatetime desc";
                 Query query = s.createQuery(hql);
                 query.setParameter("current",lastdate);
@@ -219,7 +219,7 @@ public class ActivityDAO {
                 Query query = s.createQuery(hql);
                 query.setParameter("current",lastdate);
                 query.setParameter("plist",friendList);
-                query.setParameter("publisherVisibilityI","I");
+                query.setParameter("publisherVisibilityI","self");
                 query.setParameter("userid",userid);
                 query.setFirstResult(0);
                 query.setMaxResults(number);
