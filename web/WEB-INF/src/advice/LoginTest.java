@@ -1,13 +1,12 @@
 package advice;
 
-import dao.ActivityDAO;
 import dao.UserInfoDAO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import util.ControllerUtil;
-import util.ResultInfo;
+import converter.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,31 +1,23 @@
 package controller;
 
-import com.sun.org.apache.regexp.internal.RE;
+import converter.ActivityForward;
 import dao.ActivityDAO;
 import dao.CommonDAO;
 import dao.UserInfoDAO;
 import entity.ActivityEntity;
 import entity.ActivitycommentEntity;
-import entity.ShieldEntity;
 import entity.UuserEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import util.ActivityAndComment;
-import util.ActivityCreation;
+import converter.ActivityAndComment;
+import converter.ActivityCreation;
 import util.ControllerUtil;
-import util.ResultInfo;
+import converter.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.smartcardio.CommandAPDU;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
-import util.*;
 
 /**
  * Created by qudaohan on 2017/7/13.

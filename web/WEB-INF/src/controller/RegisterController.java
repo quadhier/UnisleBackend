@@ -1,13 +1,11 @@
 package controller;
 
+import converter.ResultInfo;
 import dao.UserInfoDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.portlet.ModelAndView;
 
 import util.*;
-
-import java.sql.Timestamp;
 
 /**
  * Created by qudaohan on 2017/7/13.

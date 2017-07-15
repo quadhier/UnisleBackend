@@ -1,4 +1,4 @@
-package util;
+package converter;
 
 import dao.ActivityDAO;
 import entity.ActivityEntity;
