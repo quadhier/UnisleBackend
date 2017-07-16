@@ -103,6 +103,17 @@ public class ControllerUtil {
         return userid;
     }
 
+    // 从request中获取指定名称的cookie
+    public static Cookie getCookieFromReq(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
     // Array转化为List
     public static List arrToList(Object[] arr) {
         List list = new ArrayList<Object>();

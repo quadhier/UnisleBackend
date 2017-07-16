@@ -14,5 +14,8 @@
         <property name="userid">
             <column name="userid" sql-type="varchar(30)" not-null="true"/>
         </property>
+        <property name="viewActTime">
+            <column name="viewActTime" sql-type="bigint" not-null="false" />
+        </property>
     </class>
 </hibernate-mapping>

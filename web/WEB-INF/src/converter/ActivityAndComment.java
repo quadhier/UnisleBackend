@@ -38,7 +38,7 @@ public class ActivityAndComment {
         return comments;
     }
 
-    public String[] getCommentors() {
+    public String[] getCommenters() {
         return commenters;
     }
 

@@ -33,12 +33,11 @@ public class ActivityCreation {
         this.shieldIDList = shieldIDList;
     }
 
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
 }

@@ -7,6 +7,7 @@ public class TokenEntity {
     private String tokenid;
     private Long lastactivetime;
     private String userid;
+    private Long viewActTime;
 
     public String getTokenid() {
         return tokenid;
@@ -30,5 +31,13 @@ public class TokenEntity {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public Long getViewActTime() {
+        return viewActTime;
+    }
+
+    public void setViewActTime(Long viewActTime) {
+        this.viewActTime = viewActTime;
     }
 }
