@@ -21,7 +21,7 @@
             unisleadmin
         </property>
         <!--数据库连接池的大小-->
-        <property name="hibernate.connection.pool.size">20</property>
+        <property name="hibernate.connection.pool.size">1000</property>
         <!--是否在后台显示Hibernate用到的SQL语句，开发时设置为true，便于差错，程序运行时可以在Eclipse的控制台显示Hibernate的执行Sql语句。项目部署后可以设置为false，提高运行效率-->
         <property name="hibernate.show_sql">true</property>
 

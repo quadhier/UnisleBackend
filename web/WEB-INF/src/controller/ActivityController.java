@@ -33,8 +33,12 @@ public class ActivityController {
     // 创建一条动态
     // 如果将request作为第一个参数，则会报错，目前不清楚原因
     @RequestMapping(method = RequestMethod.POST)
-    public String createActivity(@RequestBody ActivityCreation activityCreation,
+    @ResponseBody
+    public Object createActivity(@RequestBody ActivityCreation activityCreation,
                                  HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
 
         String[] shieldIDList = activityCreation.getShieldIDList();
         String content = activityCreation.getContent();
@@ -53,14 +57,17 @@ public class ActivityController {
         }
         if((content != null && content.length() != 0) || (attachment != null && attachment.length != 0)) {
 
-            ActivityDAO.publishActivity(userid, shields, content, null);
+            String activityid = ActivityDAO.publishActivity(userid, shields, content, null);
             System.out.println("Activity Constructed");
+            rinfo.setResult("SUCCESS");
+            return activityid;
         }
-        return "redirect:/activity/all";
+        rinfo.setReason("E_INCOMPLETE_CONT");
+        return rinfo;
     }
 
     // 删除一条动态
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Object getActivity(HttpServletRequest request,
                               @RequestParam("activityid") String activityid) {
@@ -162,6 +169,15 @@ public class ActivityController {
             }
             String[] commenters = commenterArray.toArray(new String[0]);
 
+            ProEntityPK propk = new ProEntityPK();
+            propk.setActivityid(activity.getActivityid());
+            propk.setUserid(userid);
+            if(CommonDAO.getItemByPK(ProEntity.class, propk) != null) {
+                actAndCom.setPro(true);
+            } else {
+                actAndCom.setPro(false);
+            }
+
             actAndCom.setTag(true);
             actAndCom.setUserName(userName);
             actAndCom.setActivity(activity);
@@ -178,14 +194,15 @@ public class ActivityController {
     }
 
     // 点赞
-    @RequestMapping(value = "pros",method = RequestMethod.POST)
+    @RequestMapping(value = "/pro",method = RequestMethod.POST)
     @ResponseBody
     public Object like(@RequestParam(value = "activityid", required = false) String activtyid,
-                       @RequestParam(value = "userid", required = false) String userid,
                        HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
+
+        String userid = ControllerUtil.getUidFromReq(request);
 
         if(userid == null || activtyid == null)
         {
@@ -200,36 +217,42 @@ public class ActivityController {
     }
 
     // 取消点赞
-    @RequestMapping(value = "pros", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/pro/delete", method = RequestMethod.POST)
     @ResponseBody
     public Object dislike(@RequestParam(value = "activityid", required = false) String activityid,
-                          @RequestParam(value = "userid", required = false) String userid,
                           HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
+        String userid = ControllerUtil.getUidFromReq(request);
+
         if(userid == null || activityid == null) {
-            rinfo.setReason("E_INCOMPLETE_INFO");
+            if(userid == null)
+                rinfo.setReason("E_NO_USERID");
+            else
+                rinfo.setReason("E_NO_ACTID");
             return rinfo;
         }
 
-        ActivityDAO.cancelPro(activityid, userid);
-        rinfo.setResult("SUCCESS");
+        if(ActivityDAO.cancelPro(activityid, userid) == true)
+            rinfo.setResult("SUCCESS");
+
         return rinfo;
     }
 
 
     // 评论
-    @RequestMapping(value = "comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
     @ResponseBody
-    public Object makeComment(@RequestParam(value = "activity", required = false) String activityid,
-                              @RequestParam(value = "userid", required = false) String userid,
+    public Object makeComment(@RequestParam(value = "activityid", required = false) String activityid,
                               @RequestParam(value = "content", required = false) String content,
                               HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
+
+        String userid = ControllerUtil.getUidFromReq(request);
 
         if(activityid == null || userid == null) {
             rinfo.setReason("E_INCOMPLETE_INFO");
@@ -243,8 +266,8 @@ public class ActivityController {
 
 
     // 删除评论
-    @RequestMapping(value = "comment", method = RequestMethod.DELETE)
-    @ResponseBody Object deleteComment(@RequestParam(value = "activity", required = false) String activityid,
+    @RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
+    @ResponseBody Object deleteComment(@RequestParam(value = "activityid", required = false) String activityid,
                                        @RequestParam(value = "publisher", required = false) String publisher,
                                        @RequestParam(value = "publicdatetime", required = false) long publicdatetime,
                                        HttpServletRequest request) {

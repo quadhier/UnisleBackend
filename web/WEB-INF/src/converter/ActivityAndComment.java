@@ -22,6 +22,8 @@ public class ActivityAndComment {
 
     String[] commenters;
 
+    boolean pro;
+
     public boolean isTag() {
         return tag;
     }
@@ -42,6 +44,10 @@ public class ActivityAndComment {
         return commenters;
     }
 
+    public boolean getPro() {
+        return pro;
+    }
+
     public void setTag(boolean tag) {
         this.tag = tag;
     }
@@ -60,6 +66,10 @@ public class ActivityAndComment {
 
     public void setCommenters(String[] commenters) {
         this.commenters = commenters;
+    }
+
+    public void setPro(boolean pro) {
+        this.pro = pro;
     }
 
 }

@@ -8,7 +8,7 @@
     <META HTTP-EQUIV="expires" CONTENT="0">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
     <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
@@ -33,6 +33,8 @@
 
         $(document).ready(function () {
 
+            // 储存用户名
+            var userName;
 
             /*
             *
@@ -45,6 +47,7 @@
                 url: "self",
                 dataType: "json",
                 data:{},
+                async:false,
                 timeout:5000,
                 cache:false,
                 beforeSend: function() {
@@ -66,6 +69,7 @@
                         $("#u237_img").src = "images/activity/u238.png";
                     $("#cache5").text(res.nickname);
                     $("#cache7").text(res.department + "-" + res.grade + "级");
+                    userName = res.nickname;
                 }
 
             });
@@ -77,7 +81,7 @@
             * */
 
             $("#u271").click(function(){
-                if($("#u245_input").val() != "") {
+                if($("#u245_input").val() !== "") {
                     $.ajax({
                         type: "POST",
                         url: "activity",
@@ -99,15 +103,14 @@
 
                         },
 
-                        success: function () {
+                        success: function (activityid) {
 
+                            var nowDate = new Date();
 
-                        }
-                    });
-                                $("#u246").prepend("<div id='ActivityId' class='container'>" +
+                            $("#u246").prepend("<div id='" + activityid  + "' class='container'>" +
                                 "<hr style='top: 28px'/>" +
-                                "<div class='subLeft'><p class='pTitle'>" + "mysef" + "</p></div>" +
-                                "<div class='subRight'><p class='pSmall'>" + "new" + "</p></div>" +
+                                "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                                "<div class='subRight'><p class='pSmall'>" + nowDate.toLocaleString() + "</p></div>" +
                                 "<div class='divcenter'>" +
                                 "<p class='pContent'>" + $("#u245_input").val() + "</p>" +
                                 "</div>" +
@@ -115,13 +118,17 @@
                                 "<div class='btnDiv'>" +
                                 "<div class='comment'><img src='images/activity/comment.png'></div>" +
                                 "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                                "<p class='pGoodNum'>" + 0 + "人觉得很赞</p>" +
+                                "<p class='pGoodNum'>" + "<span>0</span>" + "人觉得很赞</p>" +
                                 "</div>" +
                                 "<div class='commentDiv'></div>" +
                                 "<div class='writeCom'>" +
                                 "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
                                 "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
                                 "</div>");
+                            $("#u245_input").val("");
+
+                        }
+                    });
 
 
                 }
@@ -159,6 +166,16 @@
                         var activity = res.activity;
                         var comments = res.comments;
                         var commenters = res.commenters;
+                        var pro = res.pro;
+
+
+                        //设置赞图标的显示格式
+                        var proDiv;
+                        if(pro === true) {
+                            proDiv = "<img class='goodImg' src='images/activity/good_selected.png'>";
+                        } else {
+                            proDiv = "<img class='goodImg' src='images/activity/good.png'>";
+                        }
 
                         var commentDisplay = "<div class='commentDiv'>";
 
@@ -170,19 +187,20 @@
                         }
                         commentDisplay = commentDisplay + "</div>";
 
-                        //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                        $("#u246").append("<div id='ActivityId' class='container'>" +
+                        var pubDate = new Date(activity.publicdatetime);
+
+                        $("#u246").append("<div id='" + activity.activityid + "' class='container'>" +
                             "<hr style='top: 28px'/>" +
                             "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                            "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                            "<div class='subRight'><p class='pSmall'>" + pubDate.toLocaleString() + "</p></div>" +
                             "<div class='divcenter'>" +
                             "<p class='pContent'>" + activity.content + "</p>" +
                             "</div>" +
                             "<hr style='top: 20px'/>" +
                             "<div class='btnDiv'>" +
                             "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                            "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                            "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                            "<div class='good'>" + proDiv + "</div>" +
+                            "<p class='pGoodNum'>" + "<span>" + activity.pros + "</span>" + "人觉得很赞</p>" +
                             "</div>" +
                             commentDisplay +
                             "<div class='writeCom'>" +
@@ -195,71 +213,6 @@
                 }
             });
 
-            /*
-            $.ajax({
-
-                type: "GET",
-
-                //服务端url
-                url: "activity/all/follow",
-                dataType: "json",
-                data: {
-                    "lastTime": null,
-                    "view": "self"
-                },
-                //async: false,                           //可能会使得效率下降
-                timeout: 5000,
-                cache: false,
-                beforeSend: function () {
-                    //加载中...
-                },
-                error: function () {
-
-                },
-                //以下函数获取服务端传递给客户端的json格式数据
-                success: function (res) {
-
-                    if (res.tag === true) {
-                        var userName = res.userName;
-                        var activity = res.activity;
-                        var comments = res.comments;
-                        var commenters = res.commenters;
-
-                        var commentDisplay = "<div class='commentDiv'>";
-
-                        // 组成评论的展示字符串
-                        for (i in comments) {
-                            commentDisplay = commentDisplay +
-                                "<p class='pCommenter'>" + commenters[i] + "</p>" +
-                                "<p class='pComment'>" + comments[i].content + "</p>";
-                        }
-                        commentDisplay = commentDisplay + "</div>";
-
-                        //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                        $("#u246").append("<div id='ActivityId' class='container'>" +
-                            "<hr style='top: 28px'/>" +
-                            "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                            "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
-                            "<div class='divcenter'>" +
-                            "<p class='pContent'>" + activity.content + "</p>" +
-                            "</div>" +
-                            "<hr style='top: 20px'/>" +
-                            "<div class='btnDiv'>" +
-                            "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                            "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                            "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
-                            "</div>" +
-                            commentDisplay +
-                            "<div class='writeCom'>" +
-                            "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
-                            "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
-                            "</div>");
-
-                    }
-
-                }
-            });
-            */
 
             for(var i = 0; i < 3; i++) {
 
@@ -291,6 +244,16 @@
                             var activity = res.activity;
                             var comments = res.comments;
                             var commenters = res.commenters;
+                            var pro = res.pro;
+
+
+                            //设置赞图标的显示格式
+                            var proDiv;
+                            if(pro === true) {
+                                proDiv = "<img class='goodImg' src='images/activity/good_selected.png'>";
+                            } else {
+                                proDiv = "<img class='goodImg' src='images/activity/good.png'>";
+                            }
 
                             var commentDisplay = "<div class='commentDiv'>";
 
@@ -302,19 +265,20 @@
                             }
                             commentDisplay = commentDisplay + "</div>";
 
-                            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                            $("#u246").append("<div id='ActivityId' class='container'>" +
+                            var pubDate = new Date(activity.publicdatetime);
+
+                            $("#u246").append("<div id='" + activity.activityid + "' class='container'>" +
                                 "<hr style='top: 28px'/>" +
                                 "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                                "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                                "<div class='subRight'><p class='pSmall'>" + pubDate.toLocaleString() + "</p></div>" +
                                 "<div class='divcenter'>" +
                                 "<p class='pContent'>" + activity.content + "</p>" +
                                 "</div>" +
                                 "<hr style='top: 20px'/>" +
                                 "<div class='btnDiv'>" +
                                 "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                                "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                                "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                                "<div class='good'>" + proDiv + "</div>" +
+                                "<p class='pGoodNum'>" + "<span>" + activity.pros + "</span>" + "人觉得很赞</p>" +
                                 "</div>" +
                                 commentDisplay +
                                 "<div class='writeCom'>" +
@@ -329,14 +293,16 @@
             }
 
 
+            //var hasMore = true;
             $("#u227_state0").scroll(function () {
 
                 var scrollTop = $(this).scrollTop();
                 var scrollHeight = $(this).get(0).scrollHeight;
                 var windowHeight = $(this).height();
 
+
                 //如果有更多动态，则继续加载
-                if (scrollTop / ( scrollHeight - windowHeight ) >= 0.8 && scrollTop / ( scrollHeight - windowHeight ) < 1) {
+                if (scrollTop / ( scrollHeight - windowHeight ) >= 0.8 && scrollTop / ( scrollHeight - windowHeight ) < 1) { //&& hasMore) {
 
                     $.ajax({
 
@@ -366,6 +332,17 @@
                                 var activity = res.activity;
                                 var comments = res.comments;
                                 var commenters = res.commenters;
+                                var pro = res.pro;
+
+
+                                //设置赞图标的显示格式
+                                var proDiv;
+                                if (pro === true) {
+                                    proDiv = "<img class='goodImg' src='images/activity/good_selected.png'>";
+                                } else {
+                                    proDiv = "<img class='goodImg' src='images/activity/good.png'>";
+                                }
+
 
                                 var commentDisplay = "<div class='commentDiv'>";
 
@@ -377,19 +354,22 @@
                                 }
                                 commentDisplay = commentDisplay + "</div>";
 
+                                var pubDate = new Date(activity.publicdatetime);
+
+
                                 //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                                $("#u246").append("<div id='ActivityId' class='container'>" +
+                                $("#u246").append("<div id='" + activity.activityid + "' class='container'>" +
                                     "<hr style='top: 28px'/>" +
                                     "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                                    "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                                    "<div class='subRight'><p class='pSmall'>" + pubDate.toLocaleString() + "</p></div>" +
                                     "<div class='divcenter'>" +
                                     "<p class='pContent'>" + activity.content + "</p>" +
                                     "</div>" +
                                     "<hr style='top: 20px'/>" +
                                     "<div class='btnDiv'>" +
                                     "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                                    "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                                    "<div class='good'>" + proDiv + "</div>" +
+                                    "<p class='pGoodNum'>" + "<span>" + activity.pros + "</span>" + "人觉得很赞</p>" +
                                     "</div>" +
                                     commentDisplay +
                                     "<div class='writeCom'>" +
@@ -397,10 +377,9 @@
                                     "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
                                     "</div>");
 
-                                //var page = Number($("#redgiftNextPage").attr('currentpage')) + 1;
-                                //redgiftList(page);
-                                //$("#redgiftNextPage").attr('currentpage', page + 1);
-                            }
+                            } //else {
+                              //  hasMore = false;
+                              //}
 
                         }
                     });
@@ -409,23 +388,160 @@
             });
 
 
+            /*
+            *
+            * 为点赞图标绑定事件
+            *
+            * */
+
             $(".good").live("click", function () {
+
+                var activityid = $(this).parents(".container").attr("id");
+                // 如果未点赞，再次点击则点赞
+                // 向后台同步数据，同时使显示的的点赞数加一
                 if ($(this).find("img").attr('src') === 'images/activity/good.png') {
                     $(this).find("img").attr('src', "images/activity/good_selected.png");
+                    //alert(activityid);
+                    // 向后台传递点赞消息
+                    $.ajax({
+                        type: "POST",
+
+                        //服务端url
+                        url: "activity/pro",
+                        dataType: "json",
+                        data: {
+                            "activityid": activityid
+                        },
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+                            //加载中...
+                        },
+                        error: function () {
+
+                        },
+                        success: function (){
+                            var pdiv = "#" + activityid;
+                            var proNum = 1 + parseInt($(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text());
+                            $(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text(proNum);
+
+                        }
+                    });
+
                 }
+                // 如果已经点赞，再次点击则取消点赞
+                // 向后台同步数据，同时使显示的的点赞数减一
                 else {
                     $(this).find("img").attr('src', "images/activity/good.png");
+                    //alert(activityid);
+                    // 向后台传递取消点赞的消息
+                    $.ajax({
+                        type: "POST",
+
+                        //服务端url
+                        url: "activity/pro/delete",
+                        dataType: "json",
+                        data: {
+                            "activityid": activityid
+                        },
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+                            //加载中...
+                        },
+                        error: function () {
+
+                        },
+                        success: function (res) {
+
+//                            if(res.result === "ERROR")
+//                                alert(res.reason);
+//                            alert(res.result);
+
+                            var pdiv = "#" + activityid;
+                            var proNum = parseInt($(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text()) - 1;
+                            $(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text(proNum);
+                        }
+                    });
+
                 }
             });
+
+            /*
+            *
+            *
+            *  为评论图标绑定事件
+            *
+            * */
             $(".comment").live("click", function () {
                 if ($(this).find("img").attr('src') === 'images/activity/comment.png') {
                     $(this).find("img").attr('src', "images/activity/comment_selected.png");
+
                 }
                 else {
                     $(this).find("img").attr('src', "images/activity/comment.png");
                 }
                 $(this).parents(".container").children(".writeCom").toggle(200);
-            })
+            });
+
+
+            /*
+            *
+            *
+            *  为评论按钮绑定事件
+            *
+            * */
+
+            $(".submit_comment").live("click", function() {
+
+
+                //alert($(this).text());
+                var inputEle = $(this).parents(".submitcontainer").siblings(".inputcontainer").children("input");
+                var input = inputEle.val();
+                //alert(input);
+                if(input !== "") {
+
+                    var activityid = $(this).parents(".container").attr("id");
+                    //alert(activityid);
+                    //alert(input);
+                    $.ajax({
+                        type: "POST",
+
+                        // 服务端url
+                        // 不用contentType指定编码则会出现乱码问题
+                        url: "activity/comment",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        dataType: "json",
+                        data: {
+                            "activityid": activityid,
+                            "content": input
+                        },
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+
+                        },
+                        error: function () {
+
+                        },
+                        success: function (res) {
+
+//                            if (res.result === "ERROR")
+//                                alert(res.reason);
+//                            alert(res.result);
+
+                            var pdiv = "#" + activityid;
+                            $(pdiv).children(".commentDiv").append("<p class='pCommenter'>" + userName + "</p>" +
+                                                                   "<p class='pComment'>" + input + "</p>");
+                            inputEle.val("");
+                            inputEle.parents(".container").children(".btnDiv").children(".comment").click();
+
+                        }
+                    });
+                }
+            });
+
+
         })
     </script>
 </head>
@@ -526,100 +642,10 @@
 
                 <!-- Unnamed (动态面板) -->
                 <div id="u246" class="ax_default">
-                    <!--<div id="u246_state0" class="panel_state" data-label="State1" style="">-->
-                    <!--<div id="u246_state0_content" class="panel_state_content">-->
 
-                    <!--Unnamed (矩形) -->
-                    <!--<div id="u247" class="ax_default">-->
-                    <!--<div id="u247_div" class=""></div>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u248" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
 
-                    <!--&lt;!&ndash; Unnamed (水平线) &ndash;&gt;-->
-                    <!--<div id="u249" class="ax_default line">-->
-                    <!--<img id="u249_img" class="img " src="images/activity/u249.png"/>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u250" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
 
-                    <!--&lt;!&ndash; Unnamed (水平线) &ndash;&gt;-->
-                    <!--<div id="u251" class="ax_default line">-->
-                    <!--<img id="u251_img" class="img " src="images/activity/u249.png"/>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u252" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
 
-                    <!--&lt;!&ndash; Unnamed (形状) &ndash;&gt;-->
-                    <!--<div id="u253" class="ax_default icon">-->
-                    <!--<img id="u253_img" class="img " src="images/activity/u253.png"/>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u254" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (形状) &ndash;&gt;-->
-                    <!--<div id="u255" class="ax_default icon">-->
-                    <!--<img id="u255_img" class="img " src="images/activity/u255.png"/>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u256" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
-                    <!--<div id="u257" class="ax_default">-->
-                    <!--<div id="u257_div" class=""></div>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u258" class="text">-->
-                    <!--<p><span>武汉大学</span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
-                    <!--<div id="u259" class="ax_default">-->
-                    <!--<div id="u259_div" class=""></div>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u260" class="text">-->
-                    <!--<p><span>推荐</span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (图片) &ndash;&gt;-->
-                    <!--<div id="u261" class="ax_default image">-->
-                    <!--<img id="u261_img" class="img " src="images/activity/u261.png"/>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u262" class="text" style="display:none; visibility: hidden">-->
-                    <!--<p><span></span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
-                    <!--<div id="u263" class="ax_default">-->
-                    <!--<div id="u263_div" class=""></div>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u264" class="text">-->
-                    <!--<p><span>炎炎夏日，为何街道口还有一批学子在武汉坚守</span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
-                    <!--<div id="u265" class="ax_default">-->
-                    <!--<div id="u265_div" class=""></div>-->
-                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
-                    <!--<div id="u266" class="text">-->
-                    <!--<p><span>Gobang</span></p>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
                 </div>
 
                 <!-- Unnamed (矩形) -->
