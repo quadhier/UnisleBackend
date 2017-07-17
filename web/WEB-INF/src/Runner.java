@@ -92,7 +92,7 @@ public class Runner {
            System.out.println(ActivityDAO.getAuthorID("20100000008"));
 
         */
-        ActivityDAO.publishActivity("10000000003",null,"test id update",null);
+ActivityDAO.cancelPro("20100000039","10000000005");
         /*
         ActivityEntity[] array = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
         List list = new ArrayList();
