@@ -154,16 +154,34 @@ public class FriendController {
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody()
     public Object deleteFriend(HttpServletRequest req,
+                               @RequestParam(value = "userid") String userid,
                                @RequestParam(value = "friendid") String friendid){
+        ResultInfo result = new ResultInfo();
+        if(FriendshipDAO.deleteFriendship(userid,friendid)){
+            result.setResult("SUCCESS");
+        }else{
+            result.setResult("ERROR");
+            result.setReason("E_NOT_DELETE");
+        }
 
+        return result;
     }
 
     @RequestMapping(value = "setNote",method = RequestMethod.POST)
     @ResponseBody()
     public Object setNote(HttpServletRequest req,
+                          @RequestParam(value = "userid") String userid,
                           @RequestParam(value = "friendid") String friendid,
                           @RequestParam(value = "note",required = false,defaultValue = "") String note){
+        ResultInfo result = new ResultInfo();
+        if(FriendshipDAO.setFriendshipNote(userid, friendid, note)){
+            result.setResult("SUCCESS");
+        }else{
+            result.setReason("E_SET_FAILED");
+            result.setResult("ERROR");
+        }
 
+        return result;
     }
 
 

@@ -24,10 +24,9 @@ public class ActivityDAO {
         try{
             c = HibernateUtil.getSession();
             Criteria counter = c.createCriteria(ActivityEntity.class);
-            counter.setProjection(Projections.rowCount());
-            long result = (Long)counter.uniqueResult();
-            String newActivityIDBuilder = String.format("%08d",result+1);
-            newActivityID = "201" + newActivityIDBuilder;
+            counter.setProjection(Projections.max("activityid"));
+            long result = Long.parseLong((String)counter.uniqueResult());
+            newActivityID = String.valueOf(result+1);
 
             s = HibernateUtil.getSession();
             ActivityEntity activity = new ActivityEntity();

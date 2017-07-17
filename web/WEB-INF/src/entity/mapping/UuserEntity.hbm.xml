@@ -51,5 +51,8 @@
         <property name="registerdatetime">
             <column name="registerdatetime" sql-type="timestamp" />
         </property>
+        <property name="school">
+            <column name="school" sql-type="varchar(30)" />
+        </property>
     </class>
 </hibernate-mapping>

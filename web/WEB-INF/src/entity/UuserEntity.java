@@ -21,6 +21,7 @@ public class UuserEntity {
     private String email;
     private Short numnotice;
     private String activityvisibility;
+    private String school;
     private Timestamp registerdatetime;
 
     public String getUserid() {
@@ -143,5 +144,11 @@ public class UuserEntity {
         this.registerdatetime = registerdatetime;
     }
 
+    public String getSchool() {
+        return school;
+    }
 
+    public void setSchool(String school) {
+        this.school = school;
+    }
 }
