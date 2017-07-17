@@ -40,7 +40,6 @@ public class Rewrapper {
             return null;
 
         int numOfFields = originalClass.getDeclaredFields().length;
-        System.out.println(numOfFields+","+selectValues.length());
         if(selectValues.length()!=numOfFields)
             return null;
 

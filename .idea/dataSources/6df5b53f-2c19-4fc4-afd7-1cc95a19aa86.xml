@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Unisle@101.200.62.252">
-  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.2">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.1">
     <root id="1"/>
     <database id="2" parent="1" name="Unisle">
       <ObjectId>16385</ObjectId>
@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-07-16.17:26:17.192</IntrospectionTimestamp>
-      <IntrospectionStateNumber>4767</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-07-17.09:25:53.800</IntrospectionTimestamp>
+      <IntrospectionStateNumber>17322</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -115,111 +115,91 @@
     </table>
     <table id="27" parent="3" name="uuser">
       <ObjectId>16606</ObjectId>
-      <StateNumber>1993</StateNumber>
+      <StateNumber>17322</StateNumber>
     </table>
-    <check id="28" parent="9" name="sexdomain_check">
-      <ObjectId>16387</ObjectId>
-      <StateNumber>1892</StateNumber>
-      <Predicate>((VALUE)::text = ANY ((ARRAY[&apos;male&apos;::character varying, &apos;female&apos;::character varying])::text[]))</Predicate>
-    </check>
-    <check id="29" parent="10" name="actvisibilitydomain_check">
-      <ObjectId>16389</ObjectId>
-      <StateNumber>1893</StateNumber>
-      <Predicate>((VALUE)::text = ANY ((ARRAY[&apos;friends&apos;::character varying, &apos;everyone&apos;::character varying])::text[]))</Predicate>
-    </check>
-    <check id="30" parent="11" name="grpvisibilitydomain_check">
-      <ObjectId>16391</ObjectId>
-      <StateNumber>1894</StateNumber>
-      <Predicate>((VALUE)::text = ANY ((ARRAY[&apos;self&apos;::character varying, &apos;everyone&apos;::character varying])::text[]))</Predicate>
-    </check>
-    <check id="31" parent="12" name="noticestatusdomain_check">
-      <ObjectId>16393</ObjectId>
-      <StateNumber>1895</StateNumber>
-      <Predicate>((VALUE)::text = ANY ((ARRAY[&apos;read&apos;::character varying, &apos;unread&apos;::character varying])::text[]))</Predicate>
-    </check>
-    <column id="32" parent="13" name="activityid">
+    <column id="28" parent="13" name="activityid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="33" parent="13" name="type">
+    <column id="29" parent="13" name="type">
       <Position>2</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="34" parent="13" name="content">
+    <column id="30" parent="13" name="content">
       <Position>3</Position>
       <DataType>varchar(1000)|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="35" parent="13" name="attachment">
+    <column id="31" parent="13" name="attachment">
       <Position>4</Position>
       <DataType>bytea|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="36" parent="13" name="publisher">
+    <column id="32" parent="13" name="publisher">
       <Position>5</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="37" parent="13" name="publicdatetime">
+    <column id="33" parent="13" name="publicdatetime">
       <Position>6</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="38" parent="13" name="pros">
+    <column id="34" parent="13" name="pros">
       <Position>7</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <column id="39" parent="13" name="originalactivityid">
+    <column id="35" parent="13" name="originalactivityid">
       <Position>8</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1998</StateNumber>
     </column>
-    <index id="40" parent="13" name="activity_pkey">
+    <index id="36" parent="13" name="activity_pkey">
       <ObjectId>16711</ObjectId>
       <ColNames>activityid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="41" parent="13" name="activity_pkey">
+    <key id="37" parent="13" name="activity_pkey">
       <ObjectId>16712</ObjectId>
       <ColNames>activityid</ColNames>
       <UnderlyingIndexName>activity_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="42" parent="14" name="userid">
+    <column id="38" parent="14" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1964</StateNumber>
     </column>
-    <column id="43" parent="14" name="content">
+    <column id="39" parent="14" name="content">
       <Position>2</Position>
       <DataType>varchar(200)|0</DataType>
       <StateNumber>1964</StateNumber>
     </column>
-    <column id="44" parent="14" name="activityid">
+    <column id="40" parent="14" name="activityid">
       <Position>3</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1964</StateNumber>
     </column>
-    <column id="45" parent="14" name="publicdatetime">
+    <column id="41" parent="14" name="publicdatetime">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1964</StateNumber>
     </column>
-    <index id="46" parent="14" name="activitycomment_pkey">
+    <index id="42" parent="14" name="activitycomment_pkey">
       <ObjectId>16658</ObjectId>
       <ColNames>userid
 activityid
 publicdatetime</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="47" parent="14" name="activitycomment_pkey">
+    <key id="43" parent="14" name="activitycomment_pkey">
       <ObjectId>16659</ObjectId>
       <ColNames>userid
 activityid
@@ -227,231 +207,231 @@ publicdatetime</ColNames>
       <UnderlyingIndexName>activitycomment_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="48" parent="15" name="albumid">
+    <column id="44" parent="15" name="albumid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1969</StateNumber>
     </column>
-    <column id="49" parent="15" name="userid">
+    <column id="45" parent="15" name="userid">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1969</StateNumber>
     </column>
-    <column id="50" parent="15" name="name">
+    <column id="46" parent="15" name="name">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1969</StateNumber>
     </column>
-    <column id="51" parent="15" name="createdatetime">
+    <column id="47" parent="15" name="createdatetime">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1969</StateNumber>
     </column>
-    <index id="52" parent="15" name="album_pkey">
+    <index id="48" parent="15" name="album_pkey">
       <ObjectId>16689</ObjectId>
       <ColNames>albumid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="53" parent="15" name="album_pkey">
+    <key id="49" parent="15" name="album_pkey">
       <ObjectId>16690</ObjectId>
       <ColNames>albumid</ColNames>
       <UnderlyingIndexName>album_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="54" parent="16" name="coaction">
+    <column id="50" parent="16" name="coaction">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1957</StateNumber>
     </column>
-    <column id="55" parent="16" name="coactee">
+    <column id="51" parent="16" name="coactee">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1957</StateNumber>
     </column>
-    <column id="56" parent="16" name="createdatetime">
+    <column id="52" parent="16" name="createdatetime">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1957</StateNumber>
     </column>
-    <index id="57" parent="16" name="blacklist_pkey">
+    <index id="53" parent="16" name="blacklist_pkey">
       <ObjectId>16622</ObjectId>
       <ColNames>coaction
 coactee</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="58" parent="16" name="blacklist_pkey">
+    <key id="54" parent="16" name="blacklist_pkey">
       <ObjectId>16623</ObjectId>
       <ColNames>coaction
 coactee</ColNames>
       <UnderlyingIndexName>blacklist_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="59" parent="17" name="userid1">
+    <column id="55" parent="17" name="userid1">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1956</StateNumber>
     </column>
-    <column id="60" parent="17" name="userid2">
+    <column id="56" parent="17" name="userid2">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1956</StateNumber>
     </column>
-    <column id="61" parent="17" name="friendshipdatetime">
+    <column id="57" parent="17" name="friendshipdatetime">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1956</StateNumber>
     </column>
-    <column id="62" parent="17" name="user1note">
+    <column id="58" parent="17" name="user1note">
       <Position>4</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1956</StateNumber>
     </column>
-    <column id="63" parent="17" name="user2note">
+    <column id="59" parent="17" name="user2note">
       <Position>5</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1956</StateNumber>
     </column>
-    <index id="64" parent="17" name="friendship_pkey">
+    <index id="60" parent="17" name="friendship_pkey">
       <ObjectId>16617</ObjectId>
       <ColNames>userid1
 userid2</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="65" parent="17" name="friendship_pkey">
+    <key id="61" parent="17" name="friendship_pkey">
       <ObjectId>16618</ObjectId>
       <ColNames>userid1
 userid2</ColNames>
       <UnderlyingIndexName>friendship_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="66" parent="18" name="userid">
+    <column id="62" parent="18" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1959</StateNumber>
     </column>
-    <column id="67" parent="18" name="groupid">
+    <column id="63" parent="18" name="groupid">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1959</StateNumber>
     </column>
-    <column id="68" parent="18" name="position">
+    <column id="64" parent="18" name="position">
       <Position>3</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1959</StateNumber>
     </column>
-    <column id="69" parent="18" name="joindatetime">
+    <column id="65" parent="18" name="joindatetime">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1959</StateNumber>
     </column>
-    <column id="70" parent="18" name="visibility">
+    <column id="66" parent="18" name="visibility">
       <Position>5</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1959</StateNumber>
     </column>
-    <index id="71" parent="18" name="groupmember_pkey">
+    <index id="67" parent="18" name="groupmember_pkey">
       <ObjectId>16635</ObjectId>
       <ColNames>userid
 groupid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="72" parent="18" name="groupmember_pkey">
+    <key id="68" parent="18" name="groupmember_pkey">
       <ObjectId>16636</ObjectId>
       <ColNames>userid
 groupid</ColNames>
       <UnderlyingIndexName>groupmember_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="73" parent="19" name="userid">
+    <column id="69" parent="19" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1968</StateNumber>
     </column>
-    <column id="74" parent="19" name="music">
+    <column id="70" parent="19" name="music">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1968</StateNumber>
     </column>
-    <column id="75" parent="19" name="sport">
+    <column id="71" parent="19" name="sport">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1968</StateNumber>
     </column>
-    <column id="76" parent="19" name="book">
+    <column id="72" parent="19" name="book">
       <Position>4</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1968</StateNumber>
     </column>
-    <column id="77" parent="19" name="movie">
+    <column id="73" parent="19" name="movie">
       <Position>5</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1968</StateNumber>
     </column>
-    <column id="78" parent="19" name="game">
+    <column id="74" parent="19" name="game">
       <Position>6</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1968</StateNumber>
     </column>
-    <index id="79" parent="19" name="interest_pkey">
+    <index id="75" parent="19" name="interest_pkey">
       <ObjectId>16684</ObjectId>
       <ColNames>userid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="80" parent="19" name="interest_pkey">
+    <key id="76" parent="19" name="interest_pkey">
       <ObjectId>16685</ObjectId>
       <ColNames>userid</ColNames>
       <UnderlyingIndexName>interest_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="81" parent="20" name="sender">
+    <column id="77" parent="20" name="sender">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1960</StateNumber>
     </column>
-    <column id="82" parent="20" name="receiver">
+    <column id="78" parent="20" name="receiver">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1960</StateNumber>
     </column>
-    <column id="83" parent="20" name="gendatetime">
+    <column id="79" parent="20" name="gendatetime">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1960</StateNumber>
     </column>
-    <column id="84" parent="20" name="type">
+    <column id="80" parent="20" name="type">
       <Position>4</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1960</StateNumber>
     </column>
-    <column id="85" parent="20" name="content">
+    <column id="81" parent="20" name="content">
       <Position>5</Position>
       <DataType>varchar(200)|0</DataType>
       <StateNumber>1960</StateNumber>
     </column>
-    <column id="86" parent="20" name="status">
+    <column id="82" parent="20" name="status">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1960</StateNumber>
     </column>
-    <index id="87" parent="20" name="notice_pkey">
+    <index id="83" parent="20" name="notice_pkey">
       <ObjectId>16640</ObjectId>
       <ColNames>sender
 receiver
 gendatetime</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="88" parent="20" name="notice_pkey">
+    <key id="84" parent="20" name="notice_pkey">
       <ObjectId>16641</ObjectId>
       <ColNames>sender
 receiver
@@ -459,32 +439,32 @@ gendatetime</ColNames>
       <UnderlyingIndexName>notice_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="89" parent="21" name="albumid">
+    <column id="85" parent="21" name="albumid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1970</StateNumber>
     </column>
-    <column id="90" parent="21" name="uploaddatetime">
+    <column id="86" parent="21" name="uploaddatetime">
       <Position>2</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1970</StateNumber>
     </column>
-    <column id="91" parent="21" name="content">
+    <column id="87" parent="21" name="content">
       <Position>3</Position>
       <DataType>bytea|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1970</StateNumber>
     </column>
-    <index id="92" parent="21" name="photo_pkey">
+    <index id="88" parent="21" name="photo_pkey">
       <ObjectId>16697</ObjectId>
       <ColNames>albumid
 uploaddatetime
 content</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="93" parent="21" name="photo_pkey">
+    <key id="89" parent="21" name="photo_pkey">
       <ObjectId>16698</ObjectId>
       <ColNames>albumid
 uploaddatetime
@@ -492,98 +472,98 @@ content</ColNames>
       <UnderlyingIndexName>photo_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="94" parent="22" name="userid">
+    <column id="90" parent="22" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1965</StateNumber>
     </column>
-    <column id="95" parent="22" name="activityid">
+    <column id="91" parent="22" name="activityid">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1965</StateNumber>
     </column>
-    <column id="96" parent="22" name="publicdatetime">
+    <column id="92" parent="22" name="publicdatetime">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1965</StateNumber>
     </column>
-    <index id="97" parent="22" name="pro_pkey">
+    <index id="93" parent="22" name="pro_pkey">
       <ObjectId>16713</ObjectId>
       <ColNames>userid
 activityid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="98" parent="22" name="pro_pkey">
+    <key id="94" parent="22" name="pro_pkey">
       <ObjectId>16714</ObjectId>
       <ColNames>userid
 activityid</ColNames>
       <UnderlyingIndexName>pro_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="99" parent="23" name="userid">
+    <column id="95" parent="23" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1967</StateNumber>
     </column>
-    <column id="100" parent="23" name="startdate">
+    <column id="96" parent="23" name="startdate">
       <Position>2</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1967</StateNumber>
     </column>
-    <column id="101" parent="23" name="enddate">
+    <column id="97" parent="23" name="enddate">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1967</StateNumber>
     </column>
-    <column id="102" parent="23" name="content">
+    <column id="98" parent="23" name="content">
       <Position>4</Position>
       <DataType>varchar(500)|0</DataType>
       <StateNumber>1967</StateNumber>
     </column>
-    <index id="103" parent="23" name="profile_pkey">
+    <index id="99" parent="23" name="profile_pkey">
       <ObjectId>16676</ObjectId>
       <ColNames>userid
 startdate</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="104" parent="23" name="profile_pkey">
+    <key id="100" parent="23" name="profile_pkey">
       <ObjectId>16677</ObjectId>
       <ColNames>userid
 startdate</ColNames>
       <UnderlyingIndexName>profile_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="105" parent="24" name="coaction">
+    <column id="101" parent="24" name="coaction">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1966</StateNumber>
     </column>
-    <column id="106" parent="24" name="coactee">
+    <column id="102" parent="24" name="coactee">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1966</StateNumber>
     </column>
-    <column id="107" parent="24" name="activityid">
+    <column id="103" parent="24" name="activityid">
       <Position>3</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1966</StateNumber>
     </column>
-    <index id="108" parent="24" name="shield_pkey">
+    <index id="104" parent="24" name="shield_pkey">
       <ObjectId>16668</ObjectId>
       <ColNames>coaction
 coactee
 activityid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="109" parent="24" name="shield_pkey">
+    <key id="105" parent="24" name="shield_pkey">
       <ObjectId>16669</ObjectId>
       <ColNames>coaction
 coactee
@@ -591,182 +571,187 @@ activityid</ColNames>
       <UnderlyingIndexName>shield_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="110" parent="25" name="tokenid">
+    <column id="106" parent="25" name="tokenid">
       <Position>1</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1971</StateNumber>
     </column>
-    <column id="111" parent="25" name="lastactivetime">
+    <column id="107" parent="25" name="lastactivetime">
       <Position>2</Position>
       <DataType>bigint|0</DataType>
       <StateNumber>1971</StateNumber>
     </column>
-    <column id="112" parent="25" name="userid">
+    <column id="108" parent="25" name="userid">
       <Position>3</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1971</StateNumber>
     </column>
-    <column id="113" parent="25" name="viewacttime">
+    <column id="109" parent="25" name="viewacttime">
       <Position>4</Position>
       <DataType>bigint|0</DataType>
       <StateNumber>4767</StateNumber>
     </column>
-    <index id="114" parent="25" name="token_pkey">
+    <index id="110" parent="25" name="token_pkey">
       <ObjectId>16702</ObjectId>
       <ColNames>tokenid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="115" parent="25" name="token_pkey">
+    <key id="111" parent="25" name="token_pkey">
       <ObjectId>16703</ObjectId>
       <ColNames>tokenid</ColNames>
       <UnderlyingIndexName>token_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="116" parent="26" name="groupid">
+    <column id="112" parent="26" name="groupid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="117" parent="26" name="name">
+    <column id="113" parent="26" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="118" parent="26" name="tag">
+    <column id="114" parent="26" name="tag">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="119" parent="26" name="director">
+    <column id="115" parent="26" name="director">
       <Position>4</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="120" parent="26" name="school">
+    <column id="116" parent="26" name="school">
       <Position>5</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="121" parent="26" name="department">
+    <column id="117" parent="26" name="department">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="122" parent="26" name="createdatetime">
+    <column id="118" parent="26" name="createdatetime">
       <Position>7</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="123" parent="26" name="grouppic">
+    <column id="119" parent="26" name="grouppic">
       <Position>8</Position>
       <DataType>bytea|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="124" parent="26" name="description">
+    <column id="120" parent="26" name="description">
       <Position>9</Position>
       <DataType>varchar(300)|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <column id="125" parent="26" name="numnotice">
+    <column id="121" parent="26" name="numnotice">
       <Position>10</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1958</StateNumber>
     </column>
-    <index id="126" parent="26" name="ugroup_pkey">
+    <index id="122" parent="26" name="ugroup_pkey">
       <ObjectId>16630</ObjectId>
       <ColNames>groupid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="127" parent="26" name="ugroup_pkey">
+    <key id="123" parent="26" name="ugroup_pkey">
       <ObjectId>16631</ObjectId>
       <ColNames>groupid</ColNames>
       <UnderlyingIndexName>ugroup_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="128" parent="27" name="userid">
+    <column id="124" parent="27" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="129" parent="27" name="password">
+    <column id="125" parent="27" name="password">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="130" parent="27" name="nickname">
+    <column id="126" parent="27" name="nickname">
       <Position>3</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1975</StateNumber>
     </column>
-    <column id="131" parent="27" name="sex">
+    <column id="127" parent="27" name="sex">
       <Position>4</Position>
       <DataType>varchar(6)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="132" parent="27" name="birthday">
+    <column id="128" parent="27" name="birthday">
       <Position>5</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="133" parent="27" name="department">
+    <column id="129" parent="27" name="department">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="134" parent="27" name="grade">
+    <column id="130" parent="27" name="grade">
       <Position>7</Position>
       <DataType>varchar(10)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="135" parent="27" name="userpic">
+    <column id="131" parent="27" name="userpic">
       <Position>8</Position>
       <DataType>bytea|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="136" parent="27" name="hometown">
+    <column id="132" parent="27" name="hometown">
       <Position>9</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="137" parent="27" name="telephone">
+    <column id="133" parent="27" name="telephone">
       <Position>10</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="138" parent="27" name="email">
+    <column id="134" parent="27" name="email">
       <Position>11</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="139" parent="27" name="numnotice">
+    <column id="135" parent="27" name="numnotice">
       <Position>12</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="140" parent="27" name="activityvisibility">
+    <column id="136" parent="27" name="activityvisibility">
       <Position>13</Position>
       <DataType>varchar(20)|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="141" parent="27" name="registerdatetime">
+    <column id="137" parent="27" name="registerdatetime">
       <Position>14</Position>
       <DataType>timestamp|0</DataType>
       <StateNumber>1954</StateNumber>
     </column>
-    <column id="142" parent="27" name="realname">
+    <column id="138" parent="27" name="realname">
       <Position>15</Position>
       <DataType>varchar(30)|0</DataType>
       <StateNumber>1974</StateNumber>
     </column>
-    <index id="143" parent="27" name="uuser_pkey">
+    <column id="139" parent="27" name="school">
+      <Position>16</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>17322</StateNumber>
+    </column>
+    <index id="140" parent="27" name="uuser_pkey">
       <ObjectId>16612</ObjectId>
       <ColNames>userid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="144" parent="27" name="uuser_pkey">
+    <key id="141" parent="27" name="uuser_pkey">
       <ObjectId>16613</ObjectId>
       <ColNames>userid</ColNames>
       <UnderlyingIndexName>uuser_pkey</UnderlyingIndexName>

@@ -92,6 +92,8 @@ public class Runner {
            System.out.println(ActivityDAO.getAuthorID("20100000008"));
 
         */
+        ActivityDAO.publishActivity("10000000003",null,"test id update",null);
+        /*
         ActivityEntity[] array = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
         List list = new ArrayList();
         for(ActivityEntity e:array)
@@ -101,7 +103,6 @@ public class Runner {
         }catch(Exception e){
             e.printStackTrace();
         }
-        /*
         ActivityEntity[] activityEntity = null;
         activityEntity = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
         for(int i=0;i<activityEntity.length;i++)
