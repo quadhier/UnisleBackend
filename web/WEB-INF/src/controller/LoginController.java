@@ -1,17 +1,13 @@
 package controller;
 
+import converter.ResultInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Calendar;
 
 import dao.*;
 import util.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -27,7 +23,7 @@ public class LoginController {
         return "login.html";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(@RequestParam(value = "userAccount", required = false) String userAccount,
                         @RequestParam(value = "password", required = false) String password,
@@ -40,7 +36,7 @@ public class LoginController {
 
             // generate token and add token id to cookie
             String userid = UserInfoDAO.getUserID(userAccount);
-            String tokenid = createToken(userid);
+            String tokenid = ControllerUtil.createToken(userid);
             UserInfoDAO.saveToken(tokenid, userid);
             Cookie tokenCookie = new Cookie("tokenid", tokenid);
             response.addCookie(tokenCookie);
@@ -54,13 +50,6 @@ public class LoginController {
             rinfo.setReason("E_WRONG_USER_OR_PASSWD");
             return rinfo;
         }
-    }
-
-    // 产生一个token并且返回
-    private String createToken(String userid) {
-        Calendar cal = Calendar.getInstance();
-        long currentTime = cal.getTimeInMillis();
-        return userid + String.valueOf(currentTime);
     }
 
 }

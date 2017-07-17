@@ -3,21 +3,30 @@ package util;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.messaging.saaj.util.JAXMStreamSource;
+import dao.UserInfoDAO;
 import sun.util.resources.cldr.ta.CalendarData_ta_LK;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.util.JAXBSource;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by qudaohan on 2017/7/13.
  */
 public class ControllerUtil {
+
+    // 产生一个token并且返回
+    public static String createToken(String userid) {
+        Calendar cal = Calendar.getInstance();
+        long currentTime = cal.getTimeInMillis();
+        return userid + String.valueOf(currentTime);
+    }
 
     // 产生验证码
     public static String genVCode() {
@@ -69,6 +78,49 @@ public class ControllerUtil {
         }
 
         return null;
+    }
+
+    // 从request中获取tokenid
+    public static String getTidFromReq(HttpServletRequest request) {
+
+        String tokenid = null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals("tokenid")){
+                    tokenid = cookie.getValue();
+                }
+            }
+        }
+        return tokenid;
+    }
+
+    // 从request中获取userid
+    public static String getUidFromReq(HttpServletRequest request) {
+
+        String userid = null;
+        userid = UserInfoDAO.getUserByToken(getTidFromReq(request));
+        return userid;
+    }
+
+    // 从request中获取指定名称的cookie
+    public static Cookie getCookieFromReq(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    // Array转化为List
+    public static List arrToList(Object[] arr) {
+        List list = new ArrayList<Object>();
+        for(Object obj : arr) {
+            list.add(obj);
+        }
+        return list;
     }
 
 }

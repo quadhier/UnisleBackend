@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Activity</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -16,231 +16,493 @@
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/activity/data.js"></script>
     <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+        $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };
+
+        $(document).ready(function () {
+            var isCommentSelected = false;
+            var isGoodSelected = false;
+
+
+            //$("u223").click(function() {
+                    $.ajax({
+
+                        type: "GET",
+
+                        //服务端url
+                        url: "activity/all/first",
+                        dataType: "json",
+                        data: {
+                            "lastTime": null,
+                            "view": "self"
+                        },
+                        //async: false,                           //可能会使得效率下降
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+                            //加载中...
+                        },
+                        error: function () {
+
+                        },
+                        //以下函数获取服务端传递给客户端的json格式数据
+                        success: function (res) {
+
+                            if (res.tag === true) {
+                                var userName = res.userName;
+                                var activity = res.activity;
+                                var comments = res.comments;
+                                var commenters = res.commenters;
+
+                                var commentDisplay = "<div class='commentDiv'>";
+
+                                // 组成评论的展示字符串
+                                for (i in comments) {
+                                    commentDisplay = commentDisplay +
+                                        "<p class='pCommenter'>" + commenters[i] + "</p>" +
+                                        "<p class='pComment'>" + comments[i].content + "</p>";
+                                }
+                                commentDisplay = commentDisplay + "</div>";
+
+                                //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                                $("#u246").append("<div id='ActivityId' class='container'>" +
+                                    "<hr style='top: 28px'/>" +
+                                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                                    "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                                    "<div class='divcenter'>" +
+                                    "<p class='pContent'>" + activity.content + "</p>" +
+                                    "</div>" +
+                                    "<hr style='top: 20px'/>" +
+                                    "<div class='btnDiv'>" +
+                                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                                    "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                                    "</div>" +
+                                    commentDisplay +
+                                    "<div class='writeCom'>" +
+                                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                                    "</div>");
+
+                            }
+
+                        }
+                    });
+            //});
+
+            for(var i = 0; i < 3; i++) {
+                $.ajax({
+
+                    type: "GET",
+
+                    //服务端url
+                    url: "activity/all/follow",
+                    dataType: "json",
+                    data: {
+                        "lastTime": null,
+                        "view": "self"
+                    },
+                    //async: false,                           //可能会使得效率下降
+                    timeout: 5000,
+                    cache: false,
+                    beforeSend: function () {
+                        //加载中...
+                    },
+                    error: function () {
+
+                    },
+                    //以下函数获取服务端传递给客户端的json格式数据
+                    success: function (res) {
+
+                        if (res.tag === true) {
+                            var userName = res.userName;
+                            var activity = res.activity;
+                            var comments = res.comments;
+                            var commenters = res.commenters;
+
+                            var commentDisplay = "<div class='commentDiv'>";
+
+                            // 组成评论的展示字符串
+                            for (i in comments) {
+                                commentDisplay = commentDisplay +
+                                    "<p class='pCommenter'>" + commenters[i] + "</p>" +
+                                    "<p class='pComment'>" + comments[i].content + "</p>";
+                            }
+                            commentDisplay = commentDisplay + "</div>";
+
+                            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                            $("#u246").append("<div id='ActivityId' class='container'>" +
+                                "<hr style='top: 28px'/>" +
+                                "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                                "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                                "<div class='divcenter'>" +
+                                "<p class='pContent'>" + activity.content + "</p>" +
+                                "</div>" +
+                                "<hr style='top: 20px'/>" +
+                                "<div class='btnDiv'>" +
+                                "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                                "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                                "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                                "</div>" +
+                                commentDisplay +
+                                "<div class='writeCom'>" +
+                                "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                                "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                                "</div>");
+
+                        }
+
+                    }
+                });
+            }
+
+
+
+
+
+
+            $("#u227_state0").scroll(function () {
+
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(this).get(0).scrollHeight;
+                var windowHeight = $(this).height();
+
+                //如果有更多动态，则继续加载
+                if (scrollTop / ( scrollHeight - windowHeight ) >= 0.8) {
+
+                    $.ajax({
+
+                        type: "GET",
+
+                        //服务端url
+                        url: "activity/all/follow",
+                        dataType: "json",
+                        data: {
+                            "lastTime": null,
+                            "view": "self"
+                        },
+                        //async: false,                           //可能会使得效率下降
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+                            //加载中...
+                        },
+                        error: function () {
+
+                        },
+                        //以下函数获取服务端传递给客户端的json格式数据
+                        success: function (res) {
+
+                            if (res.tag === true) {
+                                var userName = res.userName;
+                                var activity = res.activity;
+                                var comments = res.comments;
+                                var commenters = res.commenters;
+
+                                var commentDisplay = "<div class='commentDiv'>";
+
+                                // 组成评论的展示字符串
+                                for (i in comments) {
+                                    commentDisplay = commentDisplay +
+                                        "<p class='pCommenter'>" + commenters[i] + "</p>" +
+                                        "<p class='pComment'>" + comments[i].content + "</p>";
+                                }
+                                commentDisplay = commentDisplay +  "</div>";
+
+                                //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                                $("#u246").append("<div id='ActivityId' class='container'>" +
+                                    "<hr style='top: 28px'/>" +
+                                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                                    "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                                    "<div class='divcenter'>" +
+                                    "<p class='pContent'>" + activity.content + "</p>" +
+                                    "</div>" +
+                                    "<hr style='top: 20px'/>" +
+                                    "<div class='btnDiv'>" +
+                                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                                    "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                                    "</div>" +
+                                    commentDisplay +
+                                    "<div class='writeCom'>" +
+                                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                                    "</div>");
+
+                                //var page = Number($("#redgiftNextPage").attr('currentpage')) + 1;
+                                //redgiftList(page);
+                                //$("#redgiftNextPage").attr('currentpage', page + 1);
+                            }
+
+                        }
+                    });
+
+                }
+            });
+
+
+            $(".good").live("click", function () {
+                if (isGoodSelected === false) {
+                    $(this).find("img").attr('src', "images/activity/good_selected.png");
+                    isGoodSelected = true;
+                }
+                else {
+                    $(this).find("img").attr('src', "images/activity/good.png");
+                    isGoodSelected = false;
+                }
+            });
+            $(".comment").live("click", function () {
+                if (isCommentSelected === false) {
+                    $(this).find("img").attr('src', "images/activity/comment_selected.png");
+                    isCommentSelected = true;
+                }
+                else {
+                    $(this).find("img").attr('src', "images/activity/comment.png");
+                    isCommentSelected = false;
+                }
+                $(this).parents(".container").children(".writeCom").toggle(200);
+            })
+        })
     </script>
-  </head>
-  <body>
-    <div id="base" class="">
+</head>
 
-      <!-- Unnamed (动态面板) -->
-      <div id="u227" class="ax_default">
+
+<body>
+<div id="base" class="">
+
+    <!-- Unnamed (动态面板) -->
+    <div id="u227" class="ax_default">
         <div id="u227_state0" class="panel_state" data-label="State1" style="">
-          <div id="u227_state0_content" class="panel_state_content">
+            <div id="u227_state0_content" class="panel_state_content">
 
-            <!-- Unnamed (动态面板) -->
-            <div id="u228" class="ax_default">
-              <div id="u228_state0" class="panel_state" data-label="State1" style="">
-                <div id="u228_state0_content" class="panel_state_content">
+                <!-- Unnamed (动态面板) -->
+                <div id="u228" class="ax_default">
+                    <div id="u228_state0" class="panel_state" data-label="State1" style="">
+                        <div id="u228_state0_content" class="panel_state_content">
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u229" class="ax_default">
-                    <div id="u229_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u230" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u229" class="ax_default">
+                                <div id="u229_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u230" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (图片) -->
+                            <div id="u231" class="ax_default">
+                                <img id="u231_img" class="img " src="images/activity/u231.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u232" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (矩形) -->
+                            <div id="u233" class="ax_default">
+                                <div id="u233_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u234" class="text">
+                                    <p><span>Gobang</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (矩形) -->
+                            <div id="u235" class="ax_default">
+                                <div id="u235_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u236" class="text">
+                                    <p><span>武汉大学-院系-年级</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (形状) -->
+                            <div id="u237" class="ax_default icon">
+                                <img id="u237_img" class="img " src="images/activity/u237.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u238" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (水平线) -->
+                            <div id="u239" class="ax_default line">
+                                <img id="u239_img" class="img " src="images/activity/u239.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u240" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-
-                  <!-- Unnamed (图片) -->
-                  <div id="u231" class="ax_default">
-                    <img id="u231_img" class="img " src="images/activity/u231.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u232" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u233" class="ax_default">
-                    <div id="u233_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u234" class="text">
-                      <p><span>Gobang</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u235" class="ax_default">
-                    <div id="u235_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u236" class="text">
-                      <p><span>武汉大学-院系-年级</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (形状) -->
-                  <div id="u237" class="ax_default icon">
-                    <img id="u237_img" class="img " src="images/activity/u237.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u238" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u239" class="ax_default line">
-                    <img id="u239_img" class="img " src="images/activity/u239.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u240" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u241" class="ax_default">
-              <div id="u241_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u242" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u243" class="ax_default">
-              <div id="u243_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u244" class="text">
-                <p><span>同领英，自便……………………</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (多行文本框) -->
-            <div id="u245" class="ax_default text_area">
-              <textarea id="u245_input"></textarea>
-            </div>
-
-            <!-- Unnamed (动态面板) -->
-            <div id="u246" class="ax_default">
-              <div id="u246_state0" class="panel_state" data-label="State1" style="">
-                <div id="u246_state0_content" class="panel_state_content">
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u247" class="ax_default">
-                    <div id="u247_div" class=""></div>
+                <!-- Unnamed (矩形) -->
+                <div id="u241" class="ax_default">
+                    <div id="u241_div" class=""></div>
                     <!-- Unnamed () -->
-                    <div id="u248" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
+                    <div id="u242" class="text" style="display:none; visibility: hidden">
+                        <p><span></span></p>
                     </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u249" class="ax_default line">
-                    <img id="u249_img" class="img " src="images/activity/u249.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u250" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u251" class="ax_default line">
-                    <img id="u251_img" class="img " src="images/activity/u249.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u252" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (形状) -->
-                  <div id="u253" class="ax_default icon">
-                    <img id="u253_img" class="img " src="images/activity/u253.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u254" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (形状) -->
-                  <div id="u255" class="ax_default icon">
-                    <img id="u255_img" class="img " src="images/activity/u255.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u256" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u257" class="ax_default">
-                    <div id="u257_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u258" class="text">
-                      <p><span>武汉大学</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u259" class="ax_default">
-                    <div id="u259_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u260" class="text">
-                      <p><span>推荐</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (图片) -->
-                  <div id="u261" class="ax_default image">
-                    <img id="u261_img" class="img " src="images/activity/u261.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u262" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u263" class="ax_default">
-                    <div id="u263_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u264" class="text">
-                      <p><span>炎炎夏日，为何街道口还有一批学子在武汉坚守</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u265" class="ax_default">
-                    <div id="u265_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u266" class="text">
-                      <p><span>Gobang</span></p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u267" class="ax_default">
-              <div id="u267_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u268" class="text">
-                <p><span><br></span></p><p><span><br></span></p><p><span><br></span></p><p><span>公告</span></p><p><span><br></span></p><p><span>一些奇怪的超链接</span></p><p><span><br></span></p><p><span><br></span></p><p><span><br></span></p><p><span><br></span></p>
-              </div>
-            </div>
+                <!-- Unnamed (矩形) -->
+                <div id="u243" class="ax_default">
+                    <div id="u243_div" class=""></div>
+                    <!-- Unnamed () -->
+                    <div id="u244" class="text">
+                        <p><span>同领英，自便……………………</span></p>
+                    </div>
+                </div>
 
-            <!-- Unnamed (水平线) -->
-            <div id="u269" class="ax_default line">
-              <img id="u269_img" class="img " src="images/activity/u239.png"/>
-              <!-- Unnamed () -->
-              <div id="u270" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
+                <!-- Unnamed (多行文本框) -->
+                <div id="u245" class="ax_default text_area">
+                    <textarea id="u245_input"></textarea>
+                </div>
 
-            <!-- .btn-default [submit btn] (矩形) -->
-            <div id="u271" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
-              <div id="u271_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u272" class="text">
-                <p><span>发布</span></p>
-              </div>
+                <!-- Unnamed (动态面板) -->
+                <div id="u246" class="ax_default">
+                    <!--<div id="u246_state0" class="panel_state" data-label="State1" style="">-->
+                    <!--<div id="u246_state0_content" class="panel_state_content">-->
+
+                    <!--Unnamed (矩形) -->
+                    <!--<div id="u247" class="ax_default">-->
+                    <!--<div id="u247_div" class=""></div>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u248" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (水平线) &ndash;&gt;-->
+                    <!--<div id="u249" class="ax_default line">-->
+                    <!--<img id="u249_img" class="img " src="images/activity/u249.png"/>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u250" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (水平线) &ndash;&gt;-->
+                    <!--<div id="u251" class="ax_default line">-->
+                    <!--<img id="u251_img" class="img " src="images/activity/u249.png"/>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u252" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (形状) &ndash;&gt;-->
+                    <!--<div id="u253" class="ax_default icon">-->
+                    <!--<img id="u253_img" class="img " src="images/activity/u253.png"/>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u254" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (形状) &ndash;&gt;-->
+                    <!--<div id="u255" class="ax_default icon">-->
+                    <!--<img id="u255_img" class="img " src="images/activity/u255.png"/>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u256" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
+                    <!--<div id="u257" class="ax_default">-->
+                    <!--<div id="u257_div" class=""></div>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u258" class="text">-->
+                    <!--<p><span>武汉大学</span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
+                    <!--<div id="u259" class="ax_default">-->
+                    <!--<div id="u259_div" class=""></div>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u260" class="text">-->
+                    <!--<p><span>推荐</span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (图片) &ndash;&gt;-->
+                    <!--<div id="u261" class="ax_default image">-->
+                    <!--<img id="u261_img" class="img " src="images/activity/u261.png"/>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u262" class="text" style="display:none; visibility: hidden">-->
+                    <!--<p><span></span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
+                    <!--<div id="u263" class="ax_default">-->
+                    <!--<div id="u263_div" class=""></div>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u264" class="text">-->
+                    <!--<p><span>炎炎夏日，为何街道口还有一批学子在武汉坚守</span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Unnamed (矩形) &ndash;&gt;-->
+                    <!--<div id="u265" class="ax_default">-->
+                    <!--<div id="u265_div" class=""></div>-->
+                    <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
+                    <!--<div id="u266" class="text">-->
+                    <!--<p><span>Gobang</span></p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+
+                <!-- Unnamed (矩形) -->
+                <div id="u267" class="ax_default">
+                    <div id="u267_div" class=""></div>
+                    <!-- Unnamed () -->
+                    <div id="u268" class="text">
+                        <p><span><br></span></p>
+                        <p><span><br></span></p>
+                        <p><span><br></span></p>
+                        <p><span>公告</span></p>
+                        <p><span><br></span></p>
+                        <p><span>一些奇怪的超链接</span></p>
+                        <p><span><br></span></p>
+                        <p><span><br></span></p>
+                        <p><span><br></span></p>
+                        <p><span><br></span></p>
+                    </div>
+                </div>
+
+                <!-- Unnamed (水平线) -->
+                <div id="u269" class="ax_default line">
+                    <img id="u269_img" class="img " src="images/activity/u239.png"/>
+                    <!-- Unnamed () -->
+                    <div id="u270" class="text" style="display:none; visibility: hidden">
+                        <p><span></span></p>
+                    </div>
+                </div>
+
+                <!-- .btn-default [submit btn] (矩形) -->
+                <div id="u271" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
+                    <div id="u271_div" class=""></div>
+                    <!-- Unnamed () -->
+                    <div id="u272" class="text">
+                        <p><span>发布</span></p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>

@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -232,6 +233,82 @@ public class UserInfoDAO {
         TokenEntity entity = (TokenEntity) CommonDAO.getItemByPK(TokenEntity.class,token);
         return entity.getUserid();
     }
+
+    public static long getViewActTimeByToken(String tokenid) {
+
+        long viewActTime = System.currentTimeMillis();
+        Session s = null;
+        Session t = null;
+        try{
+            s = HibernateUtil.getSession();
+
+            String hql = "from TokenEntity as token where token.tokenid = :id";
+            Query query = s.createQuery(hql);
+            query.setString("id",tokenid);
+
+            List list = query.list();
+            if(list.isEmpty())
+                return viewActTime;
+
+            t = HibernateUtil.getSession();
+
+            TokenEntity token = t.get(TokenEntity.class, tokenid);
+            if(token == null)
+                return viewActTime;
+
+            viewActTime = token.getViewActTime();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            t.getTransaction().rollback();
+            return viewActTime;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(t);
+        }
+
+        return viewActTime;
+
+    }
+
+    public static boolean updateViewActTime(String tokenid, long newTime) {
+
+        Session s = null;
+        Session t = null;
+        try{
+            s = HibernateUtil.getSession();
+
+            String hql = "from TokenEntity as token where token.tokenid = :id";
+            Query query = s.createQuery(hql);
+            query.setString("id",tokenid);
+
+            List list = query.list();
+            if(list.isEmpty())
+                return false;
+
+            t = HibernateUtil.getSession();
+
+            TokenEntity token = t.get(TokenEntity.class,tokenid);
+            if(token == null)
+                return false;
+            token.setViewActTime(newTime);
+
+            t.beginTransaction();
+            t.update(token);
+            t.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            t.getTransaction().rollback();
+            return false;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(t);
+        }
+
+        return true;
+    }
+
+
     //tested
     public static UuserEntity[] searchNickname(String nickname){
         String hql="from UuserEntity e where e.nickname like :genStr";
