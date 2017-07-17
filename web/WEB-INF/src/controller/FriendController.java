@@ -153,4 +153,22 @@ public class FriendController {
 
         return adapterList;
     }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody()
+    public Object deleteFriend(HttpServletRequest req,
+                               @RequestParam(value = "friendid") String friendid){
+
+    }
+
+    @RequestMapping(value = "setNote",method = RequestMethod.POST)
+    @ResponseBody()
+    public Object setNote(HttpServletRequest req,
+                          @RequestParam(value = "friendid") String friendid,
+                          @RequestParam(value = "note",required = false,defaultValue = "") String note){
+
+    }
+
+
+
 }
