@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Activity</title>
+
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -27,77 +32,237 @@
         };
 
         $(document).ready(function () {
-            var isCommentSelected = false;
-            var isGoodSelected = false;
 
 
-            //$("u223").click(function() {
+            /*
+            *
+            * 加载个人信息
+            *
+            * */
+
+            $.ajax({
+                type: "GET",
+                url: "self",
+                dataType: "json",
+                data:{},
+                timeout:5000,
+                cache:false,
+                beforeSend: function() {
+
+                },
+
+                error: function() {
+
+                },
+
+                success: function (res) {
+                    //alert(res);
+                    //alert(res.nickname);
+                    //alert(res.department);
+
+                    if(res.sex === 'male')
+                        $("#u237_img").src = "images/activity/u237.png";
+                    else
+                        $("#u237_img").src = "images/activity/u238.png";
+                    $("#cache5").text(res.nickname);
+                    $("#cache7").text(res.department + "-" + res.grade + "级");
+                }
+
+            });
+
+            /*
+            *
+            * 绑定发布动态的事件
+            *
+            * */
+
+            $("#u271").click(function(){
+                if($("#u245_input").val() != "") {
                     $.ajax({
-
-                        type: "GET",
-
-                        //服务端url
-                        url: "activity/all/first",
+                        type: "POST",
+                        url: "activity",
                         dataType: "json",
-                        data: {
-                            "lastTime": null,
-                            "view": "self"
-                        },
-                        //async: false,                           //可能会使得效率下降
-                        timeout: 5000,
-                        cache: false,
-                        beforeSend: function () {
-                            //加载中...
-                        },
-                        error: function () {
+                        contentType: "application/json",
+                        data:JSON.stringify({
+                            "shieldIDList": null,
+                            "content": $("#u245_input").val(),
+                            "attachment": null
+                        }),
+                        //async:false,
+                        timeout:5000,
+                        cache:false,
+                        beforeSend: function() {
 
                         },
-                        //以下函数获取服务端传递给客户端的json格式数据
-                        success: function (res) {
 
-                            if (res.tag === true) {
-                                var userName = res.userName;
-                                var activity = res.activity;
-                                var comments = res.comments;
-                                var commenters = res.commenters;
+                        error: function() {
 
-                                var commentDisplay = "<div class='commentDiv'>";
+                        },
 
-                                // 组成评论的展示字符串
-                                for (i in comments) {
-                                    commentDisplay = commentDisplay +
-                                        "<p class='pCommenter'>" + commenters[i] + "</p>" +
-                                        "<p class='pComment'>" + comments[i].content + "</p>";
-                                }
-                                commentDisplay = commentDisplay + "</div>";
+                        success: function () {
 
-                                //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                                $("#u246").append("<div id='ActivityId' class='container'>" +
-                                    "<hr style='top: 28px'/>" +
-                                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                                    "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
-                                    "<div class='divcenter'>" +
-                                    "<p class='pContent'>" + activity.content + "</p>" +
-                                    "</div>" +
-                                    "<hr style='top: 20px'/>" +
-                                    "<div class='btnDiv'>" +
-                                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                                    "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
-                                    "</div>" +
-                                    commentDisplay +
-                                    "<div class='writeCom'>" +
-                                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
-                                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
-                                    "</div>");
-
-                            }
 
                         }
                     });
-            //});
+                                $("#u246").prepend("<div id='ActivityId' class='container'>" +
+                                "<hr style='top: 28px'/>" +
+                                "<div class='subLeft'><p class='pTitle'>" + "mysef" + "</p></div>" +
+                                "<div class='subRight'><p class='pSmall'>" + "new" + "</p></div>" +
+                                "<div class='divcenter'>" +
+                                "<p class='pContent'>" + $("#u245_input").val() + "</p>" +
+                                "</div>" +
+                                "<hr style='top: 20px'/>" +
+                                "<div class='btnDiv'>" +
+                                "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                                "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                                "<p class='pGoodNum'>" + 0 + "人觉得很赞</p>" +
+                                "</div>" +
+                                "<div class='commentDiv'></div>" +
+                                "<div class='writeCom'>" +
+                                "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                                "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                                "</div>");
+
+
+                }
+            });
+
+            /*
+            *
+            * 加载动态并设置滚动时加载
+            *
+            * */
+            $.ajax({
+                type: "GET",
+
+                //服务端url
+                url: "activity/all/isfirst",
+                dataType: "json",
+                data: {
+                    "lastTime": null,
+                    "view": "self"
+                },
+                async: false,                           //可能会使得效率下降
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+                    //加载中...
+                },
+                error: function () {
+
+                },
+                //以下函数获取服务端传递给客户端的json格式数据
+                success: function (res) {
+
+                    if (res.tag === true) {
+                        var userName = res.userName;
+                        var activity = res.activity;
+                        var comments = res.comments;
+                        var commenters = res.commenters;
+
+                        var commentDisplay = "<div class='commentDiv'>";
+
+                        // 组成评论的展示字符串
+                        for (i in comments) {
+                            commentDisplay = commentDisplay +
+                                "<p class='pCommenter'>" + commenters[i] + "</p>" +
+                                "<p class='pComment'>" + comments[i].content + "</p>";
+                        }
+                        commentDisplay = commentDisplay + "</div>";
+
+                        //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                        $("#u246").append("<div id='ActivityId' class='container'>" +
+                            "<hr style='top: 28px'/>" +
+                            "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                            "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                            "<div class='divcenter'>" +
+                            "<p class='pContent'>" + activity.content + "</p>" +
+                            "</div>" +
+                            "<hr style='top: 20px'/>" +
+                            "<div class='btnDiv'>" +
+                            "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                            "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                            "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                            "</div>" +
+                            commentDisplay +
+                            "<div class='writeCom'>" +
+                            "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                            "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                            "</div>");
+
+                    }
+
+                }
+            });
+
+            /*
+            $.ajax({
+
+                type: "GET",
+
+                //服务端url
+                url: "activity/all/follow",
+                dataType: "json",
+                data: {
+                    "lastTime": null,
+                    "view": "self"
+                },
+                //async: false,                           //可能会使得效率下降
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+                    //加载中...
+                },
+                error: function () {
+
+                },
+                //以下函数获取服务端传递给客户端的json格式数据
+                success: function (res) {
+
+                    if (res.tag === true) {
+                        var userName = res.userName;
+                        var activity = res.activity;
+                        var comments = res.comments;
+                        var commenters = res.commenters;
+
+                        var commentDisplay = "<div class='commentDiv'>";
+
+                        // 组成评论的展示字符串
+                        for (i in comments) {
+                            commentDisplay = commentDisplay +
+                                "<p class='pCommenter'>" + commenters[i] + "</p>" +
+                                "<p class='pComment'>" + comments[i].content + "</p>";
+                        }
+                        commentDisplay = commentDisplay + "</div>";
+
+                        //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                        $("#u246").append("<div id='ActivityId' class='container'>" +
+                            "<hr style='top: 28px'/>" +
+                            "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                            "<div class='subRight'><p class='pSmall'>" + activity.publicdatetime + "</p></div>" +
+                            "<div class='divcenter'>" +
+                            "<p class='pContent'>" + activity.content + "</p>" +
+                            "</div>" +
+                            "<hr style='top: 20px'/>" +
+                            "<div class='btnDiv'>" +
+                            "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                            "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                            "<p class='pGoodNum'>" + activity.pros + "人觉得很赞</p>" +
+                            "</div>" +
+                            commentDisplay +
+                            "<div class='writeCom'>" +
+                            "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                            "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                            "</div>");
+
+                    }
+
+                }
+            });
+            */
 
             for(var i = 0; i < 3; i++) {
+
                 $.ajax({
 
                     type: "GET",
@@ -164,10 +329,6 @@
             }
 
 
-
-
-
-
             $("#u227_state0").scroll(function () {
 
                 var scrollTop = $(this).scrollTop();
@@ -175,7 +336,7 @@
                 var windowHeight = $(this).height();
 
                 //如果有更多动态，则继续加载
-                if (scrollTop / ( scrollHeight - windowHeight ) >= 0.8) {
+                if (scrollTop / ( scrollHeight - windowHeight ) >= 0.8 && scrollTop / ( scrollHeight - windowHeight ) < 1) {
 
                     $.ajax({
 
@@ -214,7 +375,7 @@
                                         "<p class='pCommenter'>" + commenters[i] + "</p>" +
                                         "<p class='pComment'>" + comments[i].content + "</p>";
                                 }
-                                commentDisplay = commentDisplay +  "</div>";
+                                commentDisplay = commentDisplay + "</div>";
 
                                 //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
                                 $("#u246").append("<div id='ActivityId' class='container'>" +
@@ -249,23 +410,19 @@
 
 
             $(".good").live("click", function () {
-                if (isGoodSelected === false) {
+                if ($(this).find("img").attr('src') === 'images/activity/good.png') {
                     $(this).find("img").attr('src', "images/activity/good_selected.png");
-                    isGoodSelected = true;
                 }
                 else {
                     $(this).find("img").attr('src', "images/activity/good.png");
-                    isGoodSelected = false;
                 }
             });
             $(".comment").live("click", function () {
-                if (isCommentSelected === false) {
+                if ($(this).find("img").attr('src') === 'images/activity/comment.png') {
                     $(this).find("img").attr('src', "images/activity/comment_selected.png");
-                    isCommentSelected = true;
                 }
                 else {
                     $(this).find("img").attr('src', "images/activity/comment.png");
-                    isCommentSelected = false;
                 }
                 $(this).parents(".container").children(".writeCom").toggle(200);
             })
@@ -358,7 +515,7 @@
                     <div id="u243_div" class=""></div>
                     <!-- Unnamed () -->
                     <div id="u244" class="text">
-                        <p><span>同领英，自便……………………</span></p>
+                        <p><span>请在此编辑并发布您的动态</span></p>
                     </div>
                 </div>
 

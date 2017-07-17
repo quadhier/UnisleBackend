@@ -4,10 +4,7 @@ import converter.ActivityForward;
 import dao.ActivityDAO;
 import dao.CommonDAO;
 import dao.UserInfoDAO;
-import entity.ActivityEntity;
-import entity.ActivitycommentEntity;
-import entity.TokenEntity;
-import entity.UuserEntity;
+import entity.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import converter.ActivityAndComment;
@@ -19,6 +16,7 @@ import converter.ResultInfo;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.rmi.activation.ActivationID;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,71 +99,177 @@ public class ActivityController {
     public Object allActivities(HttpServletRequest request,
                                 @RequestParam(value = "lastTime", required = false) String lTime,
                                 @RequestParam(value = "view", required = false) String view,
-                                @PathVariable("isfirst") String isfirst){
+                                @PathVariable(value = "isfirst") String isfirst){
 
-        // 初始化返回对象
-        ActivityAndComment actAndCom = new ActivityAndComment();
-        actAndCom.setTag(false);
+        synchronized(this) {
+            // 初始化返回对象
+            ActivityAndComment actAndCom = new ActivityAndComment();
+            actAndCom.setTag(false);
 
-        String tokenid = ControllerUtil.getTidFromReq(request);
-        Timestamp time = null;
-        if(isfirst.equals("isfirst")) {
-            UserInfoDAO.updateViewActTime(tokenid, System.currentTimeMillis());
-            time = new Timestamp(System.currentTimeMillis());
-        } else {
-            long lastTime = UserInfoDAO.getViewActTimeByToken(tokenid);
-            try {
-                time = new Timestamp(lastTime - 5);
-            } catch (Exception e) {
-                e.printStackTrace();
+            String tokenid = ControllerUtil.getTidFromReq(request);
+            Timestamp time = null;
+            if (isfirst.equals("isfirst")) {
+                System.out.println("isfirst");
+                System.out.println("isfirst");
+                System.out.println("isfirst");
+                UserInfoDAO.updateViewActTime(tokenid, System.currentTimeMillis());
+                time = new Timestamp(System.currentTimeMillis());
+            } else {
+
+                System.out.println("followed");
+                System.out.println("followed");
+                System.out.println("followed");
+
+                try {
+                    System.out.println("tokenid" + tokenid);
+                    long lastTime = UserInfoDAO.getViewActTimeByToken(tokenid);
+                    System.out.println("lastTime" + lastTime);
+                    time = new Timestamp(lastTime - 5);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return actAndCom;
+                }
+            }
+
+            // 默认为显示所有动态
+            if (view == null || (!view.equals("friend") && !view.equals("self"))) {
+                view = "friend";
+            }
+
+            String userid = UserInfoDAO.getUserByToken(tokenid);
+
+            System.out.println(time);
+            System.out.println(view);
+            System.out.println(userid);
+
+            // 获取一条动态，其发布用户的昵称，所有评论，以及评论者昵称
+
+            UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
+            ActivityEntity[] activities = ActivityDAO.getActivities(userid, time, 1, view);
+
+            if (activities == null || activities.length == 0) {
+                System.out.println("Non Activity");
                 return actAndCom;
             }
-        }
+            String userName = user.getNickname();
+            ActivityEntity activity = activities[0];
+            ActivitycommentEntity[] comments = ActivityDAO.getActivityComments(activity.getActivityid());
+            ArrayList<String> commenterArray = new ArrayList<String>();
 
-        // 默认为显示所有动态
-        if(view == null || (!view.equals("friend") && !view.equals("self")))
-        {
-            view = "friend";
-        }
+            for (ActivitycommentEntity comment : comments) {
+                user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, comment.getActivitycommentEntityPK().getUserid());
+                commenterArray.add(user.getNickname());
+            }
+            String[] commenters = commenterArray.toArray(new String[0]);
 
-        String userid = UserInfoDAO.getUserByToken(tokenid);
+            actAndCom.setTag(true);
+            actAndCom.setUserName(userName);
+            actAndCom.setActivity(activity);
+            actAndCom.setComments(comments);
+            actAndCom.setCommenters(commenters);
 
-        System.out.println(time);
-        System.out.println(view);
-        System.out.println(userid);
+            UserInfoDAO.updateViewActTime(tokenid, activity.getPublicdatetime().getTime());
 
-        // 获取一条动态，其发布用户的昵称，所有评论，以及评论者昵称
+            System.out.println("current activity time" + activity.getPublicdatetime().getTime());
 
-        UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
-        ActivityEntity[] activities = ActivityDAO.getActivities(userid, time, 1, view);
-
-        if(activities == null || activities.length == 0) {
-            System.out.println("Non Activity");
             return actAndCom;
         }
-        String userName = user.getNickname();
-        ActivityEntity activity = activities[0];
-        ActivitycommentEntity[] comments = ActivityDAO.getActivityComments(activity.getActivityid());
-        ArrayList<String> commenterArray = new ArrayList<String>();
 
-        for(ActivitycommentEntity comment : comments) {
-             user =  (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class, comment.getActivitycommentEntityPK().getUserid());
-             commenterArray.add(user.getNickname());
+    }
+
+    // 点赞
+    @RequestMapping(value = "pros",method = RequestMethod.POST)
+    @ResponseBody
+    public Object like(@RequestParam(value = "activityid", required = false) String activtyid,
+                       @RequestParam(value = "userid", required = false) String userid,
+                       HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        if(userid == null || activtyid == null)
+        {
+            rinfo.setReason("E_INCOMPLETE_INFO");
+            return rinfo;
         }
-        String[] commenters = commenterArray.toArray(new String[0]);
 
-        actAndCom.setTag(true);
-        actAndCom.setUserName(userName);
-        actAndCom.setActivity(activity);
-        actAndCom.setComments(comments);
-        actAndCom.setCommenters(commenters);
+        ActivityDAO.makePro(activtyid, userid);
+        rinfo.setResult("SUCCESS");
+        return rinfo;
 
-        UserInfoDAO.updateViewActTime(tokenid, activity.getPublicdatetime().getTime());
+    }
 
-        System.out.println("current activity time" + activity.getPublicdatetime().getTime());
+    // 取消点赞
+    @RequestMapping(value = "pros", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object dislike(@RequestParam(value = "activityid", required = false) String activityid,
+                          @RequestParam(value = "userid", required = false) String userid,
+                          HttpServletRequest request) {
 
-        return actAndCom;
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
 
+        if(userid == null || activityid == null) {
+            rinfo.setReason("E_INCOMPLETE_INFO");
+            return rinfo;
+        }
+
+        ActivityDAO.cancelPro(activityid, userid);
+        rinfo.setResult("SUCCESS");
+        return rinfo;
+    }
+
+
+    // 评论
+    @RequestMapping(value = "comment", method = RequestMethod.POST)
+    @ResponseBody
+    public Object makeComment(@RequestParam(value = "activity", required = false) String activityid,
+                              @RequestParam(value = "userid", required = false) String userid,
+                              @RequestParam(value = "content", required = false) String content,
+                              HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        if(activityid == null || userid == null) {
+            rinfo.setReason("E_INCOMPLETE_INFO");
+            return rinfo;
+        }
+
+        ActivityDAO.publishComment(activityid, userid, content);
+        rinfo.setResult("SUCCESS");
+        return rinfo;
+    }
+
+
+    // 删除评论
+    @RequestMapping(value = "comment", method = RequestMethod.DELETE)
+    @ResponseBody Object deleteComment(@RequestParam(value = "activity", required = false) String activityid,
+                                       @RequestParam(value = "publisher", required = false) String publisher,
+                                       @RequestParam(value = "publicdatetime", required = false) long publicdatetime,
+                                       HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+        String userid = ControllerUtil.getUidFromReq(request);
+
+
+        if(activityid == null || publisher == null || userid == null) {
+            rinfo.setReason("E_INCOMPLETE_INFO");
+            return rinfo;
+        }
+
+        if(ActivityDAO.whetherCanDeleteComment(userid, publisher, activityid)) {
+            ActivitycommentEntityPK commentpk = new ActivitycommentEntityPK();
+            commentpk.setActivityid(activityid);
+            commentpk.setUserid(publisher);
+            commentpk.setPublicdatetime(new Timestamp(publicdatetime));
+            ActivityDAO.deleteActivityComment(commentpk);
+            rinfo.setResult("SUCCESS");
+            return rinfo;
+        }
+        rinfo.setReason("E_NOT_PERMITTED");
+        return rinfo;
     }
 
 }
