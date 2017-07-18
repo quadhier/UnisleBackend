@@ -29,6 +29,7 @@ public class CometPusher implements ServletContextListener{
                 CometEngine engine = CometContext.getInstance().getEngine();
                 engine.sendToAll(channel1,pushContent1 + System.currentTimeMillis());
                 engine.sendToAll(channel2,pushContent2);
+                System.out.println("thread is running");
             }
         }
     }

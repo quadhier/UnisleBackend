@@ -1,20 +1,21 @@
 package controller;
 
 import converter.ResultInfo;
+import org.comet4j.core.CometContext;
+import org.comet4j.core.CometEngine;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletRequest;
-
-/**
- * Created by Administrator on 2017/7/17.
 
 
 @Controller
 @RequestMapping(value = "/notice")
 public class NoticeController {
+    /**
 
     @RequestMapping(value = "/sendFriendshipAsk")
     public Object sendFriendshipAsk(@RequestParam(value = "userid") String userid,
@@ -33,5 +34,14 @@ public class NoticeController {
 
         return info;
     }
+     */
+
+    @RequestMapping(value = "/testMsg")
+    @ResponseBody
+    public Object test(@RequestParam(value = "msg") String msg){
+        CometEngine engine = CometContext.getInstance().getEngine();
+        engine.sendToAll("channel1",msg);
+
+        return null;
+    }
 }
- */
