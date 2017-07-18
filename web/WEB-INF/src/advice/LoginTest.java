@@ -27,14 +27,6 @@ public class LoginTest {
 
         System.out.println("Login Status Testing");
 
-//        ActivityDAO.publishActivity("10000000005", null, "xixixiha", null);
-//        ActivityDAO.publishActivity("10000000005", null, "hahahaha", null);
-//        ActivityDAO.publishActivity("10000000005", null, "hehehehe", null);
-
-//        ActivityDAO.publishComment("20100000009", "10000000005", "xixi");
-//        ActivityDAO.publishComment("20100000010", "10000000005", "haha");
-//        ActivityDAO.publishComment("20100000011", "10000000005", "hehe");
-
 
         System.out.println("Insert Finished");
 

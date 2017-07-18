@@ -23,6 +23,8 @@ public class UserInfoDAO {
 
     private UserInfoDAO(){}
 
+    private static Object lock = new Object();
+
     //tested
     public static boolean seekReuseEmail(String emailforseek){
         Session s = null;
@@ -236,6 +238,7 @@ public class UserInfoDAO {
 
     public static long getViewActTimeByToken(String tokenid) {
 
+        synchronized (lock) {
         long viewActTime = System.currentTimeMillis();
         Session s = null;
         Session t = null;
@@ -252,14 +255,18 @@ public class UserInfoDAO {
 
             t = HibernateUtil.getSession();
 
+            t.beginTransaction();
+
             TokenEntity token = t.get(TokenEntity.class, tokenid);
             if(token == null)
                 return viewActTime;
-
+            System.out.println("token" + token);
             viewActTime = token.getViewActTime();
 
+            t.getTransaction().commit();
+
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             t.getTransaction().rollback();
             return viewActTime;
         }finally {
@@ -267,12 +274,13 @@ public class UserInfoDAO {
             HibernateUtil.safeCloseSession(t);
         }
 
-        return viewActTime;
+        return viewActTime;}
 
     }
 
     public static boolean updateViewActTime(String tokenid, long newTime) {
 
+        synchronized (lock) {
         Session s = null;
         Session t = null;
         try{
@@ -305,7 +313,7 @@ public class UserInfoDAO {
             HibernateUtil.safeCloseSession(t);
         }
 
-        return true;
+        return true;}
     }
 
 
