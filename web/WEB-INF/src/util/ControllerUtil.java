@@ -10,7 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.util.JAXBSource;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -121,6 +121,64 @@ public class ControllerUtil {
             list.add(obj);
         }
         return list;
+    }
+
+    public static void byteToFile(byte[] buf, String filePath, String fileName)
+    {
+
+        System.out.println("byte to file");
+        BufferedOutputStream bufferOut = null;
+        FileOutputStream fileOut = null;
+        File file = null;
+        try
+        {
+            File resFile = new File(filePath);
+            if (!resFile.exists())
+            {
+                System.out.println("making directories");
+                resFile.mkdirs();
+            }
+            file = new File(filePath + File.separator + fileName);
+            if(!file.exists())
+            {
+                System.out.println("creating file");
+                file.createNewFile();
+            }
+            System.out.println(file.getCanonicalPath());
+            fileOut = new FileOutputStream(file);
+            bufferOut = new BufferedOutputStream(fileOut);
+            bufferOut.write(buf);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (bufferOut != null)
+            {
+                try
+                {
+                    bufferOut.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (fileOut != null)
+            {
+                try
+                {
+                    fileOut.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 }

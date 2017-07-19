@@ -11,14 +11,17 @@
         <!--设置数据库的连接url:jdbc:mysql://localhost/hibernate,其中localhost表示mysql服务器名称，此处为本机，    hibernate是数据库名-->
         <property name="hibernate.connection.url">
             jdbc:postgresql://101.200.62.252:3389/Unisle
+            <!--jdbc:postgresql://localhost:5432/qudaohan-->
         </property>
         <!--连接数据库是用户名-->
         <property name="connection.username">
             unisleadmin
+            <!--postgres-->
         </property>
         <!--连接数据库是密码-->
         <property name="connection.password">
             unisleadmin
+            <!--admin-->
         </property>
         <!--数据库连接池的大小-->
         <property name="hibernate.connection.pool.size">1000</property>

@@ -23,6 +23,9 @@ public class UuserEntity {
     private String activityvisibility;
     private String school;
     private Timestamp registerdatetime;
+    private String signature;
+    private String description;
+    private String contactway;
 
     public String getUserid() {
         return userid;
@@ -76,6 +79,12 @@ public class UuserEntity {
         return department;
     }
 
+    public String getContactway() {
+        return contactway;
+    }
+
+
+
     public void setDepartment(String department) {
         this.department = department;
     }
@@ -98,6 +107,14 @@ public class UuserEntity {
 
     public String getHometown() {
         return hometown;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setHometown(String hometown) {
@@ -151,4 +168,18 @@ public class UuserEntity {
     public void setSchool(String school) {
         this.school = school;
     }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setContactway(String contactway) {
+        this.contactway = contactway;
+    }
+
+
 }

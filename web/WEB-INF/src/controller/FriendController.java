@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import converter.ResultInfo;
+import util.ControllerUtil;
 import util.Rewrapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +27,16 @@ import java.util.Map;
 public class FriendController {
     //tested
     @RequestMapping(value = "/searchUser",method = RequestMethod.GET)
-    @ResponseBody()
-    public Object searchForFriend(HttpServletRequest req,
-                                  @RequestParam(value = "mailornickname",required = true) String mailornickname)
+    @ResponseBody
+    public Object searchForFriend(@RequestParam(value = "mailornickname",required = true) String mailornickname,
+                                  HttpServletRequest req)
             throws Exception{
         List resultList = new ArrayList();
         if(mailornickname.contains("@")){
             UuserEntity user = (UuserEntity) CommonDAO.getItemByPK
-                    (UuserEntity.class,UserInfoDAO.getUserID(mailornickname));
-            resultList.add(user);
+                    (UuserEntity.class, UserInfoDAO.getUserID(mailornickname));
+            if(user != null)
+                resultList.add(user); // null不应该被加入resultList中去
         }else{
             int resultLength = UserInfoDAO.searchNickname(mailornickname).length;
             if(resultLength == 0)
@@ -46,23 +48,29 @@ public class FriendController {
             }
         }
 
-        return Rewrapper.wrapList(resultList,UuserEntity.class,"100110001000000");
+        return Rewrapper.wrapList(resultList, UuserEntity.class,"1011111111111111111");
     }
+
     //tested
     @RequestMapping(value = "/lookInfo",method = RequestMethod.GET)
-    @ResponseBody()
+    @ResponseBody
     public Object getUserInfo(HttpServletRequest req,
-                              @RequestParam(value = "userid") String userid)
+                              @RequestParam(value = "userid", required = false) String userid)
             throws Exception{
+
+        userid = ControllerUtil.getUidFromReq(req);
         UuserEntity user = (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class,userid);
-        return Rewrapper.wrap(user,"101111111111000");
+        return Rewrapper.wrap(user,"1011111111111111111");
     }
+
     //tested
     @RequestMapping(value="/checkAsk")
-    @ResponseBody()
+    @ResponseBody
     public Object checkFriendshipAsk(HttpServletRequest req,
-                                     @RequestParam(value = "sender",required = true) String sender,
+                                     @RequestParam(value = "sender",required = false) String sender,
                                      @RequestParam(value = "receiver",required = true) String receiver){
+
+        sender = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         if(FriendshipDAO.getFriendIDList(sender).contains(receiver)){
             result.setReason("E_FRIEND_ALREADY_ADDED");
@@ -77,11 +85,13 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/sendAsk",method = RequestMethod.POST)
-    @ResponseBody()
+    @ResponseBody
     public Object sendFriendshipAsk(HttpServletRequest req,
-                                    @RequestParam(value = "sender") String sender,
+                                    @RequestParam(value = "sender", required = false) String sender,
                                     @RequestParam(value = "receiver") String receiver,
                                     @RequestParam(value = "content",required = false,defaultValue = "Hi, I want to be your friend.") String content){
+
+        sender = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         //用户1向用户2发送好友请求时，自动将2从自己的黑名单中删除（如果有）
         FriendshipDAO.deleteBlacklistItem(sender,receiver);
@@ -121,7 +131,10 @@ public class FriendController {
     @RequestMapping(value = "/getFriend",method = RequestMethod.GET)
     @ResponseBody
     public Object getFriendNoteList(HttpServletRequest req,
-                                @RequestParam(value = "userid") String userid){
+                                    @RequestParam(value = "userid", required = false) String userid){
+
+        userid = ControllerUtil.getUidFromReq(req);
+
         Map<String,String> map = FriendshipDAO.getFriendIDNoteMap(userid);
         if(map==null || map.isEmpty())
             return null;
@@ -152,10 +165,12 @@ public class FriendController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @ResponseBody()
+    @ResponseBody
     public Object deleteFriend(HttpServletRequest req,
                                @RequestParam(value = "userid") String userid,
                                @RequestParam(value = "friendid") String friendid){
+
+        userid = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         if(FriendshipDAO.deleteFriendship(userid,friendid)){
             result.setResult("SUCCESS");
@@ -168,11 +183,13 @@ public class FriendController {
     }
 
     @RequestMapping(value = "setNote",method = RequestMethod.POST)
-    @ResponseBody()
+    @ResponseBody
     public Object setNote(HttpServletRequest req,
-                          @RequestParam(value = "userid") String userid,
+                          @RequestParam(value = "userid", required = false) String userid,
                           @RequestParam(value = "friendid") String friendid,
                           @RequestParam(value = "note",required = false,defaultValue = "") String note){
+
+        userid = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         if(FriendshipDAO.setFriendshipNote(userid, friendid, note)){
             result.setResult("SUCCESS");

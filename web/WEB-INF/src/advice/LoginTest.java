@@ -5,10 +5,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 import util.ControllerUtil;
 import converter.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /**
@@ -22,8 +27,13 @@ public class LoginTest {
 
     @Around("execution(public * controller.*Controller.*(..)) && " +
             "(args(request,..) || args(..,request)) && " +
+            //"args(.., request, response)" +
             "!execution(public * controller.LoginController.*(..))")
-    public Object loginTest(ProceedingJoinPoint pjp, HttpServletRequest request) {
+    public Object loginTest(ProceedingJoinPoint pjp, HttpServletRequest request) throws IOException {
+
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        ServletWebRequest servletWebRequest=new ServletWebRequest(req);
+        HttpServletResponse response=servletWebRequest.getResponse();
 
         System.out.println("Login Status Testing");
 
@@ -42,8 +52,10 @@ public class LoginTest {
             if(returnType == String.class) {
                 return "redirect:/";
             } else {
+                response.sendRedirect("/");
+
                 ResultInfo rinfo = new ResultInfo();
-                rinfo.setResult("ERROR");
+                rinfo.setResult("LOGINERROR");
                 rinfo.setReason("E_PROCESSING_ERROR");
                 return rinfo;
             }
@@ -54,7 +66,7 @@ public class LoginTest {
             return "redirect:/";
         } else {
             ResultInfo rinfo = new ResultInfo();
-            rinfo.setResult("ERROR");
+            rinfo.setResult("LOGINERROR");
             rinfo.setReason("E_NOT_LOGIN");
             return rinfo;
         }
