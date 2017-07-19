@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Relation</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -16,304 +16,487 @@
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/relation/data.js"></script>
     <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+        $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };
+
+
+        $(document).ready(function () {
+
+            $.ajax({
+
+                type: "GET",
+
+                //服务端url
+                url: "friend/getFriend",
+                dataType: "json",
+                data: {
+                    "userid": null
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+                    //加载中...
+                },
+                error: function () {
+                    alert("请求失败!");
+                },
+                //以下函数获取服务端传递给客户端的json格式数据
+                success: function (res) {
+                    alert("successful");
+                    $.each(res, function (index, obj) {
+                        alert("index" + index);
+                        alert("user" + obj.nickname);
+                        $("#u307_state0").append("<div class='container'>" +
+                            "<div class='headimg'><img src='headimg.png' width='105' height='70'></div>" +
+                            "<div class='infoDiv'>" +
+                            "<p class='pSchool'>" + obj.nickname + "</p>" +
+                            "<p class=\"pInfo\">武汉大学-国际软件学院<br>2015级</p>" +
+                            "</div>" +
+                            "</div>");
+                    });
+                }
+            });
+
+
+            /*
+            *
+            * 为发送申请按钮绑定事件
+            *
+            * */
+
+            $("#u298").click(function () {
+
+                var recAccount = $("#u295_input").val();
+
+                if (recAccount.indexOf("@") === -1) {
+
+                    alert("请输入有效的用户邮箱");
+                    $("#u295_input").val("");
+
+                } else {
+
+
+                    //
+                    // 先通过邮箱找到目标用户的id
+                    //
+                    $.ajax({
+                        type: "GET",
+
+                        url: "friend/searchUser",
+                        dataType: "json",
+                        data: {
+                            "mailornickname": recAccount
+                        },
+                        timeout: 5000,
+                        cache: false,
+                        beforeSend: function () {
+                        },
+                        error: function () {
+                            alert("check请求失败!");
+                        },
+                        success: function (res) {
+
+                            if(res === null) {
+                                alert("未发现符合要求的用户");
+                                $("#u295_input").val("");
+                            } else {
+
+                                var recUserid = res[0].userid;
+                                alert(recUserid);
+
+                                //
+                                // 确认能否向目标用户发送好友申请
+                                //
+                                $.ajax({
+
+                                    type: "GET",
+
+                                    //服务端url
+                                    url: "friend/checkAsk",
+                                    dataType: "json",
+                                    data: {
+                                        "sender": null,
+                                        "receiver": recUserid
+                                    },
+                                    timeout: 5000,
+                                    cache: false,
+                                    beforeSend: function () {
+                                        //加载中...
+                                    },
+                                    error: function () {
+                                        alert("find请求失败!");
+                                    },
+                                    success: function (res) {
+
+                                        if (res.result === "SUCCESS") {
+
+                                            var veriContent = "add friend request";
+
+                                            //
+                                            // 向目标用户发送好友申请
+                                            //
+                                            $.ajax({
+
+                                                type: "POST",
+
+                                                //服务端url
+                                                url: "friend/sendAsk",
+                                                dataType: "json",
+                                                data: {
+                                                    "sender": null,
+                                                    "receiver": recUserid,
+                                                    "content": veriContent
+                                                },
+                                                timeout: 5000,
+                                                cache: false,
+                                                beforeSend: function () {
+
+                                                },
+                                                error: function () {
+                                                    alert("请求失败!");
+                                                },
+                                                success: function (res) {
+                                                    alert(res.result);
+                                                    alert(res.reason);
+                                                    alert("已发送好友申请");
+                                                }
+                                            }); // 发送好友申请结束
+
+                                        } else if (res.result === "ERROR") {
+                                            alert(res.reason);
+                                        }
+                                    }
+
+                                }); // 确认发送权限结束
+                            }
+
+                        }
+
+                    }); // 寻找目标用户id结束
+
+                } // 大概确认邮箱有效结束
+
+
+            }); // 为发送申请按钮绑定事件结束
+
+
+        });
+
+
     </script>
-  </head>
-  <body>
-    <div id="base" class="">
+</head>
+<body>
+<div id="base" class="">
 
-      <!-- Unnamed (动态面板) -->
-      <div id="u273" class="ax_default">
+    <!-- Unnamed (动态面板) -->
+    <div id="u273" class="ax_default">
         <div id="u273_state0" class="panel_state" data-label="State1" style="">
-          <div id="u273_state0_content" class="panel_state_content">
+            <div id="u273_state0_content" class="panel_state_content">
 
-            <!-- 好友推荐 (动态面板) -->
-            <div id="u274" class="ax_default" data-label="好友推荐">
-              <div id="u274_state0" class="panel_state" data-label="State1" style="">
-                <div id="u274_state0_content" class="panel_state_content">
+                <!-- 好友推荐 (动态面板) -->
+                <div id="u274" class="ax_default" data-label="好友推荐">
+                    <div id="u274_state0" class="panel_state" data-label="State1" style="">
+                        <div id="u274_state0_content" class="panel_state_content">
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u275" class="ax_default">
-                    <div id="u275_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u276" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u275" class="ax_default">
+                                <div id="u275_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u276" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (水平线) -->
-                  <div id="u277" class="ax_default line">
-                    <img id="u277_img" class="img " src="images/relation/u277.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u278" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (水平线) -->
+                            <div id="u277" class="ax_default line">
+                                <img id="u277_img" class="img " src="images/relation/u277.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u278" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u279" class="ax_default">
-                    <div id="u279_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u280" class="text">
-                      <p><span>可能认识的人</span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u279" class="ax_default">
+                                <div id="u279_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u280" class="text">
+                                    <p><span>可能认识的人</span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (动态面板) -->
-                  <div id="u281" class="ax_default">
-                    <div id="u281_state0" class="panel_state" data-label="State1" style="">
-                      <div id="u281_state0_content" class="panel_state_content">
+                            <!-- Unnamed (动态面板) -->
+                            <div id="u281" class="ax_default">
+                                <div id="u281_state0" class="panel_state" data-label="State1" style="">
+                                    <div id="u281_state0_content" class="panel_state_content">
 
-                        <!-- Unnamed (矩形) -->
-                        <div id="u282" class="ax_default">
-                          <div id="u282_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u283" class="text" style="display:none; visibility: hidden">
-                            <p><span></span></p>
-                          </div>
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u282" class="ax_default">
+                                            <div id="u282_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u283" class="text" style="display:none; visibility: hidden">
+                                                <p><span></span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (图片) -->
+                                        <div id="u284" class="ax_default image">
+                                            <img id="u284_img" class="img " src="images/relation/u284.png"/>
+                                            <!-- Unnamed () -->
+                                            <div id="u285" class="text" style="display:none; visibility: hidden">
+                                                <p><span></span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u286" class="ax_default">
+                                            <div id="u286_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u287" class="text">
+                                                <p><span>Gobang</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u288" class="ax_default">
+                                            <div id="u288_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u289" class="text">
+                                                <p><span>武汉大学-院系-年级</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (水平线) -->
+                            <div id="u290" class="ax_default line">
+                                <img id="u290_img" class="img " src="images/relation/u277.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u291" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Username (组合) -->
+                            <div id="u292" class="ax_default" data-label="Username" data-left="12" data-top="303"
+                                 data-width="187" data-height="32">
+
+                                <!-- textFieldContainer (矩形) -->
+                                <div id="u293" class="ax_default form_text_field" data-label="textFieldContainer">
+                                    <div id="u293_div" class=""></div>
+                                    <!-- Unnamed () -->
+                                    <div id="u294" class="text" style="display:none; visibility: hidden">
+                                        <p><span></span></p>
+                                    </div>
+                                </div>
+
+                                <!-- Unnamed (文本框) -->
+                                <div id="u295" class="ax_default form_text_field">
+                                    <input id="u295_input" type="text" value="用户名"/>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (矩形) -->
+                            <div id="u296" class="ax_default">
+                                <div id="u296_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u297" class="text">
+                                    <p><span>添加朋友</span></p>
+                                </div>
+                            </div>
+
+                            <!-- .btn-default [submit btn] (矩形) -->
+                            <div id="u298" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
+                                <div id="u298_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u299" class="text">
+                                    <p><span>Add</span></p>
+                                </div>
+                            </div>
                         </div>
-
-                        <!-- Unnamed (图片) -->
-                        <div id="u284" class="ax_default image">
-                          <img id="u284_img" class="img " src="images/relation/u284.png"/>
-                          <!-- Unnamed () -->
-                          <div id="u285" class="text" style="display:none; visibility: hidden">
-                            <p><span></span></p>
-                          </div>
-                        </div>
-
-                        <!-- Unnamed (矩形) -->
-                        <div id="u286" class="ax_default">
-                          <div id="u286_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u287" class="text">
-                            <p><span>Gobang</span></p>
-                          </div>
-                        </div>
-
-                        <!-- Unnamed (矩形) -->
-                        <div id="u288" class="ax_default">
-                          <div id="u288_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u289" class="text">
-                            <p><span>武汉大学-院系-年级</span></p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u290" class="ax_default line">
-                    <img id="u290_img" class="img " src="images/relation/u277.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u291" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Username (组合) -->
-                  <div id="u292" class="ax_default" data-label="Username" data-left="12" data-top="303" data-width="187" data-height="32">
-
-                    <!-- textFieldContainer (矩形) -->
-                    <div id="u293" class="ax_default form_text_field" data-label="textFieldContainer">
-                      <div id="u293_div" class=""></div>
-                      <!-- Unnamed () -->
-                      <div id="u294" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                      </div>
-                    </div>
-
-                    <!-- Unnamed (文本框) -->
-                    <div id="u295" class="ax_default form_text_field">
-                      <input id="u295_input" type="text" value="用户名"/>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u296" class="ax_default">
-                    <div id="u296_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u297" class="text">
-                      <p><span>添加朋友</span></p>
-                    </div>
-                  </div>
-
-                  <!-- .btn-default [submit btn] (矩形) -->
-                  <div id="u298" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
-                    <div id="u298_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u299" class="text">
-                      <p><span>Add</span></p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- 好友 (动态面板) -->
-            <div id="u300" class="ax_default" data-label="好友">
-              <div id="u300_state0" class="panel_state" data-label="State1" style="">
-                <div id="u300_state0_content" class="panel_state_content">
+                <!-- 好友 (动态面板) -->
+                <div id="u300" class="ax_default" data-label="好友">
+                    <div id="u300_state0" class="panel_state" data-label="State1" style="">
+                        <div id="u300_state0_content" class="panel_state_content">
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u301" class="ax_default">
-                    <div id="u301_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u302" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u301" class="ax_default">
+                                <div id="u301_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u302" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u303" class="ax_default">
-                    <div id="u303_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u304" class="text">
-                      <p><span>我的好友</span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u303" class="ax_default">
+                                <div id="u303_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u304" class="text">
+                                    <p><span>我的好友</span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (水平线) -->
-                  <div id="u305" class="ax_default line">
-                    <img id="u305_img" class="img " src="images/relation/u305.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u306" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
+                            <!-- Unnamed (水平线) -->
+                            <div id="u305" class="ax_default line">
+                                <img id="u305_img" class="img " src="images/relation/u305.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u306" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
 
-                  <!-- Unnamed (动态面板) -->
-                  <div id="u307" class="ax_default">
-                    <div id="u307_state0" class="panel_state" data-label="State1" style="">
-                      <div id="u307_state0_content" class="panel_state_content">
+                            <!-- Unnamed (动态面板) -->
+                            <div id='u307' class='ax_default'>
 
-                        <!-- Unnamed (矩形) -->
-                        <div id="u308" class="ax_default">
-                          <div id="u308_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u309" class="text" style="display:none; visibility: hidden">
-                            <p><span></span></p>
-                          </div>
+                                <!--<div class='container'>-->
+                                    <!--<div class='headimg'><img src='images/relation/u310.png' width='105' height='70'></div>-->
+                                    <!--<div class='infoDiv'>-->
+                                        <!--<p class='pSchool'>哈哈</p>-->
+                                        <!--<p class='pInfo'>武汉大学-国际软件学院<br>2015级</p>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+
+                                <div id="u307_state0" class="panel_state" data-label="State1" style="">
+                                    <div id="u307_state0_content" class="panel_state_content">
+
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u308" class="ax_default">
+                                            <div id="u308_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u309" class="text" style="display:none; visibility: hidden">
+                                                <p><span></span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (图片) -->
+                                        <div id="u310" class="ax_default image">
+                                            <img id="u310_img" class="img " src="images/relation/u310.png"/>
+                                            <!-- Unnamed () -->
+                                            <div id="u311" class="text" style="display:none; visibility: hidden">
+                                                <p><span></span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u312" class="ax_default">
+                                            <div id="u312_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u313" class="text">
+                                                <p><span>Gobang</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Unnamed (矩形) -->
+                                        <div id="u314" class="ax_default">
+                                            <div id="u314_div" class=""></div>
+                                            <!-- Unnamed () -->
+                                            <div id="u315" class="text">
+                                                <p><span>武汉大学-院系-年级</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <!-- Unnamed (图片) -->
-                        <div id="u310" class="ax_default image">
-                          <img id="u310_img" class="img " src="images/relation/u310.png"/>
-                          <!-- Unnamed () -->
-                          <div id="u311" class="text" style="display:none; visibility: hidden">
-                            <p><span></span></p>
-                          </div>
-                        </div>
-
-                        <!-- Unnamed (矩形) -->
-                        <div id="u312" class="ax_default">
-                          <div id="u312_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u313" class="text">
-                            <p><span>Gobang</span></p>
-                          </div>
-                        </div>
-
-                        <!-- Unnamed (矩形) -->
-                        <div id="u314" class="ax_default">
-                          <div id="u314_div" class=""></div>
-                          <!-- Unnamed () -->
-                          <div id="u315" class="text">
-                            <p><span>武汉大学-院系-年级</span></p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- 组织 (动态面板) -->
-            <div id="u316" class="ax_default" data-label="组织">
-              <div id="u316_state0" class="panel_state" data-label="State1" style="">
-                <div id="u316_state0_content" class="panel_state_content">
+                <!-- 组织 (动态面板) -->
+                <div id="u316" class="ax_default" data-label="组织">
+                    <div id="u316_state0" class="panel_state" data-label="State1" style="">
+                        <div id="u316_state0_content" class="panel_state_content">
 
-                  <!-- Unnamed (矩形) -->
-                  <div id="u317" class="ax_default">
-                    <div id="u317_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u318" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
+                            <!-- Unnamed (矩形) -->
+                            <div id="u317" class="ax_default">
+                                <div id="u317_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u318" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (矩形) -->
+                            <div id="u319" class="ax_default">
+                                <div id="u319_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u320" class="text">
+                                    <p><span>我的组织</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (水平线) -->
+                            <div id="u321" class="ax_default line">
+                                <img id="u321_img" class="img " src="images/relation/u277.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u322" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (水平线) -->
+                            <div id="u323" class="ax_default line">
+                                <img id="u323_img" class="img " src="images/relation/u277.png"/>
+                                <!-- Unnamed () -->
+                                <div id="u324" class="text" style="display:none; visibility: hidden">
+                                    <p><span></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Groupname (组合) -->
+                            <div id="u325" class="ax_default" data-label="Groupname" data-left="11" data-top="303"
+                                 data-width="195" data-height="32">
+
+                                <!-- textFieldContainer (矩形) -->
+                                <div id="u326" class="ax_default form_text_field" data-label="textFieldContainer">
+                                    <div id="u326_div" class=""></div>
+                                    <!-- Unnamed () -->
+                                    <div id="u327" class="text" style="display:none; visibility: hidden">
+                                        <p><span></span></p>
+                                    </div>
+                                </div>
+
+                                <!-- Unnamed (文本框) -->
+                                <div id="u328" class="ax_default form_text_field">
+                                    <input id="u328_input" type="text" value="组织名"/>
+                                </div>
+                            </div>
+
+                            <!-- Unnamed (矩形) -->
+                            <div id="u329" class="ax_default">
+                                <div id="u329_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u330" class="text">
+                                    <p><span>添加组织</span></p>
+                                </div>
+                            </div>
+
+                            <!-- .btn-default [submit btn] (矩形) -->
+                            <div id="u331" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
+                                <div id="u331_div" class=""></div>
+                                <!-- Unnamed () -->
+                                <div id="u332" class="text">
+                                    <p><span>Add</span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u319" class="ax_default">
-                    <div id="u319_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u320" class="text">
-                      <p><span>我的组织</span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u321" class="ax_default line">
-                    <img id="u321_img" class="img " src="images/relation/u277.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u322" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (水平线) -->
-                  <div id="u323" class="ax_default line">
-                    <img id="u323_img" class="img " src="images/relation/u277.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u324" class="text" style="display:none; visibility: hidden">
-                      <p><span></span></p>
-                    </div>
-                  </div>
-
-                  <!-- Groupname (组合) -->
-                  <div id="u325" class="ax_default" data-label="Groupname" data-left="11" data-top="303" data-width="195" data-height="32">
-
-                    <!-- textFieldContainer (矩形) -->
-                    <div id="u326" class="ax_default form_text_field" data-label="textFieldContainer">
-                      <div id="u326_div" class=""></div>
-                      <!-- Unnamed () -->
-                      <div id="u327" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                      </div>
-                    </div>
-
-                    <!-- Unnamed (文本框) -->
-                    <div id="u328" class="ax_default form_text_field">
-                      <input id="u328_input" type="text" value="组织名"/>
-                    </div>
-                  </div>
-
-                  <!-- Unnamed (矩形) -->
-                  <div id="u329" class="ax_default">
-                    <div id="u329_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u330" class="text">
-                      <p><span>添加组织</span></p>
-                    </div>
-                  </div>
-
-                  <!-- .btn-default [submit btn] (矩形) -->
-                  <div id="u331" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
-                    <div id="u331_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u332" class="text">
-                      <p><span>Add</span></p>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>

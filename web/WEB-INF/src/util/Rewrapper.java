@@ -50,14 +50,19 @@ public class Rewrapper {
         Field[] fields = originalClass.getDeclaredFields();
         Map<String,Object> map = null;
         List resultList = new ArrayList();
-        for(Object o:originalList){
+        for(Object o : originalList){
             map = new HashMap<String,Object>();
             for(int i=0;i<numOfFields;i++){
                 if (selectField[i] == '1'){
                     String fieldName = fields[i].getName();
                     String fieldGetter = "get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
                     Method method = originalClass.getMethod(fieldGetter);
-                    map.put(fieldName,method.invoke(o));
+
+                    System.out.println(fieldName);
+                    System.out.println(o);
+                    System.out.println(method.invoke(o));
+                    System.out.println(map);
+                    map.put(fieldName, method.invoke(o));
                 }
             }
             resultList.add(map);

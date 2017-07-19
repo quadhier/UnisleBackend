@@ -2811,3 +2811,55 @@ body.b {  background-color:rgba(255, 255, 255, 0);
   background-color:rgba(255, 255, 255, 0);
   background-image:none;
 }
+
+
+/* Added */
+.container
+{
+  margin-bottom: 10px;
+  border: 1px solid #999999;
+  width: 350px;
+  height: 100px;
+  position: relative;
+  background-color: #ffffff;
+  opacity: 0.57;
+  text-align: left;
+}
+
+.container .headimg
+{
+  position: relative;
+  margin: 15px 0 15px 15px;
+  width: 30%;
+  height: 70%;
+  float: left;
+}
+
+.container .infoDiv
+{
+  position: relative;
+  margin: 0px 20px 0 0;
+  width: 55%;
+  float: right;
+  text-align: center;
+  /*background-color: red;*/
+}
+
+.container .pSchool
+{
+  margin: 15px 0 10px 0;
+  color: #666666;
+  font-weight: bold;
+  font-style: italic;
+  font-family: "Arial";
+  font-size: 18px;
+}
+
+.container .pInfo
+{
+  margin: 0;
+  color: #666666;
+  font-family: "Century Gothic";
+  font-size: 14px;
+}
+

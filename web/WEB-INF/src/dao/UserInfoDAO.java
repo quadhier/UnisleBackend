@@ -114,6 +114,8 @@ public class UserInfoDAO {
     }
     //tested
     public static String getUserID(String contact){
+
+        System.out.println(contact);
         Session s = null;
         String userid = "";
         try{
@@ -130,6 +132,7 @@ public class UserInfoDAO {
             HibernateUtil.safeCloseSession(s);
         }
 
+        System.out.println("UserID Found: " + userid);
         return userid;
     }
     //tested
