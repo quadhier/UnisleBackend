@@ -41,7 +41,6 @@ public class CommonDAO {
         try{
             s = HibernateUtil.getSession();
             entity = s.get(aClass,pk);
-
         }catch (Exception e){
             e.printStackTrace();
             return null;

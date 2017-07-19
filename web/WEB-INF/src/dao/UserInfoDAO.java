@@ -67,6 +67,7 @@ public class UserInfoDAO {
             newUser.setEmail(email);
             newUser.setPassword(password);
             newUser.setNickname(nickname);
+            newUser.setActivityvisibility("friend");
 
 
             if(birthday != null) newUser.setBirthday(Timestamp.valueOf(birthday));

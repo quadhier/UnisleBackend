@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-07-19.16:35:47.445</IntrospectionTimestamp>
-      <IntrospectionStateNumber>33713</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-07-19.18:31:42.013</IntrospectionTimestamp>
+      <IntrospectionStateNumber>33714</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -135,7 +135,7 @@
     </table>
     <table id="32" parent="3" name="ugroup">
       <ObjectId>16624</ObjectId>
-      <StateNumber>1992</StateNumber>
+      <StateNumber>33714</StateNumber>
     </table>
     <table id="33" parent="3" name="uuser">
       <ObjectId>16606</ObjectId>
@@ -896,8 +896,8 @@ boardname</ColNames>
     </column>
     <column id="166" parent="32" name="createdatetime">
       <Position>7</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>1958</StateNumber>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>33714</StateNumber>
     </column>
     <column id="167" parent="32" name="grouppic">
       <Position>8</Position>

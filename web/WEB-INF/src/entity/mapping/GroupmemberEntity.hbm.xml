@@ -14,13 +14,13 @@
             </key-property>
         </composite-id>
         <property name="position">
-            <column name="position" sql-type="varchar(30)" length="30" />
+            <column name="position" sql-type="varchar(30)" length="30" not-null="true" default="member" />
         </property>
         <property name="joindatetime">
             <column name="joindatetime" sql-type="timestamp" />
         </property>
         <property name="visibility">
-            <column name="visibility" sql-type="grpvisibilitydomain" />
+            <column name="visibility" sql-type="varchar(20)" not-null="true" default="yes"/>
         </property>
     </class>
 </hibernate-mapping>

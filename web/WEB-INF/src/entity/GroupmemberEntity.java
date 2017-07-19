@@ -9,7 +9,7 @@ public class GroupmemberEntity {
     private GroupmemberEntityPK groupmemberEntityPK;
     private String position;
     private Timestamp joindatetime;
-    private Integer visibility;
+    private String visibility;
 
     public GroupmemberEntityPK getGroupmemberEntityPK() {
         return groupmemberEntityPK;
@@ -35,12 +35,11 @@ public class GroupmemberEntity {
         this.joindatetime = joindatetime;
     }
 
-    public Integer getVisibility() {
+    public String getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(Integer visibility) {
+    public void setVisibility(String visibility) {
         this.visibility = visibility;
     }
-
 }

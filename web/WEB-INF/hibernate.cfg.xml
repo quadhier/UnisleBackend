@@ -4,6 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+
         <!--配置数据库的驱动程序，Hibernate在连接数据库时，需要用到数据库的驱动程序-->
         <property name="hibernate.connection.driver_class">
             org.postgresql.Driver
