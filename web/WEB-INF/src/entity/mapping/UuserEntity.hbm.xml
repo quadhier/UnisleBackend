@@ -54,5 +54,14 @@
         <property name="school">
             <column name="school" sql-type="varchar(30)" />
         </property>
+        <property name="signature">
+            <column name="signature" sql-type="varchar(100)" />
+        </property>
+        <property name="discription">
+            <column name="discription" sql-type="varchar(300)" />
+        </property>
+        <property name="contactway">
+            <column name="contactway" sql-type="varchar(20)" />
+        </property>
     </class>
 </hibernate-mapping>

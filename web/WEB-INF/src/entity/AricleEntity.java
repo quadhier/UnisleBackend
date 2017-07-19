@@ -106,45 +106,4 @@ public class AricleEntity {
         this.commentallowed = commentallowed;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AricleEntity that = (AricleEntity) o;
-
-        if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-        if (author != null ? !author.equals(that.author) : that.author != null) return false;
-        if (themename != null ? !themename.equals(that.themename) : that.themename != null) return false;
-        if (boardname != null ? !boardname.equals(that.boardname) : that.boardname != null) return false;
-        if (publicdatetime != null ? !publicdatetime.equals(that.publicdatetime) : that.publicdatetime != null)
-            return false;
-        if (lastmoddatetime != null ? !lastmoddatetime.equals(that.lastmoddatetime) : that.lastmoddatetime != null)
-            return false;
-        if (lastcomdatetime != null ? !lastcomdatetime.equals(that.lastcomdatetime) : that.lastcomdatetime != null)
-            return false;
-        if (viewtimes != null ? !viewtimes.equals(that.viewtimes) : that.viewtimes != null) return false;
-        if (content != null ? !content.equals(that.content) : that.content != null) return false;
-        if (visibility != null ? !visibility.equals(that.visibility) : that.visibility != null) return false;
-        if (commentallowed != null ? !commentallowed.equals(that.commentallowed) : that.commentallowed != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = articleid != null ? articleid.hashCode() : 0;
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (themename != null ? themename.hashCode() : 0);
-        result = 31 * result + (boardname != null ? boardname.hashCode() : 0);
-        result = 31 * result + (publicdatetime != null ? publicdatetime.hashCode() : 0);
-        result = 31 * result + (lastmoddatetime != null ? lastmoddatetime.hashCode() : 0);
-        result = 31 * result + (lastcomdatetime != null ? lastcomdatetime.hashCode() : 0);
-        result = 31 * result + (viewtimes != null ? viewtimes.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + (visibility != null ? visibility.hashCode() : 0);
-        result = 31 * result + (commentallowed != null ? commentallowed.hashCode() : 0);
-        return result;
-    }
 }

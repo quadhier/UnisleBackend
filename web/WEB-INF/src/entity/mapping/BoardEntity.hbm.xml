@@ -9,7 +9,7 @@
             <column name="boardname" sql-type="varchar(30)" length="30"/>
         </id>
         <property name="manager">
-            <column name="manager" sql-type="varchar(30)" length="30" not-null="true"/>
+            <column name="manager" sql-type="varchar(30)" length="30" />
         </property>
         <property name="creatingdate">
             <column name="creatingdate" sql-type="timestamp" not-null="true"/>

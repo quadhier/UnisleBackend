@@ -5,7 +5,7 @@
 <hibernate-mapping>
 
     <class name="entity.AriclecommentEntity" table="ariclecomment" schema="public" catalog="Unisle">
-        <composite-id mapped="true" class="entity.AriclecommentEntityPK">
+        <composite-id name="activitycommentEntityPK" class="entity.AriclecommentEntityPK">
             <key-property name="userid">
                 <column name="userid" sql-type="varchar(30)" length="30"/>
             </key-property>
@@ -17,7 +17,7 @@
             </key-property>
         </composite-id>
         <property name="content">
-            <column name="content" sql-type="varchar(1000)" length="1000" not-null="true"/>
+            <column name="content" sql-type="varchar(1000)" length="1000" />
         </property>
     </class>
 </hibernate-mapping>

@@ -41,27 +41,4 @@ public class ForumaccountEntity {
         this.privilige = privilige;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ForumaccountEntity that = (ForumaccountEntity) o;
-
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (rank != null ? !rank.equals(that.rank) : that.rank != null) return false;
-        if (exp != null ? !exp.equals(that.exp) : that.exp != null) return false;
-        if (privilige != null ? !privilige.equals(that.privilige) : that.privilige != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (rank != null ? rank.hashCode() : 0);
-        result = 31 * result + (exp != null ? exp.hashCode() : 0);
-        result = 31 * result + (privilige != null ? privilige.hashCode() : 0);
-        return result;
-    }
 }

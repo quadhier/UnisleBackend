@@ -16,7 +16,7 @@ public class NoticeController {
 
     @RequestMapping(value = "/getSocketLinkState")
     @ResponseBody
-    public Object sendFriendshipAsk(@RequestParam(value = "userid") String userid,
+    public Object getSocketLinkState(@RequestParam(value = "userid") String userid,
                                     HttpServletRequest req){
         ResultInfo info = new ResultInfo();
 
