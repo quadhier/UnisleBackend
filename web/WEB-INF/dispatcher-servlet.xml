@@ -3,9 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/websocket
+       http://www.springframework.org/schema/websocket/spring-websocket.xsd"
+       xmlns:websocket="http://www.springframework.org/schema/websocket">
 
-    <context:component-scan base-package="controller, advice, websocket" />
+    <context:component-scan base-package="controller,advice,websocket" />
+
 
     <mvc:annotation-driven />
 
@@ -24,7 +35,7 @@
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/plugins/**" location="/plugins/" />
     <mvc:resources mapping="/resources/**" location="/resources/" />
-
+    
 
 
     <bean id="jsonMessageConvertor" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -34,6 +45,24 @@
             </list>
         </property>
     </bean>
+<!--
+     websocket消息处理bean >
+    <bean id="websockethandler" class="websocket.WebSocketHandler"/>
+    <websocket:handlers>
 
+        <websocket:mapping path="/websocket" handler="websockethandler"/>
+
+        <websocket:handshake-interceptors>
+            <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;"/>
+        </websocket:handshake-interceptors>
+         开启sockjs，去掉则关闭sockjs
+
+    </websocket:handlers>
+    配置websocket消息的最大缓冲区长度 ->
+    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="8192"/>
+        <property name="maxBinaryMessageBufferSize" value="8192"/>
+    </bean>
+-->
 
 </beans>

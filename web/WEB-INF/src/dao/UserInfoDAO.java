@@ -315,8 +315,6 @@ public class UserInfoDAO {
 
         return true;}
     }
-
-
     //tested
     public static UuserEntity[] searchNickname(String nickname){
         String hql="from UuserEntity e where e.nickname like :genStr";

@@ -1,3 +1,4 @@
+/**
 package comet4j;
 
 import org.comet4j.core.CometContext;
@@ -7,9 +8,9 @@ import javax.servlet.ServletContextListener;
 import org.comet4j.core.CometContext;
 import org.comet4j.core.CometEngine;
 
-/**
+
  * Created by Administrator on 2017/7/17.
- */
+
 public class CometPusher implements ServletContextListener{
     private static final String channel1 = "CHANNEL_1";
     private static final String channel2 = "CHANNEL_2";
@@ -49,4 +50,4 @@ public class CometPusher implements ServletContextListener{
     public void contextDestroyed(ServletContextEvent e){
 
     }
-}
+} */
