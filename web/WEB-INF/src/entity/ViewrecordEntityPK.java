@@ -44,9 +44,7 @@ public class ViewrecordEntityPK implements Serializable {
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-        if (viewdatetime != null ? !viewdatetime.equals(that.viewdatetime) : that.viewdatetime != null) return false;
-
-        return true;
+        return viewdatetime != null ? viewdatetime.equals(that.viewdatetime) : that.viewdatetime == null;
     }
 
     @Override

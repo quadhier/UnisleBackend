@@ -15,18 +15,12 @@ public class ActivityCreation {
 
     String content;
 
-    byte[] attachment;
-
     public String[] getShieldIDList() {
         return shieldIDList;
     }
 
     public String getContent() {
         return content;
-    }
-
-    public byte[] getAttachment() {
-        return attachment;
     }
 
     public void setShieldIDList(String[] shieldIDList) {
@@ -37,7 +31,4 @@ public class ActivityCreation {
         this.content = content;
     }
 
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
-    }
 }

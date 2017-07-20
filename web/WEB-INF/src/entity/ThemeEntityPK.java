@@ -33,9 +33,7 @@ public class ThemeEntityPK implements Serializable {
         ThemeEntityPK that = (ThemeEntityPK) o;
 
         if (themename != null ? !themename.equals(that.themename) : that.themename != null) return false;
-        if (boardname != null ? !boardname.equals(that.boardname) : that.boardname != null) return false;
-
-        return true;
+        return boardname != null ? boardname.equals(that.boardname) : that.boardname == null;
     }
 
     @Override

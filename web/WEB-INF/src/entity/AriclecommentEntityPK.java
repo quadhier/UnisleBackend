@@ -44,10 +44,7 @@ public class AriclecommentEntityPK implements Serializable {
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-        if (publicdatetime != null ? !publicdatetime.equals(that.publicdatetime) : that.publicdatetime != null)
-            return false;
-
-        return true;
+        return publicdatetime != null ? publicdatetime.equals(that.publicdatetime) : that.publicdatetime == null;
     }
 
     @Override

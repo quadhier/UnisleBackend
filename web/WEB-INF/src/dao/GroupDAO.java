@@ -105,7 +105,7 @@ public class GroupDAO {
             Map<String,Object> params2 = new HashMap<>();
             params2.put("idlist",groupidList);
             groupEntityList = CommonDAO.queryHql(getEntityHql,params2);
-        }else if(shouType.equals("visiable")){
+        }else if(shouType.equals("visible")){
             String hql = "select entity.groupmemberEntityPK.groupid from GroupmemberEntity entity where entity.groupmemberEntityPK.userid =:uid and entity.visibility = 'yes'";
             Map<String,Object> params = new HashMap<>();
             params.put("uid",userid);
@@ -173,10 +173,7 @@ public class GroupDAO {
 
         Object o = CommonDAO.getItemByPK(GroupmemberEntity.class,pk);
 
-        if(o == null)
-            return false;
-
-        return true;
+        return o != null;
     }
 
     public static boolean addMember(String groupid,String userid){

@@ -44,9 +44,7 @@ public class EditrecordEntityPK implements Serializable {
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-        if (editdatetime != null ? !editdatetime.equals(that.editdatetime) : that.editdatetime != null) return false;
-
-        return true;
+        return editdatetime != null ? editdatetime.equals(that.editdatetime) : that.editdatetime == null;
     }
 
     @Override

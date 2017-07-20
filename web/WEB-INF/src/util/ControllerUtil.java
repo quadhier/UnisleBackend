@@ -123,26 +123,41 @@ public class ControllerUtil {
         return list;
     }
 
+
+    //
+    // ！！！需要检测文件夹的写入权限
+    //
+    // 将字节数组转化为文件存入文件系统中并且返回储存路径
+    public static String storeFile(byte[] buf, String filename, String other, String type) {
+
+        String prefix = "tmp/unisle"  + File.separator + type;
+        byteToFile(buf, prefix, filename);
+        return prefix + other;
+    }
+
+
+    // 将字节数组写入文件中，为覆盖写入
     public static void byteToFile(byte[] buf, String filePath, String fileName)
     {
 
         System.out.println("byte to file");
-        BufferedOutputStream bufferOut = null;
         FileOutputStream fileOut = null;
+        BufferedOutputStream bufferOut = null;
         File file = null;
         try
         {
             File resFile = new File(filePath);
             if (!resFile.exists())
             {
-                System.out.println("making directories");
                 resFile.mkdirs();
+                System.out.println("directories made");
             }
+            System.out.println(resFile.getCanonicalPath());
             file = new File(filePath + File.separator + fileName);
             if(!file.exists())
             {
-                System.out.println("creating file");
                 file.createNewFile();
+                System.out.println("file created");
             }
             System.out.println(file.getCanonicalPath());
             fileOut = new FileOutputStream(file);

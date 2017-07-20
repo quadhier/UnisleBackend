@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import converter.ActivityAndComment;
 import converter.ActivityCreation;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import util.ControllerUtil;
 import converter.ResultInfo;
 
@@ -17,6 +18,7 @@ import javax.print.attribute.standard.RequestingUserName;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.rmi.activation.ActivationID;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -31,41 +33,59 @@ import java.util.List;
 @RequestMapping("/activity")
 public class ActivityController {
 
+
     // 创建一条动态
     // 如果将request作为第一个参数，则会报错，目前不清楚原因
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public Object createActivity(@RequestBody ActivityCreation activityCreation,
+    public Object createActivity(@RequestParam("content") String content,
+                                 @RequestParam("shieldIDList") String[] shieldIDList,
+                                 @RequestParam("picture") CommonsMultipartFile picture,
                                  HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
-        String[] shieldIDList = activityCreation.getShieldIDList();
-        String content = activityCreation.getContent();
-        byte[] attachment = activityCreation.getAttachment();
 
-        System.out.println(shieldIDList);
+        System.out.println("Content:");
         System.out.println(content);
-        System.out.println(attachment);
+        System.out.println("ShieldIDList:");
+        for(String shield : shieldIDList) {
+            System.out.println(shield);
+        }
 
         String userid = ControllerUtil.getUidFromReq(request);
         System.out.println("Start Creating");
+
         List<String> shields = null;
         if(shieldIDList != null && shieldIDList.length != 0) {
             shields = ControllerUtil.arrToList(shieldIDList);
             System.out.println("Shields Constructed");
         }
-        if((content != null && content.length() != 0) || (attachment != null && attachment.length != 0)) {
 
-            String activityid = ActivityDAO.publishActivity(userid, shields, content, null);
-            System.out.println("Activity Constructed");
-            rinfo.setResult("SUCCESS");
-            rinfo.setData(activityid);
+        if(content == null && content.length() == 0) {
+
+            rinfo.setReason("E_INCOMPLETE_CONTENT");
             return rinfo;
         }
-        rinfo.setReason("E_INCOMPLETE_CONTENT");
+
+        // 在数据库中储存动态数据并获取动态id
+        String activityid = ActivityDAO.publishActivity(userid, shields, content, null);
+        System.out.println("Activity Constructed");
+
+        // 利用动态id作为图片名称并将路径储存进数据库
+        if(picture != null) {
+            byte[] bytePic = picture.getBytes();
+            String filepath = ControllerUtil.storeFile(bytePic, activityid, null, "activitypic");
+            ActivityEntity activity = (ActivityEntity) CommonDAO.getItemByPK(ActivityEntity.class, activityid);
+            activity.setAttachment(filepath);
+            CommonDAO.updateItem(ActivityEntity.class, activityid, activity);
+        }
+
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(activityid);
         return rinfo;
+
     }
 
 
@@ -73,8 +93,8 @@ public class ActivityController {
     // 删除一条动态
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Object deleteActivity(HttpServletRequest request,
-                                 @RequestParam("activityid") String activityid) {
+    public Object deleteActivity(@RequestParam("activityid") String activityid,
+                                 HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
@@ -100,14 +120,12 @@ public class ActivityController {
     // 如果将request作为第一个参数，则会报错，目前不清楚原因
     @RequestMapping(value = "/forward", method = RequestMethod.POST)
     @ResponseBody
-    public Object forwardActivity(@RequestBody ActivityForward activityForward,
+    public Object forwardActivity(@RequestParam("shieldList[]") String[] shieldIDList,
+                                  @RequestParam("orgActivityID") String orgActivityID,
                                   HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
-
-        String[] shieldIDList = activityForward.getShieldIDList();
-        String orgActivityID = activityForward.getOriginalActivityID();
 
         String userid = ControllerUtil.getUidFromReq(request);
         List<String> shields = null;

@@ -10,6 +10,7 @@ public class InterestEntity {
     private String book;
     private String movie;
     private String game;
+    private String other;
 
     public String getUserid() {
         return userid;
@@ -57,6 +58,10 @@ public class InterestEntity {
 
     public void setGame(String game) {
         this.game = game;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 
     @Override

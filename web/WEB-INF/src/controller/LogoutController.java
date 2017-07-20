@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/logout")
 public class LogoutController {
 
+    // 返回非json值
     // 注销用户并且使token无效
     @RequestMapping(method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
