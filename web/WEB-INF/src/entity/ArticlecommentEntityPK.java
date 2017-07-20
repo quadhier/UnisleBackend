@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * Created by Administrator on 2017/7/19.
  */
-public class AriclecommentEntityPK implements Serializable {
+public class ArticlecommentEntityPK implements Serializable {
     private String userid;
     private String articleid;
     private Timestamp publicdatetime;
@@ -40,7 +40,7 @@ public class AriclecommentEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AriclecommentEntityPK that = (AriclecommentEntityPK) o;
+        ArticlecommentEntityPK that = (ArticlecommentEntityPK) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;

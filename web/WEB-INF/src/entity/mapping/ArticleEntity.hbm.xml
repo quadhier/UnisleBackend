@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.AricleEntity" table="aricle" schema="public" catalog="Unisle">
+    <class name="entity.ArticleEntity" table="article" schema="public" catalog="Unisle">
         <id name="articleid">
             <column name="articleid" sql-type="varchar(30)" length="30"/>
         </id>

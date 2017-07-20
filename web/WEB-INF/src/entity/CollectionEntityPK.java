@@ -2,7 +2,7 @@ package entity;
 
 import java.io.Serializable;
 
-public class CollentionEntityPK implements Serializable {
+public class CollectionEntityPK implements Serializable {
     private String userid;
     private String articleid;
 
@@ -27,7 +27,7 @@ public class CollentionEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CollentionEntityPK that = (CollentionEntityPK) o;
+        CollectionEntityPK that = (CollectionEntityPK) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;

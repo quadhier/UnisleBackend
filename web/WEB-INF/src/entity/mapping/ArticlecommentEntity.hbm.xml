@@ -4,17 +4,20 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.CollentionEntity" table="collention" schema="public" catalog="Unisle">
-        <composite-id name="collentionEntityPK" class="entity.CollentionEntityPK">
+    <class name="entity.ArticlecommentEntity" table="articlecomment" schema="public" catalog="Unisle">
+        <composite-id name="activitycommentEntityPK" class="entity.AriclecommentEntityPK">
             <key-property name="userid">
                 <column name="userid" sql-type="varchar(30)" length="30"/>
             </key-property>
             <key-property name="articleid">
                 <column name="articleid" sql-type="varchar(30)" length="30"/>
             </key-property>
+            <key-property name="publicdatetime">
+                <column name="publicdatetime" sql-type="timestamp"/>
+            </key-property>
         </composite-id>
-        <property name="collectdatetime">
-            <column name="collectdatetime" sql-type="timestamp" not-null="true"/>
+        <property name="content">
+            <column name="content" sql-type="varchar(1000)" length="1000" />
         </property>
     </class>
 </hibernate-mapping>

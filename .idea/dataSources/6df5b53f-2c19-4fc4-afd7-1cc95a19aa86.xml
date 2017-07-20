@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-07-20.11:32:30.277</IntrospectionTimestamp>
-      <IntrospectionStateNumber>33761</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-07-20.19:28:31.931</IntrospectionTimestamp>
+      <IntrospectionStateNumber>33810</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -59,7 +59,7 @@
     </object-type>
     <table id="13" parent="3" name="activity">
       <ObjectId>16705</ObjectId>
-      <StateNumber>1998</StateNumber>
+      <StateNumber>33810</StateNumber>
     </table>
     <table id="14" parent="3" name="activitycomment">
       <ObjectId>16655</ObjectId>
@@ -69,13 +69,13 @@
       <ObjectId>16686</ObjectId>
       <StateNumber>1978</StateNumber>
     </table>
-    <table id="16" parent="3" name="aricle">
-      <ObjectId>16740</ObjectId>
-      <StateNumber>33756</StateNumber>
-    </table>
-    <table id="17" parent="3" name="ariclecomment">
+    <table id="16" parent="3" name="ariclecomment">
       <ObjectId>16748</ObjectId>
       <StateNumber>33710</StateNumber>
+    </table>
+    <table id="17" parent="3" name="article">
+      <ObjectId>16740</ObjectId>
+      <StateNumber>33783</StateNumber>
     </table>
     <table id="18" parent="3" name="blacklist">
       <ObjectId>16619</ObjectId>
@@ -85,9 +85,9 @@
       <ObjectId>16735</ObjectId>
       <StateNumber>33708</StateNumber>
     </table>
-    <table id="20" parent="3" name="collention">
+    <table id="20" parent="3" name="collection">
       <ObjectId>16797</ObjectId>
-      <StateNumber>33761</StateNumber>
+      <StateNumber>33805</StateNumber>
     </table>
     <table id="21" parent="3" name="editrecord">
       <ObjectId>16756</ObjectId>
@@ -95,7 +95,7 @@
     </table>
     <table id="22" parent="3" name="forumaccount">
       <ObjectId>16730</ObjectId>
-      <StateNumber>33760</StateNumber>
+      <StateNumber>33782</StateNumber>
     </table>
     <table id="23" parent="3" name="friendship">
       <ObjectId>16614</ObjectId>
@@ -167,8 +167,8 @@
     </column>
     <column id="39" parent="13" name="attachment">
       <Position>4</Position>
-      <DataType>bytea|0</DataType>
-      <StateNumber>1998</StateNumber>
+      <DataType>varchar(50)|0</DataType>
+      <StateNumber>33810</StateNumber>
     </column>
     <column id="40" parent="13" name="publisher">
       <Position>5</Position>
@@ -271,114 +271,114 @@ publicdatetime</ColNames>
       <UnderlyingIndexName>album_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="58" parent="16" name="articleid">
-      <Position>1</Position>
-      <DataType>varchar(30)|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="59" parent="16" name="author">
-      <Position>2</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="60" parent="16" name="themename">
-      <Position>3</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="61" parent="16" name="boardname">
-      <Position>4</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="62" parent="16" name="publicdatetime">
-      <Position>5</Position>
-      <DataType>timestamp|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="63" parent="16" name="lastmoddatetime">
-      <Position>6</Position>
-      <DataType>timestamp|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="64" parent="16" name="lastcomdatetime">
-      <Position>7</Position>
-      <DataType>timestamp|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="65" parent="16" name="viewtimes">
-      <Position>8</Position>
-      <DataType>smallint|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="66" parent="16" name="content">
-      <Position>9</Position>
-      <DataType>varchar(10000)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="67" parent="16" name="visibility">
-      <Position>10</Position>
-      <DataType>varchar(20)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="68" parent="16" name="commentallowed">
-      <Position>11</Position>
-      <DataType>varchar(20)|0</DataType>
-      <StateNumber>33709</StateNumber>
-    </column>
-    <column id="69" parent="16" name="title">
-      <Position>12</Position>
-      <DataType>varchar(50)|0</DataType>
-      <StateNumber>33756</StateNumber>
-    </column>
-    <index id="70" parent="16" name="aricle_pkey">
-      <ObjectId>16746</ObjectId>
-      <ColNames>articleid</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="71" parent="16" name="aricle_pkey">
-      <ObjectId>16747</ObjectId>
-      <ColNames>articleid</ColNames>
-      <UnderlyingIndexName>aricle_pkey</UnderlyingIndexName>
-      <Primary>1</Primary>
-    </key>
-    <column id="72" parent="17" name="userid">
+    <column id="58" parent="16" name="userid">
       <Position>1</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>33710</StateNumber>
     </column>
-    <column id="73" parent="17" name="articleid">
+    <column id="59" parent="16" name="articleid">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>33710</StateNumber>
     </column>
-    <column id="74" parent="17" name="publicdatetime">
+    <column id="60" parent="16" name="publicdatetime">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>33710</StateNumber>
     </column>
-    <column id="75" parent="17" name="content">
+    <column id="61" parent="16" name="content">
       <Position>4</Position>
       <DataType>varchar(1000)|0</DataType>
       <StateNumber>33710</StateNumber>
     </column>
-    <index id="76" parent="17" name="ariclecomment_pkey">
+    <index id="62" parent="16" name="ariclecomment_pkey">
       <ObjectId>16754</ObjectId>
       <ColNames>userid
 articleid
 publicdatetime</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="77" parent="17" name="ariclecomment_pkey">
+    <key id="63" parent="16" name="ariclecomment_pkey">
       <ObjectId>16755</ObjectId>
       <ColNames>userid
 articleid
 publicdatetime</ColNames>
       <UnderlyingIndexName>ariclecomment_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="64" parent="17" name="articleid">
+      <Position>1</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="65" parent="17" name="author">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="66" parent="17" name="themename">
+      <Position>3</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="67" parent="17" name="boardname">
+      <Position>4</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="68" parent="17" name="publicdatetime">
+      <Position>5</Position>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="69" parent="17" name="lastmoddatetime">
+      <Position>6</Position>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="70" parent="17" name="lastcomdatetime">
+      <Position>7</Position>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="71" parent="17" name="viewtimes">
+      <Position>8</Position>
+      <DataType>smallint|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="72" parent="17" name="content">
+      <Position>9</Position>
+      <DataType>varchar(10000)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="73" parent="17" name="visibility">
+      <Position>10</Position>
+      <DataType>varchar(20)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="74" parent="17" name="commentallowed">
+      <Position>11</Position>
+      <DataType>varchar(20)|0</DataType>
+      <StateNumber>33709</StateNumber>
+    </column>
+    <column id="75" parent="17" name="title">
+      <Position>12</Position>
+      <DataType>varchar(50)|0</DataType>
+      <StateNumber>33756</StateNumber>
+    </column>
+    <index id="76" parent="17" name="aricle_pkey">
+      <ObjectId>16746</ObjectId>
+      <ColNames>articleid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="77" parent="17" name="aricle_pkey">
+      <ObjectId>16747</ObjectId>
+      <ColNames>articleid</ColNames>
+      <UnderlyingIndexName>aricle_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
     <column id="78" parent="18" name="coaction">
@@ -512,13 +512,13 @@ type</ColNames>
     </column>
     <column id="100" parent="22" name="rank">
       <Position>2</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>33707</StateNumber>
+      <DataType>integer|0</DataType>
+      <StateNumber>33781</StateNumber>
     </column>
     <column id="101" parent="22" name="exp">
       <Position>3</Position>
-      <DataType>varchar(30)|0</DataType>
-      <StateNumber>33707</StateNumber>
+      <DataType>integer|0</DataType>
+      <StateNumber>33782</StateNumber>
     </column>
     <column id="102" parent="22" name="privilige">
       <Position>4</Position>

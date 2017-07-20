@@ -72,13 +72,13 @@
         <mapping resource="entity/mapping/UuserEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ShieldEntity.hbm.xml"/>
         <mapping resource="entity/mapping/TokenEntity.hbm.xml"/>
-        <mapping resource="entity/mapping/AricleEntity.hbm.xml"/>
-        <mapping resource="entity/mapping/AriclecommentEntity.hbm.xml"/>
+        <mapping resource="entity/mapping/ArticleEntity.hbm.xml"/>
+        <mapping resource="entity/mapping/ArticlecommentEntity.hbm.xml"/>
         <mapping resource="entity/mapping/BoardEntity.hbm.xml"/>
         <mapping resource="entity/mapping/EditrecordEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ForumaccountEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ThemeEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ViewrecordEntity.hbm.xml"/>
-
+        <mapping resource="entity/mapping/CollectionEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

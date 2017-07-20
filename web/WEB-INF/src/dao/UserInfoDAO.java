@@ -1,4 +1,5 @@
 package dao;
+import entity.ForumaccountEntity;
 import util.HibernateUtil;
 import entity.TokenEntity;
 import entity.UuserEntity;
@@ -46,7 +47,7 @@ public class UserInfoDAO {
 
         return true;
     }
-    //tested
+
     public static boolean createUser(String email,String nickname,String password,String sex,String birthday,String realname,String school,String grade){
         Session s = null;
         Session c = null;
@@ -56,7 +57,6 @@ public class UserInfoDAO {
             counter.setProjection(Projections.rowCount());
 
             long result = (Long)counter.uniqueResult();
-
             String newUserIDBuilder = String.format("%08d",result+1);
             String newUserID = "100" + newUserIDBuilder;
 
@@ -68,17 +68,21 @@ public class UserInfoDAO {
             newUser.setPassword(password);
             newUser.setNickname(nickname);
             newUser.setActivityvisibility("friend");
-
-
             if(birthday != null) newUser.setBirthday(Timestamp.valueOf(birthday));
             if(realname != null) newUser.setRealname(realname);
             if(school != null) newUser.setDepartment(school);
             if(grade != null) newUser.setGrade(grade);
             if(sex != null) newUser.setSex(sex);
-
             newUser.setRegisterdatetime(new Timestamp(System.currentTimeMillis()));
 
+            ForumaccountEntity forumaccount = new ForumaccountEntity();
+            forumaccount.setUserid(newUserID);
+            forumaccount.setExp(0);
+            forumaccount.setRank(1);
+            forumaccount.setPrivilige(3);
+
             s.save(newUser);
+            s.save(forumaccount);
             s.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();
