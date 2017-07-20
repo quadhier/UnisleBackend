@@ -5,10 +5,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
+import util.ControllerUtil;
 import util.HibernateUtil;
 import util.Rewrapper;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +20,10 @@ public class ForumDAO {
     public static final int EXPS_PER_LEVEL = 2000;
 
     public static boolean addTheme(String themename,String boardname){
-        if(existTheme(themename,boardname))
+        String hql = "select distinct b.boardname from BoardEntity b";
+        List boardnameList = CommonDAO.queryHql(hql,null);
+        if(boardnameList==null || !boardnameList.contains(boardname) || existTheme(themename,boardname))
             return false;
-
         ThemeEntityPK pk = new ThemeEntityPK();
         pk.setBoardname(boardname);
         pk.setThemename(themename);
@@ -69,7 +72,7 @@ public class ForumDAO {
 
     public static boolean calculateExp(String userid,int exps){
         ForumaccountEntity entity = (ForumaccountEntity) CommonDAO.getItemByPK(ForumaccountEntity.class,userid);
-        if(entity==null)
+        if(entity==null || exps <= 0)
             return false;
 
         int totalExp = exps + entity.getExp();
@@ -133,6 +136,7 @@ public class ForumDAO {
         if(entity == null)
             return false;
         entity.setContent(newContent);
+        entity.setLastmoddatetime(new Timestamp(System.currentTimeMillis()));
         return CommonDAO.updateItem(ArticleEntity.class,articleid,entity);
     }
 
@@ -161,11 +165,12 @@ public class ForumDAO {
         try {
             s = HibernateUtil.getSession();
             String hql = "from ArticleEntity entity where entity.boardname = :bdnm and entity.themename = :tmnm " +
-                    "and entity.lastcomdatetime<= :time and entity.visibility = 'all' order by entity.lastcomdatetime desc";
+                    "and entity.lastcomdatetime<= :time and (entity.visibility = 'all' or entity.author=:uid) order by entity.lastcomdatetime desc";
             Query query = s.createQuery(hql);
             query.setParameter("bdnm",boardname);
             query.setParameter("tmnm",themename);
             query.setParameter("time",thisTimeBefore);
+            query.setParameter("uid",userid);
             query.setFirstResult(startat);
             query.setMaxResults(number);
             result = query.list();
@@ -210,7 +215,11 @@ public class ForumDAO {
         ArticleEntity article = (ArticleEntity)CommonDAO.getItemByPK(ArticleEntity.class,articleid);
         if(article == null)
             return null;
-
+        String hql = "update ArticleEntity e set e.viewtimes = e.viewtimes+1 where e.articleid = :aid";
+        Map params = new HashMap();
+        params.put("aid",articleid);
+        if(!CommonDAO.updateHql(hql,params))
+            return null;
         ViewrecordEntityPK pk = new ViewrecordEntityPK();
         pk.setArticleid(articleid);
         pk.setUserid(userid);
@@ -316,6 +325,7 @@ public class ForumDAO {
     public static List getArticleCommentList(String articleid){
         String hql = "from ArticlecommentEntity entity where entity.articlecommentEntityPK.articleid =:aid";
         Map<String,Object> params = new HashMap<>();
+        params.put("aid",articleid);
         return CommonDAO.queryHql(hql,params);
     }
 
@@ -339,22 +349,33 @@ public class ForumDAO {
         return CommonDAO.deleteItemByPK(CollectionEntity.class,pk);
     }
 
-    //默认按照文章发布时间排序
-    //返回对象格式与文章列表相同,加上版块和栏目信息
+    //查看时按照收藏时间选择查看条数
+    //返回对象格式与文章列表相同,加上版块和栏目信息以及收藏时间
     public static List getCollectionList(String userid,int startat,int number){
         Session s = null;
         List result = null;
         List wrappedResult = null;
         try {
             s = HibernateUtil.getSession();
-            String getArticleIDList = "select entity.collectionEntityPK.articleid from CollectionEntity entity where entity.collectionEntityPK.userid = :uid order by entity.collectdatetime desc";
-            Query query = s.createQuery(getArticleIDList);
+            String getArticlePKList = "from CollectionEntity entity where entity.collectionEntityPK.userid = :uid order by entity.collectdatetime desc";
+            Query query = s.createQuery(getArticlePKList);
             query.setParameter("uid",userid);
             query.setFirstResult(startat);
             query.setMaxResults(number);
-            List articleIDList = query.list();
-            if (articleIDList == null || articleIDList.isEmpty())
+            List articleList = query.list();
+            if (articleList == null || articleList.isEmpty())
                 return null;
+
+            List articleIDList = new ArrayList();
+            List<String> orderID = new ArrayList<>(articleList.size());
+            List<Timestamp> orderTime = new ArrayList<>(articleList.size());
+            int i=0;
+            for(Object o:articleList) {
+                articleIDList.add(((CollectionEntity) o).getCollectionEntityPK().getArticleid());
+                orderID.add(i,((CollectionEntity) o).getCollectionEntityPK().getArticleid());
+                orderTime.add(i,((CollectionEntity) o).getCollectdatetime());
+                i++;
+            }
 
             String hql = "from ArticleEntity entity where entity.articleid in :aidlist";
             Query getEntity = s.createQuery(hql);
@@ -363,7 +384,16 @@ public class ForumDAO {
             if(result == null || result.isEmpty())
                 return null;
 
-            wrappedResult = Rewrapper.wrapList(result,ArticleEntity.class,"111111111011");
+            Map[] maps = new Map[result.size()];
+            for(int j=0;j<result.size();j++){
+                ArticleEntity entity = (ArticleEntity) result.get(j);
+                Map adepter = Rewrapper.wrap(entity,"111111111011");
+                int index = orderID.indexOf(entity.getArticleid());
+                adepter.put("collectdatetime",orderTime.get(index));
+                //注意指定位置插入不能插到空位置。只能接到满位置的后一个或者替代一个元素。
+                maps[index]=adepter;
+            }
+            wrappedResult = ControllerUtil.arrToList(maps);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -372,18 +402,18 @@ public class ForumDAO {
         }
         return wrappedResult;
     }
-
-    //返回格式与文章列表相同，每个文章只有一条最近浏览的记录
+    //untested
+    //返回格式与文章列表相同，每个文章只有一条最近浏览的记录,按浏览时间逆序排列
     public static List getViewHistory(String userid,Timestamp lasttime,int startat,int number){
         Session s = null;
         List result = null;
         List wrappedResult = null;
         try {
             s = HibernateUtil.getSession();
-            String getArticleIDList = "select distinct entity.viewrecordEntityPK.articleid " +
+            String getArticleIDList = "select subtable.articleid,article.title from (select distinct entity.viewrecordEntityPK.articleid as articleid,max(entity.viewrecordEntityPK.viewdatetime) as latesttime " +
                     "from ViewrecordEntity entity where entity.viewrecordEntityPK.userid = :uid " +
-                    "and entity.viewrecordEntityPK.viewdatetime<=:time " +
-                    "order by entity.viewrecordEntityPK.viewdatetime desc";
+                    "and entity.viewrecordEntityPK.viewdatetime<=:time group by entity.viewrecordEntityPK.articleid " +
+                    "order by max(entity.viewrecordEntityPK.viewdatetime) desc as subtable) join ArticleEntity article on subtable.articleid = article.articleid";
             Query query = s.createQuery(getArticleIDList);
             query.setParameter("uid",userid);
             query.setParameter("time",lasttime);
@@ -411,7 +441,7 @@ public class ForumDAO {
     }
 
     public static boolean clearViewHistory(String userid){
-        String hql = "delete Viewrecord record where record.viewrecordEntityPK.userid = :uid";
+        String hql = "delete ViewrecordEntity record where record.viewrecordEntityPK.userid = :uid";
         Map params = new HashMap();
         params.put("uid",userid);
 
@@ -435,8 +465,23 @@ public class ForumDAO {
         return CommonDAO.updateItem(ForumaccountEntity.class,userid,entity);
     }
 
-    //包装后的map包含：用户id、昵称、性别、个性签名、学校、专业，用户论坛等级和经验，用户权限，
-    public static List getWrappedForumAccountInfo(String userid){
-
+    //包装后的map包含：用户id、头像、昵称、性别、个性签名、学校、专业，用户论坛等级和经验，用户权限，
+    public static Map getWrappedForumAccountInfo(String userid){
+        Map wrapper = new HashMap();
+        UuserEntity user = (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class,userid);
+        if(user == null)
+            return null;
+        ForumaccountEntity forum = (ForumaccountEntity)CommonDAO.getItemByPK(ForumaccountEntity.class,userid);
+        wrapper.put("userid",user.getUserid());
+        wrapper.put("userpic",user.getUserpic());
+        wrapper.put("sex",user.getSex());
+        wrapper.put("nickname",user.getNickname());
+        wrapper.put("signature",user.getSignature());
+        wrapper.put("school",user.getSchool());
+        wrapper.put("department",user.getDepartment());
+        wrapper.put("rank",forum.getRank());
+        wrapper.put("exp",forum.getExp());
+        wrapper.put("privilige",forum.getPrivilige());
+        return wrapper;
     }
 }

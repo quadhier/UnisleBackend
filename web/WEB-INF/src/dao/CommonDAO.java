@@ -96,8 +96,9 @@ public class CommonDAO {
         try{
             s = HibernateUtil.getSession();
             Query query = s.createQuery(hql);
-            for(Map.Entry<String,Object> entry:param.entrySet())
-                query.setParameter(entry.getKey(), entry.getValue());
+            if(param != null)
+                for(Map.Entry<String,Object> entry:param.entrySet())
+                    query.setParameter(entry.getKey(), entry.getValue());
 
             resultList = query.list();
         }catch(Exception e){
@@ -115,8 +116,9 @@ public class CommonDAO {
         try{
             s = HibernateUtil.getSession();
             Query query = s.createQuery(hql);
-            for(Map.Entry<String,Object> entry:param.entrySet())
-                query.setParameter(entry.getKey(),entry.getValue());
+            if(param != null)
+                for(Map.Entry<String,Object> entry:param.entrySet())
+                    query.setParameter(entry.getKey(),entry.getValue());
             s.beginTransaction();
             query.executeUpdate();
             s.getTransaction().commit();
