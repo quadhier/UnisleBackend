@@ -143,7 +143,7 @@ public class FriendController {
             public String userid;
             public String nickname;
             public String sex;
-            public byte[] userpic;
+            public String userpic;
             public String note;
         }
 
