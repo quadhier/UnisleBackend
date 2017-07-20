@@ -13,6 +13,7 @@ import util.ControllerUtil;
 import converter.ResultInfo;
 
 
+import javax.print.attribute.standard.RequestingUserName;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,33 +61,50 @@ public class ActivityController {
             String activityid = ActivityDAO.publishActivity(userid, shields, content, null);
             System.out.println("Activity Constructed");
             rinfo.setResult("SUCCESS");
-            return activityid;
+            rinfo.setData(activityid);
+            return rinfo;
         }
-        rinfo.setReason("E_INCOMPLETE_CONT");
+        rinfo.setReason("E_INCOMPLETE_CONTENT");
         return rinfo;
     }
+
+
 
     // 删除一条动态
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Object getActivity(HttpServletRequest request,
-                              @RequestParam("activityid") String activityid) {
+    public Object deleteActivity(HttpServletRequest request,
+                                 @RequestParam("activityid") String activityid) {
 
         ResultInfo rinfo = new ResultInfo();
-        if(ActivityDAO.deleteActivity(activityid) == true) {
-            rinfo.setResult("SUCCESS");
-        } else {
-            rinfo.setResult("ERROR");
-            rinfo.setReason("E_NOT_DELETE");
+        rinfo.setResult("ERROR");
+
+        // 确保只有动态发布者自身能删除动态
+        String user = ControllerUtil.getUidFromReq(request);
+        if(ActivityDAO.getAuthorID(activityid).equals(user) == false) {
+            rinfo.setReason("E_INSUFFICIENT_PERMISSION");
+            return rinfo;
         }
+
+        if(ActivityDAO.deleteActivity(activityid) == false) {
+            rinfo.setReason("E_NOT_DELETE");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
         return rinfo;
     }
+
 
     // 转发动态
     // 如果将request作为第一个参数，则会报错，目前不清楚原因
     @RequestMapping(value = "/forward", method = RequestMethod.POST)
-    public String forwardActivity(@RequestBody ActivityForward activityForward,
+    @ResponseBody
+    public Object forwardActivity(@RequestBody ActivityForward activityForward,
                                   HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
 
         String[] shieldIDList = activityForward.getShieldIDList();
         String orgActivityID = activityForward.getOriginalActivityID();
@@ -95,9 +113,18 @@ public class ActivityController {
         List<String> shields = null;
         if(shieldIDList != null && shieldIDList.length != 0)
             shields = ControllerUtil.arrToList(shieldIDList);
-        ActivityDAO.forwardActivity(userid, shields, orgActivityID);
-        return "redirect:/activity/all";
+
+        String factid = ActivityDAO.forwardActivity(userid, shields, orgActivityID);
+        if(factid == null || factid.length() == 0) {
+            rinfo.setReason("E_NOT_FORWARDED");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(factid);
+        return rinfo;
     }
+
 
 
     // 一次一条的获取所有动态
@@ -109,6 +136,7 @@ public class ActivityController {
                                 @PathVariable(value = "isfirst") String isfirst){
 
         synchronized(this) {
+
             // 初始化返回对象
             ActivityAndComment actAndCom = new ActivityAndComment();
             actAndCom.setTag(false);
@@ -193,6 +221,7 @@ public class ActivityController {
 
     }
 
+
     // 点赞
     @RequestMapping(value = "/pro",method = RequestMethod.POST)
     @ResponseBody
@@ -229,9 +258,9 @@ public class ActivityController {
 
         if(userid == null || activityid == null) {
             if(userid == null)
-                rinfo.setReason("E_NO_USERID");
+                rinfo.setReason("E_LACK_OF_USERID");
             else
-                rinfo.setReason("E_NO_ACTID");
+                rinfo.setReason("E_LACK_OF_ACTID");
             return rinfo;
         }
 
@@ -265,6 +294,7 @@ public class ActivityController {
     }
 
 
+
     // 删除评论
     @RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
     @ResponseBody Object deleteComment(@RequestParam(value = "activityid", required = false) String activityid,
@@ -282,7 +312,7 @@ public class ActivityController {
             return rinfo;
         }
 
-        if(ActivityDAO.whetherCanDeleteComment(userid, publisher, activityid)) {
+        if(ActivityDAO.whetherCanDeleteComment(userid, publisher, activityid) == true) {
             ActivitycommentEntityPK commentpk = new ActivitycommentEntityPK();
             commentpk.setActivityid(activityid);
             commentpk.setUserid(publisher);
@@ -291,7 +321,7 @@ public class ActivityController {
             rinfo.setResult("SUCCESS");
             return rinfo;
         }
-        rinfo.setReason("E_NOT_PERMITTED");
+        rinfo.setReason("E_INSUFFICIENT_PERMISSION");
         return rinfo;
     }
 

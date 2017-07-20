@@ -31,26 +31,6 @@
     </servlet-mapping>
 
 
-    <servlet>
-        <display-name>CometServlet</display-name>
-        <servlet-name>CometServlet</servlet-name>
-        <servlet-class>org.comet4j.core.CometServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CometServlet</servlet-name>
-        <url-pattern>/comet</url-pattern>
-    </servlet-mapping>
-
-    <listener>
-        <description>appListener</description>
-        <listener-class>org.comet4j.core.CometAppListener</listener-class>
-    </listener>
-
-    <listener>
-        <description>myListener</description>
-        <listener-class>comet4j.CometPusher</listener-class>
-    </listener>
-
 
 
 </web-app>

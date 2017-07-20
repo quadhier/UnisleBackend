@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * Created by qudaohan on 2017/7/14.
-
+ */
 
 @Component
 @Aspect
@@ -61,6 +61,7 @@ public class LoginTest {
             }
         }
 
+
         // 如果token无效，或原方法执行出错，则重定向到主页或返回错误信息
         if(returnType == String.class) {
             return "redirect:/";
@@ -73,4 +74,3 @@ public class LoginTest {
 
     }
 }
- */

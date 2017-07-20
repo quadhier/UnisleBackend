@@ -30,6 +30,7 @@ public class LoginController {
                         HttpServletResponse response) {
 
         ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
 
         // 用户名和密码均有效
         if(userAccount != null && password != null && UserInfoDAO.validateUser(userAccount, password)) {
@@ -40,13 +41,12 @@ public class LoginController {
             UserInfoDAO.saveToken(tokenid, userid);
             Cookie tokenCookie = new Cookie("tokenid", tokenid);
             response.addCookie(tokenCookie);
-            rinfo.setResult("LOGIN_SUCCESS");
+            rinfo.setResult("SUCCESS");
             return rinfo;
         }
         // 用户名不存在或密码错误
         else
         {
-            rinfo.setResult("ERROR");
             rinfo.setReason("E_WRONG_USER_OR_PASSWD");
             return rinfo;
         }

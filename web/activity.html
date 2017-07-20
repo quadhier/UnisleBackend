@@ -2,13 +2,8 @@
 <html>
 <head>
     <title>Activity</title>
-
-    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
-    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-    <META HTTP-EQUIV="expires" CONTENT="0">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
     <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
@@ -31,16 +26,19 @@
             return 'resources/reload.html';
         };
 
+
         $(document).ready(function () {
+
+
 
             // 储存用户名
             var userName;
 
             /*
-            *
-            * 加载个人信息
-            *
-            * */
+             *
+             * 加载个人信息
+             *
+             * */
 
             $.ajax({
                 type: "GET",
@@ -75,10 +73,10 @@
             });
 
             /*
-            *
-            * 绑定发布动态的事件
-            *
-            * */
+             *
+             * 绑定发布动态的事件
+             *
+             * */
 
             $("#u271").click(function(){
                 if($("#u245_input").val() !== "") {
@@ -135,10 +133,10 @@
             });
 
             /*
-            *
-            * 加载动态并设置滚动时加载
-            *
-            * */
+             *
+             * 加载动态并设置滚动时加载
+             *
+             * */
             $.ajax({
                 type: "GET",
 
@@ -390,10 +388,10 @@
 
 
             /*
-            *
-            * 为点赞图标绑定事件
-            *
-            * */
+             *
+             * 为点赞图标绑定事件
+             *
+             * */
 
             $(".good").live("click", function () {
 
@@ -469,11 +467,11 @@
             });
 
             /*
-            *
-            *
-            *  为评论图标绑定事件
-            *
-            * */
+             *
+             *
+             *  为评论图标绑定事件
+             *
+             * */
             $(".comment").live("click", function () {
                 if ($(this).find("img").attr('src') === 'images/activity/comment.png') {
                     $(this).find("img").attr('src', "images/activity/comment_selected.png");
@@ -487,11 +485,11 @@
 
 
             /*
-            *
-            *
-            *  为评论按钮绑定事件
-            *
-            * */
+             *
+             *
+             *  为评论按钮绑定事件
+             *
+             * */
 
             $(".submit_comment").live("click", function() {
 
@@ -533,7 +531,7 @@
 
                             var pdiv = "#" + activityid;
                             $(pdiv).children(".commentDiv").append("<p class='pCommenter'>" + userName + "</p>" +
-                                                                   "<p class='pComment'>" + input + "</p>");
+                                "<p class='pComment'>" + input + "</p>");
                             inputEle.val("");
                             inputEle.parents(".container").children(".btnDiv").children(".comment").click();
 
@@ -544,144 +542,273 @@
 
 
         })
+
+
     </script>
 </head>
-
-
 <body>
 <div id="base" class="">
 
     <!-- Unnamed (动态面板) -->
-    <div id="u227" class="ax_default">
-        <div id="u227_state0" class="panel_state" data-label="State1" style="">
-            <div id="u227_state0_content" class="panel_state_content">
+    <div id="u297" class="ax_default">
+        <div id="u297_state0" class="panel_state" data-label="State1" style="">
+            <div id="u297_state0_content" class="panel_state_content">
 
-                <!-- Unnamed (动态面板) -->
-                <div id="u228" class="ax_default">
-                    <div id="u228_state0" class="panel_state" data-label="State1" style="">
-                        <div id="u228_state0_content" class="panel_state_content">
+                <!-- Unnamed (矩形) -->
+                <div id="u298" class="ax_default">
+                    <div id="u298_div" class=""></div>
+                    <!-- Unnamed () -->
+                    <div id="u299" class="text" style="display:none; visibility: hidden">
+                        <p><span></span></p>
+                    </div>
+                </div>
 
-                            <!-- Unnamed (矩形) -->
-                            <div id="u229" class="ax_default">
-                                <div id="u229_div" class=""></div>
-                                <!-- Unnamed () -->
-                                <div id="u230" class="text" style="display:none; visibility: hidden">
-                                    <p><span></span></p>
-                                </div>
+                <!-- Unnamed (矩形) -->
+                <div id="u300" class="ax_default">
+                    <div id="u300_div" class=""></div>
+                    <!-- Unnamed () -->
+                    <div id="u301" class="text">
+                        <p><span>同领英，自便……………………</span></p>
+                    </div>
+                </div>
+
+                <!-- Release[submit btn] (图片) -->
+                <div id="u302" class="ax_default image" data-label="Release[submit btn]">
+                    <img id="u302_img" class="img " src="images/activity/release_submit_btn__u302.png"/>
+                    <!-- Unnamed () -->
+                    <div id="u303" class="text" style="display:none; visibility: hidden">
+                        <p><span></span></p>
+                    </div>
+                </div>
+
+                <!-- 动态发布 (多行文本框) -->
+                <div id="u304" class="ax_default text_area" data-label="动态发布">
+                    <textarea id="u304_input"></textarea>
+                </div>
+
+                <!-- Unnamed (组合) -->
+                <div id="u305" class="ax_default" data-left="245" data-top="220" data-width="429" data-height="377">
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u306" class="ax_default">
+                        <div id="u306_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u307" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (水平线) -->
+                    <div id="u308" class="ax_default line">
+                        <img id="u308_img" class="img " src="images/activity/u308.png"/>
+                        <!-- Unnamed () -->
+                        <div id="u309" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (水平线) -->
+                    <div id="u310" class="ax_default line">
+                        <img id="u310_img" class="img " src="images/activity/u308.png"/>
+                        <!-- Unnamed () -->
+                        <div id="u311" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (形状) -->
+                    <div id="u312" class="ax_default icon">
+                        <img id="u312_img" class="img " src="images/activity/u312.png"/>
+                        <!-- Unnamed () -->
+                        <div id="u313" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (形状) -->
+                    <div id="u314" class="ax_default icon">
+                        <img id="u314_img" class="img " src="images/activity/u314.png"/>
+                        <!-- Unnamed () -->
+                        <div id="u315" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u316" class="ax_default">
+                        <div id="u316_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u317" class="text">
+                            <p><span>武汉大学</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u318" class="ax_default">
+                        <div id="u318_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u319" class="text">
+                            <p><span>xxx人觉得很赞</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (图片) -->
+                    <div id="u320" class="ax_default image">
+                        <img id="u320_img" class="img " src="images/activity/u320.png"/>
+                        <!-- Unnamed () -->
+                        <div id="u321" class="text" style="display:none; visibility: hidden">
+                            <p><span></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u322" class="ax_default">
+                        <div id="u322_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u323" class="text">
+                            <p><span>炎炎夏日，为何街道口还有一批学子在武汉坚守</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u324" class="ax_default">
+                        <div id="u324_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u325" class="text">
+                            <p><span>Gobang</span></p>
+                        </div>
+                    </div>
+
+                    <!-- 发布评论 (组合) -->
+                    <div id="u326" class="ax_default ax_default_hidden" data-label="发布评论"
+                         style="display:none; visibility: hidden" data-left="0" data-top="0" data-width="0"
+                         data-height="0">
+
+                        <!-- Unnamed (矩形) -->
+                        <div id="u327" class="ax_default">
+                            <div id="u327_div" class=""></div>
+                            <!-- Unnamed () -->
+                            <div id="u328" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
                             </div>
+                        </div>
 
-                            <!-- Unnamed (图片) -->
-                            <div id="u231" class="ax_default">
-                                <img id="u231_img" class="img " src="images/activity/u231.png"/>
-                                <!-- Unnamed () -->
-                                <div id="u232" class="text" style="display:none; visibility: hidden">
-                                    <p><span></span></p>
-                                </div>
-                            </div>
+                        <!-- Unnamed (文本框) -->
+                        <div id="u329" class="ax_default text_field">
+                            <input id="u329_input" type="text" value=""/>
+                        </div>
 
-                            <!-- Unnamed (矩形) -->
-                            <div id="u233" class="ax_default">
-                                <div id="u233_div" class=""></div>
-                                <!-- Unnamed () -->
-                                <div id="u234" class="text">
-                                    <p><span>Gobang</span></p>
-                                </div>
+                        <!-- Unnamed (形状) -->
+                        <div id="u330" class="ax_default box_1">
+                            <img id="u330_img" class="img " src="images/activity/u330.png"/>
+                            <!-- Unnamed () -->
+                            <div id="u331" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Unnamed (矩形) -->
-                            <div id="u235" class="ax_default">
-                                <div id="u235_div" class=""></div>
-                                <!-- Unnamed () -->
-                                <div id="u236" class="text">
-                                    <p><span>武汉大学-院系-年级</span></p>
-                                </div>
-                            </div>
-
-                            <!-- Unnamed (形状) -->
-                            <div id="u237" class="ax_default icon">
-                                <img id="u237_img" class="img " src="images/activity/u237.png"/>
-                                <!-- Unnamed () -->
-                                <div id="u238" class="text" style="display:none; visibility: hidden">
-                                    <p><span></span></p>
-                                </div>
-                            </div>
-
-                            <!-- Unnamed (水平线) -->
-                            <div id="u239" class="ax_default line">
-                                <img id="u239_img" class="img " src="images/activity/u239.png"/>
-                                <!-- Unnamed () -->
-                                <div id="u240" class="text" style="display:none; visibility: hidden">
-                                    <p><span></span></p>
-                                </div>
-                            </div>
+                    <!-- Unnamed (矩形) -->
+                    <div id="u332" class="ax_default">
+                        <div id="u332_div" class=""></div>
+                        <!-- Unnamed () -->
+                        <div id="u333" class="text">
+                            <p><span>x年x月x日&nbsp; 00:00</span></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Unnamed (矩形) -->
-                <div id="u241" class="ax_default">
-                    <div id="u241_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u242" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
+                <!-- 悬浮 (组合) -->
+                <div id="u334" class="ax_default" data-label="悬浮" data-left="0" data-top="0" data-width="912"
+                     data-height="280">
+
+                    <!-- Unnamed (组合) -->
+                    <div id="u335" class="ax_default" data-left="0" data-top="0" data-width="232" data-height="280">
+
+                        <!-- Unnamed (矩形) -->
+                        <div id="u336" class="ax_default">
+                            <div id="u336_div" class=""></div>
+                            <!-- Unnamed () -->
+                            <div id="u337" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
+                            </div>
+                        </div>
+
+                        <!-- Unnamed (图片) -->
+                        <div id="u338" class="ax_default">
+                            <img id="u338_img" class="img " src="images/activity/u338.png"/>
+                            <!-- Unnamed () -->
+                            <div id="u339" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
+                            </div>
+                        </div>
+
+                        <!-- Unnamed (矩形) -->
+                        <div id="u340" class="ax_default">
+                            <div id="u340_div" class=""></div>
+                            <!-- Unnamed () -->
+                            <div id="u341" class="text">
+                                <p><span>Gobang</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Unnamed (矩形) -->
+                        <div id="u342" class="ax_default">
+                            <div id="u342_div" class=""></div>
+                            <!-- Unnamed () -->
+                            <div id="u343" class="text">
+                                <p><span>武汉大学-院系-年级</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Unnamed (形状) -->
+                        <div id="u344" class="ax_default icon">
+                            <img id="u344_img" class="img " src="images/activity/u344.png"/>
+                            <!-- Unnamed () -->
+                            <div id="u345" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
+                            </div>
+                        </div>
+
+                        <!-- Unnamed (水平线) -->
+                        <div id="u346" class="ax_default line">
+                            <img id="u346_img" class="img " src="images/activity/u346.png"/>
+                            <!-- Unnamed () -->
+                            <div id="u347" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Unnamed (矩形) -->
-                <div id="u243" class="ax_default">
-                    <div id="u243_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u244" class="text">
-                        <p><span>请在此编辑并发布您的动态</span></p>
-                    </div>
-                </div>
+                    <!-- Unnamed (组合) -->
+                    <div id="u348" class="ax_default" data-left="680" data-top="0" data-width="232" data-height="280">
 
-                <!-- Unnamed (多行文本框) -->
-                <div id="u245" class="ax_default text_area">
-                    <textarea id="u245_input"></textarea>
-                </div>
+                        <!-- Unnamed (水平线) -->
+                        <div id="u349" class="ax_default line">
+                            <img id="u349_img" class="img " src="images/activity/u346.png"/>
+                            <!-- Unnamed () -->
+                            <div id="u350" class="text" style="display:none; visibility: hidden">
+                                <p><span></span></p>
+                            </div>
+                        </div>
 
-                <!-- Unnamed (动态面板) -->
-                <div id="u246" class="ax_default">
-
-
-
-
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u267" class="ax_default">
-                    <div id="u267_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u268" class="text">
-                        <p><span><br></span></p>
-                        <p><span><br></span></p>
-                        <p><span><br></span></p>
-                        <p><span>公告</span></p>
-                        <p><span><br></span></p>
-                        <p><span>一些奇怪的超链接</span></p>
-                        <p><span><br></span></p>
-                        <p><span><br></span></p>
-                        <p><span><br></span></p>
-                        <p><span><br></span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (水平线) -->
-                <div id="u269" class="ax_default line">
-                    <img id="u269_img" class="img " src="images/activity/u239.png"/>
-                    <!-- Unnamed () -->
-                    <div id="u270" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-
-                <!-- .btn-default [submit btn] (矩形) -->
-                <div id="u271" class="ax_default _btn-default" data-label=".btn-default [submit btn]">
-                    <div id="u271_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u272" class="text">
-                        <p><span>发布</span></p>
+                        <!-- Unnamed (矩形) -->
+                        <div id="u351" class="ax_default">
+                            <div id="u351_div" class=""></div>
+                            <!-- Unnamed () -->
+                            <div id="u352" class="text">
+                                <p><span><br></span></p>
+                                <p><span><br></span></p>
+                                <p><span><br></span></p>
+                                <p><span>公告</span></p>
+                                <p><span><br></span></p>
+                                <p><span>一些奇怪的超链接</span></p>
+                                <p><span><br></span></p>
+                                <p><span><br></span></p>
+                                <p><span><br></span></p>
+                                <p><span><br></span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
