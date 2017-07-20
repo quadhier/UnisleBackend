@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  */
 public class AricleEntity {
     private String articleid;
+    private String title;
     private String author;
     private String themename;
     private String boardname;
@@ -24,6 +25,14 @@ public class AricleEntity {
 
     public void setArticleid(String articleid) {
         this.articleid = articleid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {

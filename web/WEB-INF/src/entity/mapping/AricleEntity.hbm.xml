@@ -11,6 +11,9 @@
         <property name="author">
             <column name="author" sql-type="varchar(30)" length="30" not-null="true"/>
         </property>
+        <property name="title">
+            <column name="title" sql-type="varchar(50)" length="50" not-null="true"/>
+        </property>
         <property name="themename">
             <column name="themename" sql-type="varchar(30)" length="30" />
         </property>

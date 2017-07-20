@@ -9,15 +9,16 @@
             <key-property name="userid">
                 <column name="userid" sql-type="varchar(30)" length="30"/>
             </key-property>
-            <key-property name="articleid">
-                <column name="articleid" sql-type="varchar(30)" length="30"/>
+            <key-property name="type">
+                <column name="type" sql-type="varchar(30)" length="30"/>
             </key-property>
-            <key-property name="editdatetime">
-                <column name="editdatetime" sql-type="timestamp"/>
-            </key-property>
+
         </composite-id>
         <property name="content">
             <column name="content" sql-type="varchar(10000)" length="10000"/>
+        </property>
+        <property name="editdatetime">
+            <column name="editdatetime" sql-type="timestamp"/>
         </property>
     </class>
 </hibernate-mapping>

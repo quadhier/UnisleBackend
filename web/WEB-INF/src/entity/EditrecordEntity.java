@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class EditrecordEntity {
     private EditrecordEntityPK editrecordEntityPK;
     private String content;
+    private Timestamp editdatetime;
 
     public String getContent() {
         return content;
@@ -23,5 +24,13 @@ public class EditrecordEntity {
 
     public void setEditrecordEntityPK(EditrecordEntityPK editrecordEntityPK) {
         this.editrecordEntityPK = editrecordEntityPK;
+    }
+
+    public Timestamp getEditdatetime() {
+        return editdatetime;
+    }
+
+    public void setEditdatetime(Timestamp editdatetime) {
+        this.editdatetime = editdatetime;
     }
 }

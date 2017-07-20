@@ -15,7 +15,7 @@
             <column name="exp" sql-type="varchar(30)" length="30" />
         </property>
         <property name="privilige">
-            <column name="privilige" sql-type="varchar(30)" length="30" not-null="true" default="3"/>
+            <column name="privilige" sql-type="Integer" not-null="true" default="3"/>
         </property>
     </class>
 </hibernate-mapping>

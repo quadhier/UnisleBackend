@@ -7,7 +7,7 @@ public class ForumaccountEntity {
     private String userid;
     private String rank;
     private String exp;
-    private String privilige;
+    private int privilige;
 
     public String getUserid() {
         return userid;
@@ -33,11 +33,11 @@ public class ForumaccountEntity {
         this.exp = exp;
     }
 
-    public String getPrivilige() {
+    public int getPrivilige() {
         return privilige;
     }
 
-    public void setPrivilige(String privilige) {
+    public void setPrivilige(int privilige) {
         this.privilige = privilige;
     }
 

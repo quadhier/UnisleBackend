@@ -8,8 +8,7 @@ import java.sql.Timestamp;
  */
 public class EditrecordEntityPK implements Serializable {
     private String userid;
-    private String articleid;
-    private Timestamp editdatetime;
+    private String type;
 
     public String getUserid() {
         return userid;
@@ -19,20 +18,12 @@ public class EditrecordEntityPK implements Serializable {
         this.userid = userid;
     }
 
-    public String getArticleid() {
-        return articleid;
+    public String getType() {
+        return type;
     }
 
-    public void setArticleid(String articleid) {
-        this.articleid = articleid;
-    }
-
-    public Timestamp getEditdatetime() {
-        return editdatetime;
-    }
-
-    public void setEditdatetime(Timestamp editdatetime) {
-        this.editdatetime = editdatetime;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -42,18 +33,14 @@ public class EditrecordEntityPK implements Serializable {
 
         EditrecordEntityPK that = (EditrecordEntityPK) o;
 
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-        if (editdatetime != null ? !editdatetime.equals(that.editdatetime) : that.editdatetime != null) return false;
-
-        return true;
+        if (!userid.equals(that.userid)) return false;
+        return type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (articleid != null ? articleid.hashCode() : 0);
-        result = 31 * result + (editdatetime != null ? editdatetime.hashCode() : 0);
+        int result = userid.hashCode();
+        result = 31 * result + type.hashCode();
         return result;
     }
 }
