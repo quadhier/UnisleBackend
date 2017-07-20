@@ -67,6 +67,7 @@ public class UserInfoDAO {
             newUser.setEmail(email);
             newUser.setPassword(password);
             newUser.setNickname(nickname);
+            newUser.setActivityvisibility("friend");
 
 
             if(birthday != null) newUser.setBirthday(Timestamp.valueOf(birthday));
@@ -318,8 +319,6 @@ public class UserInfoDAO {
 
         return true;}
     }
-
-
     //tested
     public static UuserEntity[] searchNickname(String nickname){
         String hql="from UuserEntity e where e.nickname like :genStr";

@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 /**
@@ -12,7 +13,7 @@ public class UgroupEntity {
     private String director;
     private String school;
     private String department;
-    private String createdatetime;
+    private Timestamp createdatetime;
     private byte[] grouppic;
     private String description;
     private Short numnotice;
@@ -65,11 +66,11 @@ public class UgroupEntity {
         this.department = department;
     }
 
-    public String getCreatedatetime() {
+    public Timestamp getCreatedatetime() {
         return createdatetime;
     }
 
-    public void setCreatedatetime(String createdatetime) {
+    public void setCreatedatetime(Timestamp createdatetime) {
         this.createdatetime = createdatetime;
     }
 
@@ -97,38 +98,5 @@ public class UgroupEntity {
         this.numnotice = numnotice;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        UgroupEntity that = (UgroupEntity) o;
-
-        if (groupid != null ? !groupid.equals(that.groupid) : that.groupid != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (tag != null ? !tag.equals(that.tag) : that.tag != null) return false;
-        if (director != null ? !director.equals(that.director) : that.director != null) return false;
-        if (school != null ? !school.equals(that.school) : that.school != null) return false;
-        if (department != null ? !department.equals(that.department) : that.department != null) return false;
-        if (createdatetime != null ? !createdatetime.equals(that.createdatetime) : that.createdatetime != null)
-            return false;
-        if (!Arrays.equals(grouppic, that.grouppic)) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return numnotice != null ? numnotice.equals(that.numnotice) : that.numnotice == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = groupid != null ? groupid.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (tag != null ? tag.hashCode() : 0);
-        result = 31 * result + (director != null ? director.hashCode() : 0);
-        result = 31 * result + (school != null ? school.hashCode() : 0);
-        result = 31 * result + (department != null ? department.hashCode() : 0);
-        result = 31 * result + (createdatetime != null ? createdatetime.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(grouppic);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (numnotice != null ? numnotice.hashCode() : 0);
-        return result;
-    }
 }

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.ForumaccountEntity" table="forumaccount" schema="public" catalog="Unisle">
+        <id name="userid">
+            <column name="userid" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="rank">
+            <column name="rank" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="exp">
+            <column name="exp" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="privilige">
+            <column name="privilige" sql-type="varchar(30)" length="30" not-null="true" default="3"/>
+        </property>
+    </class>
+</hibernate-mapping>

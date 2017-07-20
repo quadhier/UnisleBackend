@@ -79,12 +79,6 @@ public class UuserEntity {
         return department;
     }
 
-    public String getContactway() {
-        return contactway;
-    }
-
-
-
     public void setDepartment(String department) {
         this.department = department;
     }
@@ -107,14 +101,6 @@ public class UuserEntity {
 
     public String getHometown() {
         return hometown;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setHometown(String hometown) {
@@ -173,13 +159,23 @@ public class UuserEntity {
         this.signature = signature;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setContactway(String contactway) {
         this.contactway = contactway;
     }
 
-
+    public String getContactway() {
+        return contactway;
+    }
 }

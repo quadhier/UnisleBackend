@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.AricleEntity" table="aricle" schema="public" catalog="Unisle">
+        <id name="articleid">
+            <column name="articleid" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="author">
+            <column name="author" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+        <property name="themename">
+            <column name="themename" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="boardname">
+            <column name="boardname" sql-type="varchar(30)" length="30" />
+        </property>
+        <property name="publicdatetime">
+            <column name="publicdatetime" sql-type="timestamp" not-null="true"/>
+        </property>
+        <property name="lastmoddatetime">
+            <column name="lastmoddatetime" sql-type="timestamp" />
+        </property>
+        <property name="lastcomdatetime">
+            <column name="lastcomdatetime" sql-type="timestamp" />
+        </property>
+        <property name="viewtimes">
+            <column name="viewtimes" sql-type="smallint" />
+        </property>
+        <property name="content">
+            <column name="content" sql-type="varchar(10000)" length="10000" />
+        </property>
+        <property name="visibility">
+            <column name="visibility" sql-type="varchar(20)" length="20" />
+        </property>
+        <property name="commentallowed">
+            <column name="commentallowed" sql-type="varchar(20)" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

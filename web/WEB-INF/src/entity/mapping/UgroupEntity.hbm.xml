@@ -24,7 +24,7 @@
             <column name="department" sql-type="varchar(30)" length="30" />
         </property>
         <property name="createdatetime">
-            <column name="createdatetime" sql-type="varchar(30)" length="30" not-null="true"/>
+            <column name="createdatetime" sql-type="Timestamp" not-null="true"/>
         </property>
         <property name="grouppic">
             <column name="grouppic" sql-type="bytea" />

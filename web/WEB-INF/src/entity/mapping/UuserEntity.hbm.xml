@@ -46,13 +46,22 @@
             <column name="numnotice" sql-type="smallint" />
         </property>
         <property name="activityvisibility">
-            <column name="activityvisibility" sql-type="varchar(20)" default="friend" />
+            <column name="activityvisibility" sql-type="varchar(20)" not-null="true" default="friend" />
         </property>
         <property name="registerdatetime">
             <column name="registerdatetime" sql-type="timestamp" />
         </property>
         <property name="school">
             <column name="school" sql-type="varchar(30)" />
+        </property>
+        <property name="signature">
+            <column name="signature" sql-type="varchar(100)" />
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(300)" />
+        </property>
+        <property name="contactway">
+            <column name="contactway" sql-type="varchar(20)" />
         </property>
     </class>
 </hibernate-mapping>

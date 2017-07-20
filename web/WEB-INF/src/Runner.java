@@ -91,9 +91,34 @@ public class Runner {
           String forwardid = ActivityDAO.forwardActivity("10000000002",null,"20100000004");
            System.out.println(ActivityDAO.getAuthorID("20100000008"));
 
+            String groupID = GroupDAO.createGroup("10000000001","测试组","逗比,学习,J2EE",null,null,"测试描述",null);
+        System.out.println(groupID);
+
+        System.out.println(GroupDAO.getDirectorID(groupID));
+        GroupDAO.getPositionInGroup("10000000005",groupID);
+        System.out.println(GroupDAO.getPositionInGroup("10000000001",groupID));
+
+        System.out.println(GroupDAO.addMember(groupID,"10000000004")?"yes4":"no4");
+        System.out.println(GroupDAO.addMember(groupID,"10000000002")?"yes2":"no2");
+        System.out.println(GroupDAO.isInGroup("10000000004",groupID)?"in":"not in");
+
+        List list = GroupDAO.getAllMembersID(groupID);
+        for(Object o:list)
+            System.out.println((String)o);
+
+        System.out.println(GroupDAO.alterPositionInGroup(groupID,"10000000003","manager")?"yesmng3":"nomng3");
+        System.out.println(GroupDAO.alterPositionInGroup(groupID,"10000000004","manager")?"yesmng4":"nomng4");
+        System.out.println(GroupDAO.alterVisibility("10000000003",groupID,"no")?"yes3":"no3");
+        System.out.println(GroupDAO.alterVisibility("10000000002",groupID,"no")?"yes2":"no2");
+        System.out.println(GroupDAO.kickoutMember(groupID,"10000000003")?"yesk3":"nok3");
+        System.out.println(GroupDAO.kickoutMember(groupID,"10000000002")?"yesk2":"nok2");
         */
-ActivityDAO.cancelPro("20100000039","10000000005");
+
+        System.out.println(GroupDAO.changeDirector("30100000001","10000000004")?"yeschange":"nochange");
+
         /*
+        System.out.println(?"yes":"no");
+        ActivityDAO.cancelPro("20100000039","10000000005");
         ActivityEntity[] array = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");
         List list = new ArrayList();
         for(ActivityEntity e:array)
