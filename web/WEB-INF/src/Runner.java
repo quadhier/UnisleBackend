@@ -1,5 +1,6 @@
 import dao.*;
 import entity.*;
+import util.ControllerUtil;
 import util.HibernateUtil;
 import util.Rewrapper;
 
@@ -11,6 +12,11 @@ import java.util.List;
  * Created by Administrator on 2017/7/10.
  */
 public class Runner {
+    private static void printList(List li){
+        for(Object o:li)
+            System.out.println((String)((ActivityEntity)o).getContent());
+    }
+
     public static void main(String args[]){
 /*
         Session s = null;
@@ -112,11 +118,31 @@ public class Runner {
         System.out.println(GroupDAO.alterVisibility("10000000002",groupID,"no")?"yes2":"no2");
         System.out.println(GroupDAO.kickoutMember(groupID,"10000000003")?"yesk3":"nok3");
         System.out.println(GroupDAO.kickoutMember(groupID,"10000000002")?"yesk2":"nok2");
+        GroupDAO.createGroup("10000000002","testgroup2","J2EE",null,null,null,null);
+        GroupDAO.createGroup("10000000004","testgroup3","2E,比赛",null,null,null,null);
+        List re1 = GroupDAO.searchGroupByName("test");
+        List re2 = GroupDAO.searchGroupByTag("2E");
+        List re3 = GroupDAO.searchGroupByTag("比");
+        printList(re1);
+        printList(re2);
+        printList(re3);
+        GroupDAO.addMember("30100000002","10000000001");
+            GroupDAO.alterVisibility("10000000001","30100000002","no");
+            GroupDAO.createGroup("10000000001","testgroup3","test",null,null,null,null);
+            GroupDAO.createGroup("10000000001","testgroup4","test",null,null,null,null);
+            GroupDAO.updateGroupInfo("30100000002",null,"J2EE,web",null,"software engineer","new description!",null);
+            printList(GroupDAO.showGroupsYouAdded("10000000001","all"));
+            printList(GroupDAO.showGroupsYouAdded("10000000001","visiable"));
+
         */
+        ActivityDAO.groupPublishActivity("30100000002","group2 published",null);
+        GroupDAO.addMember("30100000002","10000000005");
+        printList(ControllerUtil.arrToList(ActivityDAO.getActivities("10000000005",new Timestamp(System.currentTimeMillis()),10,"friend")));
+            /*
+        System.out.println(GroupDAO.dismissGroup("30100001000")?"yes":"no");
+        System.out.println(GroupDAO.dismissGroup("30100000003")?"yes":"no");
 
         System.out.println(GroupDAO.changeDirector("30100000001","10000000004")?"yeschange":"nochange");
-
-        /*
         System.out.println(?"yes":"no");
         ActivityDAO.cancelPro("20100000039","10000000005");
         ActivityEntity[] array = ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()),10,"friend");

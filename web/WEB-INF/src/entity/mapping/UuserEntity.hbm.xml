@@ -31,7 +31,7 @@
             <column name="grade" sql-type="varchar(10)" length="10" />
         </property>
         <property name="userpic">
-            <column name="userpic" sql-type="bytea" />
+            <column name="userpic" sql-type="varchar(200)" />
         </property>
         <property name="hometown">
             <column name="hometown" sql-type="varchar(30)" length="30" />

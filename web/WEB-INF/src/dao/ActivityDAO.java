@@ -12,7 +12,9 @@ import util.HibernateUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityDAO {
     private ActivityDAO(){}
@@ -81,6 +83,40 @@ public class ActivityDAO {
             }
         }
 
+        return newActivityID;
+    }
+
+    public static String groupPublishActivity(String groupid,String content,byte[] attachment){
+        Session s = null;
+        Session c = null;
+        String newActivityID = null;
+        try{
+            c = HibernateUtil.getSession();
+            Criteria counter = c.createCriteria(ActivityEntity.class);
+            counter.setProjection(Projections.max("activityid"));
+            long result = Long.parseLong((String)counter.uniqueResult());
+            newActivityID = String.valueOf(result+1);
+
+            s = HibernateUtil.getSession();
+            ActivityEntity activity = new ActivityEntity();
+            activity.setActivityid(newActivityID);
+            activity.setPublisher(groupid);
+            activity.setContent(content);
+            activity.setPros((short)0);
+            activity.setPublicdatetime(new Timestamp(System.currentTimeMillis()));
+            activity.setType("group");
+            if(attachment != null)activity.setAttachment(attachment);
+            s.beginTransaction();
+            s.save(activity);
+            s.getTransaction().commit();
+        }catch(Exception e){
+            s.getTransaction().rollback();
+            e.printStackTrace();
+            return null;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+            HibernateUtil.safeCloseSession(c);
+        }
         return newActivityID;
     }
     //tested
@@ -191,7 +227,7 @@ public class ActivityDAO {
 
         return true;
     }
-    //tested
+
     public static ActivityEntity[] getActivities(String userid,Timestamp lastdate,int number,String view){
         Session s = null;
         List resultList = null;
@@ -206,20 +242,28 @@ public class ActivityDAO {
                 query.setMaxResults(number);
                 resultList = query.list();
             }else if(view.equals("friend")){
+                String getIdHql = "select entity.groupmemberEntityPK.groupid from GroupmemberEntity entity where entity.groupmemberEntityPK.userid =:uid";
+                Map<String,Object> params = new HashMap<>();
+                params.put("uid",userid);
+                List groupidList = CommonDAO.queryHql(getIdHql,params);
                 List friendList = FriendshipDAO.getFriendIDList(userid);
                 friendList.add(userid);
+
                 String hql = "from ActivityEntity activity " +
-                        "where activity.publicdatetime<=:current " +
-                        "and activity.publisher in :plist " +
+                        "where activity.publicdatetime<=:current and " +
+                        "((activity.publisher in :plist " +
                         "and :publisherVisibilityI not in (select user.activityvisibility from UuserEntity user where user.id =activity.publisher)" +
                         "and :userid not in (select shield.shieldEntityPK.coactee from ShieldEntity shield " +
-                        "where shield.shieldEntityPK.coaction=activity.publisher and shield.shieldEntityPK.activityid = activity.activityid)" +
+                        "where shield.shieldEntityPK.coaction=activity.publisher and shield.shieldEntityPK.activityid = activity.activityid))" +
+                        "or (activity.type=:gtype and activity.publisher=:glist))" +
                         "order by activity.publicdatetime desc";
                 Query query = s.createQuery(hql);
                 query.setParameter("current",lastdate);
                 query.setParameter("plist",friendList);
                 query.setParameter("publisherVisibilityI","self");
                 query.setParameter("userid",userid);
+                query.setParameter("gtype","group");
+                query.setParameter("glist",groupidList);
                 query.setFirstResult(0);
                 query.setMaxResults(number);
                 resultList = query.list();

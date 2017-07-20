@@ -15,7 +15,7 @@ public class UuserEntity {
     private Timestamp birthday;
     private String department;
     private String grade;
-    private byte[] userpic;
+    private String userpic;
     private String hometown;
     private String telephone;
     private String email;
@@ -91,11 +91,11 @@ public class UuserEntity {
         this.grade = grade;
     }
 
-    public byte[] getUserpic() {
+    public String getUserpic() {
         return userpic;
     }
 
-    public void setUserpic(byte[] userpic) {
+    public void setUserpic(String userpic) {
         this.userpic = userpic;
     }
 

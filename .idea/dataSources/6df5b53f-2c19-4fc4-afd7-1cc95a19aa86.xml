@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-07-19.18:31:42.013</IntrospectionTimestamp>
-      <IntrospectionStateNumber>33714</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-07-20.09:51:12.679</IntrospectionTimestamp>
+      <IntrospectionStateNumber>33748</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -135,11 +135,11 @@
     </table>
     <table id="32" parent="3" name="ugroup">
       <ObjectId>16624</ObjectId>
-      <StateNumber>33714</StateNumber>
+      <StateNumber>33748</StateNumber>
     </table>
     <table id="33" parent="3" name="uuser">
       <ObjectId>16606</ObjectId>
-      <StateNumber>33138</StateNumber>
+      <StateNumber>33746</StateNumber>
     </table>
     <table id="34" parent="3" name="viewrecord">
       <ObjectId>16764</ObjectId>
@@ -901,8 +901,8 @@ boardname</ColNames>
     </column>
     <column id="167" parent="32" name="grouppic">
       <Position>8</Position>
-      <DataType>bytea|0</DataType>
-      <StateNumber>1958</StateNumber>
+      <DataType>varchar(200)|0</DataType>
+      <StateNumber>33748</StateNumber>
     </column>
     <column id="168" parent="32" name="description">
       <Position>9</Position>
@@ -963,8 +963,8 @@ boardname</ColNames>
     </column>
     <column id="179" parent="33" name="userpic">
       <Position>8</Position>
-      <DataType>bytea|0</DataType>
-      <StateNumber>1954</StateNumber>
+      <DataType>varchar(200)|0</DataType>
+      <StateNumber>33746</StateNumber>
     </column>
     <column id="180" parent="33" name="hometown">
       <Position>9</Position>

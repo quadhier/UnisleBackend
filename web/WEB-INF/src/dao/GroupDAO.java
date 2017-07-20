@@ -1,6 +1,5 @@
 package dao;
 
-import entity.ActivityEntity;
 import entity.GroupmemberEntity;
 import entity.GroupmemberEntityPK;
 import entity.UgroupEntity;
@@ -9,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
-
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +20,7 @@ public class GroupDAO {
     private GroupDAO(){}
 
     public static String createGroup(String userid,String name,String tag,
-                                     String school,String department,String description,byte[] pic){
+                                     String school,String department,String description,String pic){
         Session s = null;
         Session c = null;
         String newGroupID = null;
@@ -74,6 +72,57 @@ public class GroupDAO {
         return newGroupID;
     }
 
+    public static boolean updateGroupInfo(String groupid,String name,String tag,String school,String department,String description,String grouppic){
+        UgroupEntity older = (UgroupEntity)CommonDAO.getItemByPK(UgroupEntity.class,groupid);
+        if(older == null)
+            return false;
+
+        if(name != null) older.setName(name);
+        if(tag != null) older.setTag(tag);
+        if(school != null) older.setSchool(school);
+        if(department != null) older.setDepartment(department);
+        if(description != null) older.setDescription(description);
+        if(grouppic != null) older.setGrouppic(grouppic);
+
+        return CommonDAO.updateItem(UgroupEntity.class,groupid,older);
+    }
+
+    /**
+     * @param shouType 注释：shouType只能取值all或visiable表示返回用户加入的全部组织或是用户选择展示可见的组
+     * @return List<UgroupEntity>
+     */
+    public static List showGroupsYouAdded(String userid,String shouType){
+        List groupEntityList = null;
+        if(shouType.equals("all")){
+            String hql = "select entity.groupmemberEntityPK.groupid from GroupmemberEntity entity where entity.groupmemberEntityPK.userid =:uid";
+            Map<String,Object> params = new HashMap<>();
+            params.put("uid",userid);
+            List groupidList = CommonDAO.queryHql(hql,params);
+            if(groupidList == null || groupidList.isEmpty())
+                return null;
+
+            String getEntityHql = "from UgroupEntity entity where entity.groupid in :idlist";
+            Map<String,Object> params2 = new HashMap<>();
+            params2.put("idlist",groupidList);
+            groupEntityList = CommonDAO.queryHql(getEntityHql,params2);
+        }else if(shouType.equals("visiable")){
+            String hql = "select entity.groupmemberEntityPK.groupid from GroupmemberEntity entity where entity.groupmemberEntityPK.userid =:uid and entity.visibility = 'yes'";
+            Map<String,Object> params = new HashMap<>();
+            params.put("uid",userid);
+            List groupidList = CommonDAO.queryHql(hql,params);
+            if(groupidList == null || groupidList.isEmpty())
+                return null;
+
+            String getEntityHql = "from UgroupEntity entity where entity.groupid in :idlist";
+            Map<String,Object> params2 = new HashMap<>();
+            params2.put("idlist",groupidList);
+            groupEntityList = CommonDAO.queryHql(getEntityHql,params2);
+        }else
+            return null;
+
+        return groupEntityList;
+    }
+
     public static String getPositionInGroup(String userid,String groupid){
         GroupmemberEntityPK pk = new GroupmemberEntityPK();
         pk.setUserid(userid);
@@ -89,7 +138,7 @@ public class GroupDAO {
     public static String getDirectorID(String groupid){
         return ((UgroupEntity)CommonDAO.getItemByPK(UgroupEntity.class,groupid)).getDirector();
     }
-    //untested
+
     public static boolean dismissGroup(String groupid){
         if(CommonDAO.getItemByPK(UgroupEntity.class,groupid) == null)
             return true;
@@ -164,6 +213,8 @@ public class GroupDAO {
     }
 
     public static boolean alterVisibility(String memberid,String groupid,String newVisibility){
+        if(!(newVisibility.equals("yes")||newVisibility.equals("no")))
+            return false;
         GroupmemberEntityPK pk = new GroupmemberEntityPK();
         pk.setUserid(memberid);
         pk.setGroupid(groupid);
@@ -184,7 +235,7 @@ public class GroupDAO {
 
         return CommonDAO.deleteItemByPK(GroupmemberEntity.class,pk);
     }
-    //untested
+
     public static List searchGroupByName(String name){
         String hql = "from UgroupEntity group where group.name like :gname";
         Map<String, Object> params = new HashMap<>();
@@ -192,7 +243,7 @@ public class GroupDAO {
 
         return CommonDAO.queryHql(hql,params);
     }
-    //untested
+
     public static List searchGroupByTag(String partOfTag){
         String hql = "from UgroupEntity group where group.tag like :gtag";
         Map<String, Object> params = new HashMap<>();
