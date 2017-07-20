@@ -10,7 +10,7 @@ public class ActivityEntity {
     private String activityid;
     private String type;
     private String content;
-    private byte[] attachment;
+    private String attachment;
     private String publisher;
     private Timestamp publicdatetime;
     private Short pros;
@@ -40,11 +40,11 @@ public class ActivityEntity {
         this.content = content;
     }
 
-    public byte[] getAttachment() {
+    public String getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(byte[] attachment) {
+    public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
 

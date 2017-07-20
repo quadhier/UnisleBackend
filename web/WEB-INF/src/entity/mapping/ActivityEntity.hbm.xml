@@ -15,7 +15,7 @@
             <column name="content" sql-type="varchar(1000)" length="1000" />
         </property>
         <property name="attachment">
-            <column name="attachment" sql-type="bytea" />
+            <column name="attachment" sql-type="varchar(50)" />
         </property>
         <property name="publisher">
             <column name="publisher" sql-type="varchar(30)" length="30" not-null="true"/>

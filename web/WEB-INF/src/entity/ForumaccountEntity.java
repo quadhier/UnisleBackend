@@ -5,9 +5,9 @@ package entity;
  */
 public class ForumaccountEntity {
     private String userid;
-    private String rank;
-    private String exp;
-    private String privilige;
+    private int rank;
+    private int exp;
+    private int privilige;
 
     public String getUserid() {
         return userid;
@@ -17,27 +17,27 @@ public class ForumaccountEntity {
         this.userid = userid;
     }
 
-    public String getRank() {
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
-    public String getExp() {
+    public int getExp() {
         return exp;
     }
 
-    public void setExp(String exp) {
+    public void setExp(int exp) {
         this.exp = exp;
     }
 
-    public String getPrivilige() {
+    public int getPrivilige() {
         return privilige;
     }
 
-    public void setPrivilige(String privilige) {
+    public void setPrivilige(int privilige) {
         this.privilige = privilige;
     }
 

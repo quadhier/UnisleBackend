@@ -19,7 +19,7 @@ import java.util.Map;
 public class ActivityDAO {
     private ActivityDAO(){}
     //tested
-    public static String publishActivity(String userid,List shieldIDList,String content,byte[] attachment){
+    public static String publishActivity(String userid,List shieldIDList,String content,String attachment){
         Session s = null;
         Session c = null;
         String newActivityID = null;
@@ -86,7 +86,7 @@ public class ActivityDAO {
         return newActivityID;
     }
 
-    public static String groupPublishActivity(String groupid,String content,byte[] attachment){
+    public static String groupPublishActivity(String groupid,String content,String attachment){
         Session s = null;
         Session c = null;
         String newActivityID = null;
