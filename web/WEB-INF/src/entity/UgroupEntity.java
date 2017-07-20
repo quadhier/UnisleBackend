@@ -14,7 +14,7 @@ public class UgroupEntity {
     private String school;
     private String department;
     private Timestamp createdatetime;
-    private byte[] grouppic;
+    private String grouppic;
     private String description;
     private Short numnotice;
 
@@ -74,11 +74,11 @@ public class UgroupEntity {
         this.createdatetime = createdatetime;
     }
 
-    public byte[] getGrouppic() {
+    public String getGrouppic() {
         return grouppic;
     }
 
-    public void setGrouppic(byte[] grouppic) {
+    public void setGrouppic(String grouppic) {
         this.grouppic = grouppic;
     }
 

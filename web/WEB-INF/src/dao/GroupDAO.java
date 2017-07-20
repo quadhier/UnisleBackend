@@ -22,7 +22,7 @@ public class GroupDAO {
     private GroupDAO(){}
 
     public static String createGroup(String userid,String name,String tag,
-                                     String school,String department,String description,byte[] pic){
+                                     String school,String department,String description,String pic){
         Session s = null;
         Session c = null;
         String newGroupID = null;
@@ -73,6 +73,21 @@ public class GroupDAO {
 
         return newGroupID;
     }
+    //untested
+    public static boolean updateGroupInfo(String groupid,String name,String tag,String school,String department,String description,String grouppic){
+        UgroupEntity older = (UgroupEntity)CommonDAO.getItemByPK(UgroupEntity.class,groupid);
+        if(older == null)
+            return false;
+
+        if(name != null) older.setName(name);
+        if(tag != null) older.setTag(tag);
+        if(school != null) older.setSchool(school);
+        if(department != null) older.setDepartment(department);
+        if(description != null) older.setDescription(description);
+        if(grouppic != null) older.setGrouppic(grouppic);
+
+        return CommonDAO.updateItem(UgroupEntity.class,groupid,older);
+    }
 
     public static String getPositionInGroup(String userid,String groupid){
         GroupmemberEntityPK pk = new GroupmemberEntityPK();
@@ -89,7 +104,7 @@ public class GroupDAO {
     public static String getDirectorID(String groupid){
         return ((UgroupEntity)CommonDAO.getItemByPK(UgroupEntity.class,groupid)).getDirector();
     }
-    //untested
+
     public static boolean dismissGroup(String groupid){
         if(CommonDAO.getItemByPK(UgroupEntity.class,groupid) == null)
             return true;
@@ -184,7 +199,7 @@ public class GroupDAO {
 
         return CommonDAO.deleteItemByPK(GroupmemberEntity.class,pk);
     }
-    //untested
+
     public static List searchGroupByName(String name){
         String hql = "from UgroupEntity group where group.name like :gname";
         Map<String, Object> params = new HashMap<>();
@@ -192,7 +207,7 @@ public class GroupDAO {
 
         return CommonDAO.queryHql(hql,params);
     }
-    //untested
+
     public static List searchGroupByTag(String partOfTag){
         String hql = "from UgroupEntity group where group.tag like :gtag";
         Map<String, Object> params = new HashMap<>();
