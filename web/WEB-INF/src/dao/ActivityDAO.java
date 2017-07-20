@@ -395,10 +395,7 @@ public class ActivityDAO {
             HibernateUtil.safeCloseSession(s);
         }
 
-        if(publisher.equals(userid))
-            return true;
-        else
-            return false;
+        return publisher.equals(userid);
     }
 
     public static boolean deleteActivityComment(ActivitycommentEntityPK pk){

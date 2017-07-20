@@ -30,9 +30,7 @@ public class CollectionEntityPK implements Serializable {
         CollectionEntityPK that = (CollectionEntityPK) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (articleid != null ? !articleid.equals(that.articleid) : that.articleid != null) return false;
-
-        return true;
+        return articleid != null ? articleid.equals(that.articleid) : that.articleid == null;
     }
 
     @Override

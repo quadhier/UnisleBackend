@@ -34,10 +34,7 @@ public class ForumDAO {
         ThemeEntityPK pk = new ThemeEntityPK();
         pk.setBoardname(boardname);
         pk.setThemename(themename);
-        if(CommonDAO.getItemByPK(ThemeEntity.class,pk) == null)
-            return false;
-        else
-            return true;
+        return CommonDAO.getItemByPK(ThemeEntity.class, pk) != null;
     }
 
     public static boolean deleteTheme(String themename,String boardname){
@@ -308,9 +305,7 @@ public class ForumDAO {
         String authorid = entity.getAuthor();
         if(authorid.equals(userid))
             return true;
-        if(getPrivilige(userid) >= 4)
-            return true;
-        return false;
+        return getPrivilige(userid) >= 4;
     }
 
     public static List getArticleCommentList(String articleid){
@@ -437,6 +432,8 @@ public class ForumDAO {
 
     //包装后的map包含：用户id、昵称、性别、个性签名、学校、专业，用户论坛等级和经验，用户权限，
     public static List getWrappedForumAccountInfo(String userid){
+
+        return null;
 
     }
 }
