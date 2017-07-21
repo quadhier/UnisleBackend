@@ -22,6 +22,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void handleTextMessage (WebSocketSession session, TextMessage text){
         try {
             String content = text.getPayload();
+            System.out.println(content);
             String askcode = WebSocketUtil.getStringByKey("askcode", content);
             if (askcode.equals("000")) {
                 String userid = WebSocketUtil.getStringByKey("userid", content);
@@ -29,11 +30,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     List<WebSocketSession> sessionList = channels.get(userid);
                     if(!sessionList.contains(session))
                         sessionList.add(session);
+                    System.out.println(userid+"的在线网页数:"+sessionList.size());
                 }else{
                     List<WebSocketSession> sessionList = new LinkedList<>();
                     sessionList.add(session);
                     channels.put(userid,sessionList);
+                    System.out.println(userid+"的在线网页数: #1");
                 }
+                System.out.println("在线用户数："+channels.size());
             } else if (askcode.equals("999")) {
                 String userid = WebSocketUtil.getStringByKey("userid", content);
                 if(channels.containsKey(userid)){
@@ -42,7 +46,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
                         sessionList.remove(session);
                     if(sessionList.isEmpty())
                         channels.remove(userid);
+
+                    if(sessionList!=null)
+                        System.out.println(userid+"的在线网页数:"+sessionList.size());
+                    else
+                        System.out.println(userid+"的在线网页数: *0");
                 }
+                System.out.println("在线用户数："+channels.size());
             }else if(askcode.equals("100")){
                 String senderid = WebSocketUtil.getStringByKey("senderid",content);
                 String receiverid = WebSocketUtil.getStringByKey("receiverid",content);

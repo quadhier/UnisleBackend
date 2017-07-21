@@ -67,6 +67,19 @@ public class ForumDAO {
         return CommonDAO.updateItem(ThemeEntity.class,pk,oldEntity);
     }
 
+    public static List<String> getBoardnameList(){
+        String hql = "select b.boardname from BoardEntity b";
+
+        return CommonDAO.queryHql(hql,null);
+    }
+    public static List<String> getThemenameList(String boardname){
+        String hql = "select t.themeEntityPK.themename from ThemeEntity t where t.themeEntityPK.boardname = :bname";
+        Map params = new HashMap();
+        params.put("bname",boardname);
+
+        return CommonDAO.queryHql(hql,params);
+    }
+
     public static boolean calculateExp(String userid,int exps){
         ForumaccountEntity entity = (ForumaccountEntity) CommonDAO.getItemByPK(ForumaccountEntity.class,userid);
         if(entity==null || exps <= 0)

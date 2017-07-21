@@ -22,7 +22,7 @@ Welcome<br/><input id="text" type="text"/>
     }
 
     function send() {
-        websocket.send(document.getElementById('text').innerHTML)
+        websocket.send(document.getElementById('#text').innerHTML)
     }
 
     var websocket = null;
@@ -61,7 +61,6 @@ Welcome<br/><input id="text" type="text"/>
             //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
             window.onbeforeunload = function () {
                 unrigist();
-                websocket.close();
             }
 
         }
@@ -74,12 +73,12 @@ Welcome<br/><input id="text" type="text"/>
 
 
     function registWebSocketState(){
-        websocket.send('{askcode = 000,userid = 10000000002}')
+        websocket.send('{"askcode":"000","userid":"10000000002"}')
         document.getElementById('message').innerHTML +="registed"+ '<br/>';
     }
 
     function unrigist(){
-        websocket.send('{askcode = 999,userid = 10000000002}')
+        websocket.send('{"askcode":"000","userid":"10000000002"}')
         document.getElementById('message').innerHTML += "unregisted <br/>"
     }
 
