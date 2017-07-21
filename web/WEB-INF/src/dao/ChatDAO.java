@@ -14,11 +14,11 @@ import java.util.Map;
 public class ChatDAO {
     private ChatDAO(){}
 
-    public static boolean sendMessage(String sender,String receiver,String content){
+    public static boolean sendMessage(String sender,String receiver,String content,Timestamp sendtime){
         ChatrecordEntityPK pk = new ChatrecordEntityPK();
         pk.setSender(sender);
         pk.setReceiver(receiver);
-        pk.setSenddatedtime(new Timestamp(System.currentTimeMillis()));
+        pk.setSenddatedtime(sendtime);
         ChatrecordEntity record = new ChatrecordEntity();
         record.setChatrecordEntityPK(pk);
         record.setState("unread");
@@ -58,5 +58,55 @@ public class ChatDAO {
         }
 
         return resultList;
+    }
+
+    public static List<ChatrecordEntity> getUnreadMessageList(String user,int startat,int number){
+        Session s = null;
+        List resultList = null;
+        try {
+            s = HibernateUtil.getSession();
+            String hql = "from ChatrecordEntity record where record.chatrecordEntityPK.receiver =:uid and record.state = 'unread'" +
+                    "order by record.chatrecordEntityPK.senddatedtime asc";
+            Query query = s.createQuery(hql);
+            query.setParameter("uid", user);
+            query.setFirstResult(startat);
+            query.setMaxResults(number);
+
+            resultList = query.list();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return resultList;
+    }
+
+    public static int gerUnreadMessageNumber(String receiverid,String senderid){
+        Session s = null;
+        int unread = -1;
+        try {
+            s = HibernateUtil.getSession();
+            String hql = "select count(*) from ChatrecordEntity record where record.chatrecordEntityPK.sender = :sdr " +
+                    "and record.chatrecordEntityPK.receiver =:rcvr and record.state='unread'";
+            Query query = s.createQuery(hql);
+            query.setParameter("sdr",senderid);
+            query.setParameter("rcvr",receiverid);
+            unread = Integer.valueOf(query.uniqueResult().toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return unread;
+    }
+
+    public static List<String> getUnreadMessageSender(String receiverid){
+        String hql = "select distinct record.sender from ChatrecordEntity record where  " +
+                "record.chatrecordEntityPK.receiver =:rcvr and record.state='unread'";
+        Map params = new HashMap();
+        params.put("rcvr",receiverid);
+
+        return CommonDAO.queryHql(hql,params);
     }
 }

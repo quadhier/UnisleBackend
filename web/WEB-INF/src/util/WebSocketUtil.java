@@ -6,6 +6,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import websocket.WebSocketHandler;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,30 @@ public class WebSocketUtil {
         return true;
     }
 
-    public boolean isOnline(String userid){
+    public static boolean isOnline(String userid){
         return WebSocketHandler.channels.containsKey(userid);
+    }
+
+    public static boolean sendNoticeIfOnline(String sender, String receiver, String type, Timestamp sendtime,String content){
+        if(!isOnline(receiver))
+            return false;
+        String json =
+                "\"returncode\":\"200\" "+
+                "\"senderid\":\""+ sender +"\" " +
+                "\"noticetype\":\""+ type +"\" " +
+                "\"sendtime\":\""+ sendtime.toString() +"\" " +
+                "\"content\":\""+ content +"\" ";
+        return sendToAllPages(receiver,json);
+    }
+
+    public static boolean sendMessageIfOnline(String sender, String receiver, Timestamp sendtime,String content){
+        if(!isOnline(receiver))
+            return false;
+        String json =
+                "\"returncode\":\"102\" "+
+                "\"senderid\":\""+ sender +"\" " +
+                "\"sendtime\":\""+ sendtime.toString() +"\" " +
+                "\"content\":\""+ content +"\" ";
+        return sendToAllPages(receiver,json);
     }
 }

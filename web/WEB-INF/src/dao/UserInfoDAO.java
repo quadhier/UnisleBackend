@@ -74,6 +74,7 @@ public class UserInfoDAO {
             if(grade != null) newUser.setGrade(grade);
             if(sex != null) newUser.setSex(sex);
             newUser.setRegisterdatetime(new Timestamp(System.currentTimeMillis()));
+            newUser.setNumnotice(Short.valueOf("0"));
 
             ForumaccountEntity forumaccount = new ForumaccountEntity();
             forumaccount.setUserid(newUserID);

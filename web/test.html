@@ -112,8 +112,7 @@ Welcome<br/><input id="text" type="text"/>
 <hr/>
 <button onclick="closeWebSocket()">close socket</button>
 <hr/>
-<button onclick="registWebSocketState()">regist socket</button>
-<hr/>
+
 <div id="message"></div>
 </body>
 
@@ -123,6 +122,9 @@ Welcome<br/><input id="text" type="text"/>
         document.getElementById('message').innerHTML += innerHTML + '<br/>';
     }
 
+    function send() {
+        websocket.send(document.getElementById('text').innerHTML)
+    }
 
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
