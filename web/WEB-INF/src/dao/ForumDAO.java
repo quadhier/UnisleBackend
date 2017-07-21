@@ -37,10 +37,7 @@ public class ForumDAO {
         ThemeEntityPK pk = new ThemeEntityPK();
         pk.setBoardname(boardname);
         pk.setThemename(themename);
-        if(CommonDAO.getItemByPK(ThemeEntity.class,pk) == null)
-            return false;
-        else
-            return true;
+        return CommonDAO.getItemByPK(ThemeEntity.class, pk) != null;
     }
 
     public static boolean deleteTheme(String themename,String boardname){
@@ -317,9 +314,7 @@ public class ForumDAO {
         String authorid = entity.getAuthor();
         if(authorid.equals(userid))
             return true;
-        if(getPrivilige(userid) >= 4)
-            return true;
-        return false;
+        return getPrivilige(userid) >= 4;
     }
 
     public static List getArticleCommentList(String articleid){
@@ -402,7 +397,7 @@ public class ForumDAO {
         }
         return wrappedResult;
     }
-
+    //untested
     //返回格式与文章列表相同，每个文章只有一条最近浏览的记录,按浏览时间逆序排列
     public static List getViewHistory(String userid,Timestamp lasttime,int startat,int number){
         Session s = null;

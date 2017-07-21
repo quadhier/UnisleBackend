@@ -33,7 +33,7 @@ public class LoginTest {
 //
 //        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //        ServletWebRequest servletWebRequest=new ServletWebRequest(req);
-//        HttpServletResponse response=servletWebRequest.getResponse();
+//        HttpSer vletResponse response=servletWebRequest.getResponse();
 //
 //        System.out.println("Login Status Testing");
 //
