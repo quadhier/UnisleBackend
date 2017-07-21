@@ -81,7 +81,7 @@ public class ForumController {
     * */
 
     // 获取指定用户的权限
-    @RequestMapping("/userpri")
+    @RequestMapping(value = "/userpri", method = RequestMethod.GET)
     @ResponseBody
     public Object getPri(HttpServletRequest request) {
 
@@ -97,7 +97,7 @@ public class ForumController {
     // 更改用户的权限
     // 只有版主和超级管理员有此权限
     // 并且只能将权限修改比自己的权限低的位置
-    @RequestMapping("/userpri")
+    @RequestMapping(value = "/userpri", method = RequestMethod.POST)
     @ResponseBody
     public Object alterUserPri(@RequestParam("newPrivilege") String newPrivilege,
                                HttpServletRequest request) {
@@ -124,11 +124,39 @@ public class ForumController {
 
 
 
+    // 获取所有板块
+    @RequestMapping(value = "/board", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getBoard(HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("SUCCESS");
+        List boards = ForumDAO.getBoard();
+        rinfo.setData(boards);
+        return rinfo;
+    }
+
+
     /*
     *
     * 主题有关操作
     *
     * */
+
+
+
+    // 获取一个板块下的所有主题
+    @RequestMapping(value = "/theme", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getTheme(@RequestParam("boardName") String boardName,
+                           HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(boardName);
+        return rinfo;
+    }
+
 
     // 添加主题
     // 只有超级管理员有此权限
