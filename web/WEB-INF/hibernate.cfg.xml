@@ -21,7 +21,7 @@
         </property>
         <!--连接数据库是密码-->
         <property name="connection.password">
-            admin
+            qtmdadmin
             <!--admin-->
         </property>
         <!--数据库连接池的大小-->

@@ -1,11 +1,10 @@
 package controller;
 
-import com.sun.org.apache.regexp.internal.RE;
-import com.sun.tools.corba.se.idl.constExpr.Times;
 import converter.ResultInfo;
 import dao.CommonDAO;
 import dao.ForumDAO;
 import entity.ArticleEntity;
+import entity.ArticlecommentEntityPK;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -80,6 +79,7 @@ public class ForumController {
     *
     * */
 
+    // tested
     // 获取指定用户的权限
     @RequestMapping(value = "/userpri", method = RequestMethod.GET)
     @ResponseBody
@@ -94,21 +94,24 @@ public class ForumController {
     }
 
 
+
+    // tested
     // 更改用户的权限
     // 只有版主和超级管理员有此权限
     // 并且只能将权限修改比自己的权限低的位置
     @RequestMapping(value = "/userpri", method = RequestMethod.POST)
     @ResponseBody
     public Object alterUserPri(@RequestParam("newPrivilege") String newPrivilege,
+                               @RequestParam("userid") String userid,
                                HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
         // 权限检查
-        String userid = ControllerUtil.getUidFromReq(request);
-        if(getUserPri(userid) < getIntPri("boarder") ||
-                getUserPri(userid) <= getIntPri(newPrivilege)) {
+        String selfid = ControllerUtil.getUidFromReq(request);
+        if(getUserPri(selfid) < getIntPri("boarder") ||
+                getUserPri(selfid) <= getIntPri(newPrivilege)) {
             rinfo.setReason("E_INSUFFICIENT_PERMISSION");
             return rinfo;
         }
@@ -124,6 +127,7 @@ public class ForumController {
 
 
 
+    // tested
     // 获取所有板块
     @RequestMapping(value = "/board", method = RequestMethod.GET)
     @ResponseBody
@@ -131,7 +135,7 @@ public class ForumController {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("SUCCESS");
-        List boards = ForumDAO.getBoard();
+        List boards = ForumDAO.getBoardnameList();
         rinfo.setData(boards);
         return rinfo;
     }
@@ -143,8 +147,7 @@ public class ForumController {
     *
     * */
 
-
-
+    // tested
     // 获取一个板块下的所有主题
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
     @ResponseBody
@@ -153,7 +156,8 @@ public class ForumController {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("SUCCESS");
-        rinfo.setData(boardName);
+        List themes = ForumDAO.getThemenameList(boardName);
+        rinfo.setData(themes);
         return rinfo;
     }
 
@@ -249,10 +253,11 @@ public class ForumController {
     *
     * */
 
+    // tested
     // 获取用户的个人信息
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     @ResponseBody
-    public Object getUserInfo(@RequestParam("userid") String userid,
+    public Object getUserInfo(@RequestParam(value = "userid", required = false) String userid,
                               HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -265,13 +270,15 @@ public class ForumController {
     }
 
 
+
+    // tested
     // 设置文章可见性
     // 只有版主或超级管理员有此权限
     // newVisibility can be "all" or "self"
-    @RequestMapping(value = "/article/visibility", method = RequestMethod.GET)
+    @RequestMapping(value = "/article/visibility", method = RequestMethod.POST)
     @ResponseBody
     public Object setVisibility(@RequestParam("articleid") String articleid,
-                                @RequestParam("visibility") String newVisibility,
+                                @RequestParam("newVisibility") String newVisibility,
                                 HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -298,6 +305,8 @@ public class ForumController {
     }
 
 
+
+    // tested
     // 获取特定板块的特定主题下的文章列表
     // 可以获取指定时间之前的，指定数量的文章（现改为当前系统时间）
     // 其中包含articleid，authorid，commentallowed，title，viewtimes，发布、最后修改、最后评论时间
@@ -306,8 +315,8 @@ public class ForumController {
     @ResponseBody
     public Object getArticleList(@RequestParam("boardName") String boardName,
                                  @RequestParam("themeName") String themeName,
-                                 @RequestParam("beforeTime") String beforeTime,
-                                 @RequestParam("startat") int startAt,
+                                 @RequestParam(value = "beforeTime", required = false) String beforeTime,
+                                 @RequestParam("startAt") int startAt,
                                  @RequestParam("number") int number,
                                  HttpServletRequest request) {
 
@@ -329,6 +338,31 @@ public class ForumController {
     }
 
 
+    // tested
+    // 获取被隐藏的文章的列表
+    @RequestMapping(value = "/article/invisible", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getInvisibleArticle(@RequestParam("startAt") int startAt,
+                                      @RequestParam("number") int number,
+                                      HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        String userid = ControllerUtil.getUidFromReq(request);
+        if(getUserPri(userid) < getIntPri("editor")) {
+            rinfo.setReason("E_INSUFFICIENT_PERMISSION");
+            return rinfo;
+        }
+
+        List invisibleArticles = ForumDAO.getHiddenArticleList(startAt, number);
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(invisibleArticles);
+        return rinfo;
+    }
+
+
+    // tested
     // 获取文章内容
     @RequestMapping(value = "/article/content", method = RequestMethod.GET)
     @ResponseBody
@@ -339,18 +373,22 @@ public class ForumController {
         rinfo.setResult("ERROR");
 
         String userid = ControllerUtil.getUidFromReq(request);
-        ArticleEntity article = (ArticleEntity) CommonDAO.getItemByPK(ArticleEntity.class, userid);
-        if(!article.getAuthor().equals(userid) && article.getVisibility().equals("self")) {
+        ArticleEntity article = (ArticleEntity) CommonDAO.getItemByPK(ArticleEntity.class, articleid);
+        if(!article.getAuthor().equals(userid) &&
+                article.getVisibility().equals("self") &&
+                getUserPri(userid) < getIntPri("editor")) {
             rinfo.setReason("E_INSUFFICIENT_PERMISSION");
             return rinfo;
         }
 
         rinfo.setResult("SUCCESS");
-        rinfo.setData(article.getContent());
+        // 需要调用readArticleContent才能更新浏览记录
+        rinfo.setData(ForumDAO.readArticleContent(userid, articleid));
         return rinfo;
     }
 
 
+    // tested
     // 保存正在编辑的文章
     // 也可以用来保存动态
     @RequestMapping(value = "/article/editing", method = RequestMethod.POST)
@@ -377,6 +415,7 @@ public class ForumController {
     }
 
 
+    // tested
     // 获取正在编辑的文章
     // 也可以用来获取正在编辑的动态
     @RequestMapping(value = "/article/editing", method = RequestMethod.GET)
@@ -399,6 +438,7 @@ public class ForumController {
         return rinfo;
     }
 
+    // tested
     // 发布文章
     @RequestMapping(value = "/article/publish", method = RequestMethod.POST)
     @ResponseBody
@@ -418,9 +458,11 @@ public class ForumController {
         return rinfo;
     }
 
+
+    // tested
     // 更改文章内容
     // 只有文章发布者可以更改文章内容
-    @RequestMapping(value = "/article／alter", method = RequestMethod.POST)
+    @RequestMapping(value = "/article/alter", method = RequestMethod.POST)
     @ResponseBody
     public Object alterArticleContent(@RequestParam("articleid") String articleid,
                                       @RequestParam("newContent") String newContent,
@@ -446,13 +488,12 @@ public class ForumController {
         return rinfo;
     }
 
-
+    // tested
     // 获取我的文章列表
     // 指定获取从某篇文章开始以后的一定数目的文章
     @RequestMapping(value = "/article", method = RequestMethod.GET)
     @ResponseBody
-    public Object getMyArticle(@RequestParam("userid") String article,
-                               @RequestParam("startAt") int startAt,
+    public Object getMyArticle(@RequestParam("startAt") int startAt,
                                @RequestParam("number") int number,
                                HttpServletRequest request) {
 
@@ -471,6 +512,7 @@ public class ForumController {
     }
 
 
+    // tested
     // 删除文章
     @RequestMapping(value = "/article/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -496,12 +538,13 @@ public class ForumController {
         return rinfo;
     }
 
+    // tested
     // 设置是否能够评论
     // 只有小编，版主和超级管理员有此权限
     @RequestMapping(value = "/article/commentpermission", method = RequestMethod.POST)
     @ResponseBody
     public Object setCommentPermission(@RequestParam("articleid") String articleid,
-                                       @RequestParam("commentpermisson") String commentpermission,
+                                       @RequestParam("commentpermission") String commentpermission,
                                        HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -514,7 +557,7 @@ public class ForumController {
 
         String userid = ControllerUtil.getUidFromReq(request);
 
-        if(! (getUserPri(userid) < getIntPri("editor")) ) {
+        if(getUserPri(userid) < getIntPri("editor")) {
             rinfo.setReason("E_INSUFFICIENT_PERMISSION");
             return rinfo;
         }
@@ -535,8 +578,9 @@ public class ForumController {
     *
     * */
 
+    // tested
     // 发布评论
-    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/article/comment", method = RequestMethod.POST)
     @ResponseBody
     public Object publishArticleComment(@RequestParam("articleid") String articleid,
                                         @RequestParam("content") String content,
@@ -561,8 +605,9 @@ public class ForumController {
     }
 
 
+    // tested
     // 获取文章的评论列表
-    @RequestMapping(value = "/comment", method = RequestMethod.GET)
+    @RequestMapping(value = "/article/comment", method = RequestMethod.GET)
     @ResponseBody
     public Object getArticleComment(@RequestParam("articleid") String articleid,
                                     HttpServletRequest request) {
@@ -575,21 +620,68 @@ public class ForumController {
     }
 
 
+
+    // !!! Attention:org.hibernate.UnknownEntityTypeException:
+    // !!! Unable to locate persister: entity.ArticlecommentEntityPK
+    // 删除评论
+    // 当评论的作者为自己或者评论的文章作者为自己时方可删除评论
+    @RequestMapping(value = "/article/comment/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteArticleComment(@RequestParam("articleid") String articleid,
+                                       @RequestParam("publishDatetime") long publishDatetime,
+                                       @RequestParam("commenter") String commenter,
+                                       HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        String userid = ControllerUtil.getUidFromReq(request);
+
+        ArticleEntity article = (ArticleEntity) CommonDAO.getItemByPK(ArticleEntity.class, articleid);
+        String author = article.getAuthor();
+
+        if(!userid.equals(commenter) && !userid.equals(author)) {
+            rinfo.setReason("E_NOT_ALLOWED");
+            return rinfo;
+        }
+
+        ArticlecommentEntityPK acpk = new ArticlecommentEntityPK();
+        acpk.setArticleid(articleid);
+        acpk.setPublicdatetime(new Timestamp(Long.valueOf(publishDatetime)));
+        acpk.setUserid(commenter);
+
+        if(!CommonDAO.deleteItemByPK(ArticlecommentEntityPK.class, acpk)) {
+            rinfo.setReason("NOT_DELETED");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
+        return rinfo;
+    }
+
+
     /*
     *
     * 收藏夹有关操作
     *
     * */
 
+    // tested
     // 查看用户的收藏夹
     @RequestMapping(value = "/collection", method = RequestMethod.GET)
     @ResponseBody
-    public Object getUserCollection(@RequestParam("userid") String userid,
+    public Object getUserCollection(@RequestParam(value = "userid", required = false) String userid,
                                     @RequestParam("startAt") int startAt,
-                                    @RequestParam("endAt") int number) {
+                                    @RequestParam("number") int number,
+                                    HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
+
+        if(userid == null) {
+            userid = ControllerUtil.getUidFromReq(request);
+        }
+
 
         if(startAt < 0 || number < 0) {
             rinfo.setReason("E_INVALID_NUMBER");
@@ -604,16 +696,17 @@ public class ForumController {
 
 
 
+    // tested
     // 将文章加入收藏夹
     @RequestMapping(value = "/collection", method = RequestMethod.POST)
     @ResponseBody
-    public Object addToCollection(@RequestParam("userid") String userid,
-                                  @RequestParam("articleid") String articleid,
+    public Object addToCollection(@RequestParam("articleid") String articleid,
                                   HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
-        rinfo.setResult("SUCCESS");
+        rinfo.setResult("ERROR");
 
+        String userid = ControllerUtil.getUidFromReq(request);
         if(!ForumDAO.addToCollection(userid, articleid)) {
             rinfo.setReason("E_NOT_ADDED");
             return rinfo;
@@ -624,6 +717,7 @@ public class ForumController {
     }
 
 
+    // tested
     // 将文章从收藏夹中删除
     @RequestMapping(value = "/collection/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -639,7 +733,7 @@ public class ForumController {
             return rinfo;
         }
 
-        rinfo.setReason("SUCCESS");
+        rinfo.setResult("SUCCESS");
         return rinfo;
     }
 
@@ -649,6 +743,7 @@ public class ForumController {
     * 历史记录有关操作
     *
     * */
+
 
     // 获取用户的浏览历史记录
     @RequestMapping(value = "/history", method = RequestMethod.GET)
