@@ -34,4 +34,8 @@ public class WebSocketUtil {
 
         return true;
     }
+
+    public boolean isOnline(String userid){
+        return WebSocketHandler.channels.containsKey(userid);
+    }
 }

@@ -402,7 +402,7 @@ public class ForumDAO {
         }
         return wrappedResult;
     }
-    //untested
+
     //返回格式与文章列表相同，每个文章只有一条最近浏览的记录,按浏览时间逆序排列
     public static List getViewHistory(String userid,Timestamp lasttime,int startat,int number){
         Session s = null;
@@ -410,27 +410,38 @@ public class ForumDAO {
         List wrappedResult = null;
         try {
             s = HibernateUtil.getSession();
-            String getArticleIDList = "select subtable.articleid,article.title from (select distinct entity.viewrecordEntityPK.articleid as articleid,max(entity.viewrecordEntityPK.viewdatetime) as latesttime " +
-                    "from ViewrecordEntity entity where entity.viewrecordEntityPK.userid = :uid " +
-                    "and entity.viewrecordEntityPK.viewdatetime<=:time group by entity.viewrecordEntityPK.articleid " +
-                    "order by max(entity.viewrecordEntityPK.viewdatetime) desc as subtable) join ArticleEntity article on subtable.articleid = article.articleid";
-            Query query = s.createQuery(getArticleIDList);
+            String sql = "select aid,vtime,author,boardname,themename,title,viewtimes,lastcomdatetime " +
+                    "from  " +
+                    "  (select articleid as aid,max(viewdatetime) as vtime" +
+                    "  from viewrecord" +
+                    "  where userid = :uid " +" and viewdatetime <= :mtime " +
+                    "  group by aid " +
+                    "  order by vtime desc) as vrecord join article on vrecord.aid = article.articleid";
+            //注意！这里如果外层查询用order by时间来排序的话，就会导致在setMaxResults()的时候发生冲突导致错误。
+            Query query = s.createSQLQuery(sql);
+            query.setParameter("mtime",lasttime);
             query.setParameter("uid",userid);
-            query.setParameter("time",lasttime);
             query.setFirstResult(startat);
             query.setMaxResults(number);
-            List articleIDList = query.list();
-            if (articleIDList == null || articleIDList.isEmpty())
-                return null;
 
-            String hql = "from ArticleEntity entity where entity.articleid in :aidlist";
-            Query getEntity = s.createQuery(hql);
-            getEntity.setParameter("aidlist",articleIDList);
-            result = getEntity.list();
+            result = query.list();
             if(result == null || result.isEmpty())
                 return null;
+            wrappedResult = new ArrayList();
+            for(Object o:result){
+                Object[] oarray = (Object[])o;
+                Map adapter = new HashMap();
+                adapter.put("articleid",oarray[0]);
+                adapter.put("viewdatetime",oarray[1]);
+                adapter.put("author",oarray[2]);
+                adapter.put("boardname",oarray[3]);
+                adapter.put("themename",oarray[4]);
+                adapter.put("title",oarray[5]);
+                adapter.put("viewtimes",oarray[6]);
+                adapter.put("lastcomdatetime",oarray[7]);
+                wrappedResult.add(adapter);
+            }
 
-            wrappedResult = Rewrapper.wrapList(result,ArticleEntity.class,"111111111011");
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -485,3 +496,27 @@ public class ForumDAO {
         return wrapper;
     }
 }
+/*
+
+            String getArticleIDList = "select subtable.articleid,article.title from (select distinct entity.viewrecordEntityPK.articleid as articleid,max(entity.viewrecordEntityPK.viewdatetime) as latesttime " +
+                    "from ViewrecordEntity entity where entity.viewrecordEntityPK.userid = :uid " +
+                    "and entity.viewrecordEntityPK.viewdatetime<=:time group by entity.viewrecordEntityPK.articleid " +
+                    "order by max(entity.viewrecordEntityPK.viewdatetime) desc as subtable) join ArticleEntity article on subtable.articleid = article.articleid";
+            Query query = s.createQuery(getArticleIDList);
+            query.setParameter("uid",userid);
+            query.setParameter("time",lasttime);
+            query.setFirstResult(startat);
+            query.setMaxResults(number);
+            List articleIDList = query.list();
+            if (articleIDList == null || articleIDList.isEmpty())
+                return null;
+
+            String hql = "from ArticleEntity entity where entity.articleid in :aidlist";
+            Query getEntity = s.createQuery(hql);
+            getEntity.setParameter("aidlist",articleIDList);
+            result = getEntity.list();
+            if(result == null || result.isEmpty())
+                return null;
+
+            wrappedResult = Rewrapper.wrapList(result,ArticleEntity.class,"111111111011");
+ */

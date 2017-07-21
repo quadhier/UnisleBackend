@@ -80,5 +80,6 @@
         <mapping resource="entity/mapping/ThemeEntity.hbm.xml"/>
         <mapping resource="entity/mapping/ViewrecordEntity.hbm.xml"/>
         <mapping resource="entity/mapping/CollectionEntity.hbm.xml"/>
+        <mapping resource="entity/mapping/ChatrecordEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
