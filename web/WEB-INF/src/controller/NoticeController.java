@@ -1,18 +1,53 @@
 package controller;
 
 import converter.ResultInfo;
+import dao.NoticeDAO;
+import entity.NoticeEntityPK;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import util.ControllerUtil;
 import util.WebSocketUtil;
 import websocket.WebSocketHandler;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 
 
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
+    @RequestMapping(value = "sendNotice" , method = RequestMethod.POST)
+    @ResponseBody
+    public Object sendNotice(HttpServletRequest req,
+                               @RequestParam(value = "receiver") String receiver,
+                               @RequestParam(value = "content", required = false) String content,
+                               @RequestParam(value = "type") String type) {
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        if (type != null &&
+                !type.equals("groupinvite") &&
+                !type.equals("articlecommented") &&
+                !type.equals("activitycommented") &&
+                !type.equals("activityproed") &&
+                !type.equals("activityforwarded") &&
+                !type.equals("addedtoblicklist") &&
+                !type.equals("friendshipdeleted")) {
+            result.setResult("ERROR");
+            result.setReason("NO_SUCH_TYPE");
+            return result;
+        }
+
+        if (NoticeDAO.sendNotice(userid, receiver, content, type)) {
+            result.setResult("SUCCESS");
+        } else{
+            result.setResult("ERROR");
+            result.setReason("E_SEND_FAILED");
+        }
+
+        return result;
+    }
 
     @RequestMapping(value = "/getSocketLinkState")
     @ResponseBody
@@ -32,14 +67,91 @@ public class NoticeController {
         return info;
     }
 
-    @RequestMapping(value = "/testMsg")
+    @RequestMapping(value = "getUnreadNotice" , method = RequestMethod.GET)
     @ResponseBody
-    public Object test(@RequestParam(value = "msg") String msg){
+    public Object getUnreadNotice(HttpServletRequest req){
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        if(NoticeDAO.getNoticenum(userid) == 0){
+            result.setResult("SUCCESS");
+            result.setResult("NO_UNREAD_NOTICE");
+            return result;
+        }
 
+        result.setResult("SUCCESS");
+        result.setData(NoticeDAO.getNewNoticeList(userid,null));
 
-        return null;
+        return result;
     }
 
+    @RequestMapping(value = "getAllNotice" , method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAllNotice(HttpServletRequest req,
+                                  @RequestParam(value = "type", required = false) String type){
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        if(type != null &&
+                !type.equals("friendshipask") &&
+                !type.equals("groupinvite") &&
+                !type.equals("articlecommented") &&
+                !type.equals("activitycommented") &&
+                !type.equals("activityproed") &&
+                !type.equals("activityforwarded") &&
+                !type.equals("addedtoblicklist") &&
+                !type.equals("friendshipdeleted") ){
+            result.setResult("ERROR");
+            result.setReason("NO_SUCH_TYPE");
+            return result;
+        }
+
+        result.setData(NoticeDAO.getAllNoticeList(userid,type));
+        result.setResult("SUCCESS");
+        return result;
+    }
+
+    @RequestMapping(value = "deleteANotice" , method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteANotice(HttpServletRequest req,
+                                @RequestParam(value = "sender") String sender,
+                                @RequestParam(value = "sendtime") String time){
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        Timestamp timestamp = new Timestamp(Long.parseLong(time));
+        NoticeEntityPK pk = new NoticeEntityPK();
+        pk.setSender(sender);
+        pk.setReceiver(userid);
+        pk.setGendatetime(timestamp);
+        if(NoticeDAO.deleteANotice(pk)){
+            result.setResult("SUCCESS");
+        }else{
+            result.setReason("E_DELETE_FAILED");
+            result.setResult("ERROR");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "setNoticeRead" , method = RequestMethod.POST)
+    @ResponseBody
+    public Object setNoticeRead(HttpServletRequest req,
+                                @RequestParam(value = "sender") String sender,
+                                @RequestParam(value = "sendtime") String time) {
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        Timestamp timestamp = new Timestamp(Long.parseLong(time));
+        NoticeEntityPK pk = new NoticeEntityPK();
+        pk.setSender(sender);
+        pk.setReceiver(userid);
+        pk.setGendatetime(timestamp);
+        if (NoticeDAO.setNoticeRead(pk)) {
+            result.setResult("SUCCESS");
+        } else {
+            result.setReason("E_DELETE_FAILED");
+            result.setResult("ERROR");
+        }
+
+        return result;
+    }
 }
 
 /*

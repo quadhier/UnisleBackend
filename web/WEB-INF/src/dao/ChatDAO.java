@@ -109,4 +109,14 @@ public class ChatDAO {
 
         return CommonDAO.queryHql(hql,params);
     }
+
+    public static boolean deleteSomeoneMessage(String user1,String user2){
+        String hql = "delete ChatrecordEntity e where ((e.chatrecordEntityPK.sender =:uid1 and e.chatrecordEntityPK.receiver =:uid2) " +
+        " or (e.chatrecordEntityPK.sender =:uid2 and e.chatrecordEntityPK.receiver =:uid1))";
+        Map params = new HashMap();
+        params.put("uid1",user1);
+        params.put("uid2",user2);
+
+        return CommonDAO.updateHql(hql,params);
+    }
 }
