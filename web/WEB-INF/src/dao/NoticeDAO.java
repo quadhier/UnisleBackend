@@ -56,11 +56,20 @@ public class NoticeDAO {
     //tested
     //type字段可以为Null。如果为null，表示获得所有消息
     public static NoticeEntity[] getAllNoticeList(String receiver, String type) {
-        String hql = "from NoticeEntity entity where entity.noticeEntityPK.receiver=:rc and entity.type =:tp order by entity.noticeEntityPK.gendatetime desc";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("rc", receiver);
-        params.put("tp", type);
-        List list = CommonDAO.queryHql(hql, params);
+        List list = null;
+        if(type != null) {
+            String hql = "from NoticeEntity entity where entity.noticeEntityPK.receiver=:rc and entity.type =:tp order by entity.noticeEntityPK.gendatetime desc";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("rc", receiver);
+            params.put("tp", type);
+            list = CommonDAO.queryHql(hql, params);
+        }else{
+            String hql = "from NoticeEntity entity where entity.noticeEntityPK.receiver=:rc order by entity.noticeEntityPK.gendatetime desc";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("rc", receiver);
+            list = CommonDAO.queryHql(hql, params);
+        }
+
         if (list == null)
             return null;
 
@@ -73,11 +82,19 @@ public class NoticeDAO {
     //tested
     //type字段可以为Null。如果为null，表示获得所有消息
     public static NoticeEntity[] getNewNoticeList(String receiver, String type) {
-        String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type =:tp and n.status = 'unread' order by n.noticeEntityPK.gendatetime desc";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("rc", receiver);
-        params.put("tp", type);
-        List list = CommonDAO.queryHql(hql, params);
+        List list = null;
+        if(type != null) {
+            String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.type =:tp and n.status = 'unread' order by n.noticeEntityPK.gendatetime desc";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("rc", receiver);
+            params.put("tp", type);
+            list = CommonDAO.queryHql(hql, params);
+        }else{
+            String hql = "from NoticeEntity n where n.noticeEntityPK.receiver=:rc and n.status = 'unread' order by n.noticeEntityPK.gendatetime desc";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("rc", receiver);
+            list = CommonDAO.queryHql(hql, params);
+        }
         if (list == null)
             return null;
 
