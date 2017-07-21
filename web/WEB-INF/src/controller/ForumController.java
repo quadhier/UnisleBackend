@@ -286,6 +286,11 @@ public class ForumController {
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
+        if(startAt < 0 || number < 0) {
+            rinfo.setReason("E_INVALID_NUMBER");
+            return rinfo;
+        }
+
         String userid = ControllerUtil.getUidFromReq(request);
 
         Timestamp bTime = new Timestamp(System.currentTimeMillis());
@@ -423,8 +428,14 @@ public class ForumController {
                                HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
-        rinfo.setResult("SUCCESS");
+        rinfo.setResult("ERROR");
 
+        if(startAt < 0 || number < 0) {
+            rinfo.setReason("E_INVALID_NUMBER");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
         String userid = ControllerUtil.getUidFromReq(request);
         rinfo.setData(ForumDAO.getMyArticleList(userid, startAt, number));
         return rinfo;
@@ -549,6 +560,13 @@ public class ForumController {
                                     @RequestParam("endAt") int number) {
 
         ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        if(startAt < 0 || number < 0) {
+            rinfo.setReason("E_INVALID_NUMBER");
+            return rinfo;
+        }
+
         rinfo.setResult("SUCCESS");
         List collection = ForumDAO.getCollectionList(userid, startAt, number);
         rinfo.setData(collection);
@@ -613,6 +631,11 @@ public class ForumController {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
+
+        if(startAt < 0 || number < 0) {
+            rinfo.setReason("E_INVALID_NUMBER");
+            return rinfo;
+        }
 
         Timestamp sTime = null;
         try {
