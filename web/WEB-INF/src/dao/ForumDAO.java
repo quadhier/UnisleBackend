@@ -450,6 +450,15 @@ public class ForumDAO {
         }
         return wrappedResult;
     }
+    //untested
+    public static boolean deleteViewHistory(String userid,String articleid){
+        String hql = "delete ViewrecordEntity view where view.viewrecordEntityPK.userid = :uid and view.viewrecordEntityPK.articleid = :aid";
+        Map params = new HashMap();
+        params.put("uid",userid);
+        params.put("aid",articleid);
+
+        return CommonDAO.updateHql(hql,params);
+    }
 
     public static boolean clearViewHistory(String userid){
         String hql = "delete ViewrecordEntity record where record.viewrecordEntityPK.userid = :uid";

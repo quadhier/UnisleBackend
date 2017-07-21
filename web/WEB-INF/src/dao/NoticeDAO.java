@@ -2,6 +2,7 @@ package dao;
 
 import entity.NoticeEntity;
 import entity.NoticeEntityPK;
+import entity.UuserEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
@@ -26,7 +27,7 @@ public class NoticeDAO {
         newNotice.setType(type);
         newNotice.setStatus("unread");
 
-        return CommonDAO.saveItem(newNotice);
+        return CommonDAO.saveItem(newNotice) && setNoticenumPlusOne(receiver);
     }
     //tested
     public static boolean seekSendedNotice(String sender, String receiver, String type) {
@@ -121,6 +122,36 @@ public class NoticeDAO {
     public static boolean setNoticeRead(NoticeEntityPK pk) {
         NoticeEntity original = (NoticeEntity) CommonDAO.getItemByPK(NoticeEntity.class, pk);
         original.setStatus("read");
-        return CommonDAO.updateItem(NoticeEntity.class, pk, original);
+        return CommonDAO.updateItem(NoticeEntity.class, pk, original) && setNoticenumMinus(pk.getReceiver(),1);
+    }
+
+    public static boolean setNoticenumPlusOne(String userid){
+        String hql = "update UuserEntity user set user.numnitice = user.numnotice+1 where user.userid = :uid";
+        Map params = new HashMap();
+        params.put("uid",userid);
+
+        return CommonDAO.updateHql(hql,params);
+    }
+
+    public static boolean setNoticenumMinus(String userid,int absOfMinus){
+        int originNum = getNoticenum(userid);
+        if(originNum<0)
+            return false;
+        originNum = originNum-absOfMinus>0?originNum-absOfMinus:0;
+
+        String hql = "update UuserEntity user set user.numnitice = :nnum where user.userid = :uid";
+        Map params = new HashMap();
+        params.put("uid",userid);
+        params.put("nnum",originNum);
+
+        return CommonDAO.updateHql(hql,params);
+    }
+
+    public static int getNoticenum(String userid){
+        UuserEntity user = (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class,userid);
+        if(user == null)
+            return -1;
+
+        return user.getNumnotice();
     }
 }
