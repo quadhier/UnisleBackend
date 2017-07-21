@@ -1,5 +1,6 @@
 import dao.*;
 import entity.*;
+import org.hibernate.Session;
 import util.ControllerUtil;
 import util.HibernateUtil;
 import util.Rewrapper;
@@ -292,7 +293,7 @@ public class Runner {
         System.out.println(?"yes":"no");
         */
 
-
+        Session s = HibernateUtil.getSession();
 
 
         HibernateUtil.closeSessionFactory();
