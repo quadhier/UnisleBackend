@@ -31,7 +31,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     sessionList.add(session);
                     channels.put(userid,sessionList);
                 }
-
             } else if (askcode.equals("999")) {
                 List<WebSocketSession> sessionList = channels.get(userid);
                 if(channels.containsKey(userid) && sessionList.contains(session)){

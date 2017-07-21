@@ -402,7 +402,7 @@ public class ForumDAO {
         }
         return wrappedResult;
     }
-    //untested
+
     //返回格式与文章列表相同，每个文章只有一条最近浏览的记录,按浏览时间逆序排列
     public static List getViewHistory(String userid,Timestamp lasttime,int startat,int number){
         Session s = null;

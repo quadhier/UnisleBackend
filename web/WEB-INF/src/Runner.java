@@ -287,11 +287,11 @@ public class Runner {
         ForumDAO.alterPrivilige("10000000001",4);
         System.out.println(ForumDAO.getWrappedForumAccountInfo("10000000001").toString());
         ForumDAO.clearViewHistory("10000000001");
+        printList(ForumDAO.getViewHistory("10000000003",new Timestamp(System.currentTimeMillis()),0,5));
 
         System.out.println(?"yes":"no");
         */
 
-        printList(ForumDAO.getViewHistory("10000000003",new Timestamp(System.currentTimeMillis()),0,5));
 
 
 
