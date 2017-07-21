@@ -15,7 +15,7 @@ import java.util.List;
 public class Runner {
     private static void printList(List li){
         for(Object o:li)
-            System.out.println((String)(((HashMap)o).get("title")) + ((HashMap)o).get("collectdatetime").toString());
+            System.out.println((String)(((HashMap)o).get("title")) + ((HashMap)o).get("viewdatetime").toString());
     }
 
     public static void main(String args[]){
@@ -286,11 +286,12 @@ public class Runner {
         System.out.println(ForumDAO.getPrivilige("10000000001"));
         ForumDAO.alterPrivilige("10000000001",4);
         System.out.println(ForumDAO.getWrappedForumAccountInfo("10000000001").toString());
+        ForumDAO.clearViewHistory("10000000001");
 
         System.out.println(?"yes":"no");
         */
 
-        ForumDAO.clearViewHistory("10000000001");
+        printList(ForumDAO.getViewHistory("10000000003",new Timestamp(System.currentTimeMillis()),0,5));
 
 
 
