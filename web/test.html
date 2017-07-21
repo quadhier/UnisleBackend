@@ -123,8 +123,7 @@ Welcome<br/><input id="text" type="text"/>
     }
 
     function send() {
-        alert(document.getElementById('text').innerText());
-        websocket.send(document.getElementById('text').innerHTML)
+        websocket.send(document.getElementById('text').value)
     }
 
     var websocket = null;

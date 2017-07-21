@@ -16,7 +16,7 @@ import java.util.List;
 public class Runner {
     private static void printList(List li){
         for(Object o:li)
-            System.out.println((String)(((HashMap)o).get("title")) + ((HashMap)o).get("viewdatetime").toString());
+            System.out.println((String)o);
     }
 
     public static void main(String args[]){
@@ -293,7 +293,8 @@ public class Runner {
         System.out.println(?"yes":"no");
         */
 
-        Session s = HibernateUtil.getSession();
+        printList(ForumDAO.getBoardnameList());
+        printList(ForumDAO.getThemenameList("情感分享"));
 
 
         HibernateUtil.closeSessionFactory();

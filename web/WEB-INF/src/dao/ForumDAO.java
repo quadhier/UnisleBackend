@@ -72,6 +72,7 @@ public class ForumDAO {
 
         return CommonDAO.queryHql(hql,null);
     }
+
     public static List<String> getThemenameList(String boardname){
         String hql = "select t.themeEntityPK.themename from ThemeEntity t where t.themeEntityPK.boardname = :bname";
         Map params = new HashMap();
@@ -194,6 +195,29 @@ public class ForumDAO {
 
         return wrappedList;
     }
+
+    public static List getHiddenArticleList(int startat,int numbers){
+        Session s = null;
+        List result = null;
+        List wrappedList = null;
+        try {
+            s = HibernateUtil.getSession();
+            String hql = "from ArticleEntity entity where entity.visibility = 'self' order by entity.lastcomdatetime desc";
+            Query query = s.createQuery(hql);
+            query.setFirstResult(startat);
+            query.setMaxResults(numbers);
+            result = query.list();
+            wrappedList = Rewrapper.wrapList(result,ArticleEntity.class,"110111111011");
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return wrappedList;
+    }
+
     /**
      * @return List中每个元素是一个Map<String,Object>，对应boardname,themename,articleid,commentallowed,
      * 三个时间，title,viewtimes

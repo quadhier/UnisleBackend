@@ -22,7 +22,7 @@ Welcome<br/><input id="text" type="text"/>
     }
 
     function send() {
-        websocket.send(document.getElementById('#text').innerHTML)
+        websocket.send(document.getElementById('text').value)
     }
 
     var websocket = null;
@@ -78,7 +78,7 @@ Welcome<br/><input id="text" type="text"/>
     }
 
     function unrigist(){
-        websocket.send('{"askcode":"000","userid":"10000000002"}')
+        websocket.send('{"askcode":"999","userid":"10000000002"}')
         document.getElementById('message').innerHTML += "unregisted <br/>"
     }
 

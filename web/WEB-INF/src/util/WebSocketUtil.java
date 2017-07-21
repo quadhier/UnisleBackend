@@ -43,23 +43,23 @@ public class WebSocketUtil {
     public static boolean sendNoticeIfOnline(String sender, String receiver, String type, Timestamp sendtime,String content){
         if(!isOnline(receiver))
             return false;
-        String json =
-                "\"returncode\":\"200\" "+
-                "\"senderid\":\""+ sender +"\" " +
-                "\"noticetype\":\""+ type +"\" " +
-                "\"sendtime\":\""+ sendtime.toString() +"\" " +
-                "\"content\":\""+ content +"\" ";
+        String json ="{"+
+                "\"returncode\":\"200\" ,"+
+                "\"senderid\":\""+ sender +"\" ," +
+                "\"noticetype\":\""+ type +"\" ," +
+                "\"sendtime\":\""+ sendtime.toString() +"\" ," +
+                "\"content\":\""+ content +"\" }";
         return sendToAllPages(receiver,json);
     }
 
     public static boolean sendMessageIfOnline(String sender, String receiver, Timestamp sendtime,String content){
         if(!isOnline(receiver))
             return false;
-        String json =
-                "\"returncode\":\"102\" "+
-                "\"senderid\":\""+ sender +"\" " +
-                "\"sendtime\":\""+ sendtime.toString() +"\" " +
-                "\"content\":\""+ content +"\" ";
+        String json ="{"+
+                "\"returncode\":\"102\" ,"+
+                "\"senderid\":\""+ sender +"\" ," +
+                "\"sendtime\":\""+ sendtime.toString() +"\" ," +
+                "\"content\":\""+ content +"\" }";
         return sendToAllPages(receiver,json);
     }
 }
