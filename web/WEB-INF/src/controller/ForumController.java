@@ -404,9 +404,10 @@ public class ForumController {
         // 权限检查
         String userid = ControllerUtil.getUidFromReq(request);
         ArticleEntity article = (ArticleEntity) CommonDAO.getItemByPK(ArticleEntity.class, articleid);
-        if
-
-
+        if(!article.getAuthor().equals(userid)) {
+            rinfo.setReason("E_NOT_ALLOWED");
+            return rinfo;
+        }
 
         if(!ForumDAO.alterArticleContent(articleid, newContent)) {
             rinfo.setReason("E_NOT_ALTERED");
