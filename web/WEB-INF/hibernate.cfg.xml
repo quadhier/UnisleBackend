@@ -16,12 +16,12 @@
         </property>
         <!--连接数据库是用户名-->
         <property name="connection.username">
-            unisleadmin
+            postgres
             <!--postgres-->
         </property>
         <!--连接数据库是密码-->
         <property name="connection.password">
-            unisleadmin
+            admin
             <!--admin-->
         </property>
         <!--数据库连接池的大小-->
