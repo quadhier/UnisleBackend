@@ -19,7 +19,7 @@ public class Runner {
             System.out.println((String)o);
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws Exception{
         /*
         Session s = null;
         try{
@@ -291,10 +291,12 @@ public class Runner {
         printList(ForumDAO.getViewHistory("10000000003",new Timestamp(System.currentTimeMillis()),0,5));
         printList(ForumDAO.getBoardnameList());
         printList(ForumDAO.getThemenameList("情感分享"));
+        UserInfoDAO.createUser("test006@163.com","t06","pswd","male",null,null,null,null);
+        FriendshipDAO.addFriendship("10000000002","10000000006");
         System.out.println(?"yes":"no");
         */
-
-        System.out.println((new Timestamp(System.currentTimeMillis())).getTime());
+        System.out.println(FriendshipDAO.getInterestedUserInfoList("10000000001",10).toString());
+        System.out.println(FriendshipDAO.getInterestedGroupInfoList("10000000001",10).toString());
 
 
         HibernateUtil.closeSessionFactory();
