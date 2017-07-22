@@ -80,7 +80,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        session.sendMessage(new TextMessage("link start"));
+        //session.sendMessage(new TextMessage("link start"));
         System.out.println("start link");
     }
 

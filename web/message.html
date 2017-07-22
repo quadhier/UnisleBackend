@@ -206,6 +206,7 @@
                     "<div id = '"+currenttime+
                     "' class='message_my_word_div'><p>"+text+"</p></div>"
                 );
+                $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                 $('#message_input').val("");
             });
             $('#findreceiver_input').live('change',function () {
@@ -279,6 +280,7 @@
                                 "<div id = '"+sendtime+
                                 "' class='message_your_word_div'><p>"+content+"</p></div>"
                             );
+                            $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                             $.ajax({
                                 type: 'POST',
                                 url: 'chat/setMessageRead',
