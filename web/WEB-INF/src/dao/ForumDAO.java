@@ -536,6 +536,7 @@ public class ForumDAO {
         wrapper.put("privilige",forum.getPrivilige());
         return wrapper;
     }
+
 }
 /*
 

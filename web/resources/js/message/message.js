@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
     //变量定义区
     var userNickname;
     var userID;
@@ -7,7 +7,7 @@ $(document).ready(function(){
     var friendList = null;
     //方法及回调方法定义区
     function searchFriendList(text) {
-        if(friendList == null) {
+        if (friendList == null) {
             $('.message_card').die();
             //第一次装载好友列表时执行
             $.ajax({
@@ -48,7 +48,7 @@ $(document).ready(function(){
                     });
                 }
             });
-        }else if(text == null || text.length == 0){
+        } else if (text == null || text.length == 0) {
             //搜索栏内容重置为空时执行
             $('.message_card').remove();
             $('.message_card').die();
@@ -73,7 +73,7 @@ $(document).ready(function(){
                 var friendid = $(this).attr('id');
                 getHistoryMessage(friendid);
             });
-        }else{
+        } else {
             //执行搜索
             $('.message_card').remove();
             $('.message_card').die();
@@ -89,7 +89,7 @@ $(document).ready(function(){
                     friendShowName = friendNote;
                 //判断是否为搜索结果
 
-                if(friendShowName.indexOf(text) < 0)
+                if (friendShowName.indexOf(text) < 0)
                     continue;
 
                 $('.message_list_content').append(
@@ -104,7 +104,8 @@ $(document).ready(function(){
             });
         }
     }
-    function getHistoryMessage(friendid){
+
+    function getHistoryMessage(friendid) {
         currentChatterID = friendid;
         $('.message_my_word_div').remove();
         $('.message_your_word_div').remove();
@@ -116,6 +117,7 @@ $(document).ready(function(){
             data: {
                 'friendid': friendid
             },
+            async: false,
             timeout: 2000,
             success: function (res) {
                 if (res.result == 'LOGINERROR') {
@@ -127,36 +129,38 @@ $(document).ready(function(){
                 unreadNumber = res.data;
             }
         });
+
         $.ajax({
             type: 'GET',
             url: 'chat/getHistoryMessage',
             dataType: 'json',
+            async: false,
             data: {
-                'friendid':friendid,
+                'friendid': friendid,
                 'lasttime': (new Date()).valueOf(),
-                'startat':0,
-                'number':unreadNumber>5?unreadNumber:5
+                'startat': 0,
+                'number': unreadNumber > 5 ? unreadNumber : 5
             },
             timeout: 2000,
             success: function (res) {
-                if(res.result == 'LOGINERROR'){
+                if (res.result == 'LOGINERROR') {
                     window.reload('login.html');
                 }
-                if(res.result != 'SUCCESS'){
+                if (res.result != 'SUCCESS') {
                     alert('获取消息列表失败，请刷新。')
                 }
                 var messageList = res.data;
-                for(var i=0;i<messageList.length;i++){
+                for (var i = 0; i < messageList.length; i++) {
                     var message = messageList[i];
-                    if(message.chatrecordEntityPK.sender == userID)
+                    if (message.chatrecordEntityPK.sender == userID)
                         $('.message_content').prepend(
-                            "<div id = '"+message.chatrecordEntityPK.senddatedtime+
-                            "' class='message_my_word_div'><p>"+message.content+"</p></div>"
+                            "<div id = '" + message.chatrecordEntityPK.senddatedtime +
+                            "' class='message_my_word_div'><p>" + message.content + "</p></div>"
                         );
                     else
                         $('.message_content').prepend(
-                            "<div id = '"+message.chatrecordEntityPK.senddatedtime+
-                            "' class='message_your_word_div'><p>"+message.content+"</p></div>"
+                            "<div id = '" + message.chatrecordEntityPK.senddatedtime +
+                            "' class='message_your_word_div'><p>" + message.content + "</p></div>"
                         );
 
                     $.ajax({
@@ -164,8 +168,8 @@ $(document).ready(function(){
                         url: 'chat/setMessageRead',
                         dataType: 'json',
                         data: {
-                            'friendid':friendid,
-                            'sendtime':message.chatrecordEntityPK.senddatedtime
+                            'friendid': friendid,
+                            'sendtime': message.chatrecordEntityPK.senddatedtime
                         },
                         timeout: 2000
                     });
@@ -173,34 +177,36 @@ $(document).ready(function(){
             }
         });
     }
-    $('#message_btn').live('click',function () {
+
+    $('#message_btn').live('click', function () {
         var text = $('#message_input').val();
-        if(text.length == 0)
+        if (text.length == 0)
             return;
         var currenttime = (new Date()).valueOf();
         var sendJson = JSON.stringify({
             'askcode': '100',
-            'senderid':userID,
-            'receiverid':currentChatterID,
-            'content':text,
-            'senddatetime':currenttime
+            'senderid': userID,
+            'receiverid': currentChatterID,
+            'content': text,
+            'senddatetime': currenttime
         });
         websocket.send(sendJson);
 
         $('.message_content').append(
-            "<div id = '"+currenttime+
-            "' class='message_my_word_div'><p>"+text+"</p></div>"
+            "<div id = '" + currenttime +
+            "' class='message_my_word_div'><p>" + text + "</p></div>"
         );
+        $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
         $('#message_input').val("");
     });
-    $('#findreceiver_input').live('change',function () {
+    $('#findreceiver_input').live('change', function () {
         var searchText = $('#findreceiver_input').val();
         searchFriendList(searchText);
     })
     window.onbeforeunload = function () {
         var sendJson = JSON.stringify({
             'askcode': '999',
-            'userid':userID
+            'userid': userID
         });
         websocket.send(sendJson);
         websocket.close();
@@ -210,15 +216,15 @@ $(document).ready(function(){
         type: "GET",
         url: "self",
         dataType: "json",
-        data:{},
-        async:false,
-        timeout:5000,
-        cache:false,
+        data: {},
+        async: false,
+        timeout: 5000,
+        cache: false,
         success: function (res) {
-            if(res.result == 'LOGINERROR'){
+            if (res.result == 'LOGINERROR') {
                 window.reload('login.html');
             }
-            if(res.result != 'SUCCESS'){
+            if (res.result != 'SUCCESS') {
                 alert('获取用户个人信息失败，请刷新或重新登陆。')
             }
             var userdata = res.data;
@@ -228,47 +234,58 @@ $(document).ready(function(){
 
     });
     searchFriendList(null);
-    if(friendList != null)
+    if (friendList != null)
         getHistoryMessage(friendList[0].userid);
-    if('WebSocket' in window){
+    if ('WebSocket' in window) {
         websocket = new WebSocket("ws://localhost:8080/websocket");
         websocket.onopen = function () {
             var sendJson = JSON.stringify({
                 'askcode': '000',
-                'userid':userID
+                'userid': userID
             });
             websocket.send(sendJson);
         };
         websocket.onclose = function () {
             var sendJson = JSON.stringify({
                 'askcode': '999',
-                'userid':userID
+                'userid': userID
             });
             websocket.send(sendJson);
         };
         websocket.onerror = function () {
             var sendJson = JSON.stringify({
                 'askcode': '999',
-                'userid':userID
+                'userid': userID
             });
             websocket.send(sendJson);
         };
         websocket.onmessage = function (event) {
             var returnJson = JSON.parse(event.data);
-            if(returnJson.returncode == '102'){
+            if (returnJson.returncode == '102') {
                 var senderid = returnJson.senderid;
                 var sendtime = returnJson.sendtime;
                 var content = returnJson.content;
-                if(senderid = currentChatterID){
+                if (senderid = currentChatterID) {
                     $('.message_content').append(
-                        "<div id = '"+sendtime+
-                        "' class='message_your_word_div'><p>"+content+"</p></div>"
+                        "<div id = '" + sendtime +
+                        "' class='message_your_word_div'><p>" + content + "</p></div>"
                     );
+                    $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'chat/setMessageRead',
+                        dataType: 'json',
+                        data: {
+                            'friendid': senderid,
+                            'sendtime': sendtime
+                        },
+                        timeout: 2000
+                    });
                 }
             }
         }
 
-    }else{
+    } else {
         alert("你的浏览器不支持websocket,不能使用聊天功能。");
     }
 

@@ -1,0 +1,338 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>board</title>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
+    <link href="css/forum/board.css"  rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //变量定义区
+            var getval = document.URL.split('?')[1];
+            var boardnamenumber = getval.split("=")[1];
+            var boardname;
+            switch(parseInt(boardnamenumber)){
+                case 1:boardname='校园生活';break;
+                case 2:boardname='时事热点';break;
+                case 3:boardname='音乐天地';break;
+                case 4:boardname='影视先锋';break;
+                case 5:boardname='动漫乐园';break;
+                case 6:boardname='时尚前沿';break;
+                case 7:boardname='职场经验';break;
+                case 8:boardname='专业交流';break;
+                case 9:boardname='情感分享';break;
+                case 10:boardname='游戏世界';break;
+                default:alert('switch failed');
+            }
+            var themenameList = null;
+            var userid = null;
+            var articleList = null;
+            function showArticleWithTheme(articleBlockid) {
+                $('.board_content_item').remove();
+                var themename = articleBlockid.split('_')[0];
+                $.ajax({
+                    type: "GET",
+                    url: "forum/article/all",
+                    dataType: "json",
+                    async:false,
+                    data:{
+                        'boardName':boardname,
+                        'themeName':themename,
+                        'startAt':'0',
+                        'number':'10'
+                    },
+                    timeout:5000,
+                    success: function (res) {
+                        if(res.result == 'LOGINERROR'){
+                            window.reload('login.html');
+                        }
+                        if(res.result != 'SUCCESS'){
+                            alert('获取文章列表失败，请刷新。')
+                        }
+                        articleList = res.data;
+                    }
+
+                });//给articleList赋值
+                for(var i=0;i<articleList.length;i++) {
+                    var articleId = articleList[i].articleid;
+                    var articleTitle = articleList[i].title;
+                    var articleAuthor = articleList[i].author;
+                    var lastComTime = new Date(parseInt(articleList[i].lastcomdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
+                    var visitNumber = articleList[i].viewtimes;
+
+                    $('#' + articleBlockid).append(
+                        '<div class="board_content_item" id="'+articleId+'" >'+
+                        '<div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>'+articleTitle+'</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>'+
+                        '<div class="item_bottom">'+
+                        '<span class="item_good_num">20</span>'+
+                        '<span class="item_author_time">'+
+                            '<span class="item_author">作者:'+articleAuthor+'</span>'+
+                            '<span>&nbsp;最后评论:&nbsp;</span>'+
+                            '<span class="item_time">'+lastComTime+'</span>'+
+                        '</span>'+
+                        '<span class="item_comment_num">'+visitNumber+'</span>'+
+                        '</div>'+
+                        '</div>'
+                    );
+                }
+            }
+            //初始化执行区
+            $.ajax({
+                type: "GET",
+                url: "self",
+                dataType: "json",
+                data:{},
+                async:false,
+                timeout:5000,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取用户个人信息失败，请刷新或重新登陆。')
+                    }
+                    var userdata = res.data;
+                    userid = userdata.userid;
+                }
+
+            });//获取用户信息
+            $.ajax({
+                type: "GET",
+                url: "forum/theme",
+                dataType: "json",
+                data:{
+                    'boardName':boardname
+                },
+                async:false,
+                timeout:5000,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取主题列表失败，请刷新。')
+                    }
+                    themenameList = res.data;
+                }
+
+            });//获取主题列表
+            {
+                for(var i=0;i<themenameList.length;i++){
+                    var themename = themenameList[i];
+                    var themeButtonid = themename + '_btn'
+                    $('.board_select_container').append(
+                        '<div class="title_btn" id="'+themeButtonid+'"><span>'+themename+'</span></div>'
+                    );
+                    $('#'+themeButtonid).css({
+                        'position': 'absolute',
+                        'left':(30+105*i)+'px',
+                        'top':'5px'
+                    });
+
+                    var themeArticleid = themename + '_content';
+                    $('.board_content_container').append(
+                        '<div id="'+themeArticleid+'" class="theme_content"></div>'
+                    );
+                    if(i == 0)
+                        $('#'+themeButtonid).click();//模拟当页面加载后点击第一个button
+                }
+            }//根据主题列表添加按钮和文章列表显示区
+            //回调方法绑定区
+            $(window).scroll(function () {
+                if($(window).scrollTop()>302){
+                    $(".board_info").stop();
+                    var offset = $(window).scrollTop()-287;
+                    $(".board_info").animate({
+                        top:offset+"px"
+                    },500);
+                }else{
+                    $(".board_info").stop();
+                    $(".board_info").animate({
+                        top:"15px"
+                    },500);
+                }
+            });
+            $(".title_btn").css({
+                "backgroundColor": "#ffffff",
+                "color":"#006285"
+            });
+            $(".title_btn").hover(function () {
+                $(this).css({
+                    "backgroundColor": "#D6D6D6"
+                });
+            },function () {
+                $(this).css({
+                    "backgroundColor": "#ffffff"
+                });
+            });
+            $(".title_btn").click(function () {
+                $(".title_btn").css({
+                    "backgroundColor": "#ffffff",
+                    "color":"#006285"
+                });
+                $(".title_btn").hover(function () {
+                    $(this).css({
+                        "backgroundColor": "#D6D6D6"
+                    });
+                },function () {
+                    $(this).css({
+                        "backgroundColor": "#ffffff"
+                    });
+                });
+
+                $(this).css({
+                    "backgroundColor": "#3771ff",
+                    "color":"#ffffff"
+                });
+                $(this).unbind("hover");
+
+                /*$('.theme_content').css({
+                    'display':'none'
+                });*///不需要设置为空，因为点击按钮后会将除当前浏览主题的theme_content全部设为空
+                var themeButtonid = $(this).attr('id');
+                var themename = themeButtonid.split('_')[0];
+                var themeArticleid = themename+'_content';
+                showArticleWithTheme(themeArticleid);
+                /*$('#'+themeArticleid).css({
+                    'display':'block'
+                })*/
+            });
+
+        });
+    </script>
+
+</head>
+
+<body>
+<div class="board_container">
+    <div class="board_pic_container"><img src="images/forum/bg.jpg" width="100%" height="100%"/></div>
+    <div class="board_select_container">
+        <!--
+        <div class="title_btn" id="国家新闻_btn"><span>版块首页</span></div>
+        <div class="title_btn" id="consult_btn"><span>咨询 | 攻略</span></div>
+        <div class="title_btn" id="study_btn"><span>学习</span></div>
+        <div class="title_btn" id="help_btn"><span>求助</span></div>-->
+    </div>
+    <div class="board_info_container">
+        <div class="board_info">
+            <div class="info_img_div"><img src="images/forum/bg.jpg" style="width: 100%;height: 100%;"/></div>
+            <div class="info_div">
+                <p style="width: 100%;text-align: center"><span id="board_user"><b>GoBang</b></span></p>
+                <p style="width: 100%;margin-left:25px;"><span>经验: </span><span id="board_experience" style="font-size: 14px">10086exp</span></p>
+                <p style="width: 100%;margin-left:25px;"><span>权限: </span><span id="board_privilege" style="font-size: 14px">2级会员</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="board_input_container">
+        <div class="input_div">
+            <span id="board_input_title"><b>新文章发布</b></span>
+            <div class="board_title_input_box">
+                <input type="text" id="board_title_input" placeholder="请输入文章标题" maxlength="25" onfocus="this.placeholder=''" onblur="this.placeholder='请输入文章标题'"/>
+            </div>
+            <textarea id="board_input"></textarea>
+            <div id="board_input_btn" class="board_btn"><span>发&nbsp;&nbsp;布</span></div>
+        </div>
+    </div>
+
+    <div class="board_content_container">
+
+        <!--<div id="国家新闻_content" class="theme_content">
+            append
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            append end
+        </div>
+
+        <div class="study_content">
+            append
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            append end
+        </div>
+        <div class="help_content">
+            append
+            <div class="board_content_item">
+                <div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>Hello world!</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>
+                <div class="item_bottom">
+                    <span class="item_good_num">20</span>
+                    <span class="item_author_time">
+                        <span class="item_author">robot</span>
+                        <span>&nbsp;发表于&nbsp;</span>
+                        <span class="item_time">2017/7/22 11:25</span>
+                    </span>
+                    <span class="item_comment_num">10</span>
+                </div>
+            </div>
+
+            append end
+        </div>-->
+
+    </div>
+
+</div>
+</body>
+</html>

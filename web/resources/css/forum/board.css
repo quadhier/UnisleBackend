@@ -1,0 +1,305 @@
+body{
+    margin: 0;
+    padding:0;
+    background-image: url('../../images/forum/bg.jpg');
+    background-attachment:fixed;
+    background-size: cover;
+}
+
+.board_btn
+{
+    position: absolute;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    right:19px;
+    bottom:10px;
+}
+
+.board_btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.board_btn span
+{
+    position: relative;
+    top: 4px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: '微软雅黑';
+}
+
+.title_btn
+{
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    color:rgba(0,98,133,0.8);
+}
+
+.title_btn:hover
+{
+    background-color: rgba(214, 214, 214, 0.8);
+}
+
+.title_btn span
+{
+    position: relative;
+    font-size: 13px;
+    font-family: '微软雅黑';
+    text-align: center;
+}
+
+
+.board_container{
+    position: relative;
+    padding: 0px;
+    margin: 0 auto;
+    top:50px;
+    width:1000px;
+    height:2280px;
+    background: rgba(255,255,255,0.57);
+}
+
+.board_pic_container{
+    position: absolute;
+    width:999px;
+    height:200px;
+    border: 1px solid #999999;
+}
+
+.board_select_container{
+    position: relative;
+    top:202px;
+    width:999px;
+    height:50px;
+    border: 1px solid #999999;
+}
+#main_btn{
+    position: absolute;
+    left:30px;
+    top:5px;
+}
+/*
+#main_btn{
+    position: absolute;
+    left:30px;
+    top:5px;
+}
+#consult_btn{
+    position: absolute;
+    left:135px;
+    top:5px;
+}
+#study_btn{
+    position: absolute;
+    left:240px;
+    top:5px;
+}
+#help_btn{
+    position: absolute;
+    left:345px;
+    top:5px;
+}
+*/
+.board_info_container{
+    position: absolute;
+    top:253px;
+    left:0;
+    width:310px;
+    height:1730px;
+    border-left: 1px solid #999999;
+
+}
+
+.board_input_container{
+    position: absolute;
+    top:1984px;
+    left:0;
+    width:999px;
+    height:295px;
+    border: 1px solid #999999;
+}
+
+.board_content_container{
+    position: absolute;
+    top:253px;
+    left:311px;
+    width:689px;
+    height:1730px;
+    border-right: 1px solid #999999;
+}
+
+.board_input_container .input_div{
+    position: relative;
+    margin:0 auto;
+    top:10px;
+    width:900px;
+    height:255px;
+    border: 1px solid #999999;
+    background: rgba(255,255,255,0.57);
+    border-radius:5px;
+}
+
+.board_title_input_box{
+    position: absolute;
+    top:50px;
+    left:25px;
+    width:854px;
+    height:25px;
+
+    background: white;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+#board_title_input{
+    border: 0;
+    position: relative;
+    top:2px;
+    margin-left: 1%;
+    width:95%;
+    height:19px;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    color: #979897;
+}
+
+#board_input{
+    position: absolute;
+    width:850px;
+    height:115px;
+    resize: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 微软雅黑;
+    color: #979897;
+    top:85px;
+    left: 25px;
+}
+
+#board_input_title{
+    position: absolute;
+    font-size: 20px;
+    font-family: 微软雅黑;
+    color: #979897;
+    top:15px;
+    left: 25px;
+}
+
+.board_info{
+    position: absolute;
+    border: 1px solid #999999;
+    width:210px;
+    height:270px;
+    top:15px;
+    left:50px;
+    background: rgba(255,255,255,0.57);
+}
+.board_info .info_img_div{
+    position: absolute;
+    width:100px;
+    height:100px;
+    left:50%;
+    margin-left: -50px;
+    top:10px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.board_info .info_div{
+    position: absolute;
+    width:180px;
+    height:140px;
+    left:50%;
+    margin-left:-90px;
+    top:120px;
+    border-top: 1px solid #999999;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    color: #6c6d6c;
+}
+
+.theme_content{
+    position: absolute;
+    top:15px;
+    width:640px;
+    height:1700px;
+    overflow: auto;
+}
+
+.board_content_container .board_content_item{
+    position: relative;
+    width:100%;
+    height:80px;
+    border-bottom: 1px solid #999999;
+}
+.board_content_container .board_content_item .item_top{
+    position: relative;
+    height:40px;
+    width:100%;
+}
+.board_content_container .board_content_item .item_bottom{
+    position: relative;
+    height:40px;
+    width:100%;
+}
+
+.board_content_container .board_content_item .item_top img{
+    position: absolute;
+    width:22px;
+    height:22px;
+    bottom:1px;
+}
+.board_content_container .board_content_item .item_top_img_good{
+    left:15px;
+}
+.board_content_container .board_content_item .item_top_img_comment{
+    right:15px;
+}
+.board_content_container .board_content_item .item_top span{
+    position: absolute;
+    height:22px;
+    left:80px;
+    bottom:1px;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    color: #6c6d6c;
+}
+.board_content_container .board_content_item .item_bottom span{
+    height:22px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+    color: #6c6d6c;
+}
+.board_content_container .board_content_item .item_good_num{
+    position: absolute;
+    top:3px;
+    left:17px;
+}
+.board_content_container .board_content_item .item_author_time{
+    position: absolute;
+    top:3px;
+    left:80px;
+}
+.board_content_container .board_content_item .item_author_time .item_author{
+    position: relative;
+}
+.board_content_container .board_content_item .item_author_time .item_time{
+    position: relative;
+}
+.board_content_container .board_content_item .item_comment_num{
+    top:3px;
+    position: absolute;
+    right:17px;
+}
