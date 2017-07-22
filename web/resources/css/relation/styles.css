@@ -1,0 +1,317 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.relation_center_container{
+    position: relative;
+    margin: 0 auto;
+    width:1100px;
+    top: 50px;
+
+}
+
+.centerDiv{
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    width: 480px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+/*.myfriend_container{*/
+    /*top: 20px;*/
+    /*position:relative;*/
+/*}*/
+
+.myfriend_container .container_head_hr{
+    width: 440px;
+}
+
+.container_head{
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.container_body{
+    position: relative;
+    margin: 0;
+    padding-top: 10px;
+    width:300px;
+
+    /*border-bottom: 1px solid #999999;*/
+}
+
+.container_foot{
+    position: relative;
+    height:120px;
+    width:300px;
+}
+
+.container_head_title{
+    margin: 20px 20px 10px 20px;
+    padding: 0px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+    color:#666666;
+    opacity: 0.57;
+}
+
+.container_foot_title{
+    position: relative;
+    margin: 20px 0 10px 0;
+    left: 20px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+    color:#666666;
+    opacity: 0.57;
+}
+
+.container_head_hr{
+    position: relative;
+    width:260px;
+    left: 20px;
+    margin: 0;
+    border-color: rgba(153,153,153,0.4);
+}
+
+.container_foot_hr{
+    position: relative;
+    margin-top: 0px;
+    top:0px;
+    width:260px;
+    border-color: rgba(153,153,153,0.4);
+}
+
+.myfriend_body_card_container
+{
+    margin-bottom: 10px;
+    border: 1px solid #999999;
+    width: 260px;
+    height: 100px;
+    left: 19px;
+    position: relative;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.myfriend_body_card_container .headimg
+{
+    position: relative;
+    margin: 15px 0 15px 15px;
+    width: 30%;
+    height: 70%;
+    float: left;
+}
+
+.myfriend_body_card_container .infoDiv
+{
+    position: relative;
+    margin: 0;
+    width: 60%;
+    float: right;
+    text-align: center;
+}
+
+.myfriend_body_card_container .pSchool
+{
+    margin: 15px 0 10px 0;
+    color: #666666;
+    font-weight: bold;
+    font-style: italic;
+    font-family: "Arial";
+    font-size: 18px;
+}
+
+.myfriend_body_card_container .pInfo
+{
+    margin: 0;
+    color: #666666;
+    font-family: "Century Gothic";
+    font-size: 11px;
+}
+
+.findfriend_container{
+    position:relative;
+    margin:0;
+    padding:0;
+    float: left;
+    width:300px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.findorg_container{
+    position:relative;
+    margin:0;
+    padding:0;
+    float: right;
+    width:300px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.foot_input_div{
+    width:260px;
+    height:30px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+}
+#findfriend_input{
+    border: 0;
+    position: relative;
+    margin-left: 10px;
+    padding: 0;
+    width:95%;
+    height:30px;
+    color: #cccccc;
+}
+#findfriend_input:focus{
+    color: #333333;
+}
+
+#findorg_input{
+    border: 0;
+    position: relative;
+    margin-left: 10px;
+    padding: 0;
+    width:95%;
+    height:30px;
+    color: #cccccc;
+}
+#findorg_input:focus{
+    color: #333333;
+}
+
+#createorganization_btn{
+    position: relative;
+    color:white;
+    text-align: center;
+    line-height: 30px;
+    font-family: "Century Gothic";
+    border-radius: 5px;
+    background: deepskyblue;
+    width: 100px;
+    height: 30px;
+    bottom:10px;
+    left: 5%;
+}
+
+#findfriend_btn{
+    float: right;
+    right: 20px;
+    top: 10px;
+}
+
+#findorg_btn{
+    float: right;
+    right: 20px;
+    top: 10px;
+}
+
+#createorg_btn{
+    float: left;
+    left: 20px;
+    top: 10px;
+}
+
+.Btn
+{
+    position: relative;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.Btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.Btn span
+{
+    position: relative;
+    top: 3px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: '微软雅黑';
+}
+
+.friendPanel
+{
+    position: relative;
+    margin: 0;
+    padding: 10px 0;
+    width: 480px;
+}
+
+.friendPanel .container_head
+{
+    top: -10px;
+}
+
+.friendPanel .container_head_hr
+{
+    top: -10px;
+}
+
+.friend_container
+{
+    margin: 0 25px 10px 25px;
+    border: 1px solid #999999;
+    width: 430px;
+    height: 100px;
+    position: relative;
+    background-color: rgba(255,255,255,0.57);
+    text-align: left;
+}
+
+.friend_container .headimg
+{
+    position: relative;
+    margin: 15px 0 15px 15px;
+    width: 30%;
+    height: 70%;
+    float: left;
+}
+
+.friend_container .infoDiv
+{
+    position: relative;
+    margin: 0px 20px 0 0;
+    width: 55%;
+    float: right;
+    text-align: center;
+    /*background-color: red;*/
+}
+
+.friend_container .pSchool
+{
+    margin: 15px 0 10px 0;
+    color: #666666;
+    font-weight: bold;
+    font-style: italic;
+    font-family: "Arial";
+    font-size: 18px;
+}
+
+.friend_container .pInfo
+{
+    margin: 0;
+    color: #666666;
+    font-family: "Century Gothic";
+    font-size: 14px;
+}

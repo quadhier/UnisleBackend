@@ -1,0 +1,342 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#container
+{
+    position: relative;
+    width: 900px;
+    /*height: 600px;*/
+    margin: 0 auto;
+    top: 50px;
+    /*background: blue;*/
+}
+
+#floatDiv
+{
+    position: fixed;
+    width: 900px;
+}
+
+#floatLeft
+{
+    position: relative;
+    float: left;
+    width: 230px;
+    height: 280px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+#floatLeft .imgDiv
+{
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+    top: 20px;
+    background-color: #ffffff;
+}
+
+#floatLeft hr
+{
+    position: relative;
+    width: 200px;
+    top: 30px;
+    border-color: rgba(153,153,153,0.4);
+}
+
+#floatLeft .userInfo
+{
+    position: relative;
+    top: 30px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Century;
+    color: #666666;
+}
+
+.userInfo .pName
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.userInfo .pContent
+{
+    margin: 5px;
+    font-size: 11px;
+}
+
+#floatRight
+{
+    position: relative;
+    float: right;
+    width: 230px;
+    height: 280px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+#floatRight .messageDiv
+{
+    position: relative;
+    width: 190px;
+    max-height: 240px;
+    margin: 0 auto;
+    top: 20px;
+}
+
+.messageDiv li
+{
+    position: relative;
+    max-width: 170px;
+    left: 20px;
+}
+
+.actDiv
+{
+    position: relative;
+    margin: 0 auto;
+    width: 420px;
+}
+
+.releaseDiv
+{
+    position: relative;
+    width: 100%;
+    height: 210px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+#release_input
+{
+    position: relative;
+    width: 390px;
+    height: 120px;
+    resize: none;
+    top: 20px;
+    left: 15px;
+    border: 0;
+}
+
+#releaseBtn
+{
+    position: relative;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    float: right;
+    top: 30px;
+    right: 15px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+#releaseBtn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+#releaseBtn span
+{
+    position: relative;
+    top: 5px;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: '微软雅黑';
+}
+
+#actContainer
+{
+    position: relative;
+    width: 100%;
+    top: 10px;
+}
+
+/*动态卡片*/
+.container
+{
+    margin-bottom: 10px;
+    border: 1px solid #999999;
+    width: 420px;
+    position: relative;
+    background-color: rgba(255,255,255,0.57);
+    text-align: left;
+}
+
+hr
+{
+    position: relative;
+    width: 392px;
+    color: #999999;
+    opacity: 0.7;
+
+}
+
+.container .subLeft
+{
+    position: relative;
+    float: left;
+    text-align: left;
+    height: 18px;
+    left: 14px;
+    top: -17px;
+}
+.container .subRight
+{
+    position: relative;
+    float: right;
+    text-align: right;
+    height: 18px;
+    right: 14px;
+    top: -10px;
+}
+
+.container .pTitle
+{
+    color: #666666;
+    font-weight: bold;
+    font-family: "Century Gothic";
+    font-size: 15px;
+}
+
+.container .pSmall
+{
+    color: #666666;
+    font-family: Arial;
+    font-size: 11px;
+}
+
+.container .pContent
+{
+    font-size: 20px;
+    word-wrap:break-word;
+    word-break:normal
+}
+
+.container .divcenter
+{
+    position: relative;
+    width: 380px;
+    left: 22px;
+    top: 10px;
+}
+
+.container .btnDiv
+{
+    position: relative;
+    width: 425px;
+    height: 30px;
+    z-index: 2;
+    border-bottom: 1px solid #999999;
+}
+
+.container .comment
+{
+    margin-right: 25px;
+    position: relative;
+    float: right;
+}
+
+.container .good
+{
+    margin-right: 14px;
+    position: relative;
+    float: right;
+}
+
+.container .pGoodNum
+{
+    margin-left: 14px;
+    color: #666666;
+    font-family: Arial;
+    font-size: 11px;
+}
+
+.container .commentDiv
+{
+    position: relative;
+}
+
+.container .writeCom
+{
+    position: relative;
+    height: 45px;
+    border-top: 1px solid #999999;
+    display: none;
+}
+
+.container .pCommenter
+{
+    margin: 0 22px;
+}
+
+.container .pComment
+{
+    margin: 0 22px 0 44px;
+    word-wrap:break-word;
+    word-break:normal;
+}
+
+.container .inputcontainer
+{
+    background: white;
+    border: 2px solid #999999;
+    border-radius: 6px;
+    height: 50%;
+    width: 73%;
+    margin: 8px 5px 8px 22px;
+    float: left;
+    text-align: center;
+}
+
+.container .input_comment
+{
+    border: 0;
+    width: 95%;
+    height: 95%;
+}
+
+.container .submitcontainer
+{
+    height: 57%;
+    width: 15%;
+    margin: 8px 12px 8px 5px;
+    float: right;
+}
+
+.container .submit_comment
+{
+    border: 1px solid white;
+    border-radius: 6px;
+    background-color: rgba(153,153,153,0.2);
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+.container .submit_comment:hover
+{
+    background-color: rgba(153,153,153,0.8);
+    color: white;
+}
+
+.container_center_head
+{
+    margin: 0;
+}
+.container_center_head_title{
+    margin: 0;
+}

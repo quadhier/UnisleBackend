@@ -1,0 +1,269 @@
+body{
+    margin: 0px;
+    padding:0px;
+}
+
+#bg{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.message_container{
+    position: relative;
+    padding: 0px;
+    width:900px;
+    height:700px;
+    margin: 0 auto;
+    top: 50px;
+}
+
+.message_list_container{
+    position: relative;
+    top:0px;
+    left:0px;
+    width:269px;
+    height:700px;
+    background: rgba(255,255,255,0.57);
+    border: 1px solid #999999;
+}
+.message_title{
+    position:relative;
+    width:100%;
+    height:41px;
+    background-color:rgba(255,255,255,0.57);
+    border-bottom: 1px solid #999999;
+}
+.message_title_p{
+    position: relative;
+    /*bottom:1px;*/
+    margin-left: 27px;
+    color: #979897;
+    text-align: center;
+    display:inline-block;
+    font-family: "Century Gothic";
+    font-size: 15px;
+}
+.message_list_content{
+    position:relative;
+    width:100%;
+    height:615px;
+    overflow: auto;
+}
+.message_card{
+    position:relative;
+    width:100%;
+    height:80px;
+    border-bottom: 1px solid #999999;
+    background-color:rgba(255,255,255,0.57);
+    cursor: pointer;
+}
+
+.message_card:hover{
+    background-color:white;
+}
+
+.message_card .message_card_img_div{
+    position:relative;
+    width:40%;
+    height:80px;
+    float: left;
+}
+.message_card .message_card_p_div{
+    position:relative;
+    width:60%;
+    height:80px;
+    float: right;
+}
+.message_card .message_card_img{
+    position:absolute;
+
+    width:70%;
+    height:70%;
+
+    margin-top:15%;
+    margin-left:15%;
+}
+.message_card .message_card_p{
+    position:absolute;
+    display: inline-block;
+
+    margin-left: 10%;
+    /*margin-bottom: 10%;*/
+
+    font-size: 14px;
+    font-family: "微软雅黑";
+    color: #979897;
+}
+
+.message_content_container{
+    position: absolute;
+    top:0px;
+    right:0px;
+    width:629px;
+    height:700px;
+    background: rgba(255,255,255,0.57);
+    border: 1px solid #999999;
+}
+
+.message_content{
+    position: relative;
+    width:569px;
+    margin-top:10px;
+    margin-left: 20px;
+    padding: 10px;
+    height:460px;
+    background: white;
+    border: 1px solid #999999;
+    overflow: auto;
+}
+
+.message_input_div{
+    position: relative;
+    width:589px;
+    height:142px;
+    top: 10px;
+    margin-left: 20px;
+    background: white;
+    border: 1px solid #999999;
+    overflow: hidden;
+}
+
+.input_box{
+    position: absolute;
+    top:8px;
+    width:80%;
+    height:25px;
+    margin-left: 10%;
+    background: white;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+#findreceiver_input{
+    border: 0;
+    position: relative;
+    top:2px;
+    margin-left: 1%;
+    width:95%;
+    height:19px;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    color: #979897;
+}
+
+#findreceiver_input:focus{
+    color: #333333;;
+}
+
+.btn{
+
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.btn span
+{
+    position: relative;
+    top: 3px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: '微软雅黑';
+}
+
+
+#message_btn{
+    position: absolute;
+    right:5px;
+    bottom:5px;
+}
+#message_input{
+    position: absolute;
+    top:5px;
+    left:0px;
+    overflow-y: scroll;
+    width:610px;
+    height:105px;
+    border: none;
+    resize: none;
+}
+
+.message_content p{
+    font-family: "微软雅黑";
+    font-size: 16px;
+    display:inline-block;
+    margin-top:10px;
+    border: 1px solid #999999;
+
+}
+.message_my_word_div{
+    position: relative;
+    left:20%;
+    width:80%;
+    /*float:left;*/
+    display:block;
+    word-break: break-all;
+    word-wrap: break-word;
+    clear:both;
+}
+
+.message_my_word_div p{
+    position: relative;
+    float: right;
+    padding: 10px;
+    color: #ffffff;
+    background: #58b2ff;
+    text-align: right;
+    display:inline-block;
+    word-break: break-all;
+    word-wrap: break-word;
+    clear:both;
+
+    border-right:0;
+
+    -moz-border-radius: 3px 0 0 3px;
+
+    -webkit-border-radius: 3px 0 0 3px;
+
+    border-radius:3px 0 0 3px;
+}
+
+.message_your_word_div{
+    position: relative;
+    /*float:left;*/
+    width:80%;
+    display:block;
+    word-break: break-all;
+    word-wrap: break-word;
+    clear:both;
+}
+.message_your_word_div p{
+    position: relative;
+    float:left;
+    padding:10px;
+    color:black;
+    background: #d6d6d6;
+    text-align: left;
+    display:inline-block;
+    word-break: break-all;
+    word-wrap: break-word;
+    clear:both;
+
+    border-left:0;
+
+    -moz-border-radius: 0 3px 3px 0;
+
+    -webkit-border-radius: 0 3px 3px 0;
+
+    border-radius:0 3px 3px 0;
+}

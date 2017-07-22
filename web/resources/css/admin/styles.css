@@ -1,0 +1,469 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#container
+{
+    position: relative;
+    width: 930px;
+    height: 665px;
+    margin: 0 auto;
+    top: 50px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+#verticalLine
+{
+    position: relative;
+    margin: 0 auto;
+    width: 0;
+    top: 50px;
+    height: 570px;
+    border-color: rgba(153,153,153,0.4);
+}
+
+#horizonLine
+{
+    position: relative;
+    margin: 0 auto;
+    width: 860px;
+    top: 650px;
+    border-color: rgba(153,153,153,0.4);
+    display: none;
+}
+
+.innerContainer
+{
+    position: relative;
+    width: 400px;
+    height: 630px;
+    top: 20px;
+}
+
+#innerLeft
+{
+    float: left;
+    left: 35px;
+}
+
+#innerRight
+{
+    float: right;
+    right: 35px;
+}
+
+.headerDiv
+{
+    position: relative;
+    height: 30px;
+    float: left;
+}
+
+.headerDiv p
+{
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 5px 0;
+    width: 80px;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #666666;
+}
+
+.headerDiv hr
+{
+    position: relative;
+    width: 210px;
+    margin: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.columnDiv
+{
+    position: relative;
+    width: 400px;
+    float: left;
+    top: 10px;
+}
+
+.columnDiv .pHeader
+{
+    position: relative;
+    margin: 0;
+    padding: 5px 0;
+    color: #32608a;
+    font-weight: bold;
+}
+
+.baseInfoLeft
+{
+    position: relative;
+    height: 170px;
+    float: left;
+    top: 30px;
+}
+
+.baseInfoLeft div
+{
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    margin: 0;
+    overflow: hidden;
+}
+
+#headImg
+{
+    width: 120px;
+    height: 120px;
+}
+
+.baseInfoLeft p
+{
+    position: relative;
+    top: 10px;
+    text-align: center;
+    margin: 0;
+    font-size: 20px;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    color: #32608a;
+}
+
+.baseInfoRight
+{
+    position: relative;
+    width: 210px;
+    float: right;
+}
+
+.baseInfoRight .hiddenDiv
+{
+    position: relative;
+    width: 210px;
+    top: 10px;
+    display: none;
+}
+
+.hiddenDiv .textContainer
+{
+    position: relative;
+    height: 25px;
+    width: 140px;
+    float: left;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.hiddenDiv .Btn
+{
+    width: 60px;
+    height: 25px;
+    float: right;
+    margin: 0;
+}
+
+.hiddenDiv .Btn span
+{
+    top: 1px;
+}
+
+.hidden_input
+{
+    position: relative;
+    left: 5px;
+    width: 130px;
+    height: 25px;
+    border: 0;
+    padding: 0;
+    font-size: 13px;
+    font-family: '微软雅黑';
+    color: #cccccc;
+}
+
+.hidden_input:focus
+{
+    color: #333333;
+}
+
+#groupTagManageDiv
+{
+    height: 156px;
+    top: 60px;
+}
+
+#groupTagManageDiv .textareas
+{
+    height: 80px;
+}
+
+#groupTagManageDiv .Btn
+{
+    float: right;
+    top: 10px;
+}
+
+#groupBelongDiv
+{
+    height: 156px;
+    top: 70px;
+}
+
+#groupBelongDiv .textareas
+{
+    height: 80px;
+}
+
+#groupBelongDiv .Btn
+{
+    float: right;
+    top: 10px;
+}
+
+#groupActiveDiv
+{
+    height: 206px;
+    top: 10px;
+}
+
+#groupActiveDiv .textareas
+{
+    height: 130px;
+}
+
+#groupActiveDiv .Btn
+{
+    float: right;
+    top: 10px;
+}
+
+#addImg
+{
+    position: relative;
+    top: 10px;
+    float: left;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+#addImg:hover
+{
+    opacity: 0.8;
+}
+
+#groupMessageDiv
+{
+    height: 186px;
+    top: 25px;
+}
+
+#groupMessageDiv .textareas
+{
+    height: 110px;
+}
+
+#groupMessageDiv .Btn
+{
+    float: right;
+    top: 10px;
+}
+
+#groupDescriptionDiv
+{
+    height: 156px;
+    top: 35px;
+}
+
+#groupDescriptionDiv .textareas
+{
+    height: 80px;
+}
+
+#groupDescriptionDiv .Btn
+{
+    float: right;
+    top: 10px;
+}
+
+.mainAdminDiv
+{
+    position: relative;
+    width: 860px;
+    height: 70px;
+    margin: 0;
+    float: left;
+    left: 35px;
+    top: 20px;
+    display: none;
+    /*background-color: red;*/
+}
+
+.mainAdminDiv .Btn
+{
+    top: 15px;
+    margin: 0 auto;
+    width: 150px;
+    height: 40px;
+    background-color: rgba(255,130,130,1);
+}
+
+.mainAdminDiv .Btn:hover
+{
+    background-color: rgba(255,110,110,1);
+}
+
+.mainAdminDiv .Btn span
+{
+    font-size: 22px;
+}
+
+.memberListContainer
+{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.6);
+    display: none;
+}
+
+.memberListContainer .memberDiv
+{
+    position: relative;
+    top: 300px;
+    margin: 0 auto;
+    width: 500px;
+    height: 330px;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 1;
+}
+
+.memberDiv .memberList
+{
+    position: relative;
+    margin: 0 auto;
+    width: 480px;
+    height: 270px;
+    top: 10px;
+    border: 1px solid #cccccc;
+}
+
+.memberDiv .Btn
+{
+    top: 20px;
+    width: 100px;
+    height: 30px;
+}
+
+.memberDiv .Btn span
+{
+    top: 5px;
+    font-size: 15px;
+}
+
+#setManager
+{
+    float: left;
+    left: 10px;
+    display: none;
+}
+
+#kickOut
+{
+    margin: 0 auto;
+}
+
+#handOver
+{
+    float: right;
+    right: 10px;
+    display: none;
+}
+
+.clickHide
+{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.Btn
+{
+    position: relative;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.Btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.Btn span
+{
+    position: relative;
+    top: 3px;
+    font-size: 15px;
+    font-family: '微软雅黑';
+}
+
+.triangle-right {
+    position: relative;
+    float: right;
+    top: 5px;
+    width: 0;
+    height: 0;
+    margin: 0;
+    border-top: 10px solid transparent;
+    border-left: 20px solid rgba(153,153,153,0.4);
+    border-bottom: 10px solid transparent;
+    transition: transform 0.2s;
+}
+
+.textAreaContainer
+{
+    position: relative;
+    margin: 0;
+    padding: 5px;
+    width: 390px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.textareas
+{
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 385px;
+    border: 1px solid #cccccc;
+    resize: none;
+}
