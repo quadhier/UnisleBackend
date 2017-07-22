@@ -35,11 +35,9 @@
 
 
     <!-- static resources -->
-    <mvc:resources mapping="/data/**" location="/data/" />
-    <mvc:resources mapping="/files/**" location="/files/" />
-    <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/plugins/**" location="/plugins/" />
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/css/**" location="/resources/css/" />
+    <mvc:resources mapping="/js/**" location="/resources/js/" />
+    <mvc:resources mapping="/images/**" location="/resources/images/" />
     <mvc:resources mapping="/pic/**" location="/tmp/images/" />
 
 

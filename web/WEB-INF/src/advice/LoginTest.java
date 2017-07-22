@@ -31,9 +31,6 @@ public class LoginTest {
 //            "!execution(public * controller.LoginController.*(..))")
 //    public Object loginTest(ProceedingJoinPoint pjp, HttpServletRequest request) throws IOException {
 //
-//        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        ServletWebRequest servletWebRequest=new ServletWebRequest(req);
-//        HttpSer vletResponse response=servletWebRequest.getResponse();
 //
 //        System.out.println("Login Status Testing");
 //
@@ -52,8 +49,6 @@ public class LoginTest {
 //            if(returnType == String.class) {
 //                return "redirect:/";
 //            } else {
-//                response.sendRedirect("/");
-//
 //                ResultInfo rinfo = new ResultInfo();
 //                rinfo.setResult("LOGINERROR");
 //                rinfo.setReason("E_PROCESSING_ERROR");
