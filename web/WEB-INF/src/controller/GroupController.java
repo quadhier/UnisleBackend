@@ -4,13 +4,11 @@ import com.sun.corba.se.spi.transport.CorbaAcceptor;
 import com.sun.org.apache.regexp.internal.RE;
 import converter.GroupMember;
 import converter.ResultInfo;
-import dao.ActivityDAO;
-import dao.CommonDAO;
-import dao.GroupDAO;
-import dao.UserInfoDAO;
+import dao.*;
 import entity.ActivityEntity;
 import entity.UgroupEntity;
 import entity.UuserEntity;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.usertype.UserCollectionType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -147,11 +145,11 @@ public class GroupController {
     }
 
 
-    // Not Finished
     // 申请加入一个组织
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     @ResponseBody
     public Object joinGroup(@RequestParam(value = "groupid") String groupid,
+                            @RequestParam(value = "content", required = false, defaultValue = "Hi, I want to join your group.") String content,
                             HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -159,27 +157,51 @@ public class GroupController {
 
         String userid = ControllerUtil.getUidFromReq(request);
 
+        if(GroupDAO.isInGroup(userid, groupid)) {
+            rinfo.setReason("E_ALREADY_JOIN");
+            return rinfo;
+        }
 
-        return null;
+        if(NoticeDAO.seekSendedNotice(userid, groupid, "groupmemberask")) {
+            rinfo.setReason("E_ALREADY_SENDED");
+            return rinfo;
+        }
 
+        if(NoticeDAO.sendNotice(userid, groupid, content, "groupmemberask")) {
+            rinfo.setResult("SUCCESS");
+            return rinfo;
+        }
+
+        rinfo.setReason("E_NOT_SENDED");
+        return rinfo;
     }
 
 
-    // Not Finished
+
     // 邀请成员
     @RequestMapping(value = "invite", method = RequestMethod.POST)
     @ResponseBody
     public Object inviteMember(@RequestParam(value = "groupid") String groupid,
                                @RequestParam(value = "member") String member,
+                               @RequestParam(value = "content", required = false, defaultValue = "Hi, I invite you to join us.") String content,
                                HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
         String userid = ControllerUtil.getUidFromReq(request);
+        if(GroupDAO.isInGroup(userid, groupid)) {
+            rinfo.setReason("E_INSUFFICIENT_PERMISSION");
+            return rinfo;
+        }
 
-        return null;
+        if(NoticeDAO.sendNotice(groupid, member, content,"groupmemberinvite")) {
+            rinfo.setResult("SUCCESS");
+            return rinfo;
+        }
 
+        rinfo.setReason("E_NOT_SENDED");
+        return rinfo;
     }
 
 

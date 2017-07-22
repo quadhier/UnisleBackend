@@ -48,10 +48,7 @@ public class NoticeDAO {
             HibernateUtil.safeCloseSession(s);
         }
 
-        if (list.isEmpty())
-            return false;
-        else
-            return true;
+        return !list.isEmpty();
     }
     //tested
     //type字段可以为Null。如果为null，表示获得所有消息
@@ -143,7 +140,7 @@ public class NoticeDAO {
     }
 
     public static boolean setNoticenumPlusOne(String userid){
-        String hql = "update UuserEntity user set user.numnitice = user.numnotice+1 where user.userid = :uid";
+        String hql = "update UuserEntity user set user.numnotice = user.numnotice+1 where user.userid = :uid";
         Map params = new HashMap();
         params.put("uid",userid);
 
