@@ -42,31 +42,46 @@ body{
 }
 
 #board3{
-    width:580px;
-    height:260px;
-    left: 30px;
-}
-
-#board3 .allHover:hover{
-    transform:scale(0.97,0.95);
+    left:30px;
 }
 
 #board4{
-    top: 20px;
+    left:40px;
 }
 
 #board5{
     top: 20px;
-    left: 20px;
+    left: 10px;
 }
 
 #board6{
     top: 20px;
-    left: 30px;
+    left: 20px;
 }
 
 #board7{
+    width:285px;
+    height:125px;
     top: 20px;
+    left: 30px;
+}
+#board8{
+    width:285px;
+    height:125px;
+    top: 20px;
+    left: 40px;
+}
+
+#board9{
+    width:285px;
+    height:125px;
+    top: 30px;
+    left: 30px;
+}
+#board10{
+    width:285px;
+    height:125px;
+    top: 30px;
     left: 40px;
 }
 
@@ -76,6 +91,15 @@ body{
     transition: transform 200ms;
 }
 
+.alllittleHover{
+    width: 100%;
+    height: 100%;
+    transition: transform 200ms;
+}
+.alllittleHover:hover{
+    transform:scale(0.95,0.9);
+    box-shadow: 0 0 5px #ffffff;
+}
 .allHover:hover{
     transform:scale(0.95,0.95);
     box-shadow: 0 0 5px #ffffff;

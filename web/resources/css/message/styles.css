@@ -1,8 +1,3 @@
-
-textarea, input {
-    outline:none;
-}
-
 body{
     margin: 0px;
     padding:0px;
@@ -154,6 +149,7 @@ body{
     font-family: "微软雅黑";
     font-size: 14px;
     color: #979897;
+    outline: none;
 }
 
 #findreceiver_input:focus{
@@ -194,14 +190,17 @@ body{
 }
 #message_input{
     position: absolute;
-    top:5px;
+    top:0px;
     left:0px;
+    padding: 0;
     overflow-y: scroll;
     width:610px;
     height:95px;
-    border: none;
+    border: 0;
     resize: none;
+    outline: none;
 }
+
 
 .message_content p{
     font-family: "微软雅黑";

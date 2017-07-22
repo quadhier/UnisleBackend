@@ -1,14 +1,12 @@
 package dao;
 
-import entity.BlacklistEntity;
-import entity.BlacklistEntityPK;
-import entity.FriendshipEntity;
-import entity.FriendshipEntityPK;
+import entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
+import util.Rewrapper;
 
 
 import java.sql.Timestamp;
@@ -300,5 +298,81 @@ public class FriendshipDAO {
         }
 
         return true;
+    }
+
+    public static List getInterestedUserInfoList(String userid,int size) throws Exception{
+        List friendList = getFriendIDList(userid);
+        if(friendList == null || friendList.isEmpty())
+            return null;
+        List resultList = null;
+        Session s = null;
+        try{
+            s = HibernateUtil.getSession();
+            String hql = "select distinct e.friendshipEntityPK.userid1 from FriendshipEntity e where e.friendshipEntityPK.userid2 in :flist" +
+                    " and e.friendshipEntityPK.userid1 not in :flist and e.friendshipEntityPK.userid1 != :uid" ;
+            Query query = s.createQuery(hql);
+            query.setParameter("flist",friendList);
+            query.setParameter("uid",userid);
+            query.setMaxResults(size/2);
+            List resultIDList1 = query.list();
+            hql = "select distinct e.friendshipEntityPK.userid2 from FriendshipEntity e where e.friendshipEntityPK.userid1 in :flist" +
+                    " and e.friendshipEntityPK.userid2 not in :flist and e.friendshipEntityPK.userid2 != :uid" ;
+            query = s.createQuery(hql);
+            query.setParameter("flist",friendList);
+            query.setParameter("uid",userid);
+            query.setMaxResults(size - size/2);
+            List resultIDList2 = query.list();
+            List resultIDList = new ArrayList();
+            for(Object o:resultIDList1)
+                resultIDList.add(o);
+            for(Object o:resultIDList2)
+                resultIDList.add(o);
+
+            if(resultIDList == null || resultIDList.isEmpty())
+                return null;
+
+            String getUser = "from UuserEntity e where e.userid in :idlist";
+            Map params = new HashMap();
+            params.put("idlist",resultIDList);
+            resultList = CommonDAO.queryHql(getUser,params);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+
+        return Rewrapper.wrapList(resultList, UuserEntity.class,"1011111111110011111");
+    }
+
+    public static List getInterestedGroupInfoList(String userid,int size){
+        List friendList = getFriendIDList(userid);
+        if(friendList == null || friendList.isEmpty())
+            return null;
+        List resultList = null;
+        Session s = null;
+        try {
+            s = HibernateUtil.getSession();
+            String hql = "select distinct g.groupmemberEntityPK.groupid from GroupmemberEntity g " +
+                    "where g.groupmemberEntityPK.userid in :flist and not exists (" +
+                    "from GroupmemberEntity m where m.groupmemberEntityPK.groupid = g.groupmemberEntityPK.groupid " +
+                    "and m.groupmemberEntityPK.userid = :uid)";
+            Query query = s.createQuery(hql);
+            query.setParameter("flist",friendList);
+            query.setParameter("uid",userid);
+            query.setMaxResults(size);
+            List groupIDList = query.list();
+            if(groupIDList==null || groupIDList.isEmpty())
+                return null;
+            hql = "from UgroupEntity g where g.groupid in :glist";
+            query = s.createQuery(hql);
+            query.setParameter("glist",groupIDList);
+            resultList = query.list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtil.safeCloseSession(s);
+        }
+        return resultList;
     }
 }

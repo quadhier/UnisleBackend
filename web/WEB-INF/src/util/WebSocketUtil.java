@@ -58,7 +58,7 @@ public class WebSocketUtil {
         String json ="{"+
                 "\"returncode\":\"102\" ,"+
                 "\"senderid\":\""+ sender +"\" ," +
-                "\"sendtime\":\""+ sendtime.toString() +"\" ," +
+                "\"sendtime\":\""+ sendtime.getTime() +"\" ," +
                 "\"content\":\""+ content +"\" }";
         return sendToAllPages(receiver,json);
     }
