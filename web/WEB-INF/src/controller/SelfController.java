@@ -52,7 +52,8 @@ public class SelfController {
 
         rinfo.setResult("SUCCESS");
         user.setPassword(null);
-        return user;
+        rinfo.setData(user);
+        return rinfo;
     }
 
     // Helper Function

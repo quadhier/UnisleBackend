@@ -289,12 +289,12 @@ public class Runner {
         System.out.println(ForumDAO.getWrappedForumAccountInfo("10000000001").toString());
         ForumDAO.clearViewHistory("10000000001");
         printList(ForumDAO.getViewHistory("10000000003",new Timestamp(System.currentTimeMillis()),0,5));
-
+        printList(ForumDAO.getBoardnameList());
+        printList(ForumDAO.getThemenameList("情感分享"));
         System.out.println(?"yes":"no");
         */
 
-        printList(ForumDAO.getBoardnameList());
-        printList(ForumDAO.getThemenameList("情感分享"));
+        System.out.println((new Timestamp(System.currentTimeMillis())).getTime());
 
 
         HibernateUtil.closeSessionFactory();

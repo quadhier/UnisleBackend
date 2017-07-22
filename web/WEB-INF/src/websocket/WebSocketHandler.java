@@ -57,8 +57,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 String senderid = WebSocketUtil.getStringByKey("senderid",content);
                 String receiverid = WebSocketUtil.getStringByKey("receiverid",content);
                 String messageContent = WebSocketUtil.getStringByKey("content",content);
-                Timestamp now = new Timestamp(System.currentTimeMillis());
-                ChatDAO.sendMessage(senderid,receiverid,content,now);
+                String current = WebSocketUtil.getStringByKey("senddatetime",content);
+                Timestamp now = new Timestamp(Long.parseLong(current));
+                ChatDAO.sendMessage(senderid,receiverid,messageContent,now);
                 WebSocketUtil.sendMessageIfOnline(senderid,receiverid,now,messageContent);
             }
         }catch (Exception e) {

@@ -149,6 +149,7 @@ body{
     font-family: "微软雅黑";
     font-size: 14px;
     color: #979897;
+    outline: none;
 }
 
 #findreceiver_input:focus{
@@ -189,14 +190,16 @@ body{
 }
 #message_input{
     position: absolute;
-    top:5px;
+    top:0px;
     left:0px;
+    padding: 0;
     overflow-y: scroll;
     width:610px;
-    height:105px;
-    border: none;
+    height:95px;
+    border: 0;
     resize: none;
 }
+
 
 .message_content p{
     font-family: "微软雅黑";

@@ -43,7 +43,7 @@ public class ChatDAO {
             String hql = "from ChatrecordEntity record where " +
                     "((record.chatrecordEntityPK.sender =:uid1 and record.chatrecordEntityPK.receiver =:uid2) " +
                     "or (record.chatrecordEntityPK.sender =:uid2 and record.chatrecordEntityPK.receiver =:uid1)) " +
-                    "and record.chatrecordEntityPK.senddatedtime <=:current";
+                    "and record.chatrecordEntityPK.senddatedtime <=:current order by record.chatrecordEntityPK.senddatedtime desc";
             Query query = s.createQuery(hql);
             query.setParameter("uid1", user1);
             query.setParameter("uid2", user2);
