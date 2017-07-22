@@ -288,6 +288,13 @@ body{
     float: left;
 }
 
+/* 为了使得头像为正方形而添加 qdh */
+.friend_container .headimg img
+{
+    width:60%;
+    height:100%;
+}
+
 .friend_container .infoDiv
 {
     position: relative;
@@ -305,7 +312,7 @@ body{
     font-weight: bold;
     font-style: italic;
     font-family: "Arial";
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .friend_container .pInfo

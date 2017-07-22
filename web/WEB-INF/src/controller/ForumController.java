@@ -4,6 +4,7 @@ import converter.ResultInfo;
 import dao.CommonDAO;
 import dao.ForumDAO;
 import entity.ArticleEntity;
+import entity.ArticlecommentEntity;
 import entity.ArticlecommentEntityPK;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -649,7 +650,7 @@ public class ForumController {
         acpk.setPublicdatetime(new Timestamp(Long.valueOf(publishDatetime)));
         acpk.setUserid(commenter);
 
-        if(!CommonDAO.deleteItemByPK(ArticlecommentEntityPK.class, acpk)) {
+        if(!CommonDAO.deleteItemByPK(ArticlecommentEntity.class, acpk)) {
             rinfo.setReason("NOT_DELETED");
             return rinfo;
         }

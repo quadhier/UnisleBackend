@@ -38,7 +38,7 @@
     <mvc:resources mapping="/css/**" location="/resources/css/" />
     <mvc:resources mapping="/js/**" location="/resources/js/" />
     <mvc:resources mapping="/images/**" location="/resources/images/" />
-    <mvc:resources mapping="/pic/**" location="/tmp/images/" />
+    <mvc:resources mapping="/pic/**" location="/tmp/pic/" />
 
 
 

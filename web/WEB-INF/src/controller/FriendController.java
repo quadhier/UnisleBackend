@@ -37,13 +37,15 @@ public class FriendController {
                 resultList.add(user); // null不应该被加入resultList中去
             else{
                 result.setResult("ERROR");
-                result.setResult("E_NO_USER_IS_FOUND");
+                result.setReason("E_NO_USER_IS_FOUND");
+                return result;
             }
         }else{
             int resultLength = UserInfoDAO.searchNickname(mailornickname).length;
             if(resultLength == 0){
                 result.setResult("ERROR");
-                result.setResult("E_NO_USER_IS_FOUND");
+                result.setReason("E_NO_USER_IS_FOUND");
+                return result;
             }
             resultLength = resultLength>20?20:resultLength;
             UuserEntity[] searched = UserInfoDAO.searchNickname(mailornickname);
@@ -93,14 +95,14 @@ public class FriendController {
     @ResponseBody
     public Object sendFriendshipAsk(HttpServletRequest req,
                                     @RequestParam(value = "receiver") String receiver,
-                                    @RequestParam(value = "content",required = false,defaultValue = "Hi, I want to be your friend.") String content){
+                                    @RequestParam(value = "content",required = false, defaultValue = "Hi, I want to be your friend.") String content){
 
         String sender = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         //用户1向用户2发送好友请求时，自动将2从自己的黑名单中删除（如果有）
         FriendshipDAO.deleteBlacklistItem(sender,receiver);
         if(NoticeDAO.seekSendedNotice(sender,receiver,"friendshipask")){
-            result.setReason("E_ALLREADY_SENDED");
+            result.setReason("E_ALREADY_SENDED");
             result.setResult("ERROR");
         }else if(NoticeDAO.sendNotice(sender,receiver,content,"friendshipask")){
             result.setResult("SUCCESS");
@@ -132,6 +134,9 @@ public class FriendController {
             public String sex;
             public String userpic;
             public String note;
+            public String school;
+            public String department;
+            public String grade;
         }
 
         List adapterList = new ArrayList();
@@ -145,6 +150,9 @@ public class FriendController {
             adapter.sex = entity.getSex();
             adapter.userpic = entity.getUserpic();
             adapter.note = entry.getValue();
+            adapter.school = entity.getSchool();
+            adapter.department = entity.getDepartment();
+            adapter.grade = entity.getGrade();
             adapterList.add(adapter);
         }
         result.setResult("SUCCESS");

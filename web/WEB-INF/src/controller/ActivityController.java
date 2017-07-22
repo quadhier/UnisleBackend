@@ -38,9 +38,9 @@ public class ActivityController {
     // 如果将request作为第一个参数，则会报错，目前不清楚原因
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public Object createActivity(@RequestParam("content") String content,
-                                 @RequestParam("shieldIDList") String[] shieldIDList,
-                                 @RequestParam("picture") CommonsMultipartFile picture,
+    public Object createActivity(@RequestParam(value = "content") String content,
+                                 @RequestParam(value = "shieldIDList", required = false) String[] shieldIDList,
+                                 @RequestParam(value = "picture", required = false) CommonsMultipartFile picture,
                                  HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -50,8 +50,10 @@ public class ActivityController {
         System.out.println("Content:");
         System.out.println(content);
         System.out.println("ShieldIDList:");
-        for(String shield : shieldIDList) {
-            System.out.println(shield);
+        if(shieldIDList != null) {
+            for(String shield : shieldIDList) {
+                System.out.println(shield);
+            }
         }
 
         String userid = ControllerUtil.getUidFromReq(request);
@@ -156,8 +158,8 @@ public class ActivityController {
         synchronized(this) {
 
             // 初始化返回对象
-            ActivityAndComment actAndCom = new ActivityAndComment();
-            actAndCom.setTag(false);
+            ResultInfo rinfo = new ResultInfo();
+            rinfo.setResult("ERROR");
 
             String tokenid = ControllerUtil.getTidFromReq(request);
             Timestamp time = null;
@@ -180,7 +182,8 @@ public class ActivityController {
                     time = new Timestamp(lastTime - 5);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return actAndCom;
+                    rinfo.setReason("E_MALFORMED_TIME");
+                    return rinfo;
                 }
             }
 
@@ -202,7 +205,8 @@ public class ActivityController {
 
             if (activities == null || activities.length == 0) {
                 System.out.println("Non Activity");
-                return actAndCom;
+                rinfo.setReason("E_NO_MORE_ACTIVITY");
+                return rinfo;
             }
             String userName = user.getNickname();
             ActivityEntity activity = activities[0];
@@ -215,6 +219,9 @@ public class ActivityController {
             }
             String[] commenters = commenterArray.toArray(new String[0]);
 
+
+            ActivityAndComment actAndCom = new ActivityAndComment();
+
             ProEntityPK propk = new ProEntityPK();
             propk.setActivityid(activity.getActivityid());
             propk.setUserid(userid);
@@ -224,17 +231,18 @@ public class ActivityController {
                 actAndCom.setPro(false);
             }
 
-            actAndCom.setTag(true);
+            rinfo.setResult("SUCCESS");
             actAndCom.setUserName(userName);
             actAndCom.setActivity(activity);
             actAndCom.setComments(comments);
             actAndCom.setCommenters(commenters);
+            rinfo.setData(actAndCom);
 
             UserInfoDAO.updateViewActTime(tokenid, activity.getPublicdatetime().getTime());
 
             System.out.println("current activity time" + activity.getPublicdatetime().getTime());
 
-            return actAndCom;
+            return rinfo;
         }
 
     }

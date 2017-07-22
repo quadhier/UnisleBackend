@@ -12,8 +12,6 @@ import java.util.HashMap;
  */
 public class ActivityAndComment {
 
-    boolean tag;
-
     String userName;
 
     ActivityEntity activity;
@@ -23,10 +21,6 @@ public class ActivityAndComment {
     String[] commenters;
 
     boolean pro;
-
-    public boolean isTag() {
-        return tag;
-    }
 
     public String getUserName() {
         return userName;
@@ -46,10 +40,6 @@ public class ActivityAndComment {
 
     public boolean getPro() {
         return pro;
-    }
-
-    public void setTag(boolean tag) {
-        this.tag = tag;
     }
 
     public void setUserName(String userName) {
