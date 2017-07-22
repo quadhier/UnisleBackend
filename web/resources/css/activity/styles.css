@@ -350,3 +350,28 @@ hr
 .container_center_head_title{
     margin: 0;
 }
+
+
+/* added for cross */
+.activity_x_img{
+    right:-10px;
+    top:-15px;
+    position: absolute;
+    width:30px;
+    height:30px;
+    cursor: pointer;
+    /*display:none;*/
+    z-index: 99;
+}
+
+
+.comment_x_img{
+    right:5px;
+    top:5px;
+    position: absolute;
+    width:15px;
+    height:15px;
+    cursor: pointer;
+    /*display:none;*/
+    z-index: 99;
+}

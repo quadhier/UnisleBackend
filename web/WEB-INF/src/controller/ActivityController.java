@@ -200,7 +200,6 @@ public class ActivityController {
 
             // 获取一条动态，其发布用户的昵称，所有评论，以及评论者昵称
 
-            UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
             ActivityEntity[] activities = ActivityDAO.getActivities(userid, time, 1, view);
 
             if (activities == null || activities.length == 0) {
@@ -208,11 +207,16 @@ public class ActivityController {
                 rinfo.setReason("E_NO_MORE_ACTIVITY");
                 return rinfo;
             }
-            String userName = user.getNickname();
+
             ActivityEntity activity = activities[0];
+            String ownerid = activity.getPublisher();
+            UuserEntity owner = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, ownerid);
+            String ownerName = owner.getNickname();
+
             ActivitycommentEntity[] comments = ActivityDAO.getActivityComments(activity.getActivityid());
             ArrayList<String> commenterArray = new ArrayList<String>();
 
+            UuserEntity user = null;
             for (ActivitycommentEntity comment : comments) {
                 user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, comment.getActivitycommentEntityPK().getUserid());
                 commenterArray.add(user.getNickname());
@@ -232,7 +236,7 @@ public class ActivityController {
             }
 
             rinfo.setResult("SUCCESS");
-            actAndCom.setUserName(userName);
+            actAndCom.setUserName(ownerName);
             actAndCom.setActivity(activity);
             actAndCom.setComments(comments);
             actAndCom.setCommenters(commenters);

@@ -29,6 +29,7 @@ $(document).ready(function () {
         var commentDisplay = "<div class='commentDiv'>";
         for (i in comments) {
             commentDisplay = commentDisplay +
+                "<div class='comment_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
                 "<p class='pCommenter'>" + commenters[i] + "</p>" +
                 "<p class='pComment'>" + comments[i].content + "</p>";
         }
@@ -57,12 +58,15 @@ $(document).ready(function () {
             "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
             "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
             "</div>" +
+            "<div class='activity_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
             "</div>");
     }
 
 
     // 储存用户名
     var userName;
+    // 动态可见性
+    var actView = "self";
 
 
     /*
@@ -202,7 +206,7 @@ $(document).ready(function () {
         dataType: "json",
         data: {
             "lastTime": null,
-            "view": "all"
+            "view": actView
         },
         async: false,                           //可能会使得效率下降
         timeout: 5000,
@@ -232,7 +236,7 @@ $(document).ready(function () {
             dataType: "json",
             data: {
                 "lastTime": null,
-                "view": "self"
+                "view": actView
             },
             //async: false,                           //可能会使得效率下降
             timeout: 5000,
@@ -275,7 +279,7 @@ $(document).ready(function () {
                 dataType: "json",
                 data: {
                     "lastTime": null,
-                    "view": "self"
+                    "view": actView
                 },
                 //async: false,                           //可能会使得效率下降
                 timeout: 5000,
