@@ -117,7 +117,7 @@ public class ForumDAO {
             entity.setTitle(title);
             entity.setContent(content);
             entity.setVisibility("all");
-            entity.setViewtimes(Short.valueOf("1"));
+            entity.setViewtimes(Short.valueOf("0"));
             Timestamp current = new Timestamp(System.currentTimeMillis());
             entity.setPublicdatetime(current);
             entity.setLastmoddatetime(current);
