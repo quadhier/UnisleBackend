@@ -87,11 +87,37 @@ body{
     height:50px;
     border: 1px solid #999999;
 }
-#main_btn{
+
+.return_btn
+{
     position: absolute;
-    left:30px;
+    left:870px;
     top:5px;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    color:rgba(0,98,133,0.8);
 }
+
+.return_btn:hover
+{
+    background-color: rgba(214, 214, 214, 0.8);
+}
+
+.return_btn span
+{
+    position: relative;
+    font-size: 13px;
+    font-family: '微软雅黑';
+    text-align: center;
+}
+
 /*
 #main_btn{
     position: absolute;
@@ -174,6 +200,7 @@ body{
     font-family: "微软雅黑";
     font-size: 14px;
     color: #979897;
+    outline: none;
 }
 
 #board_input{
@@ -243,6 +270,7 @@ body{
     width:100%;
     height:80px;
     border-bottom: 1px solid #999999;
+    cursor: pointer;
 }
 .board_content_container .board_content_item .item_top{
     position: relative;

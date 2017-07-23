@@ -8,6 +8,7 @@
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <link href="css/forum/board.css"  rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
+        var firstThemename;
         $(document).ready(function () {
             //变量定义区
             var getval = document.URL.split('?')[1];
@@ -27,11 +28,23 @@
                 default:alert('switch failed');
             }
             var themenameList = null;
+            var currentThemename = null;//用于翻页以及辨识发帖所属主题
             var userid = null;
             var articleList = null;
+            var userForumAccount = null;
             function showArticleWithTheme(articleBlockid) {
+                /*
+                一定要注意！没有内容的.theme_content也会被点击到，导致下面层的.theme_content不能被点击
+                */
+                $('.theme_content').css({
+                   'display':'none'
+                });
+                $('#'+articleBlockid).css({
+                    'display':'block'
+                });
                 $('.board_content_item').remove();
                 var themename = articleBlockid.split('_')[0];
+                currentThemename = themename;
                 $.ajax({
                     type: "GET",
                     url: "forum/article/all",
@@ -55,12 +68,30 @@
                     }
 
                 });//给articleList赋值
+                if(articleList==null || articleList.length==0)
+                    return;
                 for(var i=0;i<articleList.length;i++) {
+
                     var articleId = articleList[i].articleid;
                     var articleTitle = articleList[i].title;
                     var articleAuthor = articleList[i].author;
                     var lastComTime = new Date(parseInt(articleList[i].lastcomdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
                     var visitNumber = articleList[i].viewtimes;
+
+                    var articleAuthorForumAccount
+                    $.ajax({
+                        type: "GET",
+                        url: "forum/userinfo",
+                        dataType: "json",
+                        data: {
+                            'userid': articleAuthor
+                        },
+                        async:false,
+                        timeout: 5000,
+                        success: function (res) {
+                            articleAuthorForumAccount = res.data;
+                        }
+                    });
 
                     $('#' + articleBlockid).append(
                         '<div class="board_content_item" id="'+articleId+'" >'+
@@ -68,7 +99,7 @@
                         '<div class="item_bottom">'+
                         '<span class="item_good_num">20</span>'+
                         '<span class="item_author_time">'+
-                            '<span class="item_author">作者:'+articleAuthor+'</span>'+
+                            '<span class="item_author" id="'+articleAuthor+'">作者:'+articleAuthorForumAccount.nickname+'</span>'+
                             '<span>&nbsp;最后评论:&nbsp;</span>'+
                             '<span class="item_time">'+lastComTime+'</span>'+
                         '</span>'+
@@ -77,6 +108,10 @@
                         '</div>'
                     );
                 }
+            }
+            function jumpToArticleContent(articleId,authorId){
+                var newURL = 'article.html?'+'id='+articleId+'&author='+authorId;
+                window.location.replace(newURL);
             }
             //初始化执行区
             $.ajax({
@@ -98,6 +133,25 @@
                     userid = userdata.userid;
                 }
 
+            });
+            $.ajax({
+                type: "GET",
+                url: "forum/userinfo",
+                dataType: "json",
+                data: {
+                    'userid': userid,
+                },
+                async:false,
+                timeout: 5000,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取用户个人信息失败，请刷新或重新登陆。')
+                    }
+                    userForumAccount = res.data;
+                }
             });//获取用户信息
             $.ajax({
                 type: "GET",
@@ -136,10 +190,26 @@
                     $('.board_content_container').append(
                         '<div id="'+themeArticleid+'" class="theme_content"></div>'
                     );
-                    if(i == 0)
-                        $('#'+themeButtonid).click();//模拟当页面加载后点击第一个button
+
                 }
             }//根据主题列表添加按钮和文章列表显示区
+            {
+                $('#board_user').html('<b>'+userForumAccount.nickname+'</b>');
+                $('#board_experience').text(userForumAccount.rank);
+                var priviligeText;
+                switch(parseInt(userForumAccount.privilige)){
+                    case 0:priviligeText = '被封禁';break;
+                    case 1:priviligeText = '不能交互';break;
+                    case 2:priviligeText = '不能发帖';break;
+                    case 3:priviligeText = '普通用户';break;
+                    case 4:priviligeText = '小编';break;
+                    case 5:priviligeText = '版主';break;
+                    case 6:priviligeText = '超级管理员';break;
+                    default:priviligeText = '未定义';
+                }
+                $('#board_privilege').text(priviligeText);
+            }//设置用户个人信息栏的信息
+            firstThemename = themenameList[0];
             //回调方法绑定区
             $(window).scroll(function () {
                 if($(window).scrollTop()>302){
@@ -200,8 +270,83 @@
                     'display':'block'
                 })*/
             });
+            $('.return_btn').css({
+                "backgroundColor": "#ffffff",
+                "color":"#006285"
+            });
+            $('.return_btn').hover(function () {
+                $(this).css({
+                    "backgroundColor": "#D6D6D6"
+                });
+            },function () {
+                $(this).css({
+                    "backgroundColor": "#ffffff"
+                });
+            });
+            $('.return_btn').click(function () {
+                $(".title_btn").css({
+                    "backgroundColor": "#ffffff",
+                    "color":"#006285"
+                });
+                $(".title_btn").hover(function () {
+                    $(this).css({
+                        "backgroundColor": "#D6D6D6"
+                    });
+                },function () {
+                    $(this).css({
+                        "backgroundColor": "#ffffff"
+                    });
+                });
+                $(this).css({
+                    "backgroundColor": "#3771ff",
+                    "color":"#ffffff"
+                });
+                $(this).unbind("hover");
+                var newURL = 'forum.html';
+                window.location.replace(newURL);
+            });
+            $('#board_input_btn').click(function () {
+                var title = $('#board_title_input').val();
+                $('#board_title_input').val("");
+                var content = $('#board_input').val();
+                $('#board_input').val("");
+                if(title.length==0 || content.length==0){
+                    alert("文章和标题均不能为空")
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "forum/article/publish",
+                    dataType: "json",
+                    data:{
+                        'boardName':boardname,
+                        'themeName':currentThemename,
+                        'title':title,
+                        'content':content,
+                        'commentAllowed':'yes'
+                    },
+                    timeout:10000,
+                    success: function (res) {
+                        if(res.result == 'LOGINERROR'){
+                            window.reload('login.html');
+                        }
+                        if(res.result != 'SUCCESS'){
+                            alert('发送失败。')
+                        }
+                        jumpToArticleContent(res.data,userid);
+                    }
 
+                });
+            });
+            $('.board_content_item').live('click',function () {
+                var articleid = $(this).attr('id');
+                var authorid = $(this).find($('.item_author')).attr('id');
+                jumpToArticleContent(articleid,authorid);
+            });
         });
+        window.onload = function () {
+            document.getElementById(firstThemename+'_btn').click();
+        }//模拟当页面加载后点击第一个button
     </script>
 
 </head>
@@ -210,6 +355,7 @@
 <div class="board_container">
     <div class="board_pic_container"><img src="images/forum/bg.jpg" width="100%" height="100%"/></div>
     <div class="board_select_container">
+        <div class="return_btn" id = "return_btn"><span>返回论坛首页</span></div>
         <!--
         <div class="title_btn" id="国家新闻_btn"><span>版块首页</span></div>
         <div class="title_btn" id="consult_btn"><span>咨询 | 攻略</span></div>
@@ -221,7 +367,7 @@
             <div class="info_img_div"><img src="images/forum/bg.jpg" style="width: 100%;height: 100%;"/></div>
             <div class="info_div">
                 <p style="width: 100%;text-align: center"><span id="board_user"><b>GoBang</b></span></p>
-                <p style="width: 100%;margin-left:25px;"><span>经验: </span><span id="board_experience" style="font-size: 14px">10086exp</span></p>
+                <p style="width: 100%;margin-left:25px;"><span>等级: </span><span id="board_experience" style="font-size: 14px">10086exp</span></p>
                 <p style="width: 100%;margin-left:25px;"><span>权限: </span><span id="board_privilege" style="font-size: 14px">2级会员</span></p>
             </div>
         </div>

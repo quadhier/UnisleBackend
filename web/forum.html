@@ -9,9 +9,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.board_div').live('click',function () {
-               var boardcount = $(this).attr('title');
-               var newURL = 'http://localhost:8080/board.html?board='+ boardcount;
-               window.location.replace(newURL);
+                var boardcount = $(this).attr('title');
+                var newURL = 'board.html?board='+ boardcount;
+                window.location.replace(newURL);
             });
         });
     </script>

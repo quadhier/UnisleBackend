@@ -49,7 +49,7 @@
                                     friendShowName = friendNote;
 
                                 $('.message_list_content').append(
-                                    "<div id = '" + friendID + "' class = 'message_card' >" +
+                                    "<div id = '" + friendID + "' class = 'message_card' title = '"+friendShowName+"'>" +
                                     "<div class='message_card_img_div'><img src='images/message/headimg.png' class='message_card_img'/></div>" +
                                     "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                                 );
@@ -76,7 +76,7 @@
                             friendShowName = friendNote;
 
                         $('.message_list_content').append(
-                            "<div id = '" + friendID + "' class = 'message_card' >" +
+                            "<div id = '" + friendID + "' class = 'message_card' title = '"+friendShowName+"'>" +
                             "<div class='message_card_img_div'><img src='images/message/headimg.png' class='message_card_img'/></div>" +
                             "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                         );
@@ -105,7 +105,7 @@
                             continue;
 
                         $('.message_list_content').append(
-                            "<div id = '" + friendID + "' class = 'message_card' >" +
+                            "<div id = '" + friendID + "' class = 'message_card' title = '"+friendShowName+"'>" +
                             "<div class='message_card_img_div'><img src='images/message/headimg.png' class='message_card_img'/></div>" +
                             "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                         );
@@ -120,6 +120,7 @@
                 currentChatterID = friendid;
                 $('.message_my_word_div').remove();
                 $('.message_your_word_div').remove();
+                $('#current_chat_title').text('与 '+$('#'+currentChatterID).attr('title')+' 聊天中');
                 var unreadNumber;
                 $.ajax({
                     type: 'GET',
@@ -304,11 +305,11 @@
     </script>
 </head>
 <body>
-<img id="bg" src="images/bg.jpg" rel="background">
+
 <div class="message_container">
     <div class="message_list_container">
         <div class="message_title">
-            <p class="message_title_p">消息列表</p>
+            <p class="message_title_p">按回车搜索</p>
         </div>
         <div class="message_title">
             <div class="input_box">
@@ -326,7 +327,7 @@
     </div>
     <div class="message_content_container">
         <div class="message_title">
-            <p class="message_title_p">消息</p>
+            <p id = "current_chat_title" class="message_title_p">消息</p>
         </div>
         <div class="message_content">
             <!--append
