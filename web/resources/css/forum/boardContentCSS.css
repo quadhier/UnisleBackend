@@ -1,0 +1,129 @@
+#itemContainer{
+    position: absolute;
+    top:0;
+    width:640px;
+    height:1500px;
+}
+
+
+#itemContainer .board_content_item{
+    position: relative;
+    width:100%;
+    height:80px;
+    border-bottom: 1px solid #999999;
+
+}
+#itemContainer .board_content_item .item_top{
+    position: relative;
+    height:40px;
+    width:100%;
+}
+#itemContainer .board_content_item .item_bottom{
+    position: relative;
+    height:40px;
+    width:100%;
+}
+
+#itemContainer .board_content_item .item_top img{
+    position: absolute;
+    width:25px;
+    height:25px;
+    bottom:1px;
+}
+#itemContainer .board_content_item .item_top_img_good{
+    left:15px;
+}
+#itemContainer .board_content_item .item_top_img_comment{
+    right:15px;
+}
+#itemContainer .board_content_item .item_top span{
+    position: absolute;
+    height:22px;
+    left:80px;
+    bottom:1px;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    color: #6c6d6c;
+}
+#itemContainer .board_content_item .item_bottom span{
+    height:22px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+    color: #6c6d6c;
+}
+#itemContainer .board_content_item .item_good_num{
+    position: absolute;
+    top:3px;
+    left:17px;
+}
+#itemContainer .board_content_item .item_author_time{
+    position: absolute;
+    top:3px;
+    left:80px;
+}
+#itemContainer .board_content_item .item_author_time .item_author{
+    position: relative;
+}
+#itemContainer .board_content_item .item_author_time .item_time{
+    position: relative;
+}
+#itemContainer .board_content_item .item_comment_num{
+    top:3px;
+    position: absolute;
+    right:17px;
+}
+
+/*分页模板css*/
+div #container {
+    position: relative;
+    margin: 0;
+    height: 1700px;
+
+}
+
+.holder {
+    position: absolute;
+    width:100%;
+    top:1650px;
+    text-align:center;
+    /*background: red;*/
+
+}
+.holder a {
+    border: 1px solid #666666;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0 10px;
+    color: #666666;
+    padding:0 5px;
+}
+.holder a:hover {
+    border-color: #ffffff;
+    background-color: lightblue;
+    color: white;
+}
+.holder a.jp-previous { margin-right: 15px; }
+.holder a.jp-next { margin-left: 15px; }
+.holder a.jp-current, a.jp-current:hover {
+    color: #5555ff;
+    border-color: #5555ff;
+    font-weight: bold;
+}
+.holder a.jp-disabled, a.jp-disabled:hover {
+    color: lightgrey;
+    border-color: lightgrey;
+}
+.holder a.jp-current, a.jp-current:hover,
+.holder a.jp-disabled, a.jp-disabled:hover {
+    cursor: default;
+    background: none;
+}
+.holder span { margin: 0 5px; }
+div #content {
+    position: relative;
+    /*top: 25px;*/
+    width: 640px;
+}

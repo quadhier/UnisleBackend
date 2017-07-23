@@ -32,82 +32,14 @@
             var userid = null;
             var articleList = null;
             var userForumAccount = null;
-            function showArticleWithTheme(articleBlockid) {
-                /*
-                一定要注意！没有内容的.theme_content也会被点击到，导致下面层的.theme_content不能被点击
-                */
-                $('.theme_content').css({
-                   'display':'none'
-                });
-                $('#'+articleBlockid).css({
-                    'display':'block'
-                });
-                $('.board_content_item').remove();
-                var themename = articleBlockid.split('_')[0];
-                currentThemename = themename;
-                $.ajax({
-                    type: "GET",
-                    url: "forum/article/all",
-                    dataType: "json",
-                    async:false,
-                    data:{
-                        'boardName':boardname,
-                        'themeName':themename,
-                        'startAt':'0',
-                        'number':'10'
-                    },
-                    timeout:5000,
-                    success: function (res) {
-                        if(res.result == 'LOGINERROR'){
-                            window.reload('login.html');
-                        }
-                        if(res.result != 'SUCCESS'){
-                            alert('获取文章列表失败，请刷新。')
-                        }
-                        articleList = res.data;
-                    }
-
-                });//给articleList赋值
-                if(articleList==null || articleList.length==0)
-                    return;
-                for(var i=0;i<articleList.length;i++) {
-
-                    var articleId = articleList[i].articleid;
-                    var articleTitle = articleList[i].title;
-                    var articleAuthor = articleList[i].author;
-                    var lastComTime = new Date(parseInt(articleList[i].lastcomdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
-                    var visitNumber = articleList[i].viewtimes;
-
-                    var articleAuthorForumAccount;
-                    $.ajax({
-                        type: "GET",
-                        url: "forum/userinfo",
-                        dataType: "json",
-                        data: {
-                            'userid': articleAuthor
-                        },
-                        async:false,
-                        timeout: 5000,
-                        success: function (res) {
-                            articleAuthorForumAccount = res.data;
-                        }
-                    });
-
-                    $('#' + articleBlockid).append(
-                        '<div class="board_content_item" id="'+articleId+'" >'+
-                        '<div class="item_top"><img src="images/forum/good.png" class="item_top_img_good"/><span>'+articleTitle+'</span><img src="images/forum/comment.png" class="item_top_img_comment"/></div>'+
-                        '<div class="item_bottom">'+
-                        '<span class="item_good_num">20</span>'+
-                        '<span class="item_author_time">'+
-                            '<span class="item_author" id="'+articleAuthor+'">作者:'+articleAuthorForumAccount.nickname+'</span>'+
-                            '<span>&nbsp;最后评论:&nbsp;</span>'+
-                            '<span class="item_time">'+lastComTime+'</span>'+
-                        '</span>'+
-                        '<span class="item_comment_num">'+visitNumber+'</span>'+
-                        '</div>'+
-                        '</div>'
-                    );
-                }
+            function showArticleWithTheme(articleBlockid){
+                currentThemename = articleBlockid.split('_')[0];
+                loadArticleList(currentThemename);
+            }
+            function loadArticleList(themename){
+                var paramURL = "boardContent.html?board="+boardname+"&theme="+themename;
+                selfRst=$.ajax({url:paramURL,async:false});
+                $(".board_content_container").html(selfRst.responseText);
             }
             function jumpToArticleContent(articleId,authorId){
                 var newURL = 'article.html?'+'id='+articleId+'&author='+authorId;
@@ -338,11 +270,7 @@
 
                 });
             });
-            $('.board_content_item').live('click',function () {
-                var articleid = $(this).attr('id');
-                var authorid = $(this).find($('.item_author')).attr('id');
-                jumpToArticleContent(articleid,authorid);
-            });
+
         });
         window.onload = function () {
             document.getElementById(firstThemename+'_btn').click();
