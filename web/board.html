@@ -78,7 +78,7 @@
                     var lastComTime = new Date(parseInt(articleList[i].lastcomdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
                     var visitNumber = articleList[i].viewtimes;
 
-                    var articleAuthorForumAccount
+                    var articleAuthorForumAccount;
                     $.ajax({
                         type: "GET",
                         url: "forum/userinfo",

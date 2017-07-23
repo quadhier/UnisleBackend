@@ -1,12 +1,16 @@
 body{
     margin: 0px;
     padding:0px;
+    background-image: url("../../images/bg.jpg");
+    background-attachment:fixed;
+    background-size: cover;
 }
 
 #bg{
     position: fixed;
     width: 100%;
     height: 100%;
+
 }
 
 .forum_container{

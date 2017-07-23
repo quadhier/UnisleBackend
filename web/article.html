@@ -7,21 +7,152 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="js/article/article.js"></script>
+    <script>
+        $(document).ready(function () {
+            //变量定义区
+            var userid;
+            var articleid = document.URL.split('?')[1].split('&')[0].split('=')[1];
+            var authorid = document.URL.split('?')[1].split('&')[1].split('=')[1];
+            var articleEntity;
+            var commentList;
+            //初始化执行区
+            $.ajax({
+                type: "GET",
+                url: "self",
+                dataType: "json",
+                data:{},
+                async:false,
+                timeout:5000,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取用户个人信息失败，请刷新或重新登陆。')
+                    }
+                    var userdata = res.data;
+                    userid = userdata.userid;
+                }
+
+            });//获得用户信息
+            $.ajax({
+                type: "GET",
+                url: "forum/article/content",
+                dataType: "json",
+                data:{
+                    'articleid':articleid
+                },
+                timeout:5000,
+                async:false,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取文章信息失败，请刷新。')
+                    }
+                    articleEntity = res.data;
+                }
+
+            });//获得文章信息
+            $.ajax({
+                type: "GET",
+                url: "forum/article/comment",
+                dataType: "json",
+                data:{
+                    'articleid':articleid
+                },
+                timeout:5000,
+                async:false,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取评论列表失败，请刷新。')
+                    }
+                    commentList = res.data;
+                }
+
+            });//获得评论实体列表
+            $.ajax({
+                type: "GET",
+                url: "forum/userinfo",
+                dataType: "json",
+                data: {
+                    'userid': authorid
+                },
+                timeout: 3000,
+                success: function (res) {
+                    var authorData = res.data;
+                    $('#authorName').text(authorData.nickname);
+                    $('#authorLevel').text('作者等级：'+authorData.rank);
+                    $('#authorExp').text('作者经验：'+authorData.exp);
+                }
+            });//获得作者信息并修改作者栏
+            {
+                var publictime = new Date(parseInt(articleEntity.publicdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
+                $('#articleTitleSpan').text(articleEntity.title);
+                $('.articleContent').html('<p>'+articleEntity.content+'</p>');
+                $('#articlePublicTimeSpan').text('发表时间:'+publictime);
+            }//修改文章栏
+            {
+                var commentNum = commentList.length;
+                $('#articleCommentNumberSpan').text('评论:'+commentNum);
+                for(var i=0;i<commentNum;i++){
+                    var commentEntity = commentList[i];
+                    var commenter;
+                    var commentContent = commentEntity.content;
+                    var commentTime = new Date(parseInt(commentEntity.articlecommentEntityPK.publicdatetime)).toLocaleString().replace(/:d{1,2}$/,' ');
+                    $.ajax({
+                        type: "GET",
+                        url: "forum/userinfo",
+                        dataType: "json",
+                        async:false,
+                        data: {
+                            'userid': commentEntity.articlecommentEntityPK.userid
+                        },
+                        timeout: 3000,
+                        success: function (res) {
+                            commenter = res.data;
+                        }
+                    });
+                    $('.commentContainer').append(
+                    '<div id = "comment_NO."'+i+' class="commentDiv">'+
+                        '<div class="commentDivTop">'+
+                        '<div class="commenter"><span>'+commenter.nickname+'</span></div>'+
+                        '<div class="floor"><span>#'+(i+1)+'</span></div>'+
+                    '</div>'+
+                    '<div class="commentContent">'+
+                        '<p>'+commentContent+'</p>'+
+                    '</div>'+
+                    '<div class="commentTime">'+
+                        '<span>'+commentTime+'</span>'+
+                    '</div>'+
+                    '</div>'
+                    );
+                }
+            }//加载评论列表
+            //回调方法绑定区
+        });
+    </script>
     <title>Article</title>
 </head>
 <body>
-    <img id="bg" src="images/bg.jpg" rel="background">
+    <!--<img id="bg" src="images/bg.jpg" rel="background">-->
     <div class="mainContainer">
-
         <!--楼主信息-->
         <div class="leftContainer">
             <div class="imgDiv"></div>
             <hr/>
             <div class="userInfo">
-                <p class="pName">GoBang</p>
+                <p id = "authorName" class="pName">GoBang</p>
                 <img id="sexImg" height="20px" src="images/article/male.png"/>
-                <p class="pContent">经验：</p>
-                <p class="pContent">权限：</p>
+                <p id = "authorLevel" class="pContent">作者等级：</p>
+                <p id = "authorExp" class="pContent">作者经验：</p>
             </div>
         </div>
         <!--文章及评论-->
@@ -29,7 +160,7 @@
             <div class="articleContentDiv">
 
                 <div class="articleTitle">
-                    <span>The Maiden lay</span>
+                    <span id = "articleTitleSpan">The Maiden lay</span>
                 </div>
 
                 <div class="articleContent">
@@ -37,11 +168,12 @@
                 </div>
 
                 <div class="articleAbout">
-                    <div class="releaseTime"><span>发表时间：2017-7-14 11:24</span></div>
-                    <div class="commentNun"><span>评论：666</span></div>
+                    <div class="releaseTime"><span id="articlePublicTimeSpan">发表时间：2017-7-14 11:24</span></div>
+                    <div class="commentNun"><span id="articleCommentNumberSpan">评论：666</span></div>
                 </div>
             </div>
             <div class="commentContainer">
+
                 <div class="commentDiv">
                     <div class="commentDivTop">
                         <div class="commenter"><span>Gobang</span></div>
