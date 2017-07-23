@@ -1,0 +1,63 @@
+body{
+	margin: 0;
+	padding: 0;
+}
+
+#bg{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+
+.contentDiv{
+	position: relative;
+	top: 40px;
+}
+
+#registerPanel{
+	top: 50%;
+	left: 50%;
+	margin-left: -250px;
+	margin-top: -350px;
+	border-radius: 10px;
+	background-color:rgba(255,255,255,.5);
+	position: absolute;
+	width: 500px;
+	height: 700px;
+	display: block;
+	text-align: left;
+	font-weight: lighter;
+}
+
+.form-group
+{
+	margin: 0 80px 20px 80px;
+}
+
+.poem{
+	font-family: "microsoft yahei";
+	color: #333333;
+	font-size: 18px;
+	font-weight: lighter;
+}
+
+.form-group
+{
+	position: relative;
+	top: 10px;
+}
+
+#getVCode
+{
+	float: right;
+	right: 80px;
+	top: 0;
+	width: 100px;
+	height: 30px;
+}
+
+#getVCode span
+{
+	font-size: 15px;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Sign up</title>
+		<link rel="stylesheet" type="text/css" href="css/signup/styles.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
+	</head>
+
+	<body>
+	<img id="bg" src="images/bg.jpg" rel="background">
+
+		<!--
+	导航条
+-->
+		<!--<nav class="navbar navbar-default navbar-fixed-top">
+			<div style="background-color: #006284;color: #FFFFFF;" class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#" style="padding:5px 10px 0px 25px;>
+        			<img  alt=" Brand" src="img/logo1.png" style="height: 42px;width: 140px;">
+      				</a>
+ 		   	</div>
+    		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      			<form class="navbar-form navbar-left">
+        			<div class="form-group">
+          				<input type="text" class="form-control" placeholder="Search">
+        			</div>
+        			<button type="submit" class="btn btn-default">
+        				<img src="img/search.png" width="20px" height="20px"/>
+        			</button>
+     			</form>
+      			<ul class="nav navbar-nav navbar-right">
+        			<li><a href="#" class="hobostd" style="color: #FFFFFF;">
+        				<span class="glyphicon glyphicon-home"></span> &nbsp;Home
+        			</a></li>
+        			<li><a href="#" class="hobostd" style="color: #FFFFFF;">
+        				<span class="glyphicon glyphicon-folder-close"></span> &nbsp;Forum
+        			</a></li>
+        			<li><a href="#" class="hobostd" style="color: #FFFFFF;">
+        				<span class="glyphicon glyphicon-globe"></span> &nbsp;Relation
+        			</a></li>
+        			<li><a href="#" class="hobostd" style="color: #FFFFFF;padding: 15px 15px 5px 15px;">
+        				<span class="glyphicon glyphicon-send"></span> &nbsp;Message
+        			</a></li>
+        			<li><a href="#" class="hobostd" style="color: #FFFFFF;">
+        				<span class="glyphicon glyphicon-bullhorn"></span> &nbsp;Inform
+        			</a></li>
+        			<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+        			<li class="dropdown">
+         				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 8px 2px;">
+         					<img src="img/logo.jpg" />
+         					<span class="caret" style="color:#FFFFFF ;"></span></a>
+          				<ul class="dropdown-menu">
+            			<li><a href="#">Action</a></li>
+            			<li><a href="#">Another action</a></li>
+            			<li><a href="#">Something else here</a></li>
+            			<li role="separator" class="divider"></li>
+            			<li><a href="#">Separated link</a></li>
+          				</ul>
+        			</li>
+        			<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+      			</ul>
+    		</div>                  
+ 	</div>           
+</nav>-->
+
+<!--
+	导航条-end
+-->	
+	
+	<div id="registerPanel">
+		<form class="form-horizontal" style="margin: 40px 0px 0px 0px;">
+			<center>
+			<div class="form-group">
+    			<p class="poem">Join Unisle, and connect to the continent.</p>
+  			</div>
+			<div class="form-group" style="margin: 30px 80px 20px 80px;">
+   				 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+ 			</div>
+ 			<div class="form-group" style="margin: 0px 0px 0px 80px;float: left;width: 210px">
+   				 <input type="text" class="form-control" placeholder="验证码">
+ 			</div>
+ 			<button type="submit" class="btn btn-primary" style="margin: 10px 50px 10px 0px;background-color: #006285;">
+  				获取验证码
+  			</button>
+  			<div class="form-group" style="margin: 0px 80px 20px 80px;">
+   				 <input type="text" class="form-control" placeholder="用户名">
+ 			</div>
+  			<div class="form-group" style="margin: 0px 80px 20px 80px;">
+    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  			</div>
+			
+  			<div class="form-group" style="margin: 0px 80px 20px 80px;">
+   				 <input type="text" class="form-control" placeholder="真实姓名">
+ 			</div>
+  			<div class="form-group" style="margin: 0px 80px 20px 80px;">
+   				 <input type="text" class="form-control" placeholder="所属院校">
+ 			</div>
+ 			<div class="form-group" style="margin: 0px 80px 20px 80px;">
+   				 <input type="text" class="form-control" placeholder="年级">
+ 			</div>
+			<div class="form-group" style="margin: 0px 80px 10px 80px;color: #666666;">
+				<select class="form-control" style="float: right;">
+					<option>性别</option>
+					<option>男</option>
+					<option>女</option>
+				</select>
+			</div>
+  			<!--
+            	生日
+            -->
+  			<div class="form-group" style="margin: 0px 80px 20px 80px;color: #666666;">
+  				<div class="form-group" style="margin: 0px 0px 5px 0px;">
+
+    				<input type="date" class="form-control" id="birthday_input" placeholder="">
+  				</div>
+  			</div>
+  			<!--
+            	生日-end
+            -->
+  			
+  			<button type="submit" class="btn btn-primary" style="padding: 8px 45px;margin: 10px 80px;background-color: #006285;">
+  				注册
+  			</button>
+  			<div class="form-group" style="">
+  				<p style="display: inline;">已有帐号？</p><a href="login.html">立即登录</a>
+  			</div>
+  			
+			</center>
+		</form>
+	</div>
+	
+	
+
+	</body>
+</html>
