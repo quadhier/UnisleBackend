@@ -10,6 +10,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -352,14 +353,16 @@ public class ActivityDAO {
         return true;
     }
     //tested
-    public static boolean publishComment(String activityID,String userID,String content){
+    public static Timestamp publishComment(String activityID,String userID,String content){
         Session s = null;
+        Timestamp time = null;
         try{
             s = HibernateUtil.getSession();
             ActivitycommentEntityPK pk = new ActivitycommentEntityPK();
             pk.setActivityid(activityID);
             pk.setUserid(userID);
-            pk.setPublicdatetime(new Timestamp(System.currentTimeMillis()));
+            time = new Timestamp(System.currentTimeMillis());
+            pk.setPublicdatetime(time);
             ActivitycommentEntity comment = new ActivitycommentEntity();
             comment.setActivitycommentEntityPK(pk);
             comment.setContent(content);
@@ -369,12 +372,12 @@ public class ActivityDAO {
         }catch(Exception e){
             s.getTransaction().rollback();
             e.printStackTrace();
-            return false;
+            return null;
         }finally {
             HibernateUtil.safeCloseSession(s);
         }
 
-        return true;
+        return time;
     }
     //tested
     public static boolean whetherCanDeleteComment(String userid,String commentPublisher,String activityid){

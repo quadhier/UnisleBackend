@@ -20,6 +20,10 @@ public class ActivityAndComment {
 
     String[] commenters;
 
+    String[] commenterids;
+
+    Long[] publishtimes;
+
     boolean pro;
 
     public String getUserName() {
@@ -36,6 +40,14 @@ public class ActivityAndComment {
 
     public String[] getCommenters() {
         return commenters;
+    }
+
+    public String[] getCommenterids() {
+        return commenterids;
+    }
+
+    public Long[] getPublishtimes() {
+        return publishtimes;
     }
 
     public boolean getPro() {
@@ -58,8 +70,15 @@ public class ActivityAndComment {
         this.commenters = commenters;
     }
 
+    public void setCommenterids(String[] commenterids) {
+        this.commenterids = commenterids;
+    }
+
     public void setPro(boolean pro) {
         this.pro = pro;
     }
 
+    public void setPublishtimes(Long[] publishtimes) {
+        this.publishtimes = publishtimes;
+    }
 }

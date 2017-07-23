@@ -1,0 +1,313 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+input,textarea
+{
+    outline: none;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.concreteDivContainer
+{
+    position: relative;
+    margin: 0 auto;
+    top: 50px;
+    width: 948px;
+    height: 938px;
+    border: 1px solid #666666;
+    border-radius: 5px 5px 5px 5px;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.concreteDiv
+{
+    position: absolute;
+    width: 949px;
+    height: 898px;
+}
+
+.self_top
+{
+    position: relative;
+    width: 867px;
+    height: 418px;
+    border: 1px solid #666666;
+    margin: 0 auto;
+    top: 30px;
+    background: rgba(255,255,255,0.8);
+}
+
+.self_topImg
+{
+    position: relative;
+    width: 867px;
+    height: 210px;
+    border-bottom: 1px solid #666666;
+}
+
+.self_topImg img
+{
+    width: 100%;
+    height: 100%;
+}
+
+.self_sign
+{
+    position: absolute;
+    width: 400px;
+    top: 50px;
+    left: 50%;
+    z-index: 1;
+    margin-left: -200px;
+    text-align: center;
+}
+
+.self_sign span
+{
+    font-size: 20px;
+    font-family: 华文行楷;
+    color: #999999;
+}
+
+.self_headImg
+{
+    position: absolute;
+    left: 50%;
+    margin-left: -95px;
+    width: 190px;
+    height: 190px;
+    top: 105px;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.self_headImg img
+{
+    width: 100%;
+    height: 100%;
+}
+
+.self_top_text
+{
+    position: relative;
+    height: 70px;
+    top: 95px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.self_top_text p
+{
+    margin: 0;
+    font-family: 微软雅黑;
+    font-size: 28px;
+    color: #999999;
+}
+
+.self_middle
+{
+    position: relative;
+    width: 867px;
+    height: 198px;
+    border: 1px solid #666666;
+    margin: 0 auto;
+    top: 40px;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.self_middle_itemContainer
+{
+    position: relative;
+    margin: 0 auto;
+    top: 50px;
+    width: 807px;
+    height: 140px;
+}
+
+.self_middle_item
+{
+    position: relative;
+    padding: 5px;
+    width: 300px;
+    height: 20px;
+    text-align: left;
+}
+
+.self_middle_item span
+{
+    font-family: 微软雅黑;
+    font-size: 14px;
+    color: #999999;
+}
+
+#item1
+{
+    left: 70px;
+}
+
+#item2
+{
+    top: 5px;
+    left: 70px;
+}
+
+#item3
+{
+    top: 10px;
+    left: 70px;
+}
+
+#item4
+{
+    top: 15px;
+    left: 70px;
+}
+
+#item5
+{
+    top: -120px;
+    left: 477px;
+}
+
+#item6
+{
+    top: -115px;
+    left: 477px;
+}
+
+#item7
+{
+    top: -110px;
+    left: 477px;
+}
+
+#item8
+{
+    top: -105px;
+    left: 477px;
+}
+
+.header
+{
+    position: relative;
+    float: left;
+    height: 0;
+    left: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.header p
+{
+    font-family: 微软雅黑;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #666666;
+}
+
+.head_hr{
+    position: relative;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #999999;
+    width: 190px;
+    margin: 0;
+}
+
+.self_bottom
+{
+    position: relative;
+    width: 868px;
+    height: 200px;
+    margin: 0 auto;
+    top: 50px;
+}
+
+.self_bottom_left
+{
+    position: relative;
+    width: 428px;
+    height: 198px;
+    margin: 0;
+    border: 1px solid #666666;
+    float: left;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.self_bottom_item
+{
+    position: relative;
+    width: 368px;
+    height: 135px;
+    top: 50px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.self_bottom_item p
+{
+    margin: 0;
+    font-family: 微软雅黑;
+    font-size: 14px;
+    color: #999999;
+}
+
+.self_bottom_right
+{
+    position: relative;
+    width: 428px;
+    height: 198px;
+    border: 1px solid #666666;
+    margin: 0;
+    float: right;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.btnDiv
+{
+    position: relative;
+    margin: 0 auto;
+    width: 868px;
+    height: 60px;
+    top: 60px;
+}
+
+.Btn
+{
+    position: relative;
+    margin: 0 auto;
+    top: 10px;
+    width: 90px;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #006285;
+    display: none;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.Btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.Btn span
+{
+    position: relative;
+    top: 5px;
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    font-family: '微软雅黑';
+}

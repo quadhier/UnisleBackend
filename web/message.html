@@ -213,7 +213,7 @@
             $('#findreceiver_input').live('change',function () {
                 var searchText = $('#findreceiver_input').val();
                 searchFriendList(searchText);
-            })
+            });
             window.onbeforeunload = function () {
                 var sendJson = JSON.stringify({
                     'askcode': '999',
@@ -221,7 +221,7 @@
                 });
                 websocket.send(sendJson);
                 websocket.close();
-            }
+            };
             //初始化执行区
             $.ajax({
                 type: "GET",
@@ -248,7 +248,7 @@
             if(friendList != null)
                 getHistoryMessage(friendList[0].userid);
             if('WebSocket' in window){
-                websocket = new WebSocket("ws://localhost:8080/websocket");
+                websocket = new WebSocket("ws://localhost:8080/unisle/websocket");
                 websocket.onopen = function () {
                     var sendJson = JSON.stringify({
                         'askcode': '000',
