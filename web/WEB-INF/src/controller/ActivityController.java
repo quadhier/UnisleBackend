@@ -40,7 +40,7 @@ public class ActivityController {
     @ResponseBody
     public Object createActivity(@RequestParam(value = "content") String content,
                                  @RequestParam(value = "shieldIDList", required = false) String[] shieldIDList,
-                                 @RequestParam(value = "picture", required = false) CommonsMultipartFile picture,
+                                 @RequestParam(value = "picture", required = false, defaultValue = ValueConstants.DEFAULT_NONE) CommonsMultipartFile picture,
                                  HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -75,17 +75,27 @@ public class ActivityController {
         String activityid = ActivityDAO.publishActivity(userid, shields, content, null);
         System.out.println("Activity Constructed");
 
-        // 利用动态id作为图片名称并将路径储存进数据库
+        // 利用动态id作为图片名称并将相对路径储存进数据库
+        String filepath = null;
         if(picture != null) {
             byte[] bytePic = picture.getBytes();
-            String filepath = ControllerUtil.storeFile(bytePic, activityid, null, "activitypic");
+            filepath = ControllerUtil.storeFile(bytePic, activityid, null, "activitypic");
             ActivityEntity activity = (ActivityEntity) CommonDAO.getItemByPK(ActivityEntity.class, activityid);
             activity.setAttachment(filepath);
             CommonDAO.updateItem(ActivityEntity.class, activityid, activity);
         }
 
+        class ActRes {
+            public String activityid;
+            public String actpic;
+        }
+
+        ActRes actRes = new ActRes();
+        actRes.activityid = activityid;
+        actRes.actpic = filepath;
+
         rinfo.setResult("SUCCESS");
-        rinfo.setData(activityid);
+        rinfo.setData(actRes);
         return rinfo;
 
     }
@@ -214,14 +224,21 @@ public class ActivityController {
             String ownerName = owner.getNickname();
 
             ActivitycommentEntity[] comments = ActivityDAO.getActivityComments(activity.getActivityid());
-            ArrayList<String> commenterArray = new ArrayList<String>();
+            ArrayList<String> commenterList = new ArrayList<String>();
+            ArrayList<String> commenteridList = new ArrayList<String>();
+            ArrayList<Long> publishtimeList = new ArrayList<Long>();
 
             UuserEntity user = null;
             for (ActivitycommentEntity comment : comments) {
                 user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, comment.getActivitycommentEntityPK().getUserid());
-                commenterArray.add(user.getNickname());
+                commenterList.add(user.getNickname());
+                commenteridList.add(user.getUserid());
+                publishtimeList.add(comment.getActivitycommentEntityPK().getPublicdatetime().getTime());
             }
-            String[] commenters = commenterArray.toArray(new String[0]);
+            String[] commenters = commenterList.toArray(new String[0]);
+            String[] commenterids = commenteridList.toArray(new String[0]);
+            Long[] publishtimes = publishtimeList.toArray(new Long[0]);
+
 
 
             ActivityAndComment actAndCom = new ActivityAndComment();
@@ -240,6 +257,8 @@ public class ActivityController {
             actAndCom.setActivity(activity);
             actAndCom.setComments(comments);
             actAndCom.setCommenters(commenters);
+            actAndCom.setCommenterids(commenterids);
+            actAndCom.setPublishtimes(publishtimes);
             rinfo.setData(actAndCom);
 
             UserInfoDAO.updateViewActTime(tokenid, activity.getPublicdatetime().getTime());
@@ -318,8 +337,15 @@ public class ActivityController {
             return rinfo;
         }
 
-        ActivityDAO.publishComment(activityid, userid, content);
+        Timestamp comTime =  ActivityDAO.publishComment(activityid, userid, content);
+
+        if(comTime == null) {
+            rinfo.setReason("E_NOT_COMMENT");
+            return rinfo;
+        }
+
         rinfo.setResult("SUCCESS");
+        rinfo.setData(comTime.getTime());
         return rinfo;
     }
 
@@ -329,7 +355,7 @@ public class ActivityController {
     @RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
     @ResponseBody Object deleteComment(@RequestParam(value = "activityid", required = false) String activityid,
                                        @RequestParam(value = "publisher", required = false) String publisher,
-                                       @RequestParam(value = "publicdatetime", required = false) long publicdatetime,
+                                       @RequestParam(value = "publishdatetime", required = false) long publishdatetime,
                                        HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -346,7 +372,7 @@ public class ActivityController {
             ActivitycommentEntityPK commentpk = new ActivitycommentEntityPK();
             commentpk.setActivityid(activityid);
             commentpk.setUserid(publisher);
-            commentpk.setPublicdatetime(new Timestamp(publicdatetime));
+            commentpk.setPublicdatetime(new Timestamp(publishdatetime));
             ActivityDAO.deleteActivityComment(commentpk);
             rinfo.setResult("SUCCESS");
             return rinfo;

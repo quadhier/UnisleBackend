@@ -2,10 +2,10 @@ $(document).ready(function () {
 
 
     /*
-    *
-    * 函数定义
-    *
-    * */
+     *
+     * 函数定义
+     *
+     * */
 
     // 添加动态
     function appendCard(actAndCom) {
@@ -14,26 +14,41 @@ $(document).ready(function () {
         var activity = actAndCom.activity;
         var comments = actAndCom.comments;
         var commenters = actAndCom.commenters;
+        var commenterids = actAndCom.commenterids;
+        var publishtimes = actAndCom.publishtimes;
         var pro = actAndCom.pro;
 
 
         // 设置点赞图标的样式
         var proImg;
-        if(pro === true) {
+        if (pro === true) {
             proImg = "<img class='goodImg' src='images/activity/good_selected.png'>";
         } else {
             proImg = "<img class='goodImg' src='images/activity/good.png'>";
         }
 
         // 组成评论的展示字符串
-        var commentDisplay = "<div class='commentDiv'>";
+        var commentDisplay = "";
         for (i in comments) {
             commentDisplay = commentDisplay +
+                "<div class='commentDiv'>" +
+                "<div class ='" + commenterids[i] + "'style='display:none'></div>" +
+                "<div class='" + publishtimes[i] + "' style='display:none'></div>" +
                 "<div class='comment_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
                 "<p class='pCommenter'>" + commenters[i] + "</p>" +
-                "<p class='pComment'>" + comments[i].content + "</p>";
+                "<p class='pComment'>" + comments[i].content + "</p>" +
+                "</div>";
         }
-        commentDisplay = commentDisplay + "</div>";
+        commentDisplay = commentDisplay + "";
+
+
+
+        // 组成图片展示的字符串
+        var picDisplay = "";
+        if(activity.attachment !== null) {
+            picDisplay = "<img class='activitypic' src='" + activity.attachment + "'/>";
+        }
+
 
         // 日历时间转化为本地时间字符串
         var pubDate = new Date(activity.publicdatetime);
@@ -41,11 +56,13 @@ $(document).ready(function () {
 
         $("#actContainer").append(
             "<div id='" + activity.activityid + "' class='container'>" +
+            "<div class='" + activity.publisher + "' style='display:none'></div>" +
             "<hr style='top: 30px'/>" +
             "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
             "<div class='subRight'><p class='pSmall'>" + strTime + "</p></div>" +
             "<div class='divcenter'>" +
             "<p class='pContent'>" + activity.content + "</p>" +
+            picDisplay +
             "</div>" +
             "<hr/>" +
             "<div class='btnDiv'>" +
@@ -65,8 +82,10 @@ $(document).ready(function () {
 
     // 储存用户名
     var userName;
+    // 储存用户id
+    var userid;
     // 动态可见性
-    var actView = "self";
+    var actView = "friend";
 
 
     /*
@@ -92,9 +111,9 @@ $(document).ready(function () {
         },
 
         success: function (res) {
-            if(res.result === "LOGINERROR")
+            if (res.result === "LOGINERROR")
                 window.location.reload("login.html");
-            if(res.result === "ERROR") {
+            if (res.result === "ERROR") {
                 alert(res.reason);
                 window.location.reload("login.html");
             }
@@ -107,6 +126,7 @@ $(document).ready(function () {
             var grade = user.grade === null ? "未知" : user.grade;
 
             userName = user.nickname;
+            userid = user.userid;
 
             if (user.sex === 'male') {
                 $("#sexImg")[0].src = "images/activity/male.png";
@@ -115,7 +135,7 @@ $(document).ready(function () {
                 $("#sexImg")[0].src = "images/activity/female.png";
                 $("#userheadImg")[0].src = "pic/userpic/female.jpeg";
             }
-            if(userheadImg !== null && userheadImg !== "") {
+            if (userheadImg !== null && userheadImg !== "") {
                 $("#userheadImg")[0].src = userheadImg;
             }
 
@@ -126,73 +146,84 @@ $(document).ready(function () {
 
     });
 
+
+
     /*
      *
-     * 绑定发布动态的事件
+     * 提交表格，发布动态
      *
      * */
 
-    $("#releaseBtn").click(function () {
-        if ($("#release_input").val() !== "") {
-            $.ajax({
-                type: "POST",
-                url: "activity",
-                dataType: "json",
-                data:{
-                    "content": $("#release_input").val()
-                },
-                //async:false,
-                timeout: 5000,
-                cache: false,
-                beforeSend: function () {
+    $("#activityForm").ajaxForm({
+        type: "POST",
+        url: "activity",
+        dataType: "json",
+        data: {
 
-                },
+        },
+        forceSync:true,
+        timeout: 5000,
+        cache: false,
+        beforeSubmit: function (arr, $form, option) {
+            if(arr[0].value === "") {
+                alert("输入内容不能为空");
+                return false;
+            }
+            if(arr[1].value === "") {
+                // !!! 如果文件为空，则删除该元素
+                // !!! 否则spring会将其作为字符串处理，进而报错
+                arr.splice(1, 1);
+                alert("heheda");
+            }
+        },
+        error: function () {
 
-                error: function () {
+        },
+        success: function (res) {
 
-                },
+            if (res.result === "SUCCESS") {
 
-                success: function (res) {
+                var content = $("#release_input").val();
+                var nowDate = new Date();
+                var activityid = res.data.activityid;
 
-                    if(res.result === "SUCCESS") {
-
-                        var content = $("#release_input").val();
-                        var nowDate = new Date();
-                        var activityid = res.data;
-
-                        $("#actContainer").prepend(
-                            "<div id='" + activityid + "' class='container'>" +
-                            "<hr style='top: 30px'/>" +
-                            "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                            "<div class='subRight'><p class='pSmall'>" + nowDate.toLocaleString() + "</p></div>" +
-                            "<div class='divcenter'>" +
-                            "<p class='pContent'>" + content + "</p>" +
-                            "</div>" +
-                            "<hr/>" +
-                            "<div class='btnDiv'>" +
-                            "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                            "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                            "<p class='pGoodNum'><span>0</span>人觉得很赞</p>" +
-                            "</div>" +
-                            "<div class='commentDiv'></div>" +
-                            "<div class='writeCom'>" +
-                            "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
-                            "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
-                            "</div>" +
-                            "</div>");
-                            $("#release_input").val("");
-
-                    } else {
-                        alert(res.reason);
-                    }
+                var picDisplay = "";
+                if(res.data.actpic !== null) {
+                    picDisplay = "<img class='activitypic' src='" + res.data.actpic + "'/>";
                 }
-            });
 
+                $("#actContainer").prepend(
+                    "<div id='" + activityid + "' class='container'>" +
+                    "<div class='" + userid + "' style='display:none'></div>" +
+                    "<hr style='top: 30px'/>" +
+                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                    "<div class='subRight'><p class='pSmall'>" + nowDate.toLocaleString() + "</p></div>" +
+                    "<div class='divcenter'>" +
+                    "<p class='pContent'>" + content + "</p>" +
+                    picDisplay +
+                    "</div>" +
+                    "<hr/>" +
+                    "<div class='btnDiv'>" +
+                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                    "<p class='pGoodNum'><span>0</span>人觉得很赞</p>" +
+                    "</div>" +
+                    "<div class='commentDiv'></div>" +
+                    "<div class='writeCom'>" +
+                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                    "</div>" +
+                    "<div class='activity_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
+                    "</div>");
+                $("#release_input").val("");
 
-        } else {
-            alert("输入内容不能为空！");
+            } else {
+                alert(res.reason);
+            }
         }
     });
+
+
 
 
     /*
@@ -292,10 +323,10 @@ $(document).ready(function () {
                 },
                 success: function (res) {
 
-                    if(res.result === "SUCCESS") {
+                    if (res.result === "SUCCESS") {
                         appendCard(res.data);
                     } else {
-                        alert(res.reason);
+                        //alert(res.reason);
                     }
                 }
             });
@@ -337,7 +368,7 @@ $(document).ready(function () {
 
                 },
                 success: function (res) {
-                    if(res.result === "SUCCESS") {
+                    if (res.result === "SUCCESS") {
                         var pdiv = "#" + activityid;
                         var proNum = 1 + parseInt($(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text());
                         $(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text(proNum);
@@ -373,7 +404,7 @@ $(document).ready(function () {
                 },
                 success: function (res) {
 
-                    if(res.result === "SUCCESS") {
+                    if (res.result === "SUCCESS") {
                         var pdiv = "#" + activityid;
                         var proNum = parseInt($(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text()) - 1;
                         $(pdiv).children(".btnDiv").children(".pGoodNum").children("span").text(proNum);
@@ -385,7 +416,6 @@ $(document).ready(function () {
 
         }
     });
-
 
 
     /*
@@ -405,7 +435,6 @@ $(document).ready(function () {
     });
 
 
-
     /*
      *
      *  为评论按钮绑定事件
@@ -413,7 +442,6 @@ $(document).ready(function () {
      * */
 
     $(".submit_comment").live("click", function () {
-
 
         var inputEle = $(this).parents(".submitcontainer").siblings(".inputcontainer").children("input");
         var input = inputEle.val();
@@ -441,9 +469,17 @@ $(document).ready(function () {
                 success: function (res) {
 
                     var pdiv = "#" + activityid;
-                    $(pdiv).children(".commentDiv").append("<p class='pCommenter'>" + userName + "</p>" +
-                        "<p class='pComment'>" + input + "</p>");
+                    // 评论区可能不存在
+                    // 将评论加在评论框的前面
+                    $(pdiv).children(".writeCom:first").before("<div class='commentDiv'>" +
+                        "<div class ='" + userid + "'style='display:none'></div>" +
+                        "<div class='" + res.data + "' style='display:none'></div>" +
+                        "<div class='comment_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
+                        "<p class='pCommenter'>" + userName + "</p>" +
+                        "<p class='pComment'>" + input + "</p>" +
+                        "</div>");
                     inputEle.val("");
+                    alert(input);
                     inputEle.parents(".container").children(".btnDiv").children(".comment").click();
 
                 }
@@ -451,6 +487,85 @@ $(document).ready(function () {
         }
     });
 
+
+
+    // 为删除动态键绑定事件
+    $(".container .activity_x_img").live("click", function () {
+        var publisherid = $(this).parents(".container").children(0).attr("class");
+        var activityid = $(this).parents(".container").attr("id");
+        var targetDiv = $(this).parents(".container");
+
+        if(publisherid === userid) {
+
+            $.ajax({
+                type: "POST",
+                url: "activity/delete",
+                dataType: "json",
+                data: {
+                    "activityid": activityid
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                error: function () {
+
+                },
+                success: function (res) {
+                    if(res.result === "SUCCESS") {
+                        alert("删除成功");
+                        targetDiv.remove();
+                    } else {
+                        alert(res.reason);
+                    }
+                }
+            });
+        }
+
+    });
+
+
+    // 为删除评论键绑定事件
+    $(".container .commentDiv .comment_x_img").live("click", function () {
+
+        var activityid = $(this).parents(".container").attr("id");
+        var commenterid = $(this).parents(".commentDiv").children(":first").attr("class");
+        var publishtime = $(this).parents(".commentDiv").children(":first").next().attr("class");
+        var targetDiv = $(this).parents(".commentDiv");
+
+        if(commenterid === userid) {
+
+            $.ajax({
+                type: "POST",
+                url: "activity/comment/delete",
+                dataType: "json",
+                data: {
+                    "activityid": activityid,
+                    "publisher": commenterid,
+                    "publishdatetime": parseInt(publishtime)
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                error: function () {
+
+                },
+                success: function (res) {
+                    if(res.result === "SUCCESS") {
+                        alert("删除评论成功");
+                        targetDiv.remove();
+                    } else {
+                        alert(res.reason);
+                    }
+                }
+            });
+
+        }
+
+    });
 
 
     $("input").focus(function () {
@@ -461,4 +576,40 @@ $(document).ready(function () {
         $(this).parent().css("border-color", "#cccccc");
         $(this).parent().css("box-shadow", "none");
     });
+
+    // 添加图片按钮特效
+    $("#addImgBtn").change(function () {
+        if ($(this).children("input").val().length === 0)
+            $(this).css("opacity", "0.5");
+        else
+            $(this).css("opacity", "1");
+    });
+
+    // 删除动态的叉叉的特效
+    $(".container").live("mouseenter", function () {
+
+        publisherid = $(this).children(":first").attr("class");
+        if(publisherid === userid)
+            $(this).children(".activity_x_img").show();
+
+    }).live("mouseleave", function () {
+
+        $(this).children(".activity_x_img").hide();
+
+    });
+
+    // 删除评论的叉叉的特效
+    $(".container .commentDiv").live("mouseenter", function () {
+
+        commenterid = $(this).children(":first").attr("class");
+        if(commenterid === userid)
+            $(this).children(".comment_x_img").show();
+
+    }).live("mouseleave", function () {
+
+        $(this).children(".comment_x_img").hide();
+
+    });
+
+
 });

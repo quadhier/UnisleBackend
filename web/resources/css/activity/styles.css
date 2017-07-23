@@ -2,6 +2,12 @@ body
 {
     margin: 0;
     padding: 0;
+
+    /* Added for non-scratched background */
+    background-image: url('../../images/bg.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+
 }
 
 #bg
@@ -360,7 +366,7 @@ hr
     width:30px;
     height:30px;
     cursor: pointer;
-    /*display:none;*/
+    display:none;
     z-index: 99;
 }
 
@@ -372,6 +378,45 @@ hr
     width:15px;
     height:15px;
     cursor: pointer;
-    /*display:none;*/
+    display:none;
     z-index: 99;
+}
+
+/* added for file */
+#addImgBtn
+{
+    position: relative;
+    border-radius: 3px;
+    float: left;
+    width: 40px;
+    height: 30px;
+    top: 30px;
+    left: 15px;
+    text-align: center;
+    background: url('/unisle/images/activity/addImg.png');
+    background-size: 100% 100%;
+    opacity: 0.5;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+#addImgBtn input
+{
+    opacity: 0;
+    width: 40px;
+    height: 30px;
+}
+
+#addImgBtn:hover
+{
+    opacity: 1;
+}
+
+
+/* Added for image */
+.container .divcenter img
+{
+    width: 100%;
+    height: 50%;
 }
