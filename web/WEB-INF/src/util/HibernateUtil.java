@@ -18,8 +18,8 @@ public class HibernateUtil {
     public static synchronized SessionFactory getSessionFactroy(){
         if(sf == null){
             Configuration cfg = new Configuration();
-//            File file = new File("../hibernate.cfg.xml");
-            cfg.configure("../hibernate.cfg.xml");
+            //File file = new File("web/WEB-INF/hibernate.cfg.xml");
+            cfg.configure("../hibernate.cfg.xml");//file);
             sf = cfg.buildSessionFactory();
         }
 

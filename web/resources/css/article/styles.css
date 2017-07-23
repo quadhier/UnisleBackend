@@ -1,4 +1,4 @@
-body
+/*body
 {
     margin: 0;
     padding: 0;
@@ -81,7 +81,7 @@ body
     position: relative;
     width: 780px;
     margin: 0;
-    /*height: 750px;*/
+    //height: 750px;
     float: right;
     background-color: rgba(255,255,255,0.57);
 }
@@ -261,4 +261,416 @@ body
     font-size: 15px;
     font-family: 微软雅黑;
     color: #999999;
+}
+
+input,textarea
+{
+    outline: none;
+}
+
+*/
+
+body
+{
+    margin: 0;
+    padding: 0;
+    background-image: url("../../images/bg.jpg");
+    background-attachment:fixed;
+    background-size: cover;
+}
+input,textarea
+{
+    outline: none;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.mainContainer
+{
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    top: 50px;
+}
+
+.leftContainer
+{
+    position: relative;
+    width: 200px;
+    height: 275px;
+    float: left;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.leftContainer .imgDiv
+{
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+    top: 20px;
+    background-color: #ffffff;
+}
+
+.leftContainer hr
+{
+    position: relative;
+    width: 180px;
+    top: 30px;
+    border-color: rgba(153,153,153,0.4);
+}
+
+.leftContainer .userInfo
+{
+    position: relative;
+    top: 30px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Century;
+    color: #666666;
+}
+
+.userInfo .pName
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.userInfo .pContent
+{
+    position: relative;
+    left: 50px;
+    text-align: left;
+    max-width: 100px;
+    margin: 5px;
+    font-size: 13px;
+}
+
+.rightContainer
+{
+    position: relative;
+    width: 780px;
+    margin: 0;
+    /*height: 750px;*/
+    float: right;
+    background-color: rgba(255,255,255,0.57);
+}
+
+.articleContentDiv
+{
+    position: relative;
+    width: 760px;
+    margin: 0 auto;
+    border: 1px solid #999999;
+    top: 20px;
+    background-color: white;
+}
+
+.articleContentDiv .articleTitle
+{
+    position: relative;
+    height: 50px;
+    max-width: 660px;
+    left: 50px;
+    background-color: white;
+}
+
+.articleTitle span
+{
+    position: relative;
+    text-align: left;
+    top: 20px;
+    font-size: 20px;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    color: #006285;
+}
+
+.articleContentDiv .articleContent
+{
+    position: relative;
+    width: 760px;
+    left: 30px;
+}
+
+.articleContent p
+{
+    position: relative;
+    text-align: left;
+    max-width: 710px;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #666666;
+}
+
+.articleContentDiv .articleAbout
+{
+    position: relative;
+    width: 760px;
+    height: 40px;
+    padding-top: 30px;
+}
+
+.articleAbout .releaseTime
+{
+    position: relative;
+    float: left;
+    left: 30px;
+}
+
+.releaseTime span
+{
+    position: relative;
+    text-align: left;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #999999;
+}
+
+.articleAbout .commentNun
+{
+    position: relative;
+    float: right;
+    right: 30px;
+}
+
+.commentNun span
+{
+    position: relative;
+    text-align: right;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #666666;
+}
+
+.commentWrite
+{
+    position: relative;
+    width: 760px;
+    height: 190px;
+    margin: 0 auto;
+    top: 30px;
+    border: 1px solid #999999;
+    background-color: white;
+}
+
+.commentWrite p
+{
+    position: relative;
+    text-align: left;
+    margin: 10px 30px;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #666666;
+}
+
+.commentWrite .comment_input
+{
+    position: relative;
+    margin: 0;
+    left: 30px;
+    width: 694px;
+    height: 100px;
+    resize: none;
+}
+
+.commentWrite .bottomDiv
+{
+    position: relative;
+    width: 700px;
+    height: 30px;
+    margin: 0 auto;
+    top: 5px;
+}
+
+.bottomDiv .Btn
+{
+    position: relative;
+    float: right;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.Btn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.Btn span
+{
+    position: relative;
+    top: 3px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: '微软雅黑';
+}
+
+.commentContainer
+{
+    position: relative;
+    width: 760px;
+    margin: 0 auto;
+}
+
+.commentContainer .commentDiv
+{
+    position: relative;
+    width: 760px;
+    margin-top: 10px;
+    padding: 10px 0;
+    background-color: #ffffff;
+    border: 1px solid #999999;
+}
+
+.commentDiv .commentDivTop
+{
+    position: relative;
+    width: 700px;
+    height: 30px;
+    margin: 0 auto;
+    color: #666666;
+}
+
+.commentDivTop .commenter
+{
+    position: relative;
+    float: left;
+}
+
+.commenter span
+{
+    text-align: left;
+    font-size: 18px;
+    font-family: Century;
+    font-weight: bold;
+}
+
+.commentDivTop .floor
+{
+    position: relative;
+    float: right;
+}
+
+.floor span
+{
+    text-align: right;
+    font-size: 18px;
+    font-family: Century;
+    font-weight: bold;
+}
+
+.commentDiv .commentContent
+{
+    position: relative;
+    width: 700px;
+    left: 30px;
+}
+
+.commentContent p
+{
+    position: relative;
+    text-align: left;
+    max-width: 700px;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #666666;
+}
+
+.commentDiv .commentTime
+{
+    position: relative;
+    width: 700px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+.commentTime span
+{
+    position: relative;
+    float: right;
+    text-align: right;
+    font-size: 15px;
+    font-family: 微软雅黑;
+    color: #999999;
+}
+
+.fillDiv
+{
+    position: relative;
+    width: 780px;
+    height: 20px;
+    z-index: -1;
+}
+
+/*模板CSS*/
+div #container {
+    position: relative;
+    margin: 0;
+    width: 760px;
+}
+
+#itemContainer {
+    position: relative;
+    width: 760px;
+    left: -40px;
+}
+
+.holder {
+    position: relative;
+    margin: 15px 0;
+    left: -40px;
+    text-align:center;
+}
+.holder a {
+    border: 1px solid #666666;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0 10px;
+    color: #666666;
+    padding:0 5px;
+}
+.holder a:hover {
+    border-color: #ffffff;
+    background-color: lightblue;
+    color: white;
+}
+.holder a.jp-previous { margin-right: 15px; }
+.holder a.jp-next { margin-left: 15px; }
+.holder a.jp-current, a.jp-current:hover {
+    color: #5555ff;
+    border-color: #5555ff;
+    font-weight: bold;
+}
+.holder a.jp-disabled, a.jp-disabled:hover {
+    color: lightgrey;
+    border-color: lightgrey;
+}
+.holder a.jp-current, a.jp-current:hover,
+.holder a.jp-disabled, a.jp-disabled:hover {
+    cursor: default;
+    background: none;
+}
+.holder span { margin: 0 5px; }
+div #content {
+    position: relative;
+    top: 25px;
+    width: 850px;
+}
+li {
+    width: 100%;
 }
