@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-07-23.11:34:00.351</IntrospectionTimestamp>
-      <IntrospectionStateNumber>36891</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-07-23.00:32:38.858</IntrospectionTimestamp>
+      <IntrospectionStateNumber>33874</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -171,8 +171,8 @@
     </column>
     <column id="40" parent="13" name="attachment">
       <Position>4</Position>
-      <DataType>varchar(200)|0</DataType>
-      <StateNumber>36891</StateNumber>
+      <DataType>varchar(50)|0</DataType>
+      <StateNumber>33810</StateNumber>
     </column>
     <column id="41" parent="13" name="publisher">
       <Position>5</Position>

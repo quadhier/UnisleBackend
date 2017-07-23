@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.ControllerUtil;
+import util.Rewrapper;
 
 import javax.management.relation.RelationSupport;
 import javax.servlet.http.HttpServletRequest;
@@ -367,7 +368,8 @@ public class ForumController {
     @RequestMapping(value = "/article/content", method = RequestMethod.GET)
     @ResponseBody
     public Object getArticleContent(@RequestParam("articleid") String articleid,
-                                    HttpServletRequest request) {
+                                    HttpServletRequest request)
+            throws Exception{
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
@@ -383,7 +385,8 @@ public class ForumController {
 
         rinfo.setResult("SUCCESS");
         // 需要调用readArticleContent才能更新浏览记录
-        rinfo.setData(ForumDAO.readArticleContent(userid, articleid));
+        ForumDAO.readArticleContent(userid, articleid);
+        rinfo.setData(Rewrapper.wrap(article,"110111011101"));
         return rinfo;
     }
 
