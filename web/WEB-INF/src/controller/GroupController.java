@@ -18,6 +18,7 @@ import util.ControllerUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.synth.ColorType;
 import java.security.acl.Group;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,8 +167,8 @@ public class GroupController {
             rinfo.setReason("E_ALREADY_SENDED");
             return rinfo;
         }
-
-        if(NoticeDAO.sendNotice(userid, groupid, content, "groupmemberask")) {
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        if(NoticeDAO.sendNotice(userid, groupid, content, "groupmemberask",time)) {
             rinfo.setResult("SUCCESS");
             return rinfo;
         }
@@ -195,7 +196,8 @@ public class GroupController {
             return rinfo;
         }
 
-        if(NoticeDAO.sendNotice(groupid, member, content,"groupmemberinvite")) {
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        if(NoticeDAO.sendNotice(groupid, member, content,"groupmemberinvite",time)) {
             rinfo.setResult("SUCCESS");
             return rinfo;
         }

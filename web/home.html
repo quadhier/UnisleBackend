@@ -8,7 +8,21 @@
     <script type="text/javascript">
         var innerURL = 'activity.html'
         var forumFirst = true;
+        var messageSocketOpen = false;
+        var messageSocket = null;
+        var messageUserid = null;
         function simURLReplace(trueURL) {
+            //在跳转的时候，如果第二次跳入相同的页面，所有子元素事件都会被重复绑定
+            //所以最好跳转的时候刷新整个页面，然后重新加载跳转到的页面
+            //如果离开的是message界面，应当关闭message页面内部的websocket
+            if(messageSocketOpen && messageSocket!=null) {
+                var sendJson = JSON.stringify({
+                    'askcode': '999',
+                    'userid':messageUserid
+                });
+                messageSocket.send(sendJson);
+                messageSocket.close();
+            }
             $("#contentLoadContainer").html('');
             innerURL = trueURL;
             var pureURL;
@@ -62,18 +76,41 @@
                     $("#self").css("background-image", "url(images/home/icon/self.png)");
                 }
 
-                navHover();
-                $("#activity").unbind('mouseenter').unbind('mouseleave');
+                //初始加载
+                {
+                    var loadName = null;
+
+                    if(window.location.href.indexOf('?') < 0)
+                        loadName = "activity";
+                    else{
+                        loadName = window.location.href.split('?')[1].split('=')[1];
+                    }
+                    currentPath = loadName;
+                    innerHTML =
+                    simURLReplace(loadName+'.html');
+                    navHover();
+                    /*
+                    $(".navFormat").hover(function () {
+                        $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + "_hover.png)");
+                        $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img_hover.png");
+                    }, function () {
+                        $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + ".png)");
+                        $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img.png");
+                    });*/
+                    $("#"+loadName).css("background-image", "url(images/home/icon/" + loadName + "_on.png)").find("img").attr('src', "images/home/icon/" + loadName + "Img.png");
+                    $("#"+loadName).unbind('mouseenter').unbind('mouseleave');
+                }
 
                 $(".navFormat").click(function () {
-                    var pagename = $(this).attr('id') + ".html";
-                    currentPath = $(this).attr('id');
+                    var pagename = $(this).attr('id');
+                    //currentPath = $(this).attr('id');
                     $(".navFormat").unbind('mouseenter').unbind('mouseleave');
-                    simURLReplace(pagename);
+                    //simURLReplace(pagename);
                     toDefault();
                     $(this).css("background-image", "url(images/home/icon/" + $(this).attr('id') + "_on.png)").find("img").attr('src', "images/home/icon/" + $(this).attr('id') + "Img.png");
                     navHover();
                     $(this).unbind('mouseenter').unbind('mouseleave');
+                    window.location.href = 'home.html?load='+pagename;
                 })
 
                 $("#nav_searchImg").click(function () {

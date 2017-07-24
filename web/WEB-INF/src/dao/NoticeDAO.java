@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +17,11 @@ import java.util.Map;
 public class NoticeDAO {
     private NoticeDAO() {}
     //tested
-    public static boolean sendNotice(String sender, String receiver, String content, String type) {
+    public static boolean sendNotice(String sender, String receiver, String content, String type, Timestamp time) {
         NoticeEntityPK pk = new NoticeEntityPK();
         pk.setSender(sender);
         pk.setReceiver(receiver);
-        pk.setGendatetime(new Timestamp(System.currentTimeMillis()));
+        pk.setGendatetime(time);
         NoticeEntity newNotice = new NoticeEntity();
         newNotice.setNoticeEntityPK(pk);
         newNotice.setContent(content);
@@ -153,10 +154,10 @@ public class NoticeDAO {
             return false;
         originNum = originNum-absOfMinus>0?originNum-absOfMinus:0;
 
-        String hql = "update UuserEntity user set user.numnitice = :nnum where user.userid = :uid";
+        String hql = "update UuserEntity user set user.numnotice = :nnum where user.userid = :uid";
         Map params = new HashMap();
         params.put("uid",userid);
-        params.put("nnum",originNum);
+        params.put("nnum",(short)originNum);
 
         return CommonDAO.updateHql(hql,params);
     }

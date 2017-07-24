@@ -243,7 +243,8 @@
                     $(this).scrollTop(300*minDef/(start+minDef));
                 }
             })
-            window.onbeforeunload = function () {
+            //跳转到其他页面时，需要关闭消息页面的websocket
+            $('#contentLoadContainer').on = function () {
                 var sendJson = JSON.stringify({
                     'askcode': '999',
                     'userid':userID
@@ -282,7 +283,11 @@
                 var projectPath = document.URL.split('home')[0].split('http://')[1];
                 //var projectPath = 'localhost:8080/';
                 websocket = new WebSocket("ws://"+projectPath+"websocket");
+
                 websocket.onopen = function () {
+                    messageUserid = userID;
+                    messageSocket = websocket;
+                    messageSocketOpen = true;
                     var sendJson = JSON.stringify({
                         'askcode': '000',
                         'userid':userID
@@ -290,6 +295,7 @@
                     websocket.send(sendJson);
                 };
                 websocket.onclose = function () {
+                    messageSocketOpen = false;
                     var sendJson = JSON.stringify({
                         'askcode': '999',
                         'userid':userID
@@ -297,6 +303,7 @@
                     websocket.send(sendJson);
                 };
                 websocket.onerror = function () {
+                    messageSocketOpen = false;
                     var sendJson = JSON.stringify({
                         'askcode': '999',
                         'userid':userID
