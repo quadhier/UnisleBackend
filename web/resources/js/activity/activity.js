@@ -98,7 +98,9 @@ $(document).ready(function () {
         type: "GET",
         url: "self",
         dataType: "json",
-        data: {},
+        data: {
+            "withInst": "withInst"
+        },
         async: false,
         timeout: 5000,
         cache: false,
@@ -112,11 +114,12 @@ $(document).ready(function () {
 
         success: function (res) {
             if (res.result === "LOGINERROR")
-                window.location.reload("login.html");
+                window.location.replace("login.html");
             if (res.result === "ERROR") {
                 alert(res.reason);
-                window.location.reload("login.html");
+                window.location.replace("login.html");
             }
+
 
             var user = res.data.user;
             var sex = user.sex;
@@ -156,84 +159,6 @@ $(document).ready(function () {
         }
 
     });
-
-
-
-    /*
-     *
-     * 提交表格，发布动态
-     *
-     * */
-
-    $("#activityForm").ajaxForm({
-        type: "POST",
-        url: "activity",
-        dataType: "json",
-        data: {
-
-        },
-        forceSync:true,
-        timeout: 5000,
-        cache: false,
-        beforeSubmit: function (arr, $form, option) {
-            if(arr[0].value === "") {
-                alert("输入内容不能为空");
-                return false;
-            }
-            if(arr[1].value === "") {
-                // !!! 如果文件为空，则删除该元素
-                // !!! 否则spring会将其作为字符串处理，进而报错
-                arr.splice(1, 1);
-                alert("heheda");
-            }
-        },
-        error: function () {
-
-        },
-        success: function (res) {
-
-            if (res.result === "SUCCESS") {
-
-                var content = $("#release_input").val();
-                var nowDate = new Date();
-                var activityid = res.data.activityid;
-
-                var picDisplay = "";
-                if(res.data.actpic !== null) {
-                    picDisplay = "<img class='activitypic' src='" + res.data.actpic + "'/>";
-                }
-
-                $("#actContainer").prepend(
-                    "<div id='" + activityid + "' class='container'>" +
-                    "<div class='" + userid + "' style='display:none'></div>" +
-                    "<hr style='top: 30px'/>" +
-                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
-                    "<div class='subRight'><p class='pSmall'>" + nowDate.toLocaleString() + "</p></div>" +
-                    "<div class='divcenter'>" +
-                    "<p class='pContent'>" + content + "</p>" +
-                    picDisplay +
-                    "</div>" +
-                    "<hr/>" +
-                    "<div class='btnDiv'>" +
-                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
-                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
-                    "<p class='pGoodNum'><span>0</span>人觉得很赞</p>" +
-                    "</div>" +
-                    "<div class='commentDiv'></div>" +
-                    "<div class='writeCom'>" +
-                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
-                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
-                    "</div>" +
-                    "<div class='activity_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
-                    "</div>");
-                $("#release_input").val("");
-
-            } else {
-                alert(res.reason);
-            }
-        }
-    });
-
 
 
 
@@ -344,6 +269,83 @@ $(document).ready(function () {
 
         }
     });
+
+
+
+    /*
+     *
+     * 提交表格，发布动态
+     *
+     * */
+
+    $("#activityForm").ajaxForm({
+        type: "POST",
+        url: "activity",
+        dataType: "json",
+        data: {
+
+        },
+        forceSync:true,
+        timeout: 5000,
+        cache: false,
+        beforeSubmit: function (arr, $form, option) {
+            if(arr[0].value === "") {
+                alert("输入内容不能为空");
+                return false;
+            }
+            if(arr[1].value === "") {
+                // !!! 如果文件为空，则删除该元素
+                // !!! 否则spring会将其作为字符串处理，进而报错
+                arr.splice(1, 1);
+            }
+        },
+        error: function () {
+
+        },
+        success: function (res) {
+
+            if (res.result === "SUCCESS") {
+
+                var content = $("#release_input").val();
+                var nowDate = new Date();
+                var activityid = res.data.activityid;
+
+                var picDisplay = "";
+                if(res.data.actpic !== null) {
+                    picDisplay = "<img class='activitypic' src='" + res.data.actpic + "'/>";
+                }
+
+                $("#actContainer").prepend(
+                    "<div id='" + activityid + "' class='container'>" +
+                    "<div class='" + userid + "' style='display:none'></div>" +
+                    "<hr style='top: 30px'/>" +
+                    "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
+                    "<div class='subRight'><p class='pSmall'>" + nowDate.toLocaleString() + "</p></div>" +
+                    "<div class='divcenter'>" +
+                    "<p class='pContent'>" + content + "</p>" +
+                    picDisplay +
+                    "</div>" +
+                    "<hr/>" +
+                    "<div class='btnDiv'>" +
+                    "<div class='comment'><img src='images/activity/comment.png'></div>" +
+                    "<div class='good'><img class='goodImg' src='images/activity/good.png'></div>" +
+                    "<p class='pGoodNum'><span>0</span>人觉得很赞</p>" +
+                    "</div>" +
+                    "<div class='commentDiv'></div>" +
+                    "<div class='writeCom'>" +
+                    "<div class='inputcontainer'><input type='text' class='input_comment'></div>" +
+                    "<div class='submitcontainer'><button class='submit_comment'>评论</button></div>" +
+                    "</div>" +
+                    "<div class='activity_x_img'><img src='images/activity/cross.png' style='width:100%;height:100%'/></div>" +
+                    "</div>");
+                $("#release_input").val("");
+
+            } else {
+                alert(res.reason);
+            }
+        }
+    });
+
 
 
     /*

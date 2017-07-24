@@ -16,7 +16,6 @@ $(document).ready(function () {
     function isStranger() {
         $("#deleteBtn").hide();
         $("#addBtn").show();
-        alert("str")
     }
     //isFriend();
     //isStranger();
@@ -82,7 +81,8 @@ $(document).ready(function () {
         url: "self",
         dataType: "json",
         data: {
-            userid: viewedUser
+            userid: viewedUser,
+            withInst: "withInst"
         },
         async: false,
         timeout: 5000,
@@ -104,7 +104,7 @@ $(document).ready(function () {
             var department = toStr(owner.department);
             var grade = toStr(owner.grade);
             var sex = toStr(owner.sex);
-            var birthday = toStr((new Date(parseInt(owner.birthday))).toDateString());
+            var birthday = owner.birthday === null ? "" : toStr((new Date(parseInt(owner.birthday))).toDateString());
             var hometown = toStr(owner.hometown);
             var contactway = toStr(owner.contactway);
             var description = toStr(owner.description);
@@ -132,14 +132,18 @@ $(document).ready(function () {
 
 
             // 兴趣爱好
+            $(".self_bottom_left .self_bottom_item p").html("");
             var intet = res.data.interest;
-            var interests = "music:<br />" + toStr(intet.music) + "<br />" +
-                "sports:<br />" + toStr(intet.sport) + "<br />" +
-                "book:<br />" + toStr(intet.book) + "<br />" +
-                "movie:<br />" + toStr(intet.movie) + "<br />" +
-                "game:<br />" + toStr(intet.game) + "<br />"; //+
+            if(intet !== null) {
+                var interests = "music:<br />" + toStr(intet.music) + "<br />" +
+                    "sports:<br />" + toStr(intet.sport) + "<br />" +
+                    "book:<br />" + toStr(intet.book) + "<br />" +
+                    "movie:<br />" + toStr(intet.movie) + "<br />" +
+                    "game:<br />" + toStr(intet.game) + "<br />"; //+
                 //"others:<br />" + toStr(intet.other);
-            $(".self_bottom_left .self_bottom_item p").html(interests);
+                $(".self_bottom_left .self_bottom_item p").html(interests);
+            }
+
 
         }
 
@@ -170,16 +174,16 @@ $(document).ready(function () {
 
         },
         success: function (res) {
-            alert(res.result);
+            //alert(res.reason);
             if(res.result === "ERROR" && res.reason === "E_FRIEND_ALREADY_ADDED") {
                 isFriend();
-                alert("friend");
+                //alert("friend");
             } else if(res.result === "ERROR" && res.reason === "E_SAMEONE") {
                 isMe();
-                alert("me");
+                //alert("me");
             } else {
                 isStranger();
-                alert("stranger");
+                //alert("stranger");
             }
 
         }
@@ -187,6 +191,7 @@ $(document).ready(function () {
 
     // 绑定添加好友按钮
     $("#addBtn").live("click", function () {
+        //alert("start sending");
         $.ajax({
             type: "GET",
             //服务端url
@@ -194,7 +199,7 @@ $(document).ready(function () {
             dataType: "json",
             data: {
                 "sender": null,
-                "receiver": recUserid
+                "receiver": viewedUser
             },
             timeout: 5000,
             cache: false,
@@ -205,6 +210,7 @@ $(document).ready(function () {
                 alert("确认权限网络请求失败");
             },
             success: function (res) {
+                //alert(res.result);
                 if (res.result === "SUCCESS") {
                     var veriContent = "add friend request";
                     //
@@ -217,7 +223,7 @@ $(document).ready(function () {
                         dataType: "json",
                         data: {
                             "sender": null,
-                            "receiver": recUserid,
+                            "receiver": viewedUser,
                             "content": veriContent
                         },
                         timeout: 5000,
@@ -228,7 +234,7 @@ $(document).ready(function () {
                             alert("发送申请网络请求失败!");
                         },
                         success: function (res) {
-
+                            //alert(res.result);
                             if(res.result === "SUCCESS") {
                                 alert("发送好友请求成功");
                             } else {
@@ -256,12 +262,30 @@ $(document).ready(function () {
 
     // 绑定删除好友按钮
     $("#deleteBtn").live("click", function () {
+            //alert("start sending");
+            $.ajax({
+                type: "GET",
+                //服务端url
+                url: "deleteFriend",
+                dataType: "json",
+                data: {
+                    "friendid": viewedUser
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
 
-    })
+                },
+                error: function () {
+                    alert("确认权限网络请求失败");
+                },
+                success: function (res) {
+                    alert(res.result);
+                }
 
+            });
 
-    
-
+    });
 
 
 });

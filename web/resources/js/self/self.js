@@ -113,6 +113,236 @@ $(document).ready(function () {
             alert("open");
         else
             alert("close");
-    })
+    });
+
+
+    /*
+     *
+     * 函数定义
+     *
+     * */
+
+    // 加载头像
+    function getHeadImg(owner) {
+        if (owner.userpic !== null && owner.userpic !== "")
+            return owner.userpic;
+        var picPath = "pic/userpic/default.jpg";
+        if (owner.sex === "male") {
+            picPath = "pic/userpic/male.jpg";
+        } else if (owner.sex === "female") {
+            picPath = "pic/userpic/female.jpeg";
+        }
+        return picPath;
+    }
+
+    // 将null转化为空字符串
+    function toStr(str) {
+        if (str === null)
+            str = "";
+        return str;
+    }
+
+
+    /*
+     *
+     * 个人信息加载
+     *
+     * */
+
+    // 全局变量定义
+
+
+    var owner;
+    var ownerid;
+    var signature;
+    var userHeadImg;
+    var nickname;
+    var realname;
+    var school;
+    var department;
+    var grade;
+    var sex;
+    var birthday;
+    var hometown;
+    var contactway;
+    var description;
+    var intet;
+
+    $.ajax({
+        type: "GET",
+        url: "self",
+        dataType: "json",
+        data: {
+            withInst: "withInst"
+        },
+        async: false,
+        timeout: 5000,
+        cache: false,
+        beforeSend: function () {
+
+        },
+        error: function () {
+
+        },
+        success: function (res) {
+
+            var owner = res.data.user;
+            ownerid = owner.userid;
+            var signature = owner.signature;
+            var userHeadImg = getHeadImg(owner);
+            var nickname = toStr(owner.nickname);
+            var realname = toStr(owner.realname);
+            var school = toStr(owner.school);
+            var department = toStr(owner.department);
+            var grade = toStr(owner.grade);
+            var sex = toStr(owner.sex);
+            var birthday = owner.birthday === null ? "" : toStr((new Date(parseInt(owner.birthday))).toDateString());
+            var hometown = toStr(owner.hometown);
+            var contactway = toStr(owner.contactway);
+            var description = toStr(owner.description);
+
+            //
+            // 填充个人页面中的信息
+            //
+
+            // 个性签名
+            $(".self_sign span").text(toStr(signature));
+
+            // 设置头像
+            $(".self_headImg img")[0].src = userHeadImg;
+
+            // 设置个人信息
+            $(".self_top_text p:eq(0)").text(nickname);
+            $(".self_top_text p:eq(1)").text(school);
+
+            $("#drealname").text(realname);
+            $("#dschool").text(school);
+            $("#dmajor").text(department);
+            $("#dgrade").text(grade);
+            $("#dsex").text(sex);
+            $("#dbirthday").text(birthday);
+            $("#darea").text(hometown);
+            $("#dcontact").text(contactway);
+            $(".self_bottom_right .self_bottom_item p").text(description);
+
+
+            // 兴趣爱好
+            $(".self_bottom_left .self_bottom_item p").html("");
+            var intet = res.data.interest;
+            if (intet !== null) {
+                var interests = "music:<br />" + toStr(intet.music) + "<br />" +
+                    "sports:<br />" + toStr(intet.sport) + "<br />" +
+                    "book:<br />" + toStr(intet.book) + "<br />" +
+                    "movie:<br />" + toStr(intet.movie) + "<br />" +
+                    "game:<br />" + toStr(intet.game) + "<br />"; //+
+                //"others:<br />" + toStr(intet.other);
+                $(".self_bottom_left .self_bottom_item p").html(interests);
+            }
+
+
+            //
+            // 填充编辑页面中的信息
+            //
+
+
+            if(realname !== "")
+                $("#irealname").attr("placeholder", realname);
+            if(nickname !== "")
+                $("#inickname").attr("placeholder", nickname);
+            if(school !== "")
+                $("#ischool").attr("placeholder", school);
+            if(department !== "")
+                $("#idepartment").attr("placeholder", department);
+            if(grade !== "")
+                $("#igrade").attr("placeholder", grade);
+            if(contactway !== "")
+                $("#icontactway").attr("placeholder", contactway);
+            if(hometown !== "")
+                $("#ihometown").attr("placeholder", hometown);
+            if(sex !== "")
+                $("#isex").attr("value", "male");
+            if(birthday !== "")
+                $("#ibirthday").attr("value", "2012-02-02");
+            if(intet.music !== "")
+                $("#imusic").attr("placeholder", intet.music);
+            if(intet.sport)
+                $("#isport").attr("placeholder", intet.sport);
+            if(intet.book !== "")
+                $("#ibook").attr("placeholder", intet.book);
+            if(intet.movie)
+                $("#imovie").attr("placeholder", intet.movie);
+            if(intet.game)
+                $("#igame").attr("placeholder", intet.game);
+            if(intet.other)
+                $("#iother").attr("placeholder", intet.other);
+
+
+
+        }
+
+    });
+
+
+    /*
+     *
+     * 按键绑定
+     *
+     * */
+
+    // 个人页面中的更改头像按钮
+    function uploadHandle() {
+
+
+        $("#picForm").ajaxSubmit({
+
+            type: "POST",
+            url: "self/userpic",
+            dataType: "json",
+            data: {},
+            forceSync: true,
+            timeout: 5000,
+            cache: false,
+            beforeSubmit: function (arr, $form, option) {
+                // form中的input标签如果没有name属性则不会出现在arr中
+                if(arr[0].value === "") {
+                    return false;
+                }
+            },
+            error: function () {
+
+            },
+            success: function (res) {
+                // 更新头像，加入随机数使得图片即时更新
+                $("#userpic")[0].src = "pic/userpic/" + ownerid + "?r=" + Math.random();
+
+            }
+        });
+
+    }
+
+    var pic = $("#picForm input")[0];
+    pic.addEventListener("change", uploadHandle, false);
+
+
+    // 编辑页面中的确认按钮，取消按钮
+
+
+
+
+
+
+    // 更改动态的可见性，是否接收通知，修改密码
+
+
+
+
+
+
+    // 黑名单
+
+
+
+
+
 
 });

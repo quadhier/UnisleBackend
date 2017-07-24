@@ -22,6 +22,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/friend")
 public class FriendController {
+
     //tested
     @RequestMapping(value = "/searchUser",method = RequestMethod.GET)
     @ResponseBody
@@ -81,7 +82,7 @@ public class FriendController {
         ResultInfo result = new ResultInfo();
 
 
-        if(sender == receiver) {
+        if(sender.equals(receiver)) {
             result.setReason("E_SAMEONE");
             result.setResult("ERROR");
         } else if(FriendshipDAO.getFriendIDList(sender).contains(receiver)){
@@ -166,7 +167,7 @@ public class FriendController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteFriend", method = RequestMethod.POST)
     @ResponseBody
     public Object deleteFriend(HttpServletRequest req,
                                @RequestParam(value = "friendid") String friendid){

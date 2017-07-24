@@ -6,9 +6,9 @@ body
 
 #bg
 {
-    position: fixed;
     width: 100%;
     height: 100%;
+    position: fixed;
 }
 
 #navigation
@@ -16,7 +16,7 @@ body
     position: fixed;
     top: 0px;
     width: 100%;
-    height: 50px;
+    height: 5%;
     background-color: #006285;
     z-index: 1;
 }
@@ -25,10 +25,11 @@ body
 {
     position: relative;
     float: left;
-    width: 136px;
-    height: 40px;
-    margin: 5px 0;
-    left: 15%;
+    width: 8%;
+    height: 80%;
+    margin: 0;
+    top: 10%;
+    left: 13%;
 }
 
 #logo img
@@ -41,10 +42,11 @@ body
 {
     position: relative;
     float: left;
-    width: 250px;
-    height: 30px;
-    margin: 10px 0;
-    left: 16%;
+    width: 15%;
+    height: 60%;
+    left: 13%;
+    top: 20%;
+    margin: 0;
     background-color: #ffffff;
     border-radius: 5px;
 }
@@ -52,27 +54,27 @@ body
 #nav_searchImg
 {
     position: relative;
-    margin: 5px 0 5px 10px;
-    height: 20px;
-    width: 20px;
+    margin: 2%;
+    height: 70%;
+    width: 8%;
 }
 
 #nav_search_input
 {
     position: relative;
     float: right;
-    height: 20px;
-    width: 200px;
+    height: 70%;
+    width: 88%;
     border: 0;
-    margin: 5px 10px 5px 10px;
+    margin: 2% 0;
     padding: 0;
-    font-size: 16px;
+    font-size: 80%;
     font-family: '微软雅黑';
     color: #cccccc;
     outline: none;
 }
 
-#search_input:focus
+#nav_search_input:focus
 {
     color: #333333;
 }
@@ -81,10 +83,11 @@ body
 {
     position: relative;
     float: right;
-    width: 40px;
-    height: 40px;
-    margin: 5px 0;
-    right: 15%;
+    width: 2.5%;
+    height: 80%;
+    margin: 0;
+    right: 13%;
+    top: 10%;
     border-radius: 5px;
     background-color: red;
 }
@@ -93,9 +96,9 @@ body
 {
     position: relative;
     float: right;
-    width: 85px;
-    height: 40px;
-    margin: 5px;
+    width: 5%;
+    height: 80%;
+    margin: 0.25%;
     right: 17%;
     border-radius: 5px;
     background-color: red;
@@ -143,6 +146,7 @@ body
 #contentLoadContainer
 {
     position: absolute;
-    top: 50px;
+    top: 5%;
     width: 100%;
+    height: 95%;
 }

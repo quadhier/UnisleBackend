@@ -39,6 +39,7 @@ public class SelfController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public Object getSelfInfo(@RequestParam(value = "userid",required = false) String userid,
+                              @RequestParam(value = "withInst", required = false) String withInst,
                               HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
@@ -54,18 +55,27 @@ public class SelfController {
             return rinfo;
         }
 
-        InterestEntity interest = (InterestEntity) CommonDAO.getItemByPK(InterestEntity.class, userid);
 
+        if(withInst != null) {
 
-        UserInterest ui = new UserInterest();
-        user.setPassword(null);
-        ui.setUser(user);
-        ui.setInterest(interest);
+            InterestEntity interest = (InterestEntity) CommonDAO.getItemByPK(InterestEntity.class, userid);
+            UserInterest ui = new UserInterest();
+            user.setPassword(null);
+            ui.setUser(user);
+            ui.setInterest(interest);
+            rinfo.setResult("SUCCESS");
+            rinfo.setData(ui);
+        } else {
 
-        rinfo.setData(ui);
-        rinfo.setResult("SUCCESS");
+            user.setPassword(null);
+            rinfo.setResult("SUCCESS");
+            rinfo.setData(user);
+        }
+
         return rinfo;
     }
+
+
 
     // Helper Function
     private String sset(String value) {
