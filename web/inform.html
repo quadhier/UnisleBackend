@@ -1,9 +1,136 @@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>inform</title>
     <link href="css/inform/styles.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var unreadInformList;
+            var allInformList;
+            $.ajax({
+                type: "GET",
+                url: "notice/getUnreadNotice",
+                dataType: "json",
+                data:{},
+                async:false,
+                timeout:5000,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取未读通知失败，请刷新或重新登陆。')
+                    }
+                    unreadInformList = res.data;             
+                }
+
+            });
+            $.ajax({
+                type: "GET",
+                url: "notice/getAllNotice",
+                dataType: "json",
+                data:{},
+                async:false,
+                timeout:5000,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取全部通知失败，请刷新或重新登陆。')
+                    }
+                    allInformList = res.data;
+                }
+
+            });
+            for(var i=0;i<unreadInformList.length;i++){
+                var informEntity = unreadInformList[i];
+                var informer = informEntity.noticeEntityPK.sender;
+                var informTime = informEntity.noticeEntityPK.gendatetime;
+                var senderEntity;
+                $.ajax({
+                    type: "GET",
+                    url: "forum/userinfo",
+                    dataType: "json",
+                    data: {
+                        'userid': informer
+                    },
+                    async: false,
+                    timeout: 5000,
+                    success: function (res) {
+                        senderEntity = res.data;
+                    }
+                });
+                $('.inform_history_title_body').append(
+                    '<div class="inform_title_container" data-sender="'+informer+'" data-sendtime="'+informTime+'" data-type="'+informEntity.type+'">'+
+                        '<div class="title_content">'+来自+senderEntity.nickname+的+informEntity.type+'</div>'+
+                        '<div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>'+
+                    '</div>'
+                );
+            }
+            for(var i=0;i<allInformList.length;i++){
+                var informEntity = allInformList[i];
+                var informer = informEntity.noticeEntityPK.sender;
+                var informTime = informEntity.noticeEntityPK.gendatetime;
+                var senderEntity;
+                $.ajax({
+                    type: "GET",
+                    url: "forum/userinfo",
+                    dataType: "json",
+                    data: {
+                        'userid': informer
+                    },
+                    async: false,
+                    timeout: 5000,
+                    success: function (res) {
+                        senderEntity = res.data;
+                    }
+                });
+                $('.inform_history_title_body').append(
+                    '<div class="inform_title_container" data-sender="'+informer+'" data-sendtime="'+informTime+'" data-type="'+informEntity.type+'">'+
+                    '<div class="title_content">'+来自+senderEntity.nickname+的+informEntity.type+'</div>'+
+                    '<div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>'+
+                    '</div>'
+                );
+            }
+            $('.title_content').die();
+            $('.inform_new_title_body').find('.title_content').live('click',function () {
+                var type = $(this).parent().attr('data-type');
+                var sender = $(this).parent().attr('data-sender');
+                var sendtime = $(this).parent().attr('data-sendtime');
+                $.ajax({
+                    type: "POST",
+                    url: "notice/setNoticeRead",
+                    dataType: "json",
+                    data:{
+                        'sender':sender,
+                        'sendtime':sendtime
+                    },
+                    async:true,
+                    timeout:5000,
+                    cache:false,
+                });
+                var informContentHTML = $(this).text();
+                $('#inform_content_id').html(informContentHTML);
+                $(this).parent().remove();
+            });
+            $('.inform_history_title_body').find('.title_content').live('click',function () {
+                var type = $(this).parent().attr('data-type');
+                var sender = $(this).parent().attr('data-sender');
+                var sendtime = $(this).parent().attr('data-sendtime');
+                var informContentHTML = $(this).text();
+                $('#inform_content_id').html(informContentHTML);
+            });
+            $('.title_img').die();
+            $('.title_img').live('click',function () {
+
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="inform_container">
@@ -13,7 +140,7 @@
         </div>
 
         <div class="inform_new_title_body">
-            <!--append-->
+            <!--append
             <div class="inform_title_container">
                 <div class="title_content">xxx通知</div>
                 <div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>
@@ -58,7 +185,7 @@
                 <div class="title_content">xxx通知</div>
                 <div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>
             </div>
-            <!--append end-->
+            append end-->
         </div>
 
     </div>
@@ -68,10 +195,10 @@
         </div>
 
         <div class="inform_history_title_body">
-            <!--append-->
+            <!--append
 
-            <div class="inform_title_container">
-                <div class="title_content">xxx通知</div>
+            <div class="inform_title_container" data-sender="10000000003" data-sendtime="" data-type="">
+                <div class="title_content">来自。。。的好友申请</div>
                 <div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>
             </div>
             <div class="inform_title_container">
@@ -94,7 +221,7 @@
                 <div class="title_content">xxx通知</div>
                 <div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>
             </div>
-            <!--append end-->
+            append end-->
         </div>
     </div>
     <div class="inform_content">

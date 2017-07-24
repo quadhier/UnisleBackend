@@ -1,23 +1,22 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" charset="UTF-8">
-    <link href="css/home/styles.css"  rel="stylesheet" type="text/css"/>
+    <link href="css/home/styles.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <script type="text/javascript">
         var innerURL = 'activity.html'
         var forumFirst = true;
-        function simURLReplace(trueURL){
+        function simURLReplace(trueURL) {
             $("#contentLoadContainer").html('');
             innerURL = trueURL;
             var pureURL;
-            if(innerURL.indexOf('?')>0)
+            if (innerURL.indexOf('?') > 0)
                 pureURL = innerURL.split('?')[0];
             else
                 pureURL = innerURL;
-            selfRst=$.ajax({url:pureURL,async:false});
+            selfRst = $.ajax({url: pureURL, async: false});
             $("#contentLoadContainer").html(selfRst.responseText);
         }
         $(document).ready(function () {
@@ -27,15 +26,15 @@
                 type: "GET",
                 url: "self",
                 dataType: "json",
-                data:{},
-                async:false,
-                timeout:5000,
-                cache:false,
+                data: {},
+                async: false,
+                timeout: 5000,
+                cache: false,
                 success: function (res) {
-                    if(res.result == 'LOGINERROR'){
+                    if (res.result == 'LOGINERROR') {
                         window.reload('login.html');
                     }
-                    if(res.result != 'SUCCESS'){
+                    if (res.result != 'SUCCESS') {
                         alert('获取用户个人信息失败，请刷新或重新登陆。')
                     }
                     var userdata = res.data;
@@ -46,21 +45,21 @@
             {
                 function navHover() {
                     $(".navFormat").hover(function () {
-                        $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + "_hover.png)");
-                        $(this).find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img_hover.png");
-                    },function () {
-                        $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + ".png)");
-                        $(this).find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img.png");
+                        $(this).css("background-image", "url(images/home/icon/" + $(this).attr('id') + "_hover.png)");
+                        $(this).find("img").attr('src', "images/home/icon/" + $(this).attr('id') + "Img_hover.png");
+                    }, function () {
+                        $(this).css("background-image", "url(images/home/icon/" + $(this).attr('id') + ".png)");
+                        $(this).find("img").attr('src', "images/home/icon/" + $(this).attr('id') + "Img.png");
                     })
                 }
 
                 function toDefault() {
-                    $("#activity").css("background-image","url(images/home/icon/activity.png)");
-                    $("#relation").css("background-image","url(images/home/icon/relation.png)");
-                    $("#forum").css("background-image","url(images/home/icon/forum.png)");
-                    $("#message").css("background-image","url(images/home/icon/message.png)");
-                    $("#inform").css("background-image","url(images/home/icon/inform.png)");
-                    $("#self").css("background-image","url(images/home/icon/self.png)");
+                    $("#activity").css("background-image", "url(images/home/icon/activity.png)");
+                    $("#relation").css("background-image", "url(images/home/icon/relation.png)");
+                    $("#forum").css("background-image", "url(images/home/icon/forum.png)");
+                    $("#message").css("background-image", "url(images/home/icon/message.png)");
+                    $("#inform").css("background-image", "url(images/home/icon/inform.png)");
+                    $("#self").css("background-image", "url(images/home/icon/self.png)");
                 }
 
                 navHover();
@@ -72,7 +71,7 @@
                     $(".navFormat").unbind('mouseenter').unbind('mouseleave');
                     simURLReplace(pagename);
                     toDefault();
-                    $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + "_on.png)").find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img.png");
+                    $(this).css("background-image", "url(images/home/icon/" + $(this).attr('id') + "_on.png)").find("img").attr('src', "images/home/icon/" + $(this).attr('id') + "Img.png");
                     navHover();
                     $(this).unbind('mouseenter').unbind('mouseleave');
                 })
@@ -97,63 +96,63 @@
             }//对按钮进行制作遮罩效果以及导航栏点击事件绑定
 
 
-            if('WebSocket' in window){
+            if ('WebSocket' in window) {
                 var projectPath = document.URL.split('home')[0].split('http://')[1];
 
-                websocket = new WebSocket("ws://"+projectPath+"websocket");
+                websocket = new WebSocket("ws://" + projectPath + "websocket");
                 websocket.onopen = function () {
                     var sendJson = JSON.stringify({
                         'askcode': '000',
-                        'userid':userid
+                        'userid': userid
                     });
                     websocket.send(sendJson);
                 };
                 websocket.onclose = function () {
                     var sendJson = JSON.stringify({
                         'askcode': '999',
-                        'userid':userid
+                        'userid': userid
                     });
                     websocket.send(sendJson);
                 };
                 websocket.onerror = function () {
                     var sendJson = JSON.stringify({
                         'askcode': '999',
-                        'userid':userid
+                        'userid': userid
                     });
                     websocket.send(sendJson);
                 };
                 websocket.onmessage = function (event) {
                     var returnJson = JSON.parse(event.data);
-                    if(returnJson.returncode == '102'){
+                    if (returnJson.returncode == '102') {
 
                         var senderid = returnJson.senderid;
                         var sendtime = returnJson.sendtime;
                         var content = returnJson.content;
-                        if(currentPath == 'message')
+                        if (currentPath == 'message')//消息页面不弹新消息，通知页面不弹新通知
                             return;
                         var senderData = null;
                         $.ajax({
                             type: 'GET',
                             url: 'friend/getDetails',
                             dataType: 'json',
-                            data: {'friendid':senderid},
+                            data: {'friendid': senderid},
                             timeout: 2000,
-                            async:false,
-                            success:function(res){
-                                if(res.result == 'LOGINERROR'){
+                            async: false,
+                            success: function (res) {
+                                if (res.result == 'LOGINERROR') {
                                     window.reload('login.html');
                                 }
-                                if(res.result != 'SUCCESS'){
+                                if (res.result != 'SUCCESS') {
                                     alert('获取通知信息失败');
                                 }
                                 senderData = res.data;
                             }
                         });
-                        if(senderData == null)
+                        if (senderData == null)
                             return;
                         var senderShowname = null;
 
-                        if(typeof senderData.note != 'string'|| senderData.note == null)
+                        if (typeof senderData.note != 'string' || senderData.note == null)
                             senderShowname = senderData.nickname;
                         else
                             senderShowname = senderData.note;
@@ -163,59 +162,64 @@
                         $("#hiddenMessage").slideToggle(300);
                         setTimeout(function () {
                             $("#hiddenMessage").slideToggle(300);
-                        },3000)
+                        }, 3000)
                     }
                 }
 
-            }else{
+            } else {
                 alert("你的浏览器不支持websocket,不能使用聊天功能。");
             }
             window.onbeforeunload = function () {
                 var sendJson = JSON.stringify({
                     'askcode': '999',
-                    'userid':userid
+                    'userid': userid
                 });
                 websocket.send(sendJson);
                 websocket.close();
             };
+
+            //$()
         });
     </script>
     <title>Home</title>
 </head>
 <body>
-    <img id="bg" />
-    <!--导航栏-->
-    <div id="navigation">
-        <!--LOGO-->
-        <div id="logo"><img src="images/home/logo.png"></div>
-        <!--搜索栏-->
-        <div id="searchBarContainer">
-            <img id="nav_searchImg" src="images/home/search.png">
-            <input id="nav_search_input" type="text" placeholder="Search">
-        </div>
-        <!--注销键-->
-        <div id="signoutContainer"></div>
-        <!--个人键-->
-        <div id="self" class="navFormat"></div>
-        <!--通知键-->
-        <div id="inform" class="navFormat"></div>
-        <!--消息键-->
-        <div id="message" class="navFormat"></div>
-        <!--论坛键-->
-        <div id="forum" class="navFormat"></div>
-        <!--人脉键-->
-        <div id="relation" class="navFormat"></div>
-        <!--主页键-->
-        <div id="activity" class="navFormat"></div>
-    </div>
+<img id="bg" src="images/bg.jpg" rel="background">
 
-    <!--浮动消息-->
-    <div id="floatMessageContainer">
-        <div id="floatMessage"><span>通知和好友消息</span></div>
-        <div id="hiddenMessage"></div>
-    </div>
+<!--导航栏-->
+<div id="navigation">
 
-    <!--加载区-->
-    <div title='test' id="contentLoadContainer"></div>
+    <!--LOGO-->
+    <div id="logo"><img src="images/home/logo.png"></div>
+    <!--搜索栏-->
+    <div id="searchBarContainer">
+        <img id="nav_searchImg" src="images/home/search.png">
+        <input id="nav_search_input" type="text" placeholder="Search">
+    </div>
+    <!--注销键-->
+    <div id="signoutContainer"><img src="images/home/icon/signoutImg.png"></div>
+    <!--个人键-->
+    <div id="self" class="navFormat"><img src="images/home/icon/selfImg.png"></div>
+    <!--通知键-->
+    <div id="inform" class="navFormat"><img src="images/home/icon/informImg.png"></div>
+    <!--消息键-->
+    <div id="message" class="navFormat"><img src="images/home/icon/messageImg.png"></div>
+    <!--论坛键-->
+    <div id="forum" class="navFormat"><img src="images/home/icon/forumImg.png"></div>
+    <!--人脉键-->
+    <div id="relation" class="navFormat"><img src="images/home/icon/relationImg.png"></div>
+    <!--主页键-->
+    <div id="activity" class="navFormat"><img src="images/home/icon/activityImg.png"></div>
+</div>
+
+<!--浮动消息-->
+<div id="floatMessageContainer">
+    <div id="floatMessage"><span>通知和好友消息</span></div>
+    <div id="hiddenMessage"></div>
+</div>
+
+<!--加载区-->
+<div id="contentLoadContainer"></div>
+
 </body>
 </html>
