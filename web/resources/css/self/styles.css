@@ -541,12 +541,18 @@ input,textarea
 {
     float: left;
     left: 60px;
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    font-family: '微软雅黑';
 }
 
 #edit_cancel
 {
     float: right;
     right: 60px;
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    font-family: '微软雅黑';
 }
 
 .privacy_top

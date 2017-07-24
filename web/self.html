@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿       <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" charset="UTF-8">
@@ -36,7 +35,7 @@
                     <div class="self_headImg"><img id="userpic" src="images/self/headimg.png"></div>
 
                     <form id="picForm" enctype="multipart/form-data">
-                        <div class="Btn"><input name="userpic" type="file" style="opacity: 0"><span>更 改</span></div>
+                        <div class="Btn"><input name="userpic" type="file" style="position: absolute;opacity: 0;width: 80px;height: 30px;top: 0;z-index: 1"><span>更 改</span></div>
                     </form>
 
                     <div class="self_top_text">
@@ -79,6 +78,7 @@
 
             <!--编辑信息-->
             <div id="edit_concrete" class="concreteDiv" style="display: none;">
+                <form id="userForm">
                 <div id="edit_left" class="edit_container">
                     <div class="edit_info">
                         <div class="header"><p>基本信息</p><hr class="head_hr"/></div>
@@ -122,10 +122,11 @@
                         <div id="sign_input" class="textAreaContainer"><textarea id="isignature" placeholder="来个引人眼球的签名吧~~~"></textarea></div>
                     </div>
                     <div class="edit_button">
-                        <div id="edit_confirm" class="Btn"><span>确定</span></div>
-                        <div id="edit_cancel" class="Btn"><span>取消</span></div>
+                        <input id="edit_confirm" type="submit" class="Btn" value="确定">
+                        <input id="edit_cancel" type="reset" class="Btn" value="取消">
                     </div>
                 </div>
+                </form>
                 <hr id="verticalLine"/>
             </div>
 
