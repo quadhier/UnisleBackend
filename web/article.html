@@ -9,22 +9,16 @@
     <script src="js/article/article.js"></script>
     <script src="js/jPages.js"></script>
     <script>
-        $(document).ready(function () {
+
+        $(document).unbind("ready").bind("ready", function () {
+
             //变量定义区
             var userid;
-            var articleid = document.URL.split('?')[1].split('&')[0].split('=')[1];
-            var authorid = document.URL.split('?')[1].split('&')[1].split('=')[1];
+            var articleid = innerURL.split('?')[1].split('&')[0].split('=')[1];
+            var authorid = innerURL.split('?')[1].split('&')[1].split('=')[1];
             var articleEntity;
             var commentList;
             //初始化执行区
-            $(function() {
-                $("div.holder").jPages({
-                    containerID: "itemContainer",
-                    previous: "←",
-                    next: "→",
-                    perPage: 5
-                });
-            });//设置页码栏
             $.ajax({
                 type: "GET",
                 url: "self",
@@ -117,6 +111,7 @@
                 });
             }//设置返回按钮
             {
+                $('.commentDiv').remove();
                 var commentNum = commentList.length;
                 $('#articleCommentNumberSpan').text('评论:' + commentNum);
                 for (var i = 0; i < commentNum; i++) {
@@ -137,6 +132,7 @@
                             commenter = res.data;
                         }
                     });
+
                     $('#itemContainer').append(
                         '<div id = "comment_NO."' + i + ' class="commentDiv">' +
                         '<div class="commentDivTop">' +
@@ -153,11 +149,19 @@
                     );
                 }
             }//加载评论列表
+            $(function () {
+                $("div.holder").jPages({
+                    containerID: "itemContainer",
+                    previous: "←",
+                    next: "→",
+                    perPage: 5
+                });
+            });//设置页码栏
             //回调方法绑定区
             $('#publishComment').click(function () {
                 var content = $('.comment_input').val();
                 //$('.comment_input').val("");
-                if(content.length==0){
+                if (content.length == 0) {
                     alert("回复不能为空")
                     return;
                 }
@@ -165,32 +169,37 @@
                     type: "POST",
                     url: "forum/article/comment",
                     dataType: "json",
-                    data:{
-                        'articleid':articleid,
-                        'content':content
+                    data: {
+                        'articleid': articleid,
+                        'content': content
                     },
-                    timeout:10000,
+                    timeout: 10000,
                     success: function (res) {
-                        if(res.result == 'LOGINERROR'){
+                        if (res.result == 'LOGINERROR') {
                             window.reload('login.html');
                         }
-                        if(res.result != 'SUCCESS'){
+                        if (res.result != 'SUCCESS') {
                             alert('发送失败。')
                         }
-                        location.reload();
+                        var newURL = 'article.html?' + 'id=' + articleid + '&author=' + authorid;
+                        //window.location.replace(newURL);
+                        simURLReplace(newURL);
                     }
 
                 });
             });
-            function encodeUTF8(str){
-                var temp = "",rs = "";
-                for( var i=0 , len = str.length; i < len; i++ ){
+            function encodeUTF8(str) {
+                var temp = "", rs = "";
+                for (var i = 0, len = str.length; i < len; i++) {
                     temp = str.charCodeAt(i).toString(16);
-                    rs  += "\\u"+ new Array(5-temp.length).join("0") + temp;
+                    rs += "\\u" + new Array(5 - temp.length).join("0") + temp;
                 }
                 return rs;
             }
+
+            $(".articleBackIcon").unbind("click");
             $(".articleBackIcon").click(function () {
+                forumFirst = false;
                 var boardname = articleEntity.boardname;
                 var boardcount;
 
@@ -216,10 +225,13 @@
                     else if (boardname == '游戏世界')
                         boardcount = 10;
                 }
-                var oldURL = 'board.html?board='+boardcount+'&theme='+encodeUTF8(articleEntity.themename);
+                var oldURL = 'board.html?board=' + boardcount + '&theme=' + encodeUTF8(articleEntity.themename);
 
-                window.location.replace(oldURL);
+                //window.location.replace(oldURL);
+                simURLReplace(oldURL);
+                //window.history.back(-1);
             })
+
         });
     </script>
     <title>Article</title>
@@ -276,7 +288,7 @@
             <p>发表评论</p>
             <textarea class="comment_input"></textarea>
             <div class="bottomDiv">
-                <div id = "publishComment" class="Btn"><span>回复</span></div>
+                <div id="publishComment" class="Btn"><span>回复</span></div>
             </div>
         </div>
 
@@ -289,6 +301,7 @@
                     <!--</div>-->
                     <!-- item container -->
                     <ul id="itemContainer">
+                        <!--
                         <div class="commentDiv">
                             <div class="commentDivTop">
                                 <div class="commenter"><span>Gobang</span></div>
@@ -303,77 +316,8 @@
                                 <span>2017-7-14 11:24</span>
                             </div>
                         </div>
+                        -->
 
-                        <div class="commentDiv">
-                            <div class="commentDivTop">
-                                <div class="commenter"><span>Gobang</span></div>
-                                <div class="floor"><span>#1</span></div>
-                            </div>
-                            <div class="commentContent">
-                                <p>He could trust none of them, nor would they ever include him in their private
-                                    councils. They scor ned his sons as well. My grandsons will joust with theirs,
-                                    though, and one day their blood may wed with mine. In time my little black</p>
-                            </div>
-                            <div class="commentTime">
-                                <span>2017-7-14 11:24</span>
-                            </div>
-                        </div>
-                        <div class="commentDiv">
-                            <div class="commentDivTop">
-                                <div class="commenter"><span>Gobang</span></div>
-                                <div class="floor"><span>#1</span></div>
-                            </div>
-                            <div class="commentContent">
-                                <p>He could trust none of them, nor would they ever include him in their private
-                                    councils. They scor ned his sons as well. My grandsons will joust with theirs,
-                                    though, and one day their blood may wed with mine. In time my little black</p>
-                            </div>
-                            <div class="commentTime">
-                                <span>2017-7-14 11:24</span>
-                            </div>
-                        </div>
-                        <div class="commentDiv">
-                            <div class="commentDivTop">
-                                <div class="commenter"><span>Gobang</span></div>
-                                <div class="floor"><span>#1</span></div>
-                            </div>
-                            <div class="commentContent">
-                                <p>He could trust none of them, nor would they ever include him in their private
-                                    councils. They scor ned his sons as well. My grandsons will joust with theirs,
-                                    though, and one day their blood may wed with mine. In time my little black</p>
-                            </div>
-                            <div class="commentTime">
-                                <span>2017-7-14 11:24</span>
-                            </div>
-                        </div>
-                        <div class="commentDiv">
-                            <div class="commentDivTop">
-                                <div class="commenter"><span>Gobang</span></div>
-                                <div class="floor"><span>#1</span></div>
-                            </div>
-                            <div class="commentContent">
-                                <p>He could trust none of them, nor would they ever include him in their private
-                                    councils. They scor ned his sons as well. My grandsons will joust with theirs,
-                                    though, and one day their blood may wed with mine. In time my little black</p>
-                            </div>
-                            <div class="commentTime">
-                                <span>2017-7-14 11:24</span>
-                            </div>
-                        </div>
-                        <div class="commentDiv">
-                            <div class="commentDivTop">
-                                <div class="commenter"><span>Gobang</span></div>
-                                <div class="floor"><span>#1</span></div>
-                            </div>
-                            <div class="commentContent">
-                                <p>He could trust none of them, nor would they ever include him in their private
-                                    councils. They scor ned his sons as well. My grandsons will joust with theirs,
-                                    though, and one day their blood may wed with mine. In time my little black</p>
-                            </div>
-                            <div class="commentTime">
-                                <span>2017-7-14 11:24</span>
-                            </div>
-                        </div>
                     </ul>
                     <!-- navigation holder -->
                     <div class="holder">

@@ -67,5 +67,4 @@ public class InterestEntity {
     public void setOther(String other) {
         this.other = other;
     }
-
 }

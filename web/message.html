@@ -56,6 +56,7 @@
                                     "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                                 );
                             }
+                            $('.message_card').die();
                             $('.message_card').live('click', function () {
                                 start = 0;
                                 $('.message_my_word_div').remove();
@@ -87,6 +88,7 @@
                             "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                         );
                     }
+                    $('.message_card').die();
                     $('.message_card').live('click', function () {
                         start = 0;
                         $('.message_my_word_div').remove();
@@ -201,6 +203,7 @@
                     }
                 });
             }
+            $('#message_btn').die();
             $('#message_btn').live('click',function () {
                 var text = $('#message_input').val();
                 if(text.length == 0)
@@ -222,6 +225,7 @@
                 $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                 $('#message_input').val("");
             });
+            $('#findreceiver_input').die();
             $('#findreceiver_input').live('change',function () {
                 var searchText = $('#findreceiver_input').val();
                 searchFriendList(searchText);
@@ -273,8 +277,9 @@
                 getHistoryMessage(friendList[0].userid,minDef);
             $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
             if('WebSocket' in window){
-                var projectPath = document.URL.split('mess')[0].split('http://')[1];
 
+                //var projectPath = document.URL.split('mess')[0].split('http://')[1];
+                var projectPath = 'localhost:8080/';
                 websocket = new WebSocket("ws://"+projectPath+"websocket");
                 websocket.onopen = function () {
                     var sendJson = JSON.stringify({
