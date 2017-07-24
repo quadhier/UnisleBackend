@@ -78,8 +78,8 @@ public class SelfController {
 
 
     // Helper Function
-    private String sset(String value) {
-        return value == null ? "" : value;
+    private boolean notNull(String value) {
+        return value != null && !value.equals("");
     }
 
     // 更新用户信息
@@ -92,76 +92,106 @@ public class SelfController {
                                  @RequestParam(value = "grade", required = false) String grade,
                                  @RequestParam(value = "sex", required = false) String sex,
                                  @RequestParam(value = "birthday", required = false) String birthday,
-                                 @RequestParam(value = "area", required = false) String hometown,
-                                 @RequestParam(value = "contact", required = false) String contactway,
+                                 @RequestParam(value = "hometown", required = false) String hometown,
+                                 @RequestParam(value = "contactway", required = false) String contactway,
                                  @RequestParam(value = "description", required = false) String description,
                                  @RequestParam(value = "signature", required = false) String signature,
                                  @RequestParam(value = "music", required = false) String music,
-                                 @RequestParam(value = "PE", required = false) String sport,
+                                 @RequestParam(value = "sport", required = false) String sport,
                                  @RequestParam(value = "book", required = false) String book,
-                                 @RequestParam(value = "movies", required = false) String movie,
+                                 @RequestParam(value = "movie", required = false) String movie,
                                  @RequestParam(value = "game", required = false) String game,
                                  @RequestParam(value = "other", required = false) String other,
                                  HttpServletRequest request) {
 
+
+
+
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
-        realname = sset(realname);
-        nickname = sset(nickname);
-        school = sset(school);
-        department = sset(department);
-        grade = sset(grade);
-        sex = sset(sex);
-        birthday = sset(birthday);
-        hometown = sset(hometown);
-        contactway = sset(contactway);
-        description = sset(description);
-        signature = sset(signature);
-        // 储存兴趣爱好信息
-        music = sset(music);
-        sport = sset(sport);
-        book = sset(book);
-        movie = sset(movie);
-        game = sset(game);
-        other = sset(other);
 
         String userid = ControllerUtil.getUidFromReq(request);
         UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
 
-        user.setRealname(realname);
-        user.setNickname(nickname);
-        user.setSchool(school);
-        user.setDepartment(department);
-        user.setGrade(grade);
-        user.setSex(sex);
-        user.setHometown(hometown);
-        user.setContactway(contactway);
-        user.setDescription(description);
-        user.setSignature(signature);
+        if(notNull(realname)) {
+            user.setRealname(realname);
+        }
+        if(notNull(nickname)) {
+            user.setNickname(nickname);
+        }
+        if(notNull(school)) {
+            user.setSchool(school);
+        }
+        if(notNull(department)) {
+            user.setDepartment(department);
+        }
+        if(notNull(grade)) {
+            user.setGrade(grade);
+        }
+        if(notNull(sex)) {
+            user.setSex(sex);
+        }
+        if(notNull(hometown)) {
+            user.setHometown(hometown);
+        }
+        if(notNull(contactway)) {
+            user.setContactway(contactway);
+        }
+        if(notNull(description)) {
+            user.setDescription(description);
+        }
+        if(notNull(signature)) {
+            user.setSignature(signature);
+        }
 
         // 设置生日
-        String strBirthday = ControllerUtil.normalizeTime(birthday);
-        if(strBirthday == null) {
+        long longBirthday;
+        try {
+            longBirthday = Long.parseLong(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
             rinfo.setReason("E_MALFORMED_DATE");
             return rinfo;
         }
-        user.setBirthday(Timestamp.valueOf(strBirthday));
+        user.setBirthday(new Timestamp(longBirthday));
+
+        CommonDAO.updateItem(UuserEntity.class, userid, user);
+
 
 
         // 设置兴趣爱好
-        InterestEntity newiInterest = new InterestEntity();
-        newiInterest.setMusic(music);
-        newiInterest.setSport(sport);
-        newiInterest.setBook(book);
-        newiInterest.setMovie(movie);
-        newiInterest.setGame(game);
+        InterestEntity newInterest = new InterestEntity();
+        newInterest.setMusic(music);
+        newInterest.setSport(sport);
+        newInterest.setBook(book);
+        newInterest.setMovie(movie);
+        newInterest.setGame(game);
+        newInterest.setOther(other);
 
         InterestEntity oldInterest = (InterestEntity) CommonDAO.getItemByPK(InterestEntity.class, userid);
 
         if(oldInterest == null) {
-            CommonDAO.saveItem(newiInterest);
+            CommonDAO.saveItem(newInterest);
         } else {
+            if(notNull(music)) {
+                oldInterest.setMusic(music);
+            }
+            if(notNull(sport)) {
+                oldInterest.setSport(sport);
+            }
+            if(notNull(book)) {
+                oldInterest.setBook(book);
+            }
+            if(notNull(movie)) {
+                oldInterest.setMusic(movie);
+            }
+            if(notNull(game)) {
+                oldInterest.setGame(game);
+            }
+            if(notNull(other)) {
+                oldInterest.setOther(other);
+            }
             CommonDAO.updateItem(InterestEntity.class, userid, oldInterest);
         }
 
