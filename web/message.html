@@ -17,6 +17,8 @@
             var currentChatterID = null;
             var websocket = null;
             var friendList = null;
+            var minDef = 10;
+            var start = 0;
             //方法及回调方法定义区
             function searchFriendList(text) {
                 if(friendList == null) {
@@ -55,8 +57,12 @@
                                 );
                             }
                             $('.message_card').live('click', function () {
+                                start = 0;
+                                $('.message_my_word_div').remove();
+                                $('.message_your_word_div').remove();
                                 var friendid = $(this).attr('id');
-                                getHistoryMessage(friendid);
+                                getHistoryMessage(friendid,minDef);
+                                $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                             });
                         }
                     });
@@ -82,8 +88,12 @@
                         );
                     }
                     $('.message_card').live('click', function () {
+                        start = 0;
+                        $('.message_my_word_div').remove();
+                        $('.message_your_word_div').remove();
                         var friendid = $(this).attr('id');
-                        getHistoryMessage(friendid);
+                        getHistoryMessage(friendid,minDef);
+                        $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                     });
                 }else{
                     //执行搜索
@@ -111,15 +121,17 @@
                         );
                     }
                     $('.message_card').live('click', function () {
+                        start = 0;
+                        $('.message_my_word_div').remove();
+                        $('.message_your_word_div').remove();
                         var friendid = $(this).attr('id');
-                        getHistoryMessage(friendid);
+                        getHistoryMessage(friendid,minDef);
+                        $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
                     });
                 }
             }
-            function getHistoryMessage(friendid){
+            function getHistoryMessage(friendid,minnum){
                 currentChatterID = friendid;
-                $('.message_my_word_div').remove();
-                $('.message_your_word_div').remove();
                 $('#current_chat_title').text('与 '+$('#'+currentChatterID).attr('title')+' 聊天中');
                 var unreadNumber;
                 $.ajax({
@@ -150,8 +162,8 @@
                     data: {
                         'friendid':friendid,
                         'lasttime': (new Date()).valueOf(),
-                        'startat':0,
-                        'number':unreadNumber>5?unreadNumber:5
+                        'startat':start,
+                        'number':unreadNumber>minnum?unreadNumber:minnum
                     },
                     timeout: 2000,
                     success: function (res) {
@@ -214,6 +226,18 @@
                 var searchText = $('#findreceiver_input').val();
                 searchFriendList(searchText);
             });
+            $('.message_content').scroll(function () {
+
+                var scrolltop = $(this).scrollTop();
+                //注意没有滚动条的时候scrolltop也为0
+                if(scrolltop == 0)
+                    return;
+                if(scrolltop <= 2 ) {
+                    getHistoryMessage(currentChatterID, minDef);
+                    start = start+minDef;
+                    $(this).scrollTop(300*minDef/(start+minDef));
+                }
+            })
             window.onbeforeunload = function () {
                 var sendJson = JSON.stringify({
                     'askcode': '999',
@@ -246,9 +270,12 @@
             });
             searchFriendList(null);
             if(friendList != null)
-                getHistoryMessage(friendList[0].userid);
+                getHistoryMessage(friendList[0].userid,minDef);
+            $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
             if('WebSocket' in window){
-                websocket = new WebSocket("ws://localhost:8080/unisle/websocket");
+                var projectPath = document.URL.split('mess')[0].split('http://')[1];
+
+                websocket = new WebSocket("ws://"+projectPath+"websocket");
                 websocket.onopen = function () {
                     var sendJson = JSON.stringify({
                         'askcode': '000',

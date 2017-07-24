@@ -9,10 +9,21 @@
     <link href="css/forum/board.css"  rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var firstThemename;
+        var externBoardname;
+        var externThemename;
+        var histroyThemeName;
         $(document).ready(function () {
             //变量定义区
             var getval = document.URL.split('?')[1];
-            var boardnamenumber = getval.split("=")[1];
+
+            var boardnamenumber
+
+            if(getval.indexOf('&') > 0){
+                histroyThemeName = getval.split('&')[1].split('=')[1];
+                boardnamenumber = getval.split('&')[0].split('=')[1];
+            }else
+                boardnamenumber = getval.split("=")[1];
+
             var boardname;
             switch(parseInt(boardnamenumber)){
                 case 1:boardname='校园生活';break;
@@ -37,9 +48,17 @@
                 loadArticleList(currentThemename);
             }
             function loadArticleList(themename){
-                var paramURL = "boardContent.html?board="+boardname+"&theme="+themename;
-                selfRst=$.ajax({url:paramURL,async:false});
-                $(".board_content_container").html(selfRst.responseText);
+                externBoardname = boardname;
+                externThemename = currentThemename;
+                var paramURL = "boardContent.html";
+                selfRst=$.ajax({
+                    url:paramURL,
+                    async:true,
+                    success:function(){
+                        $(".board_content_container").html(selfRst.responseText);
+                    }
+                });
+
             }
             function jumpToArticleContent(articleId,authorId){
                 var newURL = 'article.html?'+'id='+articleId+'&author='+authorId;
@@ -117,11 +136,11 @@
                         'left':(30+105*i)+'px',
                         'top':'5px'
                     });
-
+/*
                     var themeArticleid = themename + '_content';
                     $('.board_content_container').append(
                         '<div id="'+themeArticleid+'" class="theme_content"></div>'
-                    );
+                    );*/
 
                 }
             }//根据主题列表添加按钮和文章列表显示区
@@ -161,7 +180,7 @@
                 "backgroundColor": "#ffffff",
                 "color":"#006285"
             });
-            $(".title_btn").hover(function () {
+            /*$(".title_btn").hover(function () {
                 $(this).css({
                     "backgroundColor": "#D6D6D6"
                 });
@@ -169,13 +188,18 @@
                 $(this).css({
                     "backgroundColor": "#ffffff"
                 });
-            });
+            });*/
             $(".title_btn").click(function () {
+                var name = $(this).attr('id').split('_')[0];
                 $(".title_btn").css({
                     "backgroundColor": "#ffffff",
                     "color":"#006285"
                 });
-                $(".title_btn").hover(function () {
+                $(this).css({
+                    "backgroundColor": "#3771ff",
+                    "color":"#ffffff"
+                });
+             /*   $(".title_btn").hover(function () {
                     $(this).css({
                         "backgroundColor": "#D6D6D6"
                     });
@@ -183,21 +207,14 @@
                     $(this).css({
                         "backgroundColor": "#ffffff"
                     });
-                });
+                });*/
 
-                $(this).css({
-                    "backgroundColor": "#3771ff",
-                    "color":"#ffffff"
-                });
-                $(this).unbind("hover");
 
-                /*$('.theme_content').css({
-                    'display':'none'
-                });*///不需要设置为空，因为点击按钮后会将除当前浏览主题的theme_content全部设为空
                 var themeButtonid = $(this).attr('id');
                 var themename = themeButtonid.split('_')[0];
                 var themeArticleid = themename+'_content';
                 showArticleWithTheme(themeArticleid);
+
                 /*$('#'+themeArticleid).css({
                     'display':'block'
                 })*/
@@ -239,9 +256,9 @@
             });
             $('#board_input_btn').click(function () {
                 var title = $('#board_title_input').val();
-                $('#board_title_input').val("");
+
                 var content = $('#board_input').val();
-                $('#board_input').val("");
+
                 if(title.length==0 || content.length==0){
                     alert("文章和标题均不能为空")
                     return;
@@ -272,8 +289,16 @@
             });
 
         });
+        function decodeUTF8(str){
+            return str.replace(/(\\u)(\w{4}|\w{2})/gi, function($0,$1,$2){
+                return String.fromCharCode(parseInt($2,16));
+            });
+        }
         window.onload = function () {
-            document.getElementById(firstThemename+'_btn').click();
+            if(typeof histroyThemeName == 'string') {
+                document.getElementById(decodeUTF8(histroyThemeName)+'_btn').click();
+            }else
+                document.getElementById(firstThemename+'_btn').click();
         }//模拟当页面加载后点击第一个button
     </script>
 
