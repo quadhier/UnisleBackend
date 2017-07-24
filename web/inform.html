@@ -7,8 +7,8 @@
     <link href="css/inform/styles.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         $(document).ready(function () {
-            var unreadInformList;
-            var allInformList;
+            var unreadInformList = null;
+            var allInformList = null;
             $.ajax({
                 type: "GET",
                 url: "notice/getUnreadNotice",
@@ -22,7 +22,7 @@
                         window.reload('login.html');
                     }
                     if(res.result != 'SUCCESS'){
-                        alert('获取未读通知失败，请刷新或重新登陆。')
+                        alert('获取未读通知失败，请刷新或重新登陆。错误原因:'+res.reason);
                     }
                     unreadInformList = res.data;             
                 }
@@ -47,7 +47,9 @@
                 }
 
             });
-            for(var i=0;i<unreadInformList.length;i++){
+
+            if(unreadInformList != null)
+                for(var i=0;i<unreadInformList.length;i++){
                 var informEntity = unreadInformList[i];
                 var informer = informEntity.noticeEntityPK.sender;
                 var informTime = informEntity.noticeEntityPK.gendatetime;
@@ -63,16 +65,21 @@
                     timeout: 5000,
                     success: function (res) {
                         senderEntity = res.data;
+
                     }
                 });
-                $('.inform_history_title_body').append(
-                    '<div class="inform_title_container" data-sender="'+informer+'" data-sendtime="'+informTime+'" data-type="'+informEntity.type+'">'+
-                        '<div class="title_content">'+来自+senderEntity.nickname+的+informEntity.type+'</div>'+
+                $('.inform_new_title_body').append(
+                    '<div class ="inform_title_container" data-sender ="'+informer+'" data-sendtime ="'+informTime+'" data-type ="'+informEntity.type+'" data-content = "'+informEntity.content+'">'+
+                        '<div class="title_content">'+'来自'+senderEntity.nickname+'的'+informEntity.type+'</div>'+
                         '<div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>'+
                     '</div>'
                 );
+
+
             }
-            for(var i=0;i<allInformList.length;i++){
+
+            if(allInformList != null)
+                for(var i=0;i<allInformList.length;i++){
                 var informEntity = allInformList[i];
                 var informer = informEntity.noticeEntityPK.sender;
                 var informTime = informEntity.noticeEntityPK.gendatetime;
@@ -91,17 +98,19 @@
                     }
                 });
                 $('.inform_history_title_body').append(
-                    '<div class="inform_title_container" data-sender="'+informer+'" data-sendtime="'+informTime+'" data-type="'+informEntity.type+'">'+
-                    '<div class="title_content">'+来自+senderEntity.nickname+的+informEntity.type+'</div>'+
+                    '<div class="inform_title_container" data-sender="'+informer+'" data-sendtime="'+informTime+'" data-type="'+informEntity.type+'" data-content ="'+informEntity.content+'">'+
+                    '<div class="title_content">'+'来自'+senderEntity.nickname+'的'+informEntity.type+'</div>'+
                     '<div class="title_img"><img src="images/inform/infcross.ico" width="20px" height="100%"></div>'+
                     '</div>'
                 );
             }
+
             $('.title_content').die();
             $('.inform_new_title_body').find('.title_content').live('click',function () {
                 var type = $(this).parent().attr('data-type');
                 var sender = $(this).parent().attr('data-sender');
                 var sendtime = $(this).parent().attr('data-sendtime');
+                var sendcontent = $(this).parent().attr('data-content');
                 $.ajax({
                     type: "POST",
                     url: "notice/setNoticeRead",
@@ -114,20 +123,62 @@
                     timeout:5000,
                     cache:false,
                 });
-                var informContentHTML = $(this).text();
+                var informContentHTML = $(this).text() + sendcontent;
                 $('#inform_content_id').html(informContentHTML);
                 $(this).parent().remove();
             });
             $('.inform_history_title_body').find('.title_content').live('click',function () {
+
                 var type = $(this).parent().attr('data-type');
                 var sender = $(this).parent().attr('data-sender');
                 var sendtime = $(this).parent().attr('data-sendtime');
-                var informContentHTML = $(this).text();
+                var sendcontent = $(this).parent().attr('data-content');
+                $.ajax({
+                    type: "POST",
+                    url: "notice/setNoticeRead",
+                    dataType: "json",
+                    data:{
+                        'sender':sender,
+                        'sendtime':sendtime
+                    },
+                    async:true,
+                    timeout:5000,
+                    cache:false,
+                });
+                var informContentHTML = $(this).text()+sendcontent;
                 $('#inform_content_id').html(informContentHTML);
             });
             $('.title_img').die();
             $('.title_img').live('click',function () {
-
+                //删除的时候也要标为已读
+                var sender = $(this).parent().attr('data-sender');
+                var sendtime = $(this).parent().attr('data-sendtime');
+                $.ajax({
+                    type: "POST",
+                    url: "notice/setNoticeRead",
+                    dataType: "json",
+                    data:{
+                        'sender':sender,
+                        'sendtime':sendtime
+                    },
+                    async:false,
+                    timeout:5000,
+                    cache:false,
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "notice/deleteANotice",
+                    dataType: "json",
+                    data:{
+                        'sender':sender,
+                        'sendtime':sendtime
+                    },
+                    async:true,
+                    timeout:5000,
+                    cache:false,
+                });
+                $(this).parent().remove();
+                simURLReplace('inform.html');
             });
         });
     </script>

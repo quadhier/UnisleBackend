@@ -38,9 +38,10 @@ public class NoticeController {
             result.setReason("NO_SUCH_TYPE");
             return result;
         }
-
-        if (NoticeDAO.sendNotice(userid, receiver, content, type)) {
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        if (NoticeDAO.sendNotice(userid, receiver,content, type,time)) {
             result.setResult("SUCCESS");
+            WebSocketUtil.sendNoticeIfOnline(userid,receiver,type,time,content);
         } else{
             result.setResult("ERROR");
             result.setReason("E_SEND_FAILED");
@@ -73,8 +74,8 @@ public class NoticeController {
         String userid = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
         if(NoticeDAO.getNoticenum(userid) == 0){
-            result.setResult("SUCCESS");
-            result.setResult("NO_UNREAD_NOTICE");
+            result.setResult("ERROR");
+            result.setReason("NO_UNREAD_NOTICE");
             return result;
         }
 

@@ -12,6 +12,7 @@ import util.ControllerUtil;
 import util.Rewrapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,10 +108,11 @@ public class FriendController {
         ResultInfo result = new ResultInfo();
         //用户1向用户2发送好友请求时，自动将2从自己的黑名单中删除（如果有）
         FriendshipDAO.deleteBlacklistItem(sender,receiver);
+        Timestamp time = new Timestamp(System.currentTimeMillis());
         if(NoticeDAO.seekSendedNotice(sender,receiver,"friendshipask")){
             result.setReason("E_ALREADY_SENDED");
             result.setResult("ERROR");
-        }else if(NoticeDAO.sendNotice(sender,receiver,content,"friendshipask")){
+        }else if(NoticeDAO.sendNotice(sender,receiver,content,"friendshipask",time)){
             result.setResult("SUCCESS");
         }else{
             result.setReason("E_SEND_ERROR");
@@ -213,7 +215,8 @@ public class FriendController {
             NoticeDAO.deleteSomebodyNotice(coactee, userid);
             FriendshipDAO.deleteFriendship(userid, coactee);
             ChatDAO.deleteSomeoneMessage(userid,coactee);
-            NoticeDAO.sendNotice(userid, coactee, "你被我拉黑了，再见", "addedtoblicklist");
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+            NoticeDAO.sendNotice(userid, coactee, "你被我拉黑了，再见", "addedtoblicklist",time);
             result.setResult("SUCCESS");
         } else {
             result.setReason("E_ADDBLACKLIST_FAILED");
