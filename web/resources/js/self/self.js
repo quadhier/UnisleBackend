@@ -142,6 +142,41 @@ $(document).ready(function () {
         return str;
     }
 
+    // 日期格式化
+    Date.prototype.pattern = function(fmt) {
+        var o = {
+            "M+" : this.getMonth()+1, // 月份
+            "d+" : this.getDate(), // 日
+            "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, // 小时
+            "H+" : this.getHours(), // 小时
+            "m+" : this.getMinutes(), // 分
+            "s+" : this.getSeconds(), // 秒
+            "q+" : Math.floor((this.getMonth()+3)/3), // 季度
+            "S" : this.getMilliseconds() // 毫秒
+        };
+        var week = {
+            "0" : "/u65e5",
+            "1" : "/u4e00",
+            "2" : "/u4e8c",
+            "3" : "/u4e09",
+            "4" : "/u56db",
+            "5" : "/u4e94",
+            "6" : "/u516d"
+        };
+        if(/(y+)/.test(fmt)){
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        }
+        if(/(E+)/.test(fmt)){
+            fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);
+        }
+        for(var k in o){
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt;
+    };
+
 
     /*
      *
@@ -152,21 +187,22 @@ $(document).ready(function () {
     // 全局变量定义
 
 
-    var owner;
-    var ownerid;
-    var signature;
-    var userHeadImg;
-    var nickname;
-    var realname;
-    var school;
-    var department;
-    var grade;
-    var sex;
-    var birthday;
-    var hometown;
-    var contactway;
-    var description;
-    var intet;
+
+    // var owner;
+    // var ownerid;
+    // var signature;
+    // var userHeadImg;
+    // var nickname;
+    // var realname;
+    // var school;
+    // var department;
+    // var grade;
+    // var sex;
+    // var birthday;
+    // var hometown;
+    // var contactway;
+    // var description;
+    // var intet;
 
     $.ajax({
         type: "GET",
@@ -187,7 +223,7 @@ $(document).ready(function () {
         success: function (res) {
 
             var owner = res.data.user;
-            ownerid = owner.userid;
+            var ownerid = owner.userid;
             var signature = owner.signature;
             var userHeadImg = getHeadImg(owner);
             var nickname = toStr(owner.nickname);
@@ -240,43 +276,49 @@ $(document).ready(function () {
             }
 
 
+
             //
             // 填充编辑页面中的信息
             //
 
-
             if(realname !== "")
-                $("#irealname").attr("placeholder", realname);
+                $("#input1 input").val(realname);
             if(nickname !== "")
-                $("#inickname").attr("placeholder", nickname);
+                $("#inickname").val(nickname);
             if(school !== "")
-                $("#ischool").attr("placeholder", school);
+                $("#ischool").val(school);
             if(department !== "")
-                $("#idepartment").attr("placeholder", department);
+                $("#idepartment").val(department);
             if(grade !== "")
-                $("#igrade").attr("placeholder", grade);
+                $("#igrade").val(grade);
             if(contactway !== "")
-                $("#icontactway").attr("placeholder", contactway);
+                $("#icontactway").val(contactway);
             if(hometown !== "")
-                $("#ihometown").attr("placeholder", hometown);
-            if(sex !== "")
-                $("#isex").attr("value", "male");
+                $("#ihometown").val(hometown);
+            if(sex == "male" || sex == "female")
+                $("#isex").val(sex);
+
+            // 生日格式化
             if(birthday !== "")
-                $("#ibirthday").attr("value", "2012-02-02");
-            if(intet.music !== "")
-                $("#imusic").attr("placeholder", intet.music);
-            if(intet.sport)
-                $("#isport").attr("placeholder", intet.sport);
-            if(intet.book !== "")
-                $("#ibook").attr("placeholder", intet.book);
-            if(intet.movie)
-                $("#imovie").attr("placeholder", intet.movie);
-            if(intet.game)
-                $("#igame").attr("placeholder", intet.game);
-            if(intet.other)
-                $("#iother").attr("placeholder", intet.other);
+            {
+                var bdate = new Date(birthday);
+                $("#ibirthday").val(bdate.pattern("yyyy-MM-dd"));
+            }
 
-
+            if(intet !== null) {
+                if(intet.music !== "")
+                    $("#imusic").attr("placeholder", intet.music);
+                if(intet.sport)
+                    $("#isport").attr("placeholder", intet.sport);
+                if(intet.book !== "")
+                    $("#ibook").attr("placeholder", intet.book);
+                if(intet.movie)
+                    $("#imovie").attr("placeholder", intet.movie);
+                if(intet.game)
+                    $("#igame").attr("placeholder", intet.game);
+                if(intet.other)
+                    $("#iother").attr("placeholder", intet.other);
+            }
 
         }
 
