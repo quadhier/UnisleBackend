@@ -118,7 +118,8 @@ $(document).ready(function () {
                 window.location.reload("login.html");
             }
 
-            var user = res.data;
+            var user = res.data.user;
+            var sex = user.sex;
             var userheadImg = user.userpic;
             var nickname = user.nickname === null ? "未知" : user.nickname;
             var school = user.school === null ? "未知" : user.school;
@@ -128,15 +129,25 @@ $(document).ready(function () {
             userName = user.nickname;
             userid = user.userid;
 
+            var sexImgNode = $("#sexImg")[0];
+            var userheadImgNode = $("#userheadImg")[0];
+
             if (user.sex === 'male') {
-                $("#sexImg")[0].src = "images/activity/male.png";
-                $("#userheadImg")[0].src = "pic/userpic/male.jpg"
+                sexImgNode.src = "images/activity/male.png";
+                userheadImgNode.src = "pic/userpic/male.jpg"
             } else {
-                $("#sexImg")[0].src = "images/activity/female.png";
-                $("#userheadImg")[0].src = "pic/userpic/female.jpeg";
+                sexImgNode.src = "images/activity/female.png";
+                userheadImgNode.src = "pic/userpic/female.jpeg";
             }
             if (userheadImg !== null && userheadImg !== "") {
-                $("#userheadImg")[0].src = userheadImg;
+                userheadImgNode.src = userheadImg;
+            } else {
+                userheadImgNode.src = "pic/userpic/default.jpg";
+                if(sex === "male") {
+                    userheadImgNode.src = "pic/userpic/male.jpg";
+                } else if(sex === "female") {
+                    userheadImgNode.src = "pic/userpic/female.jpeg"
+                }
             }
 
             $("#nickname").text("昵称: " + nickname);

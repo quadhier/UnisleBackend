@@ -3,6 +3,7 @@ package controller;
 import com.sun.org.apache.regexp.internal.RE;
 //import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import converter.ResultInfo;
+import converter.UserInterest;
 import dao.CommonDAO;
 import dao.UserInfoDAO;
 import entity.InterestEntity;
@@ -37,12 +38,15 @@ public class SelfController {
     // 屏蔽密码属性后，返回用户的信息
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Object getSelfInfo(HttpServletRequest request) {
+    public Object getSelfInfo(@RequestParam(value = "userid",required = false) String userid,
+                              HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("ERROR");
 
-        String userid = ControllerUtil.getUidFromReq(request);
+        if(userid == null || userid.length() == 0) {
+            userid = ControllerUtil.getUidFromReq(request);
+        }
         UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
 
         if(user == null) {
@@ -50,9 +54,16 @@ public class SelfController {
             return rinfo;
         }
 
-        rinfo.setResult("SUCCESS");
+        InterestEntity interest = (InterestEntity) CommonDAO.getItemByPK(InterestEntity.class, userid);
+
+
+        UserInterest ui = new UserInterest();
         user.setPassword(null);
-        rinfo.setData(user);
+        ui.setUser(user);
+        ui.setInterest(interest);
+
+        rinfo.setData(ui);
+        rinfo.setResult("SUCCESS");
         return rinfo;
     }
 
@@ -187,16 +198,23 @@ public class SelfController {
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("SUCCESS");
 
-        String defaultPath = "/tmp/unisle/default/defaultuserpic";
         String userid = ControllerUtil.getUidFromReq(request);
         UuserEntity user = (UuserEntity)CommonDAO.getItemByPK(UuserEntity.class, userid);
 
-        String userPicPath = user.getUserpic();
-        if(userPicPath == null || userPicPath.equals(""))
-        {
-            userPicPath = defaultPath;
+        String defaultPic = "/pic/userpic/default.png";
+        String sex = user.getSex();
+        if(sex.equals("male")) {
+            defaultPic = "/pic/userpic/male.jpg";
+        } else if(sex.equals("female")) {
+            defaultPic = "/pic/userpic/female.jpeg";
         }
-        rinfo.setData(userPicPath);
+
+        String userPic = user.getUserpic();
+        if(userPic == null || userPic.equals(""))
+        {
+            userPic = defaultPic;
+        }
+        rinfo.setData(userPic);
         return rinfo;
     }
 

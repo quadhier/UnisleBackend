@@ -400,7 +400,6 @@ public class GroupController {
                                 @RequestParam(value = "groupid") String groupid,
                                 HttpServletRequest request) {
 
-
         return null;
     }
 

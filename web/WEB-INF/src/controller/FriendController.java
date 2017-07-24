@@ -79,7 +79,12 @@ public class FriendController {
 
         String sender = ControllerUtil.getUidFromReq(req);
         ResultInfo result = new ResultInfo();
-        if(FriendshipDAO.getFriendIDList(sender).contains(receiver)){
+
+
+        if(sender == receiver) {
+            result.setReason("E_SAMEONE");
+            result.setResult("ERROR");
+        } else if(FriendshipDAO.getFriendIDList(sender).contains(receiver)){
             result.setReason("E_FRIEND_ALREADY_ADDED");
             result.setResult("ERROR");
         }else if(FriendshipDAO.getBlacklist(receiver).contains(sender)){

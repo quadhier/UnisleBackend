@@ -76,7 +76,8 @@ public class InterestEntity {
         if (sport != null ? !sport.equals(that.sport) : that.sport != null) return false;
         if (book != null ? !book.equals(that.book) : that.book != null) return false;
         if (movie != null ? !movie.equals(that.movie) : that.movie != null) return false;
-        return game != null ? game.equals(that.game) : that.game == null;
+        if (game != null ? !game.equals(that.game) : that.game != null) return false;
+        return other != null ? other.equals(that.other) : that.other == null;
     }
 
     @Override
@@ -87,6 +88,7 @@ public class InterestEntity {
         result = 31 * result + (book != null ? book.hashCode() : 0);
         result = 31 * result + (movie != null ? movie.hashCode() : 0);
         result = 31 * result + (game != null ? game.hashCode() : 0);
+        result = 31 * result + (other != null ? other.hashCode() : 0);
         return result;
     }
 }

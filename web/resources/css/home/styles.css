@@ -1,0 +1,148 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+#bg
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#navigation
+{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: #006285;
+    z-index: 1;
+}
+
+#logo
+{
+    position: relative;
+    float: left;
+    width: 136px;
+    height: 40px;
+    margin: 5px 0;
+    left: 15%;
+}
+
+#logo img
+{
+    width: 100%;
+    height: 100%;
+}
+
+#searchBarContainer
+{
+    position: relative;
+    float: left;
+    width: 250px;
+    height: 30px;
+    margin: 10px 0;
+    left: 16%;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+#nav_searchImg
+{
+    position: relative;
+    margin: 5px 0 5px 10px;
+    height: 20px;
+    width: 20px;
+}
+
+#nav_search_input
+{
+    position: relative;
+    float: right;
+    height: 20px;
+    width: 200px;
+    border: 0;
+    margin: 5px 10px 5px 10px;
+    padding: 0;
+    font-size: 16px;
+    font-family: '微软雅黑';
+    color: #cccccc;
+    outline: none;
+}
+
+#search_input:focus
+{
+    color: #333333;
+}
+
+#signoutContainer
+{
+    position: relative;
+    float: right;
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+    right: 15%;
+    border-radius: 5px;
+    background-color: red;
+}
+
+.navFormat
+{
+    position: relative;
+    float: right;
+    width: 85px;
+    height: 40px;
+    margin: 5px;
+    right: 17%;
+    border-radius: 5px;
+    background-color: red;
+}
+
+#floatMessageContainer
+{
+    position: fixed;
+    float: right;
+    bottom: 0;
+    right: 10%;
+    z-index: 1;
+}
+
+#floatMessage
+{
+    position: relative;
+    width: 200px;
+    height: 30px;
+    background-color: white;
+    box-shadow: 0 0 10px #333333;
+    z-index: 2;
+}
+
+#floatMessage span
+{
+    position: relative;
+    left: 10px;
+    top: 5px;
+    font-family: 微软雅黑;
+    font-size: 14px;
+    color: #333333;
+}
+
+#hiddenMessage
+{
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px #333333;
+    display: none;
+}
+
+#contentLoadContainer
+{
+    position: absolute;
+    top: 50px;
+    width: 100%;
+}
