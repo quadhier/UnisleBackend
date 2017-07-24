@@ -295,9 +295,10 @@ public class Runner {
         FriendshipDAO.addFriendship("10000000002","10000000006");
         System.out.println(?"yes":"no");
         */
-        System.out.println(FriendshipDAO.getInterestedUserInfoList("10000000001",10).toString());
-        System.out.println(FriendshipDAO.getInterestedGroupInfoList("10000000001",10).toString());
+        //System.out.println(FriendshipDAO.getInterestedUserInfoList("10000000001",10).toString());
+        //System.out.println(FriendshipDAO.getInterestedGroupInfoList("10000000001",10).toString());
 
+        System.out.println(ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()) , 1, "friend"));
 
         HibernateUtil.closeSessionFactory();
     }

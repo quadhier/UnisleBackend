@@ -43,27 +43,59 @@
                 }
 
             });
-
-
-            $(".navFormat").click(function () {
-                var pagename = $(this).attr('id') + ".html";
-                currentPath = $(this).attr('id');
-                simURLReplace(pagename);
-            });
-
-            $("#nav_searchImg").click(function () {
-                simURLReplace("search.html");
-            });
-
-            $("#nav_search_input").keydown(function (e) {
-                if (e.keyCode == 13) {
-                    simURLReplace("search.html");
+            {
+                function navHover() {
+                    $(".navFormat").hover(function () {
+                        $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + "_hover.png)");
+                        $(this).find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img_hover.png");
+                    },function () {
+                        $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + ".png)");
+                        $(this).find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img.png");
+                    })
                 }
-            });
 
-            $("#floatMessage").click(function () {
-                $("#hiddenMessage").slideToggle(300);
-            })
+                function toDefault() {
+                    $("#activity").css("background-image","url(images/home/icon/activity.png)");
+                    $("#relation").css("background-image","url(images/home/icon/relation.png)");
+                    $("#forum").css("background-image","url(images/home/icon/forum.png)");
+                    $("#message").css("background-image","url(images/home/icon/message.png)");
+                    $("#inform").css("background-image","url(images/home/icon/inform.png)");
+                    $("#self").css("background-image","url(images/home/icon/self.png)");
+                }
+
+                navHover();
+                $("#activity").unbind('mouseenter').unbind('mouseleave');
+
+                $(".navFormat").click(function () {
+                    var pagename = $(this).attr('id') + ".html";
+                    currentPath = $(this).attr('id');
+                    $(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                    simURLReplace(pagename);
+                    toDefault();
+                    $(this).css("background-image","url(images/home/icon/" + $(this).attr('id') + "_on.png)").find("img").attr('src',"images/home/icon/" +$(this).attr('id')+ "Img.png");
+                    navHover();
+                    $(this).unbind('mouseenter').unbind('mouseleave');
+                })
+
+                $("#nav_searchImg").click(function () {
+                    $(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                    simURLReplace("search.html");
+                    toDefault();
+                })
+
+                $("#nav_search_input").keydown(function (e) {
+                    if (e.keyCode == 13) {
+                        $(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                        simURLReplace("search.html");
+                        toDefault();
+                    }
+                });
+
+                $("#floatMessage").click(function () {
+                    $("#hiddenMessage").slideToggle(300);
+                });
+            }//对按钮进行制作遮罩效果以及导航栏点击事件绑定
+
 
             if('WebSocket' in window){
                 var projectPath = document.URL.split('home')[0].split('http://')[1];
@@ -151,7 +183,7 @@
     <title>Home</title>
 </head>
 <body>
-    <div id="bg" />
+    <img id="bg" />
     <!--导航栏-->
     <div id="navigation">
         <!--LOGO-->

@@ -133,6 +133,7 @@
                 }
             }
             function getHistoryMessage(friendid,minnum){
+                start = start+minDef;
                 currentChatterID = friendid;
                 $('#current_chat_title').text('与 '+$('#'+currentChatterID).attr('title')+' 聊天中');
                 var unreadNumber;
@@ -238,7 +239,7 @@
                     return;
                 if(scrolltop <= 2 ) {
                     getHistoryMessage(currentChatterID, minDef);
-                    start = start+minDef;
+
                     $(this).scrollTop(300*minDef/(start+minDef));
                 }
             })
@@ -278,8 +279,8 @@
             $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
             if('WebSocket' in window){
 
-                //var projectPath = document.URL.split('mess')[0].split('http://')[1];
-                var projectPath = 'localhost:8080/';
+                var projectPath = document.URL.split('home')[0].split('http://')[1];
+                //var projectPath = 'localhost:8080/';
                 websocket = new WebSocket("ws://"+projectPath+"websocket");
                 websocket.onopen = function () {
                     var sendJson = JSON.stringify({
