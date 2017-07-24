@@ -118,7 +118,7 @@ $(document).ready(function () {
                 window.location.reload("login.html");
             }
 
-            var user = res.data.user;
+            var user = res.data;
             var sex = user.sex;
             var userheadImg = user.userpic;
             var nickname = user.nickname === null ? "未知" : user.nickname;

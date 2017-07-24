@@ -4,6 +4,7 @@ $(document).ready(function () {
         $("#contentLoadContainer").html(selfRst.responseText);
     }
 
+
     $(".navFormat").click(function () {
         var pagename = $(this).attr('id') + ".html";
         loadAjax(pagename);

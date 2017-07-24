@@ -1,3 +1,4 @@
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,12 +6,152 @@
     <link href="css/home/styles.css"  rel="stylesheet" type="text/css"/>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="js/home/home.js"></script>
+    <script type="text/javascript">
+        var innerURL = 'activity.html'
+        var forumFirst = true;
+        function simURLReplace(trueURL){
+            $("#contentLoadContainer").html('');
+            innerURL = trueURL;
+            var pureURL;
+            if(innerURL.indexOf('?')>0)
+                pureURL = innerURL.split('?')[0];
+            else
+                pureURL = innerURL;
+            selfRst=$.ajax({url:pureURL,async:false});
+            $("#contentLoadContainer").html(selfRst.responseText);
+        }
+        $(document).ready(function () {
+            var userid;
+            var currentPath;
+            $.ajax({
+                type: "GET",
+                url: "self",
+                dataType: "json",
+                data:{},
+                async:false,
+                timeout:5000,
+                cache:false,
+                success: function (res) {
+                    if(res.result == 'LOGINERROR'){
+                        window.reload('login.html');
+                    }
+                    if(res.result != 'SUCCESS'){
+                        alert('获取用户个人信息失败，请刷新或重新登陆。')
+                    }
+                    var userdata = res.data;
+                    userid = userdata.userid;
+                }
+
+            });
+
+
+            $(".navFormat").click(function () {
+                var pagename = $(this).attr('id') + ".html";
+                currentPath = $(this).attr('id');
+                simURLReplace(pagename);
+            });
+
+            $("#nav_searchImg").click(function () {
+                simURLReplace("search.html");
+            });
+
+            $("#nav_search_input").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    simURLReplace("search.html");
+                }
+            });
+
+            $("#floatMessage").click(function () {
+                $("#hiddenMessage").slideToggle(300);
+            })
+
+            if('WebSocket' in window){
+                var projectPath = document.URL.split('home')[0].split('http://')[1];
+
+                websocket = new WebSocket("ws://"+projectPath+"websocket");
+                websocket.onopen = function () {
+                    var sendJson = JSON.stringify({
+                        'askcode': '000',
+                        'userid':userid
+                    });
+                    websocket.send(sendJson);
+                };
+                websocket.onclose = function () {
+                    var sendJson = JSON.stringify({
+                        'askcode': '999',
+                        'userid':userid
+                    });
+                    websocket.send(sendJson);
+                };
+                websocket.onerror = function () {
+                    var sendJson = JSON.stringify({
+                        'askcode': '999',
+                        'userid':userid
+                    });
+                    websocket.send(sendJson);
+                };
+                websocket.onmessage = function (event) {
+                    var returnJson = JSON.parse(event.data);
+                    if(returnJson.returncode == '102'){
+
+                        var senderid = returnJson.senderid;
+                        var sendtime = returnJson.sendtime;
+                        var content = returnJson.content;
+                        if(currentPath == 'message')
+                            return;
+                        var senderData = null;
+                        $.ajax({
+                            type: 'GET',
+                            url: 'friend/getDetails',
+                            dataType: 'json',
+                            data: {'friendid':senderid},
+                            timeout: 2000,
+                            async:false,
+                            success:function(res){
+                                if(res.result == 'LOGINERROR'){
+                                    window.reload('login.html');
+                                }
+                                if(res.result != 'SUCCESS'){
+                                    alert('获取通知信息失败');
+                                }
+                                senderData = res.data;
+                            }
+                        });
+                        if(senderData == null)
+                            return;
+                        var senderShowname = null;
+
+                        if(typeof senderData.note != 'string'|| senderData.note == null)
+                            senderShowname = senderData.nickname;
+                        else
+                            senderShowname = senderData.note;
+                        var msgWarn = senderShowname + '给您发来了一条消息:' + content;
+
+                        $('#hiddenMessage').text(msgWarn);
+                        $("#hiddenMessage").slideToggle(300);
+                        setTimeout(function () {
+                            $("#hiddenMessage").slideToggle(300);
+                        },3000)
+                    }
+                }
+
+            }else{
+                alert("你的浏览器不支持websocket,不能使用聊天功能。");
+            }
+            window.onbeforeunload = function () {
+                var sendJson = JSON.stringify({
+                    'askcode': '999',
+                    'userid':userid
+                });
+                websocket.send(sendJson);
+                websocket.close();
+            };
+        });
+    </script>
     <title>Home</title>
 </head>
 <body>
-    <img id="bg" src="images/bg.jpg" rel="background">
-
+    <div id="bg" />
     <!--导航栏-->
     <div id="navigation">
         <!--LOGO-->
@@ -38,11 +179,11 @@
 
     <!--浮动消息-->
     <div id="floatMessageContainer">
-        <div id="floatMessage"><span>消息</span></div>
+        <div id="floatMessage"><span>通知和好友消息</span></div>
         <div id="hiddenMessage"></div>
     </div>
 
     <!--加载区-->
-    <div id="contentLoadContainer"></div>
+    <div title='test' id="contentLoadContainer"></div>
 </body>
 </html>

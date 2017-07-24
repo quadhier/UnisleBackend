@@ -205,6 +205,7 @@ public class FriendshipDAO {
 
         return resultList;
     }
+
     public static Map getFriendIDNoteMap(String userid){
         Session s = null;
         Map<String,String> resultMap = null;

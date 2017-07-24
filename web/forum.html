@@ -8,11 +8,15 @@
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="js/forum/forum.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+
+        $(document).unbind("ready").bind("ready",function () {
+            forumFirst = true;
+            //$('.board_div').die();
             $('.board_div').live('click',function () {
                 var boardcount = $(this).attr('title');
                 var newURL = 'board.html?board='+ boardcount;
-                window.location.replace(newURL);
+                //window.location.replace(newURL);
+                simURLReplace(newURL);
             });
         });
     </script>
@@ -22,25 +26,25 @@
 <!--<img id="bg" src="images/bg.jpg" rel="background">-->
 <div class="forum_container">
     <!--board1:校园生活 -->
-    <div id="board1" class="board_div" title="1"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board1" class="board_div" title="1"><div class="allHover"><img src="images/forum/01.png"/></div></div>
     <!--board2:时事热点 -->
-    <div id="board2" class="board_div" title="2"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board2" class="board_div" title="2"><div class="allHover"><img src="images/forum/02.png"/></div></div>
     <!--board3:音乐天地 -->
-    <div id="board3" class="board_div" title="3"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board3" class="board_div" title="3"><div class="allHover"><img src="images/forum/03.png"/></div></div>
     <!--board4:影视先锋 -->
-    <div id="board4" class="board_div" title="4"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board4" class="board_div" title="4"><div class="allHover"><img src="images/forum/04.png"/></div></div>
     <!--board5:动漫乐园 -->
-    <div id="board5" class="board_div" title="5"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board5" class="board_div" title="5"><div class="allHover"><img src="images/forum/05.png"/></div></div>
     <!--board6:时尚前沿 -->
-    <div id="board6" class="board_div" title="6"><div class="allHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board6" class="board_div" title="6"><div class="allHover"><img src="images/forum/06.png"/></div></div>
     <!--board7:职场经验 -->
-    <div id="board7" class="board_div" title="7"><div class="alllittleHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board7" class="board_div" title="7"><div class="alllittleHover"><img src="images/forum/07.png"/></div></div>
     <!--board8:专业交流 -->
-    <div id="board8" class="board_div" title="8"><div class="alllittleHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board8" class="board_div" title="8"><div class="alllittleHover"><img src="images/forum/08.png"/></div></div>
     <!--board9:情感分享 -->
-    <div id="board9" class="board_div" title="9"><div class="alllittleHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board9" class="board_div" title="9"><div class="alllittleHover"><img src="images/forum/09.png"/></div></div>
     <!--board10:游戏世界 -->
-    <div id="board10" class="board_div" title="10"><div class="alllittleHover"><img src="images/forum/headimg.png"/></div></div>
+    <div id="board10" class="board_div" title="10"><div class="alllittleHover"><img src="images/forum/10.png"/></div></div>
 </div>
 </body>
 </html>

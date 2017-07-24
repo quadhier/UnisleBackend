@@ -53,16 +53,9 @@ public class SelfController {
             rinfo.setReason("E_INVALID_USERID");
             return rinfo;
         }
-
-        InterestEntity interest = (InterestEntity) CommonDAO.getItemByPK(InterestEntity.class, userid);
-
-
-        UserInterest ui = new UserInterest();
         user.setPassword(null);
-        ui.setUser(user);
-        ui.setInterest(interest);
 
-        rinfo.setData(ui);
+        rinfo.setData(user);
         rinfo.setResult("SUCCESS");
         return rinfo;
     }
