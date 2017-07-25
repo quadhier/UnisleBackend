@@ -151,12 +151,49 @@ $(document).ready(function () {
         if(className1 === 'open1') {
             // alert("open");
             // 更改动态可见性为仅自己可见
+            $.ajax({
+                type: "POST",
+                url: "self/actvisibility",
+                dataType: "json",
+                data: {
+                    "view": "self"
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
 
+                },
+                error: function () {
 
+                },
+                success: function (res) {
+                    alert(res.result);
+                }
+            });
 
         } else {
             // alert("close");
             // 更改动态可见性为自己和好友均可见
+            $.ajax({
+                type: "POST",
+                url: "self/actvisibility",
+                dataType: "json",
+                data: {
+                    "view": "friend"
+                },
+                timeout: 5000,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                error: function () {
+
+                },
+                success: function (res) {
+                    alert(res.result);
+                }
+            });
+
         }
     });
     
@@ -269,6 +306,10 @@ $(document).ready(function () {
     });
 
 
+    // 修改密码
+    $("#changepass").click(function () {
+        window.location.href = "home.html?load=resetpass";
+    });
 
 
 

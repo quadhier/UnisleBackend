@@ -27,6 +27,7 @@ $(document).ready(function () {
         success: function (res) {
             if (res.result === "SUCCESS") {
                 alert("修改成功");
+                window.location.href = "home.html?load=self";
             }
         }
 

@@ -258,4 +258,31 @@ public class SelfController {
         return rinfo;
     }
 
+
+    // 更改动态可见性
+    @RequestMapping(value = "/actvisibility", method = RequestMethod.POST)
+    @ResponseBody
+    public Object setVisibility(@RequestParam("view") String view,
+                                HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        if(view == null || (!view.equals("self") && !view.equals("friend"))) {
+            rinfo.setReason("E_INVALID_VIEW");
+            return rinfo;
+        }
+
+        String userid = ControllerUtil.getUidFromReq(request);
+        UuserEntity user = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, userid);
+        user.setActivityvisibility(view);
+        CommonDAO.updateItem(UuserEntity.class, userid, user);
+
+        rinfo.setResult("SUCCESS");
+        return rinfo;
+
+    }
+
+
+
 }
