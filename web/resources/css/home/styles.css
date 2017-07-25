@@ -155,6 +155,53 @@ body
 {
     background-image: url("../../images/home/icon/self.png");
 }
+/*
+#floatMessageContainer
+{
+    position: fixed;
+    float: right;
+    bottom: 0;
+    right: 10%;
+    z-index: 1;
+}*/
+
+#floatMessage
+{
+    position: relative;
+    width: 200px;
+    height: 30px;
+    background-color: white;
+    box-shadow: 0 0 10px #333333;
+    z-index: 2;
+}
+
+#floatMessage span
+{
+    position: relative;
+    left: 10px;
+    top: 5px;
+    font-family: 微软雅黑;
+    font-size: 14px;
+    color: #333333;
+}
+/* old
+#hiddenMessage
+{
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px #333333;
+    display: none;
+}*/
+
+#contentLoadContainer
+{
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    height: 95%;
+}
 
 #floatMessageContainer
 {
@@ -192,6 +239,7 @@ body
     height: 300px;
     background-color: #ffffff;
     box-shadow: 0 0 15px #333333;
+    overflow: hidden;
     display: none;
 }
 
@@ -201,4 +249,66 @@ body
     top: 5%;
     width: 100%;
     height: 95%;
+}
+
+#hiddenMessage .behindDiv
+{
+    position: relative;
+    width: 217px;
+    height: 300px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#hiddenMessage .messageCard
+{
+    position: relative;
+    width: 180px;
+    height: 60px;
+    top: 10px;
+    box-shadow: 0 0 5px #666666;
+    margin: 0 10px 10px 10px;
+    background-color: white;
+}
+
+.messageCard .messageTitle
+{
+    position: relative;
+    width: 180px;
+    height: 19px;
+}
+
+.messageTitle span
+{
+    font-family: 微软雅黑;
+    font-size: 12px;
+    color: #666666;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.messageCard .middleHr
+{
+    position: relative;
+    width: 180px;
+    height: 1px;
+    background: -webkit-linear-gradient(left, white, #666666, white);
+    background: -moz-linear-gradient(right, white, #666666, white);
+    background: linear-gradient(to right, white, #666666, white);
+}
+
+.messageCard .messageBody
+{
+    position: relative;
+    width: 180px;
+    height: 40px;
+}
+
+.messageBody span
+{
+    max-width: 170px;
+    font-family: 楷体;
+    font-size: 12px;
+    color: #666666;
+    margin-left: 10px;
 }
