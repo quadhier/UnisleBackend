@@ -8,6 +8,7 @@
     <script type="text/javascript">
         var innerURL = 'activity.html';
         var forumFirst = true;
+        var firstSearch = true;
         var messageSocketOpen = false;
         var messageSocket = null;
         var messageUserid = null;
@@ -91,14 +92,20 @@
 
                 $("#nav_searchImg").click(function () {
                     $(".navFormat").unbind('mouseenter').unbind('mouseleave');
-                    simURLReplace("search.html");
+                    if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
+                        simURLReplace("search.html?aim="+$("#nav_search_input").val());
+                    else
+                        simURLReplace("search.html");
                     toDefault();
                 })
 
                 $("#nav_search_input").keydown(function (e) {
                     if (e.keyCode == 13) {
                         $(".navFormat").unbind('mouseenter').unbind('mouseleave');
-                        simURLReplace("search.html");
+                        if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
+                            simURLReplace("search.html?aim="+$("#nav_search_input").val());
+                        else
+                            simURLReplace("search.html");
                         toDefault();
                     }
                 });

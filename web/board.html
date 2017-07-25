@@ -17,7 +17,7 @@
             //文章按钮die之后已经不需要用if这种机制来防止多次加载了，但留下来作为教训
             textnumBoard += 1;
 
-            if (textnumBoard == 1) {
+            if (true) {
                 //变量定义区
                 var getval = innerURL.split('?')[1];
 
@@ -234,7 +234,10 @@
                  "backgroundColor": "#ffffff"
                  });
                  });*/
+                //当从论坛首页反复跳转到此页面时此处也会发生多重绑定，但不能用forumFirst控制，否则
+                //从文章页面返回时不能绑定。故将返回论坛首页键也做成刷新主页面
                 $(".title_btn").click(function () {
+                    alert('clicked');
                     var name = $(this).attr('id').split('_')[0];
                     $(".title_btn").css({
                         "backgroundColor": "#ffffff",
@@ -298,7 +301,7 @@
                     $(this).unbind("hover");
                     var newURL = 'forum.html';
                     //window.location.replace(newURL);
-                    simURLReplace(newURL);
+                    window.location.href = 'home.html?load=forum';
                 });
                 $('#board_input_btn').click(function () {
                     var title = $('#board_title_input').val();

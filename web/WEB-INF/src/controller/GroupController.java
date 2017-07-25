@@ -197,7 +197,7 @@ public class GroupController {
         }
 
         Timestamp time = new Timestamp(System.currentTimeMillis());
-        if(NoticeDAO.sendNotice(groupid, member, content,"groupmemberinvite",time)) {
+        if(NoticeDAO.sendNotice(groupid, member, content,"groupinvite",time)) {
             rinfo.setResult("SUCCESS");
             return rinfo;
         }
