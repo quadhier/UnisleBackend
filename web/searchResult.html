@@ -33,9 +33,11 @@
                         for(var i =0;i<resultList.length;i++){
                             var entity = resultList[i];
                             $('#itemContainer').append(
-                                '<div class="type_self_result" data-userid ="'+entity.userid+'" data-nickname ="'+entity.nickname+'" data-email = "'+entity.email+'">'+
-                                    '昵称:'+entity.nickname+',邮箱:'+entity.email+
-                                '</div>'
+                                "<div class='searchRstCardContainer' data-userid ='" + entity.userid + "' data-nickname ='" + entity.nickname + "' data-email = '" + entity.email + "'>" +
+                                    "<div class='imgDiv'><img src='" + entity.userpic + "'></div>" +
+                                    "<div class='mailDiv'><span>" + entity.email + "</span></div>" +
+                                    "<div class='nameDiv'><span>" + entity.nickname + "</span></div>" +
+                                "</div>"
                             );
                         }
                     }
@@ -66,16 +68,18 @@
             <!--</div>-->
             <!-- item container -->
             <ul id="itemContainer">
-                <div><img src="images/img (1).jpg" alt="image"></div>
-                <div><img src="images/img (2).jpg" alt="image"></div>
-                <div><img src="images/img (3).jpg" alt="image"></div>
-                <div><img src="images/img (4).jpg" alt="image"></div>
-                <div><img src="images/img (5).jpg" alt="image"></div>
-                <div><img src="images/img (6).jpg" alt="image"></div>
-                <div><img src="images/img (7).jpg" alt="image"></div>
-                <div><img src="images/img (8).jpg" alt="image"></div>
-                <div><img src="images/img (9).jpg" alt="image"></div>
-                <div><img src="images/img (10).jpg" alt="image"></div>
+                <!--<div><img src="images/img (1).jpg" alt="image"></div>-->
+                <!--个人/组织：
+                <div class='searchRstCardContainer'>
+                    <div class='imgDiv'><img src='images/admin/headimg.png'></div>
+                    <div class='mailDiv'><span>23185156165@qq.com</span></div>
+                    <div class='nameDiv'><span>李宗远</span></div>
+                </div>-->
+                <!--文章：
+                <div class='searchRstCardContainer'>
+                    <div class='articleDiv'><span>DNF增幅保护活动即将上线：90史诗防具齐了，打造附魔不可缺</span></div>
+                    <div class='authorDiv'><span>——李宗远</span></div>
+                </div>-->
 
             </ul>
             <!-- navigation holder -->

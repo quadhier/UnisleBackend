@@ -253,11 +253,11 @@ public class ActivityDAO {
 
                 String hql = "from ActivityEntity activity " +
                         "where activity.publicdatetime<=:current and " +
-                        "((activity.publisher in :plist " +
+                        "((((activity.publisher in :plist " +
                         "and :publisherVisibilityI not in (select user.activityvisibility from UuserEntity user where user.id =activity.publisher)" +
                         "and :userid not in (select shield.shieldEntityPK.coactee from ShieldEntity shield " +
                         "where shield.shieldEntityPK.coaction=activity.publisher and shield.shieldEntityPK.activityid = activity.activityid))" +
-                        "or (activity.type=:gtype and activity.publisher in :glist))" +
+                        "or (activity.type=:gtype and activity.publisher in :glist))) or activity.publisher =:userid) " +
                         "order by activity.publicdatetime desc";
                 Query query = s.createQuery(hql);
                 query.setParameter("current",lastdate);
