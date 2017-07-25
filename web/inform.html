@@ -173,6 +173,8 @@
                 var sendtime = $(this).parent().attr('data-sendtime');
                 var sendcontent = $(this).parent().attr('data-content');
                 currentSender = sender;
+
+                //不用担心numnotice会-2的问题，dao层改好了，已经是已读的不会-numnotice
                 $.ajax({
                     type: "POST",
                     url: "notice/setNoticeRead",
@@ -185,6 +187,7 @@
                     timeout:5000,
                     cache:false,
                 });
+
 
                 if(type == 'friendshipask' || type=='groupinvite') {
                     var informContentHTML = '' +
