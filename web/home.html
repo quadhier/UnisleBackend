@@ -12,6 +12,7 @@
         var messageSocketOpen = false;
         var messageSocket = null;
         var messageUserid = null;
+        var onActivity = true;
         function typeToName(type){
             var name = '';
 
@@ -137,8 +138,8 @@
                         simURLReplace("search.html?aim="+$("#nav_search_input").val());
                     else
                         simURLReplace("search.html");
-
-                })
+                    onActivity = false;
+                });
 
                 $("#nav_search_input").keydown(function (e) {
                     if (e.keyCode == 13) {
@@ -149,7 +150,7 @@
                             simURLReplace("search.html?aim="+$("#nav_search_input").val());
                         else
                             simURLReplace("search.html");
-
+                        onActivity = false;
                     }
                 });
 

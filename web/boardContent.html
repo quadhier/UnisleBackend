@@ -12,11 +12,13 @@
     <script>
         var lived = false;
 
+
         $(document).unbind("ready").ready(function () {
 
             var boardname = externBoardname;
             var themename = externThemename;
             var articleList;
+
             function jumpToArticleContent(articleId, authorId) {
                 var newURL = 'article.html?' + 'id=' + articleId + '&author=' + authorId;
                 simURLReplace(newURL);

@@ -237,7 +237,7 @@
                 //当从论坛首页反复跳转到此页面时此处也会发生多重绑定，但不能用forumFirst控制，否则
                 //从文章页面返回时不能绑定。故将返回论坛首页键也做成刷新主页面
                 $(".title_btn").click(function () {
-                    alert('clicked');
+                    //alert('clicked');
                     var name = $(this).attr('id').split('_')[0];
                     $(".title_btn").css({
                         "backgroundColor": "#ffffff",

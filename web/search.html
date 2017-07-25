@@ -11,6 +11,10 @@
 			var searchType = null;
 
             $(document).unbind('ready').ready(function () {
+                function jumpToArticleContent(articleId, authorId) {
+                    var newURL = 'article.html?' + 'id=' + articleId + '&author=' + authorId;
+                    simURLReplace(newURL);
+                }
 
                 $.ajax({
                     type: "GET",
@@ -104,7 +108,17 @@
 				if(!firstSearch)
 				    return;
                 firstSearch = false;
+				$('.searchRstCardContainer').live('click',function () {
+					var type = $(this).attr('data-type');
 
+					if(type == 'type_self'){
+                        simURLReplace('information.html?user='+$(this).attr('data-userid'));
+					}else if(type == 'type_org'){
+
+					}else if(type == 'type_post'){
+                        jumpToArticleContent($(this).attr('data-articleid'),$(this).attr('data-authorid'));
+					}
+                });
 
             });
 		</script>

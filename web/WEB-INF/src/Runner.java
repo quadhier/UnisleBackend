@@ -301,6 +301,7 @@ public class Runner {
         //System.out.println(ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()) , 1, "friend"));
 
         //System.out.println(ChatDAO.getMessageList("10000000001", "10000000004", new Timestamp(System.currentTimeMillis()), 0, number));//ChatDAO.getUnreadMessageSender("10000000001"));
+        //System.out.println(ActivityDAO.getActivities('10000000005',new Timestamp(System.currentTimeMillis()) ,20,"self"));
         HibernateUtil.closeSessionFactory();
     }
 }
