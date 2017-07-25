@@ -1,23 +1,22 @@
-body
-{
-   margin: 0;
-   padding: 0;
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("../../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
 }
 
-input,textarea
-{
+input, textarea {
     outline: none;
 }
 
-#bg
-{
+#bg {
     position: fixed;
     width: 100%;
     height: 100%;
 }
 
-.container
-{
+.container {
     position: relative;
     width: 990px;
     height: 900px;
@@ -26,8 +25,7 @@ input,textarea
     /*background-color: white;*/
 }
 
-.controlBar
-{
+.controlBar {
     position: relative;
     float: left;
     width: 40px;
@@ -36,8 +34,7 @@ input,textarea
     /*background-color: #5555ff;*/
 }
 
-.controlBar div
-{
+.controlBar div {
     position: relative;
     width: 39px;
     height: 120px;
@@ -45,48 +42,41 @@ input,textarea
     border: 1px solid #666666;
     border-right: 0;
     border-radius: 5px 0 0 5px;
-    background-color: rgba(204,204,204,0.8);
+    background-color: rgba(204, 204, 204, 0.8);
 }
 
-.controlBar div span
-{
+.controlBar div span {
     position: relative;
     top: 25px;
     font-family: 微软雅黑;
     font-size: 16px;
     color: #666666;
     text-shadow: 3px 3px 5px #ffffff;
-    -moz-user-select:none;
-    -webkit-user-select:none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
-.controlBar div:hover
-{
-    background-color: rgba(255,255,255,0.57);
+.controlBar div:hover {
+    background-color: rgba(255, 255, 255, 0.57);
 }
 
-#control_self
-{
-    background-color: rgba(255,255,255,0.57);
+#control_self {
+    background-color: rgba(255, 255, 255, 0.57);
 }
 
-#control_edit
-{
+#control_edit {
     top: 2px;
 }
 
-#control_privacy
-{
+#control_privacy {
     top: 4px;
 }
 
-#control_album
-{
+#control_album {
     top: 6px;
 }
 
-.borderHr
-{
+.borderHr {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -98,8 +88,7 @@ input,textarea
     border-left: 1px solid #666666;
 }
 
-.concreteDivContainer
-{
+.concreteDivContainer {
     position: relative;
     float: right;
     width: 949px;
@@ -107,43 +96,38 @@ input,textarea
     border: 1px solid #666666;
     border-left: 0;
     border-radius: 0 5px 5px 0px;
-    background-color: rgba(255,255,255,0.57);
+    background-color: rgba(255, 255, 255, 0.57);
 }
 
-.concreteDiv
-{
+.concreteDiv {
     position: absolute;
     width: 949px;
     height: 898px;
 }
 
-.self_top
-{
+.self_top {
     position: relative;
     width: 867px;
     height: 418px;
     border: 1px solid #666666;
     margin: 0 auto;
     top: 30px;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
 }
 
-.self_topImg
-{
+.self_topImg {
     position: relative;
     width: 867px;
     height: 210px;
     border-bottom: 1px solid #666666;
 }
 
-.self_topImg img
-{
+.self_topImg img {
     width: 100%;
     height: 100%;
 }
 
-.self_sign
-{
+.self_sign {
     position: absolute;
     width: 400px;
     top: 50px;
@@ -153,15 +137,13 @@ input,textarea
     text-align: center;
 }
 
-.self_sign span
-{
+.self_sign span {
     font-size: 20px;
     font-family: 华文行楷;
     color: #999999;
 }
 
-.self_headImg
-{
+.self_headImg {
     position: absolute;
     left: 50%;
     margin-left: -95px;
@@ -172,14 +154,12 @@ input,textarea
     overflow: hidden;
 }
 
-.self_headImg img
-{
+.self_headImg img {
     width: 100%;
     height: 100%;
 }
 
-.self_top .Btn
-{
+.self_top .Btn {
     width: 80px;
     height: 30px;
     margin: 0 auto;
@@ -187,8 +167,7 @@ input,textarea
     border-radius: 0 0 5px 5px;
 }
 
-#change_img
-{
+#change_img {
     position: absolute;
     top: 0;
     left: 0;
@@ -198,8 +177,7 @@ input,textarea
     opacity: 0;
 }
 
-.self_top_text
-{
+.self_top_text {
     position: relative;
     height: 70px;
     top: 95px;
@@ -207,27 +185,24 @@ input,textarea
     margin: 0 auto;
 }
 
-.self_top_text p
-{
+.self_top_text p {
     margin: 0;
     font-family: 微软雅黑;
     font-size: 28px;
     color: #999999;
 }
 
-.self_middle
-{
+.self_middle {
     position: relative;
     width: 867px;
     height: 198px;
     border: 1px solid #666666;
     margin: 0 auto;
     top: 40px;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-.self_middle_itemContainer
-{
+.self_middle_itemContainer {
     position: relative;
     margin: 0 auto;
     top: 50px;
@@ -235,8 +210,7 @@ input,textarea
     height: 140px;
 }
 
-.self_middle_item
-{
+.self_middle_item {
     position: relative;
     padding: 5px;
     width: 300px;
@@ -244,62 +218,52 @@ input,textarea
     text-align: left;
 }
 
-.self_middle_item span
-{
+.self_middle_item span {
     font-family: 微软雅黑;
     font-size: 14px;
     color: #999999;
 }
 
-#item1
-{
+#item1 {
     left: 70px;
 }
 
-#item2
-{
+#item2 {
     top: 5px;
     left: 70px;
 }
 
-#item3
-{
+#item3 {
     top: 10px;
     left: 70px;
 }
 
-#item4
-{
+#item4 {
     top: 15px;
     left: 70px;
 }
 
-#item5
-{
+#item5 {
     top: -120px;
     left: 477px;
 }
 
-#item6
-{
+#item6 {
     top: -115px;
     left: 477px;
 }
 
-#item7
-{
+#item7 {
     top: -110px;
     left: 477px;
 }
 
-#item8
-{
+#item8 {
     top: -105px;
     left: 477px;
 }
 
-.header
-{
+.header {
     position: relative;
     float: left;
     height: 0;
@@ -308,8 +272,7 @@ input,textarea
     padding: 0;
 }
 
-.header p
-{
+.header p {
     font-family: 微软雅黑;
     margin-left: 10px;
     margin-bottom: 5px;
@@ -317,7 +280,7 @@ input,textarea
     color: #666666;
 }
 
-.head_hr{
+.head_hr {
     position: relative;
     height: 0;
     border: 0;
@@ -326,8 +289,7 @@ input,textarea
     margin: 0;
 }
 
-.self_bottom
-{
+.self_bottom {
     position: relative;
     width: 869px;
     height: 200px;
@@ -335,19 +297,17 @@ input,textarea
     top: 50px;
 }
 
-.self_bottom_left
-{
+.self_bottom_left {
     position: relative;
     width: 428px;
     height: 198px;
     margin: 0;
     border: 1px solid #666666;
     float: left;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-.self_bottom_item
-{
+.self_bottom_item {
     position: relative;
     width: 368px;
     height: 135px;
@@ -356,118 +316,101 @@ input,textarea
     overflow: auto;
 }
 
-.self_bottom_item p
-{
+.self_bottom_item p {
     margin: 0;
     font-family: 微软雅黑;
     font-size: 14px;
     color: #999999;
 }
 
-.self_bottom_right
-{
+.self_bottom_right {
     position: relative;
     width: 428px;
     height: 198px;
     border: 1px solid #666666;
     margin: 0;
     float: right;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-.edit_container
-{
+.edit_container {
     position: relative;
     width: 400px;
     height: 810px;
     top: 44px;
 }
 
-#edit_left
-{
+#edit_left {
     float: left;
     left: 40px;
 }
 
-#edit_right
-{
+#edit_right {
     float: right;
     right: 40px;
 }
 
-#verticalLine
-{
+#verticalLine {
     position: relative;
     margin: 0 auto;
     width: 0;
     top: 50px;
     height: 798px;
-    border-color: rgba(153,153,153,0.4);
+    border-color: rgba(153, 153, 153, 0.4);
 }
 
-.edit_info
-{
+.edit_info {
     position: relative;
     width: 400px;
     height: 580px;
 }
 
-#input1
-{
+#input1 {
     top: 60px;
     left: 10px;
 }
 
-#input2
-{
+#input2 {
     top: 75px;
     left: 10px;
 }
 
-#input3
-{
+#input3 {
     top: 90px;
     left: 10px;
 }
 
-#input4
-{
+#input4 {
     top: 105px;
     left: 10px;
 }
 
-#input5
-{
+#input5 {
     top: 120px;
     left: 10px;
 }
 
-#input6
-{
+#input6 {
     top: 135px;
     left: 10px;
 }
 
-#input7
-{
+#input7 {
     top: 150px;
     left: 10px;
 }
 
-#select_sex
-{
+#select_sex {
     top: 165px;
     left: 10px;
 }
 
-#select_birth
-{
+#select_birth {
     top: 180px;
     left: 10px;
 }
 
-#select_birth span
-{
+#select_birth span {
     position: relative;
     float: left;
     margin-left: 10px;
@@ -477,8 +420,7 @@ input,textarea
     color: #333333;
 }
 
-#select_birth input
-{
+#select_birth input {
     position: relative;
     float: right;
     width: 330px;
@@ -490,22 +432,19 @@ input,textarea
     color: #333333;
 }
 
-.edit_description
-{
+.edit_description {
     position: relative;
     width: 400px;
     height: 230px;
 }
 
-.edit_hobby
-{
+.edit_hobby {
     position: relative;
     width: 400px;
     height: 520px;
 }
 
-.hobby_head
-{
+.hobby_head {
     position: relative;
     float: left;
     height: 30px;
@@ -513,74 +452,65 @@ input,textarea
     left: 10px;
 }
 
-.hobby_head span
-{
+.hobby_head span {
     font-family: 微软雅黑;
     margin-left: 10px;
     font-size: 15px;
     color: #666666;
 }
 
-#input8,#input9,#input10,#input11,#input12,#input13
-{
+#input8, #input9, #input10, #input11, #input12, #input13 {
     top: 45px;
     left: 10px;
 }
 
-.edit_sign
-{
+.edit_sign {
     position: relative;
     width: 400px;
     height: 230px;
 }
 
-.edit_button
-{
+.edit_button {
     position: relative;
     width: 400px;
     height: 60px;
 }
 
-.edit_button .Btn
-{
+.edit_button .Btn {
     position: relative;
     width: 100px;
     top: 15px;
 }
 
-#edit_confirm
-{
+#edit_confirm {
     float: left;
     left: 60px;
     border: 0;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 16px;
     font-family: '微软雅黑';
 }
 
-#edit_cancel
-{
+#edit_cancel {
     float: right;
     right: 60px;
     border: 0;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 16px;
     font-family: '微软雅黑';
 }
 
-.privacy_top
-{
+.privacy_top {
     position: relative;
     width: 869px;
     height: 270px;
     margin: 0 auto;
     top: 34px;
     border: 1px solid #797979;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-.settingContainer
-{
+.settingContainer {
     position: relative;
     width: 829px;
     height: 220px;
@@ -588,52 +518,45 @@ input,textarea
     left: 40px;
 }
 
-.settingContainer .header p
-{
+.settingContainer .header p {
     margin-left: 0;
     font-size: 18px;
     color: #999999;
 }
 
-.settingContainer .head_hr
-{
+.settingContainer .head_hr {
     float: left;
     width: 60px;
 }
 
-.settingContainer .Btn
-{
+.settingContainer .Btn {
     float: right;
     top: 135px;
     right: -30px;
     width: 45px;
     height: 25px;
-    background: rgba(0,184,0,0.8);
+    background: rgba(0, 184, 0, 0.8);
 }
 
-.settingContainer .Btn:hover
-{
-    background: rgba(0,184,0,1);
+.settingContainer .Btn:hover {
+    background: rgba(0, 184, 0, 1);
 }
 
-.settingContainer .Btn span
-{
+.settingContainer .Btn span {
     font-size: 13px;
 }
 
-.privacy_bottom
-{
+.privacy_bottom {
     position: relative;
     width: 869px;
     height: 550px;
     margin: 0 auto;
     top: 44px;
     border: 1px solid #797979;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-.blacklistContainer
-{
+.blacklistContainer {
     position: relative;
     width: 801px;
     height: 412px;
@@ -645,8 +568,7 @@ input,textarea
     overflow: auto;
 }
 
-.blacklistContainer .blackCard
-{
+.blacklistContainer .blackCard {
     position: relative;
     width: 801px;
     height: 40px;
@@ -654,8 +576,7 @@ input,textarea
     background-color: lightgrey;
 }
 
-.blacklistContainer .blackCard_selected
-{
+.blacklistContainer .blackCard_selected {
     position: relative;
     width: 801px;
     height: 40px;
@@ -663,8 +584,7 @@ input,textarea
     background-color: orange;
 }
 
-.blacklistContainer .blackTitle
-{
+.blacklistContainer .blackTitle {
     position: relative;
     float: left;
     height: 30px;
@@ -674,8 +594,7 @@ input,textarea
     font-family: '微软雅黑';
 }
 
-.blacklistContainer .blackMail
-{
+.blacklistContainer .blackMail {
     position: relative;
     float: right;
     height: 20px;
@@ -684,15 +603,13 @@ input,textarea
     font-family: '微软雅黑';
 }
 
-.privacy_bottom .Btn
-{
+.privacy_bottom .Btn {
     float: right;
     top: 80px;
     right: 30px;
 }
 
-.Btn
-{
+.Btn {
     position: relative;
     width: 90px;
     height: 30px;
@@ -700,26 +617,23 @@ input,textarea
     background-color: #006285;
     text-align: center;
     cursor: pointer;
-    -moz-user-select:none;
-    -webkit-user-select:none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
-.Btn:hover
-{
-    background-color: rgba(0,98,133,0.8);
+.Btn:hover {
+    background-color: rgba(0, 98, 133, 0.8);
 }
 
-.Btn span
-{
+.Btn span {
     position: relative;
     top: 3px;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 16px;
     font-family: '微软雅黑';
 }
 
-.textContainer
-{
+.textContainer {
     position: relative;
     height: 40px;
     width: 380px;
@@ -730,8 +644,7 @@ input,textarea
     border-radius: 5px;
 }
 
-.textContainer select
-{
+.textContainer select {
     position: relative;
     border: 0;
     margin-top: 5px;
@@ -744,14 +657,13 @@ input,textarea
     color: #333333;
     outline: none;
 
-    appearance:none;
-    -moz-appearance:none;
-    -webkit-appearance:none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     background: transparent;
 }
 
-.text_input
-{
+.text_input {
     position: relative;
     margin-top: 5px;
     margin-left: 10px;
@@ -764,13 +676,11 @@ input,textarea
     color: #cccccc;
 }
 
-.text_input:focus
-{
+.text_input:focus {
     color: #333333;
 }
 
-.textAreaContainer
-{
+.textAreaContainer {
     position: relative;
     width: 380px;
     height: 150px;
@@ -781,8 +691,7 @@ input,textarea
     border-radius: 5px;
 }
 
-.textAreaContainer textarea
-{
+.textAreaContainer textarea {
     position: relative;
     width: 360px;
     height: 130px;
@@ -796,28 +705,24 @@ input,textarea
     overflow: hidden;
 }
 
-.textAreaContainer textarea:focus
-{
+.textAreaContainer textarea:focus {
     color: #333333;
 }
 
 /*分页模板CSS*/
-div #container
-{
+div #container {
     position: relative;
     margin: 0 auto;
     height: 600px;
 }
 
-.holder
-{
+.holder {
     position: relative;
     margin: 15px 0;
-    text-align:center;
+    text-align: center;
 }
 
-.holder a
-{
+.holder a {
     border: 1px solid #666666;
     border-radius: 25px;
     font-size: 12px;
@@ -826,73 +731,62 @@ div #container
     cursor: pointer;
     margin: 0 10px;
     color: #666666;
-    padding:0 5px;
+    padding: 0 5px;
 }
 
-.holder a:hover
-{
+.holder a:hover {
     border-color: #ffffff;
     background-color: lightblue;
     color: white;
 }
 
-.holder a.jp-previous
-{
+.holder a.jp-previous {
     margin-right: 15px;
 }
 
-.holder a.jp-next
-{
+.holder a.jp-next {
     margin-left: 15px;
 }
 
-.holder a.jp-current, a.jp-current:hover
-{
+.holder a.jp-current, a.jp-current:hover {
     color: #5555ff;
     border-color: #5555ff;
     font-weight: bold;
 }
 
-.holder a.jp-disabled, a.jp-disabled:hover
-{
+.holder a.jp-disabled, a.jp-disabled:hover {
     color: lightgrey;
     border-color: lightgrey;
 }
 
 .holder a.jp-current, a.jp-current:hover,
-.holder a.jp-disabled, a.jp-disabled:hover
-{
+.holder a.jp-disabled, a.jp-disabled:hover {
     cursor: default;
     background: none;
 }
 
-.holder span
-{
+.holder span {
     margin: 0 5px;
 }
 
-#allSelect
-{
+#allSelect {
     float: left;
     left: 60px;
     top: 20px;
 }
 
-#photo_delete
-{
+#photo_delete {
     float: right;
     right: 60px;
     top: 20px;
 }
 
-#addPhoto
-{
+#addPhoto {
     margin: 0 auto;
     top: 20px;
 }
 
-#addPhoto_input
-{
+#addPhoto_input {
     position: absolute;
     top: 0;
     left: 0;
@@ -902,33 +796,29 @@ div #container
     z-index: 1;
 }
 
-#itemContainer .checked
-{
+#itemContainer .checked {
     position: absolute;
     right: 0;
     width: 40px;
     height: 40px;
     z-index: 3;
-    background-color: rgba(255,255,255,0);
+    background-color: rgba(255, 255, 255, 0);
 }
 
-div #content
-{
+div #content {
     position: relative;
     margin: 0 auto;
     top: 20px;
     width: 850px;
 }
 
-#itemContainer
-{
+#itemContainer {
     padding: 0;
     text-align: center;
     z-index: 1;
 }
 
-#itemContainer .photo_default
-{
+#itemContainer .photo_default {
     position: relative;
     float: left;
     width: 150px;
@@ -937,9 +827,7 @@ div #content
     z-index: 2;
 }
 
-
-#itemContainer .photo_selected
-{
+#itemContainer .photo_selected {
     position: relative;
     float: left;
     width: 150px;
@@ -948,81 +836,81 @@ div #content
     z-index: 2;
 }
 
-#itemContainer img
-{
+#itemContainer img {
     width: 100%;
     height: 100%;
 }
 
-
-.switchContainer
-{
+.switchContainer {
     position: relative;
     float: right;
 }
 
-#activityVisibilityContainer
-{
+#activityVisibilityContainer {
     right: 60px;
     top: 15px;
 }
 
-#receiveInfoContainer
-{
+#receiveInfoContainer {
     right: 15px;
     top: 75px;
 }
 
-#activityVisibility{
+#activityVisibility {
     width: 45px;
     height: 25px;
     border-radius: 50px;
     position: relative;
 }
 
-#activityVisibility_2{
+#activityVisibility_2 {
     width: 23px;
     height: 23px;
     border-radius: 48px;
     position: absolute;
     background: white;
     cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-#receiveInfo{
+#receiveInfo {
     width: 45px;
     height: 25px;
     border-radius: 50px;
     position: relative;
 }
-#receiveInfo_2{
+
+#receiveInfo_2 {
     width: 23px;
     height: 23px;
     border-radius: 48px;
     position: absolute;
     background: white;
     cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
-.open1{
-    background: rgba(0,184,0,0.8);
+
+.open1 {
+    background: rgba(0, 184, 0, 0.8);
 }
-.open2{
+
+.open2 {
     top: 1px;
     right: 1px;
 }
-.close1{
-    background: rgba(255,255,255,0.4);
-    border:1px solid rgba(0,0,0,0.15);
+
+.close1 {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     width: 43px;
     height: 23px;
     border-left: transparent;
 }
-.close2{
+
+.close2 {
     left: 1px;
     top: -1px;
     width: 21px;
     height: 21px;
-    border:1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }

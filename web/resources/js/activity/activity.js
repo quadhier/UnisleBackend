@@ -616,37 +616,71 @@ $(document).ready(function () {
     * 为群组公告部分绑定按键
     *
     * */
-
-    $(".message_content").hide();
-
-    $(".message_title").hover(function () {
-        $(this).css({
-            "opacity": "0.7"
+    {
+        var articleEntityList = null;
+        $.ajax({
+            type: "GET",
+            url: "forum/getMostRead",
+            dataType: "json",
+            data: {
+                "maxnumber":5
+            },
+            timeout: 5000,
+            async:false,
+            success:function (res) {
+                if(res.result != "SUCCESS")
+                    alert("获取最热文章失败");
+                articleEntityList = res.data;
+            }
         });
-    }, function () {
-        $(this).css({
-            "opacity": "1"
-        });
-    });
+        for(var i =0;i<articleEntityList.length;i++){
+            $('.messageDiv',$('#floatRight')).append(
+            '<div class="message_title" data-articleid = "'+articleEntityList[i].articleid+'" data-authorid = "'+articleEntityList[i].author+'" data-content = "'+articleEntityList[i].content+'">'+
+                '<span>'+'【访问量:'+articleEntityList[i].viewtimes+'】 '+articleEntityList[i].title+'</span>'+
+            '</div>'
+            );
+        }
 
-    $(".message_title").click(function () {
-        $(".message_content p").text("This is a public message");
-        $("#headline").slideUp(500, function () {
-            $(".message_title").slideUp(500, function () {
-                $(".message_content").slideDown(500);
+        $(".message_content").hide();
+
+        $(".message_title").hover(function () {
+            $(this).css({
+                "opacity": "0.7"
+            });
+        }, function () {
+            $(this).css({
+                "opacity": "1"
             });
         });
-        $(".message_content").hover(function () {
-        }, function () {
 
-            $(".message_content").slideUp(500, function () {
-                $("#headline").slideDown(500, function () {
-                    $(".message_title").slideDown(500);
+        $(".message_title").click(function () {
+            var content = $(this).attr('data-content');
+            content = '文章摘要:<br>'+content;
+
+            if(content.length>50){
+                content = content.substr(0,50)+'...';
+            }
+            content = content + '<br>(更多精彩请访问论坛)'
+
+            $(".message_content p").html(content);
+            $("#headline").slideUp(500, function () {
+                $(".message_title").slideUp(500, function () {
+                    $(".message_content").slideDown(500);
                 });
             });
+            $(".message_content").hover(function () {
+            }, function () {
 
+                $(".message_content").slideUp(500, function () {
+                    $("#headline").slideDown(500, function () {
+                        $(".message_title").slideDown(500);
+                    });
+                });
+
+            });
         });
-    });
+
+    }
 
 
 

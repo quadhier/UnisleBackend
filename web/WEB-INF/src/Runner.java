@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/10.
- */
+
 public class Runner {
     private static void printList(List li){
         for(Object o:li)
@@ -294,7 +294,7 @@ public class Runner {
         UserInfoDAO.createUser("test006@163.com","t06","pswd","male",null,null,null,null);
         FriendshipDAO.addFriendship("10000000002","10000000006");
         System.out.println(?"yes":"no");
-        */
+
         //System.out.println(FriendshipDAO.getInterestedUserInfoList("10000000001",10).toString());
         //System.out.println(FriendshipDAO.getInterestedGroupInfoList("10000000001",10).toString());
 
@@ -305,3 +305,4 @@ public class Runner {
         HibernateUtil.closeSessionFactory();
     }
 }
+*/

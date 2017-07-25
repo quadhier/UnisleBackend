@@ -41,6 +41,32 @@ import java.util.List;
 @RequestMapping("/forum")
 public class ForumController {
 
+    @RequestMapping(value = "/getMostRead", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getMostRead(HttpServletRequest request,
+                                @RequestParam(value = "latesttime", required = false) Timestamp time,
+                                @RequestParam(value = "maxnumber") int max) {
+
+        ResultInfo rinfo = new ResultInfo();
+        List resultList = null;
+        try{
+            if(time == null)
+                resultList = ForumDAO.getMostReadArticle(new Timestamp(Long.parseLong("0")),max);
+            else
+                resultList = ForumDAO.getMostReadArticle(time,max);
+        }catch(Exception e){
+            e.printStackTrace();
+            rinfo.setResult("ERROR");
+            rinfo.setReason("E_GET_FAILED");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(resultList);
+
+        return rinfo;
+    }
+
     @RequestMapping(value = "/searchArticle", method = RequestMethod.GET)
     @ResponseBody
     public Object searchArticle(HttpServletRequest request,
