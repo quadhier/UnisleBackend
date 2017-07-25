@@ -170,6 +170,27 @@ body
     color: #666666;
 }
 
+.searchRstDiv
+{
+    width: 900px;
+    height: 660px;
+    background-color: rgba(255,255,255,0.57);
+    position: relative;
+    top: 70px;
+    left: 50px;
+    float: left;
+}
+
+#searchRst
+{
+    position: relative;
+    width: 880px;
+    height: 620px;
+    top: 20px;
+    left: 10px;
+    background-color: rgba(255,255,255,0.8);
+}
+
 .searchRstCardContainer
 {
     position: relative;

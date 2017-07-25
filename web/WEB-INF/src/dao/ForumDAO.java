@@ -19,6 +19,33 @@ public class ForumDAO {
     private ForumDAO(){}
     public static final int EXPS_PER_LEVEL = 2000;
 
+    public static List searchArticleByName(String name){
+        String hql = "from ArticleEntity article where article.title like :sim order by article.publicdatetime desc";
+        Map params = new HashMap();
+        params.put("sim","%"+name+"%");
+
+        return CommonDAO.queryHql(hql,params);
+    }
+
+    public static List getMostReadArticle(Timestamp publicTimeBeforeThis, int numOfResult){
+        Session s = null;
+        List result = null;
+        try{
+            s = HibernateUtil.getSession();
+
+            String hql = "from ArticleEntity article where article.publicdatetime >=:time order by article.viewtimes desc";
+            Query q = s.createQuery(hql);
+            q.setParameter("time",publicTimeBeforeThis);
+            q.setMaxResults(numOfResult);
+            result = q.list();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return result;
+    }
+
     public static boolean addTheme(String themename,String boardname){
         String hql = "select distinct b.boardname from BoardEntity b";
         List boardnameList = CommonDAO.queryHql(hql,null);

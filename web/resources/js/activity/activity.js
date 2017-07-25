@@ -234,6 +234,10 @@ $(document).ready(function () {
 
     //var hasMore = true;
     $(window).scroll(function () {
+        //!!!!!!
+        //从主页进入搜索页面时有bug，会导致搜索页面滚动条也触发加载动态事件，故使用全局变量加以控制
+        if(!onActivity)
+            return;
 
         var scrollTop = $(this).scrollTop();
         var scrollHeight = document.body.scrollHeight;

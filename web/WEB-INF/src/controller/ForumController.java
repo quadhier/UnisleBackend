@@ -41,6 +41,28 @@ import java.util.List;
 @RequestMapping("/forum")
 public class ForumController {
 
+    @RequestMapping(value = "/searchArticle", method = RequestMethod.GET)
+    @ResponseBody
+    public Object searchArticle(HttpServletRequest request,
+                                @RequestParam(value = "name") String name) {
+
+        ResultInfo rinfo = new ResultInfo();
+        List resultList = null;
+        try{
+            resultList = ForumDAO.searchArticleByName(name);
+        }catch(Exception e){
+            e.printStackTrace();
+            rinfo.setResult("ERROR");
+            rinfo.setReason("E_SEARCH_FAILED");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(resultList);
+
+        return rinfo;
+    }
+
 
     // Helper Function
     // 将整型权限的转化为字符串
