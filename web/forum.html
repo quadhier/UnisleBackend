@@ -7,19 +7,8 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="js/forum/forum.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="js/forum/forum.js"></script>
 
-        $(document).unbind("ready").bind("ready",function () {
-            forumFirst = true;
-            //$('.board_div').die();
-            $('.board_div').live('click',function () {
-                var boardcount = $(this).attr('title');
-                var newURL = 'board.html?board='+ boardcount;
-                //window.location.replace(newURL);
-                simURLReplace(newURL);
-            });
-        });
-    </script>
     <title>Forum</title>
 </head>
 <body>
