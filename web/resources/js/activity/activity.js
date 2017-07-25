@@ -80,6 +80,12 @@ $(document).ready(function () {
     }
 
 
+    // 产生随机图片后缀，强制图片更新
+    function randomTail() {
+        return "?r=" + Math.random();
+    }
+
+
     // 储存用户名
     var userName;
     // 储存用户id
@@ -143,7 +149,7 @@ $(document).ready(function () {
                 userheadImgNode.src = "pic/userpic/female.jpeg";
             }
             if (userheadImg !== null && userheadImg !== "") {
-                userheadImgNode.src = userheadImg;
+                userheadImgNode.src = userheadImg + randomTail();
             } else {
                 userheadImgNode.src = "pic/userpic/default.jpg";
                 if(sex === "male") {

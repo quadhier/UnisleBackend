@@ -36,6 +36,19 @@ public class ControllerUtil {
         return String.valueOf(num);
     }
 
+    // 发送密码至邮箱
+    public static boolean sendPasswd(String contact, String passwd) {
+        System.out.println("Start");
+        MailUtil mailUtil = new MailUtil();
+        mailUtil.setAddress("1042219769@qq.com", contact, "密码");
+        mailUtil.send("smtp.qq.com",
+                "1042219769@qq.com",
+                "opfsuopswljebfdd",
+                "您的Unisle密码为" + passwd + "请注意保存");
+        System.out.println("Finished");
+        return true;
+    }
+
     // 发送验证码至邮箱
     public static boolean sendEmail(String contact, String vcode) {
         System.out.println("Start");

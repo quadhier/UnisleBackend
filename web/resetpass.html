@@ -7,22 +7,23 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
-		<script src="js/activity/activity.js"></script>
+		<script src="js/jquery-form-3.51.0.min.js"></script>
+		<script src="js/passmanage/resetpass.js"></script>
 		<title>Reset Password</title>
 	</head>
 	<body>
 	<img id="bg" src="images/bg.jpg" rel="background">
 		<div id="resetPassPanel">
-			<form class="form-horizontal" style="margin: 25px 0px 0px 0px;">
+			<form id="resetpassForm" class="form-horizontal" style="margin: 25px 0px 0px 0px;">
 				<center>
 					<div class="form-group" style="margin: 0">
     					<p class="poem">新密码</p>
   					</div>
   					<div class="form-group" style="margin: 10px 50px 20px 50px; ">
-    					<input type="password" class="form-control " id="Password3" placeholder="创建密码">
+    					<input type="password" name="newpassword" class="form-control " id="Password3" placeholder="创建密码">
   					</div>
   					<div class="form-group " style="margin: 0px 50px 5px 50px; ">
-    					<input type="password" class="form-control " id="Password4" placeholder="再次输入新密码">
+    					<input type="password" name="cfmpassword" class="form-control " id="Password4" placeholder="再次输入新密码">
   					</div>
  					<button type="submit" class="Btn1 btn btn-primary" style="display:inline;padding: 5px 30px;margin: 20px 80px;background-color: #006285;">
   						提交

@@ -1,4 +1,4 @@
-﻿       <!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" charset="UTF-8">
@@ -12,76 +12,91 @@
     <title>Self</title>
 </head>
 <body>
-    <img id="bg" src="images/bg.jpg" rel="background">
-    <div class="container">
-        <!--控制按钮-->
-        <div class="controlBar">
-            <div id="control_self"><span>个<br><br>人</span></div>
-            <div id="control_edit"><span>编<br><br>辑</span></div>
-            <div id="control_privacy"><span>隐<br><br>私</span></div>
-            <div id="control_album"><span>相<br><br>册</span></div>
-        </div>
+<img id="bg" src="images/bg.jpg" rel="background">
+<div class="container">
+    <!--控制按钮-->
+    <div class="controlBar">
+        <div id="control_self"><span>个<br><br>人</span></div>
+        <div id="control_edit"><span>编<br><br>辑</span></div>
+        <div id="control_privacy"><span>隐<br><br>私</span></div>
+        <div id="control_album"><span>相<br><br>册</span></div>
+    </div>
 
-        <!--具体页面内容-->
-        <div class="concreteDivContainer">
+    <!--具体页面内容-->
+    <div class="concreteDivContainer">
 
-            <!--个人信息-->
-            <div id="self_concrete" class="concreteDiv">
+        <!--个人信息-->
+        <div id="self_concrete" class="concreteDiv">
 
-                <!--头像栏-->
-                <div class="self_top">
-                    <div class="self_sign"><span>个性签名</span></div>
-                    <div class="self_topImg"><img src="images/self/headimg.png"></div>
-                    <div class="self_headImg"><img id="userpic" src="images/self/headimg.png"></div>
+            <!--头像栏-->
+            <div class="self_top">
+                <div class="self_sign"><span>个性签名</span></div>
+                <div class="self_topImg"><img src="images/self/topimg.png"></div>
+                <div class="self_headImg"><img id="userpic" src="images/self/headimg.png"></div>
 
-                    <form id="picForm" enctype="multipart/form-data">
-                        <div class="Btn"><input name="userpic" type="file" style="position: absolute;opacity: 0;width: 80px;height: 30px;top: 0;z-index: 1"><span>更 改</span></div>
-                    </form>
+                <form id="picForm" enctype="multipart/form-data">
+                    <div class="Btn"><input name="userpic" type="file" style="position: absolute;opacity: 0;width: 80px;height: 30px;top: 0;z-index: 1"><span>更 改</span></div>
+                </form>
 
-                    <div class="self_top_text">
-                        <p>昵称</p>
-                        <p style="font-size: 20px">所属学校</p>
-                    </div>
-                </div>
-
-                <!--个人信息栏-->
-                <div class="self_middle">
-                    <div class="header"><p>基本资料</p><hr class="head_hr"/></div>
-                    <div class="self_middle_itemContainer">
-                        <div id="item1" class="self_middle_item"><span>姓名：&nbsp;&nbsp; </span><span id="drealname">Gobang</span></div>
-                        <div id="item2" class="self_middle_item"><span>学校：&nbsp;&nbsp; </span><span id="dschool">Gobang</span></div>
-                        <div id="item3" class="self_middle_item"><span>院系：&nbsp;&nbsp; </span><span id="dmajor">Gobang</span></div>
-                        <div id="item4" class="self_middle_item"><span>年级：&nbsp;&nbsp; </span><span id="dgrade">Gobang</span></div>
-                        <div id="item5" class="self_middle_item"><span>性别：&nbsp;&nbsp; </span><span id="dsex">Gobang</span></div>
-                        <div id="item6" class="self_middle_item"><span>生日：&nbsp;&nbsp; </span><span id="dbirthday">Gobang</span></div>
-                        <div id="item7" class="self_middle_item"><span>地区：&nbsp;&nbsp; </span><span id="darea">Gobang</span></div>
-                        <div id="item8" class="self_middle_item"><span>联系：&nbsp;&nbsp; </span><span id="dcontact">Gobang</span></div>
-                    </div>
-                </div>
-
-                <!--兴趣及简介-->
-                <div class="self_bottom">
-                    <div class="self_bottom_left">
-                        <div class="header"><p>兴趣爱好</p><hr class="head_hr"/></div>
-                        <div class="self_bottom_item">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                        </div>
-                    </div>
-                    <div class="self_bottom_right">
-                        <div class="header"><p>个人简介</p><hr class="head_hr"/></div>
-                        <div class="self_bottom_item">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                        </div>
-                    </div>
+                <div class="self_top_text">
+                    <p>昵称</p>
+                    <p style="font-size: 20px">所属学校</p>
                 </div>
             </div>
 
-            <!--编辑信息-->
-            <div id="edit_concrete" class="concreteDiv" style="display: none;">
-                <form id="userForm">
+            <!--个人信息栏-->
+            <div class="self_middle">
+                <div class="header"><p>基本资料</p>
+                    <hr class="head_hr"/>
+                </div>
+                <div class="self_middle_itemContainer">
+                    <div id="item1" class="self_middle_item"><span>姓名：&nbsp;&nbsp; </span><span id="drealname">Gobang</span></div>
+                    <div id="item2" class="self_middle_item"><span>学校：&nbsp;&nbsp; </span><span id="dschool">Gobang</span></div>
+                    <div id="item3" class="self_middle_item"><span>院系：&nbsp;&nbsp; </span><span id="dmajor">Gobang</span></div>
+                    <div id="item4" class="self_middle_item"><span>年级：&nbsp;&nbsp; </span><span id="dgrade">Gobang</span></div>
+                    <div id="item5" class="self_middle_item"><span>性别：&nbsp;&nbsp; </span><span id="dsex">Gobang</span></div>
+                    <div id="item6" class="self_middle_item"><span>生日：&nbsp;&nbsp; </span><span id="dbirthday">Gobang</span></div>
+                    <div id="item7" class="self_middle_item"><span>地区：&nbsp;&nbsp; </span><span id="darea">Gobang</span></div>
+                    <div id="item8" class="self_middle_item"><span>联系：&nbsp;&nbsp; </span><span id="dcontact">Gobang</span></div>
+                </div>
+            </div>
+
+            <!--兴趣及简介-->
+            <div class="self_bottom">
+                <div class="self_bottom_left">
+                    <div class="header"><p>兴趣爱好</p>
+                        <hr class="head_hr"/>
+                    </div>
+                    <div class="self_bottom_item">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
+                            Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar
+                            tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                            mus.</p>
+                    </div>
+                </div>
+                <div class="self_bottom_right">
+                    <div class="header"><p>个人简介</p>
+                        <hr class="head_hr"/>
+                    </div>
+                    <div class="self_bottom_item">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
+                            Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar
+                            tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                            mus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--编辑信息-->
+        <div id="edit_concrete" class="concreteDiv" style="display: none;">
+            <form id="userForm">
                 <div id="edit_left" class="edit_container">
                     <div class="edit_info">
-                        <div class="header"><p>基本信息</p><hr class="head_hr"/></div>
+                        <div class="header">
+                            <p>基本信息</p>
+                            <hr class="head_hr"/>
+                        </div>
                         <div id="input1" class="textContainer"><input class="text_input" name="realname" id="irealname" type="text" placeholder="真实姓名"></div>
                         <div id="input2" class="textContainer"><input class="text_input" name="nickname" id="inickname" type="text" placeholder="昵称"></div>
                         <div id="input3" class="textContainer"><input class="text_input" name="school" id="ischool" type="text" placeholder="学校"></div>
@@ -94,16 +109,22 @@
                             <option value="male">男</option>
                             <option value="female">女</option>
                         </select></div>
-                        <div id="select_birth" class="textContainer"><span>生日</span><input name="birthday" id="ibirthday" type="date"/></div>
+                        <div id="select_birth" class="textContainer"><span>生日</span><input name="birthday" id="ibirthday" type="date"/>
+                        </div>
                     </div>
                     <div class="edit_description">
-                        <div class="header"><p>个人简介</p><hr class="head_hr"/></div>
-                        <div id="description_input" class="textAreaContainer"><textarea name="description" id="idescription" placeholder="还没有简介哦~让更多的人了解你吧~~~"></textarea></div>
+                        <div class="header"><p>个人简介</p>
+                            <hr class="head_hr"/>
+                        </div>
+                        <div id="description_input" class="textAreaContainer"><textarea name="description" id="idescription" placeholder="还没有简介哦~让更多的人了解你吧~~~"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div id="edit_right" class="edit_container">
                     <div class="edit_hobby">
-                        <div class="header"><p>兴趣爱好</p><hr class="head_hr"/></div>
+                        <div class="header"><p>兴趣爱好</p>
+                            <hr class="head_hr"/>
+                        </div>
                         <div class="hobby_head"><span>音乐</span></div>
                         <div id="input8" class="textContainer"><input class="text_input" name="music" id="imusic" type="text" placeholder="音乐"></div>
                         <div class="hobby_head"><span>体育</span></div>
@@ -115,10 +136,11 @@
                         <div class="hobby_head"><span>游戏</span></div>
                         <div id="input12" class="textContainer"><input class="text_input" name="game" id="igame" type="text" placeholder="游戏"></div>
                         <div class="hobby_head"><span>其它</span></div>
-                        <div id="input13" class="textContainer"><input class="text_input" name="other" id="iother" type="text" placeholder="其它"></div>
-                    </div>
+                        <div id="input13" class="textContainer"><input class="text_input" name="other" id="iother" type="text" placeholder="其它"></div></div>
                     <div class="edit_sign">
-                        <div class="header"><p>个性签名</p><hr class="head_hr"/></div>
+                        <div class="header"><p>个性签名</p>
+                            <hr class="head_hr"/>
+                        </div>
                         <div id="sign_input" class="textAreaContainer"><textarea name="signature" id="isignature" placeholder="来个引人眼球的签名吧~~~"></textarea></div>
                     </div>
                     <div class="edit_button">
@@ -126,60 +148,64 @@
                         <input id="edit_cancel" type="reset" class="Btn" value="取消">
                     </div>
                 </div>
-                </form>
-                <hr id="verticalLine"/>
-            </div>
-
-            <!--隐私设置-->
-            <div id="privacy_concrete" class="concreteDiv" style="display: none">
-                <div class="privacy_top">
-                    <div class="header"><p>隐私设置</p><hr class="head_hr"/></div>
-                    <div class="settingContainer">
-                        <div class="header"><p>更改动态可见性</p><hr class="head_hr"/></div>
-                        <div class="header" style="top: 60px"><p>是否接收通知</p><hr class="head_hr"/></div>
-                        <div class="header" style="top: 120px"><p>修改密码</p><hr class="head_hr"/></div>
-                        <div id="activityVisibilityContainer" class="switchContainer">
-                            <div id="activityVisibility" class="open1">
-                                <div id="activityVisibility_2" class="open2"></div>
-                            </div>
-                        </div>
-                        <div id="receiveInfoContainer" class="switchContainer">
-                            <div id="receiveInfo" class="open1">
-                                <div id="receiveInfo_2" class="open2"></div>
-                            </div>
-                        </div>
-                        <div class="Btn"><span>修改</span></div>
-                    </div>
-                </div>
-                <div class="privacy_bottom">
-                    <div class="header"><p>黑名单</p><hr class="head_hr"/></div>
-                    <div class="blacklistContainer"></div>
-                    <div class="Btn"><span>移除</span></div>
-                </div>
-
-            </div>
-
-            <!--编辑相册-->
-            <div id="album_concrete" class="concreteDiv" style="display: none">
-                <div id="container" class="clearfix">
-                    <!--! end of #sidebar -->
-                    <div id="content" class="defaults">
-
-                        <ul id="itemContainer">
-
-                            <!--photos添加在这里-->
-
-                        </ul>
-                        <!-- navigation holder -->
-                        <div class="holder">
-                        </div>
-                    </div>
-                    <!--! end of #content -->
-                </div>
-            </div>
+            </form>
+            <hr id="verticalLine"/>
         </div>
 
-        <hr class="borderHr">
+        <!--隐私设置-->
+        <div id="privacy_concrete" class="concreteDiv" style="display: none">
+            <div class="privacy_top">
+                <div class="header"><p>隐私设置</p><hr class="head_hr"/></div>
+                <div class="settingContainer">
+                    <div class="header"><p>空间锁</p><hr class="head_hr"/></div>
+                    <div class="header" style="top: 60px"><p>是否接收通知</p><hr class="head_hr"/></div>
+                    <div class="header" style="top: 120px"><p>修改密码</p><hr class="head_hr"/></div>
+                    <div id="activityVisibilityContainer" class="switchContainer">
+                        <div id="activityVisibility" class="open1">
+                            <div id="activityVisibility_2" class="open2"></div>
+                        </div>
+                    </div>
+                    <div id="receiveInfoContainer" class="switchContainer">
+                        <div id="receiveInfo" class="open1">
+                            <div id="receiveInfo_2" class="open2"></div>
+                        </div>
+                    </div>
+                    <div class="Btn" id="changepass"><span>修改</span></div>
+                </div>
+            </div>
+            <div class="privacy_bottom">
+                <div class="header"><p>黑名单</p><hr class="head_hr"/></div>
+                <div class="blacklistContainer">
+                </div>
+                <div id="black_delete" class="Btn"><span>移除</span></div>
+            </div>
+
+        </div>
+
+        <!--编辑相册-->
+        <div id="album_concrete" class="concreteDiv" style="display: none">
+            <div id="container" class="clearfix">
+                <!--! end of #sidebar -->
+                <div id="allSelect" class="Btn"><span>全选</span></div>
+                <div id="photo_delete" class="Btn"><span>删除</span></div>
+                <div id="addPhoto" class="Btn"><span>添加</span><input id="addPhoto_input" type="file" class="Btn"></div>
+                <div id="content" class="defaults">
+
+                    <ul id="itemContainer">
+
+                        <!--photos添加在这里-->
+
+                    </ul>
+                    <!-- navigation holder -->
+                    <div class="holder">
+                    </div>
+                </div>
+                <!--! end of #content -->
+            </div>
+        </div>
     </div>
+
+    <hr class="borderHr">
+</div>
 </body>
 </html>

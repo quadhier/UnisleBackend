@@ -64,6 +64,11 @@ $(document).ready(function () {
         return str;
     }
 
+    // 产生图片后缀，强制图片更新
+    function randomTail() {
+        return "?r=" + Math.random();
+    }
+
 
 
     /*
@@ -116,7 +121,7 @@ $(document).ready(function () {
             $(".self_sign span").text(toStr(signature));
 
             // 设置头像
-            $(".self_headImg img")[0].src = userHeadImg;
+            $(".self_headImg img")[0].src = userHeadImg + randomTail();
 
             // 设置个人信息
             $(".self_top_text p:eq(0)").text(nickname);
@@ -280,9 +285,9 @@ $(document).ready(function () {
     $("#deleteBtn").live("click", function () {
             //alert("start sending");
             $.ajax({
-                type: "GET",
+                type: "POST",
                 //服务端url
-                url: "deleteFriend",
+                url: "friend/deleteFriend",
                 dataType: "json",
                 data: {
                     "friendid": viewedUser
@@ -309,6 +314,7 @@ $(document).ready(function () {
                         timeout:10000
                     });
                     alert(res.result);
+                    alert("删除成功我要刷新")
                 }
 
             });
