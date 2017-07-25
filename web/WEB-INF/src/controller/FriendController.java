@@ -3,10 +3,7 @@ package controller;
 import dao.*;
 import entity.UuserEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import converter.ResultInfo;
 import util.ControllerUtil;
 import util.Rewrapper;
@@ -333,6 +330,50 @@ public class FriendController {
         rinfo.setData(maybeFriend);
         return rinfo;
     }
+
+
+    // 获取黑名单
+    @RequestMapping(value = "/blacklist", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getBlacklist(HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("SUCCESS");
+        String userid = ControllerUtil.getUidFromReq(request);
+        List blackidlist = FriendshipDAO.getBlacklist(userid);
+        List blacklist = new ArrayList();
+        UuserEntity coactee = null;
+        for(Object i : blackidlist) {
+            coactee = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, (String)i);
+            coactee.setPassword(null);
+            blacklist.add(coactee);
+        }
+        rinfo.setData(blacklist);
+        return rinfo;
+    }
+
+    // 删除黑名单中的好友
+    @RequestMapping(value = "/blacklist/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteBlackItems(@RequestBody List<String> blackItems,
+                                   HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("SUCCESS");
+        if(blackItems == null) {
+            return rinfo;
+        }
+
+        String userid = ControllerUtil.getUidFromReq(request);
+
+        for(String blackid : blackItems) {
+            System.out.println(blackid);
+            FriendshipDAO.deleteBlacklistItem(userid, blackid);
+        }
+
+        return rinfo;
+    }
+
 
     //tested
     /*

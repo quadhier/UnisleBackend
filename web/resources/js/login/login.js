@@ -12,8 +12,6 @@ $("#loginForm").ajaxForm({
     cache: false,
     beforeSubmit: function (arr, $form, option) {
 
-        alert(arr.length);
-
         if(arr[0].value == null || arr[0].value == "") {
             alert("请填写账号");
             return false;

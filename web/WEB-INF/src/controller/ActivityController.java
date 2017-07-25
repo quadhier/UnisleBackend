@@ -381,4 +381,9 @@ public class ActivityController {
         return rinfo;
     }
 
+    // 设置动态可见性
+
+
+
+
 }
