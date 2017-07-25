@@ -14,6 +14,7 @@
 
             //变量定义区
             var userid;
+            var nickname;
             var articleid = innerURL.split('?')[1].split('&')[0].split('=')[1];
             var authorid = innerURL.split('?')[1].split('&')[1].split('=')[1];
             var articleEntity;
@@ -36,6 +37,7 @@
                     }
                     var userdata = res.data;
                     userid = userdata.userid;
+                    nickname = userdata.nickname;
                 }
 
             });//获得用户信息
@@ -181,6 +183,18 @@
                         if (res.result != 'SUCCESS') {
                             alert('发送失败。')
                         }
+                        //发送通知：文章评论
+                        $.ajax({
+                            type:'POST',
+                            url:'notice/sendNotice',
+                            dataType:'json',
+                            data:{
+                                'receiver':authorid,
+                                'type':'articlecommented',
+                                'content':content+' (Re:'+articleEntity.title+')'
+                            },
+                            timeout:10000
+                        });
                         var newURL = 'article.html?' + 'id=' + articleid + '&author=' + authorid;
                         //window.location.replace(newURL);
                         simURLReplace(newURL);

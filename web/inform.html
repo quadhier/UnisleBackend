@@ -233,7 +233,7 @@
                     cache:false,
                 });
                 $(this).parent().remove();
-                simURLReplace('inform.html');
+                window.location.href = 'home.html?load=inform';
             });
             $('.inform_contentBtn').die();
             $('.inform_contentBtn').live('click',function () {
@@ -282,7 +282,7 @@
                     timeout:5000,
                     cache:false,
                 });
-                simURLReplace('inform.html');
+                window.location.href = 'home.html?load=inform';
             });
         });
     </script>

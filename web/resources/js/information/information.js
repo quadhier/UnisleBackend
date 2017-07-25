@@ -28,7 +28,9 @@ $(document).ready(function () {
     // 获取前一个页面的数据
     function getArgs() {
         var args = {};
-        var query = location.search.substring(1);
+        //var query = location.search.substring(1);///
+        var query = innerURL.split('?')[1];
+
         var pairs = query.split("&");
         for(var i = 0; i < pairs.length; i++) {
             var pos = pairs[i].indexOf('=');
@@ -253,6 +255,19 @@ $(document).ready(function () {
 
                     }); // 发送好友申请结束
 
+                    //发送通知：好友申请
+                    $.ajax({
+                        type:'POST',
+                        url:'notice/sendNotice',
+                        dataType:'json',
+                        data:{
+                            'receiver':viewedUser,
+                            'type':'friendshipask',
+                            'content':'Hi,I want to be your friend!'
+                        },
+                        timeout:10000
+                    });
+
                 } else {
                     if(res.reason === "E_FRIEND_ALREADY_ADDED") {
                         alert("对方已是您的好友");
@@ -262,6 +277,7 @@ $(document).ready(function () {
                 }
             }
         });
+
     });
 
 
@@ -285,6 +301,18 @@ $(document).ready(function () {
                     alert("确认权限网络请求失败");
                 },
                 success: function (res) {
+                    //发送通知：好友申请
+                    $.ajax({
+                        type:'POST',
+                        url:'notice/sendNotice',
+                        dataType:'json',
+                        data:{
+                            'receiver':viewedUser,
+                            'type':'friendshipdeleted',
+                            'content':'友尽了，再见!'
+                        },
+                        timeout:10000
+                    });
                     alert(res.result);
                     alert("删除成功我要刷新")
                 }

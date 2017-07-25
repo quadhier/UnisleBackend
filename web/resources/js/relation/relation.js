@@ -72,7 +72,7 @@ $(document).ready(function () {
                         "</div>");
                 });
             } else if (res.reason === "LOGINERROR") {
-                window.location.replace("message.html");
+                window.location.href = "login.html";///
             } else {
                 alert(res.reason);
             }
@@ -199,6 +199,7 @@ $(document).ready(function () {
                         $("#findfriend_btn").val("");
                     } else {
                         var recUserid = res.data[0].userid;
+
                         alert(recUserid);
                         //
                         // 确认能否向目标用户发送好友申请
@@ -351,11 +352,13 @@ $(document).ready(function () {
     * */
     $(".leftfriend").live("click", function () {
 
-        alert($(this).data("userid"));
+        simURLReplace('information.html?user='+$(this).data("userid"));
+        //alert($(this).data("userid"));
     });
 
     $(".friend_container").live("click", function () {
-        alert($(this).data("userid"));
+        simURLReplace('information.html?user='+$(this).data("userid"));
+        //alert($(this).data("userid"));
     });
 
 
