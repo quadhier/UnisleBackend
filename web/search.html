@@ -30,10 +30,12 @@
                     }
 
                 });
-                if(innerURL.valueOf('?')>0){
+
+                if(innerURL.indexOf('?')>0){
                     searchContent = innerURL.split('?')[1].split('=')[1];
                     searchType = 'type_self';
                     $("#type_self").css("background-color","rgba(255,255,255,0.57)");
+                    $('#search_input').val(searchContent);
                     loadAjax(searchContent,searchType);
 				}else{
                     searchType = 'type_self';

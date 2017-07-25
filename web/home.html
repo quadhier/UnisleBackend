@@ -12,6 +12,28 @@
         var messageSocketOpen = false;
         var messageSocket = null;
         var messageUserid = null;
+        function typeToName(type){
+            var name = '';
+
+            if (type == ("friendshipask"))
+                name = '好友申请';
+            else if (type == ("groupinvite"))
+                name = '组织邀请';
+            else if (type == ("articlecommented"))
+                name = '文章评论通知';
+            else if (type == ("activitycommented"))
+                name = '动态评论通知';
+            else if (type == ("activityproed"))
+                name = '点赞通知';
+            else if (type == ("activityforwarded"))
+                name = '动态转发通知';
+            else if (type == ("addedtoblicklist"))
+                name = '拉黑通知';
+            else if (type == ("friendshipdeleted"))
+                name = '删除好友通知';
+
+            return name;
+        }
         function simURLReplace(trueURL) {
             //在跳转的时候，如果第二次跳入相同的页面，所有子元素事件都会被重复绑定
             //所以最好跳转的时候刷新整个页面，然后重新加载跳转到的页面
@@ -91,22 +113,24 @@
                 })
 
                 $("#nav_searchImg").click(function () {
-                    $(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                    //$(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                    toDefault();
                     if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
                         simURLReplace("search.html?aim="+$("#nav_search_input").val());
                     else
                         simURLReplace("search.html");
-                    toDefault();
+
                 })
 
                 $("#nav_search_input").keydown(function (e) {
                     if (e.keyCode == 13) {
-                        $(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                        //$(".navFormat").unbind('mouseenter').unbind('mouseleave');
+                        toDefault();
                         if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
                             simURLReplace("search.html?aim="+$("#nav_search_input").val());
                         else
                             simURLReplace("search.html");
-                        toDefault();
+
                     }
                 });
 
@@ -124,8 +148,7 @@
                     loadName = window.location.href.split('?')[1].split('=')[1];
                 }
                 currentPath = loadName;
-                innerHTML =
-                    simURLReplace(loadName+'.html');
+                simURLReplace(loadName+'.html');
                 navHover();
                 /*
                  $(".navFormat").hover(function () {
@@ -324,7 +347,7 @@
                             senderShowname = senderData.nickname;
                         else
                             senderShowname = senderData.note;
-                        var msgWarn ='你有新的通知, 来自'+ senderShowname + '的'+noticetype+':' + content+',请进入通知页面查看';
+                        var msgWarn ='你有新的通知, 来自'+ senderShowname + '的'+typeToName(noticetype)+':' + content+',请进入通知页面查看';
 
                         $('#hiddenMessage').text(msgWarn);
                         $("#hiddenMessage").slideToggle(300);
