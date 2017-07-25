@@ -2,11 +2,7 @@ body
 {
     margin: 0;
     padding: 0;
-}
-
-input,textarea
-{
-    outline: none;
+    
 }
 
 #bg
@@ -240,10 +236,60 @@ input,textarea
     top: 10px;
 }
 
-#groupActiveDiv
+#groupMemberDiv
 {
     height: 206px;
     top: 10px;
+}
+.groupMemberList
+{
+    position: relative;
+    margin: 0;
+    padding: 5px;
+    width: 390px;
+    height: 160px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: white;
+}
+.groupMemberList .memberContainer
+{
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 385px;
+    height: 155px;
+    padding: 2px;
+    border: 1px solid #cccccc;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.memberContainer .memberCard
+{
+    position: relative;
+    width: 383px;
+    height:40px;
+	padding-left:17px;
+	font-family: 'Î¢ÈíÑÅºÚ';
+    font-size: 14px;
+    color: #666666;
+    border-bottom: 1px solid #ffffff;
+    background-color: lightgrey;
+}
+
+.memberContainer .memberName
+{
+    position: relative;
+    float: left;
+    margin: 3px 10px;
+}
+
+.memberContainer .memberMail
+{
+    position: relative;
+    float: right;
+    margin: 3px 20px;
 }
 
 #groupActiveDiv .textareas
@@ -340,22 +386,19 @@ input,textarea
 
 .memberListContainer
 {
-    position: fixed;
+    position: absolute;
     top: 0;
     height: 100%;
     width: 100%;
     z-index: 2;
-    background-color: rgba(0,0,0,0.6);
     display: none;
 }
 
 .memberListContainer .memberDiv
 {
     position: relative;
-    top: 50%;
-    left: 50%;
-    margin-left: -250px;
-    margin-top: -165px;
+    top: 300px;
+    margin: 0 auto;
     width: 500px;
     height: 330px;
     border: 1px solid #333333;
@@ -371,6 +414,9 @@ input,textarea
     width: 480px;
     height: 270px;
     top: 10px;
+    font-family: 'Î¢ÈíÑÅºÚ';
+    font-size: 14px;
+    color: #666666;
     border: 1px solid #cccccc;
 }
 
@@ -412,6 +458,8 @@ input,textarea
     top: 0;
     width: 100%;
     height: 100%;
+    background:black;
+    opacity:0.57;
 }
 
 .Btn
@@ -474,3 +522,56 @@ input,textarea
     border: 1px solid #cccccc;
     resize: none;
 }
+
+/*member control area*/
+.memberList .memberCard{
+	positon:relative;
+	width:237px;
+	height:40px;
+	padding-left:17px;
+	background-color:lightgrey;
+	border-bottom: 1px solid #999999;
+	cursor:pointer;
+}
+.onSelect_memberList .memberCard{
+	border-left: 1px solid #999999;
+}
+
+.common_memberList{
+	position:absolute;
+	top:2px;
+	left:2px;
+	width:237px;
+	height:264px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	padding:0;
+	border: 1px solid #999999;
+}
+
+
+.onSelect_memberList{
+	position:absolute;
+	width:237px;
+	height:264px;
+	right:2px;
+	top:2px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	padding:0;
+	border: 1px solid #999999;
+	border-left:0;
+}
+.memberList_title{
+	position:relative;
+	width:237px;
+	height:20px;
+	line-height:20px;
+	font-size:12px;
+	font-family: 'Î¢ÈíÑÅºÚ';
+    color: #666666;
+    border-bottom:1px solid #999999;
+    text-align:center;
+}
+
+

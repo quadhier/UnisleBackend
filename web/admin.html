@@ -27,7 +27,7 @@
                 <!--组织头像-->
                 <div class="baseInfoLeft">
                     <div><img id="headImg" src="images/admin/headimg.png"></div>
-                    <p>组织名称</p>
+                    <p><span id="o_orgName">组织名称</span></p>
                 </div>
 
                 <!--基本信息修改-->
@@ -38,9 +38,9 @@
                         <hr/>
                         <div class="hiddenDiv">
                             <div class="textContainer">
-                                <input class="hidden_input" type="text" placeholder="新组织名">
+                                <input id = "o_name" class="hidden_input" type="text" placeholder="新组织名">
                             </div>
-                            <div class="Btn"><span>提交</span></div>
+                            <div id="o_name_btn" class="Btn"><span>提交</span></div>
                         </div>
                     </div>
                     <div class="headerDiv" style="top: 45px">
@@ -49,9 +49,9 @@
                         <hr/>
                         <div class="hiddenDiv">
                             <div class="textContainer">
-                                <input class="hidden_input" type="text" placeholder="用户名">
+                                <input id="o_invite" class="hidden_input" type="text" placeholder="用户名">
                             </div>
-                            <div class="Btn"><span>邀请</span></div>
+                            <div id="o_invite_btn" class="Btn"><span>邀请</span></div>
                         </div>
                     </div>
                     <div class="headerDiv" style="top:90px">
@@ -67,18 +67,18 @@
             <div id="groupTagManageDiv" class="columnDiv">
                 <p class="pHeader">管理组织标签</p>
                 <div class="textAreaContainer">
-                    <textarea class="textareas"></textarea>
+                    <textarea id="o_tag" class="textareas"></textarea>
                 </div>
-                <div class="Btn"><span>修改</span></div>
+                <div id="o_tag_btn" class="Btn"><span>修改</span></div>
             </div>
 
             <!--组织所属栏-->
             <div id="groupBelongDiv" class="columnDiv">
                 <p class="pHeader">修改组织所属</p>
                 <div class="textAreaContainer">
-                    <textarea class="textareas"></textarea>
+                    <textarea id="o_belong" class="textareas"></textarea>
                 </div>
-                <div class="Btn"><span>修改</span></div>
+                <div id="o_belong_btn" class="Btn"><span>修改</span></div>
             </div>
         </div>
 
@@ -89,32 +89,30 @@
                 <hr/>
             </div>
 
-            <!--动态发布栏-->
-            <div id="groupActiveDiv" class="columnDiv">
-                <p class="pHeader">组织动态发布</p>
-                <div class="textAreaContainer">
-                    <textarea class="textareas"></textarea>
+            <!--组织成员列表-->
+			<div id="groupMemberDiv" class="columnDiv">
+                <p class="pHeader">组织成员列表</p>
+                <div class="groupMemberList">
+                    <div class="memberContainer"></div>
                 </div>
-                <div id="addImg"><img src="images/admin/addImg.png"></div>
-                <div class="Btn"><span>发布</span></div>
             </div>
 
             <!--通知发布栏-->
             <div id="groupMessageDiv" class="columnDiv">
                 <p class="pHeader">组织通知发布</p>
                 <div class="textAreaContainer">
-                    <textarea class="textareas"></textarea>
+                    <textarea id="o_inform" class="textareas"></textarea>
                 </div>
-                <div class="Btn"><span>发布</span></div>
+                <div id="o_inform_btn" class="Btn"><span>发布</span></div>
             </div>
 
             <!--组织简介栏-->
             <div id="groupDescriptionDiv" class="columnDiv">
                 <p class="pHeader">组织简介</p>
                 <div class="textAreaContainer">
-                    <textarea class="textareas"></textarea>
+                    <textarea id="o_description" class="textareas"></textarea>
                 </div>
-                <div class="Btn"><span>修改</span></div>
+                <div id="o_description_btn" class="Btn"><span>修改</span></div>
             </div>
 
         </div>
@@ -124,17 +122,37 @@
         <!--组长权限按钮-->
         <div class="mainAdminDiv">
             <!--<div id="createBtn" class="Btn"><span>创 建</span></div>-->
-            <!--<div id="dismissBtn" class="Btn"><span>解 散</span></div>-->
+           
         </div>
     </div>
 
     <!--成员管理列表-->
     <div class="memberListContainer">
         <div class="memberDiv">
-            <div class="memberList"></div>
+            <div class="memberList">
+            	<div class="common_memberList">
+            	<div class="memberList_title"><span>成员列表</span></div>
+            		<!-- append -->
+            		
+            		
+            		
+            		<!-- append end -->
+            	</div>
+
+            	<div class="onSelect_memberList">
+            	<div class="memberList_title"><span>选择成员</span></div>
+            		<!-- append -->
+            		
+            		
+            		
+            		<!-- append end -->
+            	</div>
+            
+            </div>
             <div id="setManager" class="Btn"><span>设为管理员</span></div>
             <div id="handOver" class="Btn"><span>转让组长</span></div>
             <div id="kickOut" class="Btn"><span>踢出成员</span></div>
+            
         </div>
         <div class="clickHide"></div>
     </div>
