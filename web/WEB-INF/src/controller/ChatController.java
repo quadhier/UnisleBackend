@@ -21,12 +21,29 @@ public class ChatController {
 
     @RequestMapping(value = "getUnreadMessageNumber", method = RequestMethod.GET)
     @ResponseBody
-    public Object getHistroyMessage(HttpServletRequest request,
+    public Object getUnreadMessageNumber(HttpServletRequest request,
                                     @RequestParam(value = "friendid") String friendid){
         String userid = ControllerUtil.getUidFromReq(request);
         ResultInfo rinfo = new ResultInfo();
         int result = ChatDAO.gerUnreadMessageNumber(userid,friendid);
         if(result < 0 ){
+            rinfo.setReason("E_UNREAD_MESSAGE_NUMBER_CANNOT_GET");
+            rinfo.setResult("ERROR");
+        }else{
+            rinfo.setResult("SUCCESS");
+            rinfo.setData(result);
+        }
+
+        return rinfo;
+    }
+
+    @RequestMapping(value = "getUnreadMessageSender", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUnreadMessageSender(HttpServletRequest request){
+        String userid = ControllerUtil.getUidFromReq(request);
+        ResultInfo rinfo = new ResultInfo();
+        List result = ChatDAO.getUnreadMessageSender(userid);
+        if(result == null){
             rinfo.setReason("E_UNREAD_MESSAGE_NUMBER_CANNOT_GET");
             rinfo.setResult("ERROR");
         }else{

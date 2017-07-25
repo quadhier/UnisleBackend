@@ -102,7 +102,7 @@ public class ChatDAO {
     }
 
     public static List<String> getUnreadMessageSender(String receiverid){
-        String hql = "select distinct record.sender from ChatrecordEntity record where  " +
+        String hql = "select distinct record.chatrecordEntityPK.sender from ChatrecordEntity record where  " +
                 "record.chatrecordEntityPK.receiver =:rcvr and record.state='unread'";
         Map params = new HashMap();
         params.put("rcvr",receiverid);

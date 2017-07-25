@@ -6,7 +6,7 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
     <script type="text/javascript">
-        var innerURL = 'activity.html'
+        var innerURL = 'activity.html';
         var forumFirst = true;
         var messageSocketOpen = false;
         var messageSocket = null;
@@ -76,30 +76,6 @@
                     $("#self").css("background-image", "url(images/home/icon/self.png)");
                 }
 
-                //初始加载
-                {
-                    var loadName = null;
-
-                    if(window.location.href.indexOf('?') < 0)
-                        loadName = "activity";
-                    else{
-                        loadName = window.location.href.split('?')[1].split('=')[1];
-                    }
-                    currentPath = loadName;
-                    innerHTML =
-                    simURLReplace(loadName+'.html');
-                    navHover();
-                    /*
-                    $(".navFormat").hover(function () {
-                        $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + "_hover.png)");
-                        $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img_hover.png");
-                    }, function () {
-                        $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + ".png)");
-                        $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img.png");
-                    });*/
-                    $("#"+loadName).css("background-image", "url(images/home/icon/" + loadName + "_on.png)").find("img").attr('src', "images/home/icon/" + loadName + "Img.png");
-                    $("#"+loadName).unbind('mouseenter').unbind('mouseleave');
-                }
 
                 $(".navFormat").click(function () {
                     var pagename = $(this).attr('id');
@@ -132,6 +108,114 @@
                 });
             }//对按钮进行制作遮罩效果以及导航栏点击事件绑定
 
+            {
+                var loadName = null;
+
+                if(window.location.href.indexOf('?') < 0)
+                    loadName = "activity";
+                else{
+                    loadName = window.location.href.split('?')[1].split('=')[1];
+                }
+                currentPath = loadName;
+                innerHTML =
+                    simURLReplace(loadName+'.html');
+                navHover();
+                /*
+                 $(".navFormat").hover(function () {
+                 $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + "_hover.png)");
+                 $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img_hover.png");
+                 }, function () {
+                 $('#'+loadName).css("background-image", "url(images/home/icon/" + $('#'+loadName).attr('id') + ".png)");
+                 $('#'+loadName).find("img").attr('src', "images/home/icon/" + $('#'+loadName).attr('id') + "Img.png");
+                 });*/
+                $("#"+loadName).css("background-image", "url(images/home/icon/" + loadName + "_on.png)").find("img").attr('src', "images/home/icon/" + loadName + "Img.png");
+                $("#"+loadName).unbind('mouseenter').unbind('mouseleave');
+            }//初始加载
+            if(currentPath == 'activity'){
+                var unreadMessageSource = null;
+                var unreadNoticeNumber = 0;
+                $.ajax({
+                    type: "GET",
+                    url: "notice/getUnreadNumber",
+                    dataType: "json",
+                    data: {},
+                    async: false,
+                    timeout: 5000,
+                    cache: false,
+                    success: function (res) {
+                        if (res.result == 'LOGINERROR') {
+                            window.reload('login.html');
+                        }
+                        if (res.result != 'SUCCESS') {
+                            alert('未读通知数目读取错误。')
+                        }
+                        unreadNoticeNumber = res.data;
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "chat/getUnreadMessageSender",
+                    dataType: "json",
+                    data: {},
+                    async: false,
+                    timeout: 5000,
+                    cache: false,
+                    success: function (res) {
+                        if (res.result == 'LOGINERROR') {
+                            window.reload('login.html');
+                        }
+                        if (res.result != 'SUCCESS') {
+                            alert('未读消息来源读取错误。')
+                        }
+                        unreadMessageSource = res.data;
+                    }
+                });
+                var msgWarn = '';
+                if(unreadNoticeNumber>0)
+                    msgWarn += '你有'+unreadNoticeNumber+'条未读通知，请进入通知页面查看。'
+                var sourceString = '';
+                if(unreadMessageSource!=null && unreadMessageSource.length>0)
+                    for(var i=0;i<unreadMessageSource.length;i++){
+                        var senderData = null;
+                        $.ajax({
+                            type: 'GET',
+                            url: 'forum/userinfo',
+                            dataType: 'json',
+                            data: {'userid': unreadMessageSource[i]},
+                            timeout: 2000,
+                            async: false,
+                            success: function (res) {
+                                if (res.result == 'LOGINERROR') {
+                                    window.reload('login.html');
+                                }
+                                if (res.result != 'SUCCESS') {
+                                    alert('获取通知信息失败');
+                                }
+                                senderData = res.data;
+                            }
+                        });
+                        if (senderData == null)
+                            continue;
+                        var senderShowname = null;
+
+                        if (typeof senderData.note != 'string' || senderData.note == null)
+                            senderShowname = senderData.nickname;
+                        else
+                            senderShowname = senderData.note;
+                        sourceString += senderShowname+'、';
+                    }
+                if(sourceString.length >0){
+                    var nameString = sourceString.substr(0,sourceString.length-1);
+                    msgWarn += '你有来自'+nameString+'的未读消息，请进入消息页面查看。'
+                }
+                if(msgWarn.length>0) {
+                    $('#hiddenMessage').text(msgWarn);
+                    $("#hiddenMessage").slideToggle(300);
+                    setTimeout(function () {
+                        $("#hiddenMessage").slideToggle(300);
+                    }, 5000)
+                }
+            }//弹出离线时收到的通知和消息数目和提醒
 
             if ('WebSocket' in window) {
                 var projectPath = document.URL.split('home')[0].split('http://')[1];
@@ -161,12 +245,12 @@
                 websocket.onmessage = function (event) {
                     var returnJson = JSON.parse(event.data);
                     if (returnJson.returncode == '102') {
+                        if (currentPath == 'message')//消息页面不弹新消息，通知页面不弹新通知
+                            return;
 
                         var senderid = returnJson.senderid;
                         var sendtime = returnJson.sendtime;
                         var content = returnJson.content;
-                        if (currentPath == 'message')//消息页面不弹新消息，通知页面不弹新通知
-                            return;
                         var senderData = null;
                         $.ajax({
                             type: 'GET',
@@ -200,11 +284,51 @@
                         setTimeout(function () {
                             $("#hiddenMessage").slideToggle(300);
                         }, 3000)
+                    }else if(returnJson.returncode == '200'){
+                        if(currentPath = 'inform')
+                            return;
+                        var senderid = returnJson.serderid;
+                        var noticetype = returnJson.noticetype;
+                        var sendtime = returnJson.sendtime;
+                        var content = returnJson.content;
+                        var senderData = null;
+                        $.ajax({
+                            type: 'GET',
+                            url: 'friend/getDetails',
+                            dataType: 'json',
+                            data: {'friendid': senderid},
+                            timeout: 2000,
+                            async: false,
+                            success: function (res) {
+                                if (res.result == 'LOGINERROR') {
+                                    window.reload('login.html');
+                                }
+                                if (res.result != 'SUCCESS') {
+                                    alert('获取通知信息失败');
+                                }
+                                senderData = res.data;
+                            }
+                        });
+                        if (senderData == null)
+                            return;
+                        var senderShowname = null;
+
+                        if (typeof senderData.note != 'string' || senderData.note == null)
+                            senderShowname = senderData.nickname;
+                        else
+                            senderShowname = senderData.note;
+                        var msgWarn ='你有新的通知, 来自'+ senderShowname + '的'+noticetype+':' + content+',请进入通知页面查看';
+
+                        $('#hiddenMessage').text(msgWarn);
+                        $("#hiddenMessage").slideToggle(300);
+                        setTimeout(function () {
+                            $("#hiddenMessage").slideToggle(300);
+                        }, 3000)
                     }
                 }
 
             } else {
-                alert("你的浏览器不支持websocket,不能使用聊天功能。");
+                alert("你的浏览器不支持websocket,不能使用推送功能。");
             }
             window.onbeforeunload = function () {
                 var sendJson = JSON.stringify({
@@ -215,7 +339,16 @@
                 websocket.close();
             };
 
-            //$()
+            $('#signoutContainer').click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "logout",
+                    dataType: "json",
+                    data: {},
+                    timeout: 5000,
+                    cache: false
+                });
+            });
         });
     </script>
     <title>Home</title>

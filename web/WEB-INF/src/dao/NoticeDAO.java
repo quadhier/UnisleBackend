@@ -136,8 +136,10 @@ public class NoticeDAO {
     //tested
     public static boolean setNoticeRead(NoticeEntityPK pk) {
         NoticeEntity original = (NoticeEntity) CommonDAO.getItemByPK(NoticeEntity.class, pk);
+        if(original.getStatus().equals("unread"))
+            setNoticenumMinus(pk.getReceiver(),1);
         original.setStatus("read");
-        return CommonDAO.updateItem(NoticeEntity.class, pk, original) && setNoticenumMinus(pk.getReceiver(),1);
+        return CommonDAO.updateItem(NoticeEntity.class, pk, original);
     }
 
     public static boolean setNoticenumPlusOne(String userid){
