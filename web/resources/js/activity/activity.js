@@ -56,7 +56,7 @@ $(document).ready(function () {
 
         $("#actContainer").append(
             "<div id='" + activity.activityid + "' class='container'>" +
-            "<div class='" + activity.publisher + "' style='display:none'></div>" +
+            "<div class='" + activity.publisher + "' style='display:none'>1</div>" +
             "<hr style='top: 30px'/>" +
             "<div class='subLeft'><p class='pTitle'>" + userName + "</p></div>" +
             "<div class='subRight'><p class='pSmall'>" + strTime + "</p></div>" +
@@ -355,8 +355,8 @@ $(document).ready(function () {
      * */
 
     $(".good").live("click", function () {
-
         var activityid = $(this).parents(".container").attr("id");
+        var publisher = $(this).parents(".container").children().eq(0).attr('class');
         //alert(activityid);
         // 如果未点赞，再次点击则点赞
         // 向后台同步数据，同时使显示的的点赞数加一
@@ -388,7 +388,19 @@ $(document).ready(function () {
                     } else {
                         alert(res.reason);
                     }
-
+                    //发送通知：动态点赞
+                    //this在此处取父元素是取不到的，必须在上边取发布者id.
+                    $.ajax({
+                        type:'POST',
+                        url:'notice/sendNotice',
+                        dataType:'json',
+                        data:{
+                            'receiver':publisher,
+                            'type':'activityproed',
+                            'content':'赞！'
+                        },
+                        timeout:10000
+                    });
                 }
             });
 
@@ -461,6 +473,7 @@ $(document).ready(function () {
         if (input !== "") {
 
             var activityid = $(this).parents(".container").attr("id");
+            var publisher = $(this).parents(".container").children().eq(0).attr('class');
             $.ajax({
                 type: "POST",
                 // 不用contentType指定编码则会出现乱码问题
@@ -480,6 +493,18 @@ $(document).ready(function () {
 
                 },
                 success: function (res) {
+                    //发送通知：动态评论
+                    $.ajax({
+                        type:'POST',
+                        url:'notice/sendNotice',
+                        dataType:'json',
+                        data:{
+                            'receiver':publisher,
+                            'type':'activitycommented',
+                            'content':input
+                        },
+                        timeout:10000
+                    });
 
                     var pdiv = "#" + activityid;
                     // 评论区可能不存在

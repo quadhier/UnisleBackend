@@ -114,7 +114,8 @@
 
                 $("#nav_searchImg").click(function () {
                     //$(".navFormat").unbind('mouseenter').unbind('mouseleave');
-                    toDefault();
+                    navHover();
+                    //toDefault();
                     if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
                         simURLReplace("search.html?aim="+$("#nav_search_input").val());
                     else
@@ -125,7 +126,8 @@
                 $("#nav_search_input").keydown(function (e) {
                     if (e.keyCode == 13) {
                         //$(".navFormat").unbind('mouseenter').unbind('mouseleave');
-                        toDefault();
+                        navHover();
+                        //toDefault();
                         if($("#nav_search_input").val()!= null && $("#nav_search_input").val().length>0)
                             simURLReplace("search.html?aim="+$("#nav_search_input").val());
                         else
@@ -315,13 +317,16 @@
                             $("#hiddenMessage").slideToggle(300);
                         }, 3000)
                     }else if(returnJson.returncode == '200'){
-                        if(currentPath = 'inform')
+
+                        if(currentPath == 'inform')
                             return;
-                        var senderid = returnJson.serderid;
+
+                        var senderid = returnJson.senderid;
                         var noticetype = returnJson.noticetype;
                         var sendtime = returnJson.sendtime;
                         var content = returnJson.content;
                         var senderData = null;
+
                         $.ajax({
                             type: 'GET',
                             url: 'friend/getDetails',
@@ -339,6 +344,7 @@
                                 senderData = res.data;
                             }
                         });
+
                         if (senderData == null)
                             return;
                         var senderShowname = null;

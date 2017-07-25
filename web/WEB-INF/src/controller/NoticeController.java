@@ -29,6 +29,7 @@ public class NoticeController {
         if (type != null &&
                 !type.equals("groupinvite") &&
                 !type.equals("articlecommented") &&
+                !type.equals("friendshipask") &&
                 !type.equals("activitycommented") &&
                 !type.equals("activityproed") &&
                 !type.equals("activityforwarded") &&
