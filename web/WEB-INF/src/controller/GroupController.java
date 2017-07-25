@@ -463,13 +463,18 @@ public class GroupController {
     // 获取用户设置为可见的加入的组织
     @RequestMapping(value = "/useradded", method = RequestMethod.GET)
     @ResponseBody
-    public Object getGroupAdded(@RequestParam(value = "viewedUserid") String viewedUserid,
+    public Object getGroupAdded(@RequestParam(value = "viewedUserid", required = false) String viewedUserid,
                                 HttpServletRequest request) {
 
         ResultInfo rinfo = new ResultInfo();
         rinfo.setResult("SUCCESS");
 
         String userid = ControllerUtil.getUidFromReq(request);
+
+        if(viewedUserid == null || viewedUserid.equals("")) {
+            viewedUserid = userid;
+        }
+
         if(userid.equals(viewedUserid) == true) {
             rinfo.setData(GroupDAO.showGroupsYouAdded(viewedUserid, "all"));
             return rinfo;

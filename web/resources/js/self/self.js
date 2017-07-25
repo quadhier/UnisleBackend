@@ -186,23 +186,23 @@ $(document).ready(function () {
 
     // 全局变量定义
 
+    var ownerid; // 用来生成文件名
 
 
-    // var owner;
-    // var ownerid;
-    // var signature;
-    // var userHeadImg;
-    // var nickname;
-    // var realname;
-    // var school;
-    // var department;
-    // var grade;
-    // var sex;
-    // var birthday;
-    // var hometown;
-    // var contactway;
-    // var description;
-    // var intet;
+    var owner;
+    var signature;
+    var userHeadImg;
+    var nickname;
+    var realname;
+    var school;
+    var department;
+    var grade;
+    var sex;
+    var birthday;
+    var hometown;
+    var contactway;
+    var description;
+    var intet;
 
     $.ajax({
         type: "GET",
@@ -222,20 +222,20 @@ $(document).ready(function () {
         },
         success: function (res) {
 
-            var owner = res.data.user;
-            var ownerid = owner.userid;
-            var signature = owner.signature;
-            var userHeadImg = getHeadImg(owner);
-            var nickname = toStr(owner.nickname);
-            var realname = toStr(owner.realname);
-            var school = toStr(owner.school);
-            var department = toStr(owner.department);
-            var grade = toStr(owner.grade);
-            var sex = toStr(owner.sex);
-            var birthday = owner.birthday === null ? "" : toStr((new Date(parseInt(owner.birthday))).toDateString());
-            var hometown = toStr(owner.hometown);
-            var contactway = toStr(owner.contactway);
-            var description = toStr(owner.description);
+            owner = res.data.user;
+            ownerid = owner.userid;
+            signature = toStr(owner.signature);
+            userHeadImg = getHeadImg(owner);
+            nickname = toStr(owner.nickname);
+            realname = toStr(owner.realname);
+            school = toStr(owner.school);
+            department = toStr(owner.department);
+            grade = toStr(owner.grade);
+            sex = toStr(owner.sex);
+            birthday = owner.birthday === null ? "" : toStr((new Date(parseInt(owner.birthday))).toDateString());
+            hometown = toStr(owner.hometown);
+            contactway = toStr(owner.contactway);
+            description = toStr(owner.description);
 
             //
             // 填充个人页面中的信息
@@ -264,14 +264,14 @@ $(document).ready(function () {
 
             // 兴趣爱好
             $(".self_bottom_left .self_bottom_item p").html("");
-            var intet = res.data.interest;
+            intet = res.data.interest;
             if (intet !== null) {
-                var interests = "music:<br />" + toStr(intet.music) + "<br />" +
-                    "sports:<br />" + toStr(intet.sport) + "<br />" +
-                    "book:<br />" + toStr(intet.book) + "<br />" +
-                    "movie:<br />" + toStr(intet.movie) + "<br />" +
-                    "game:<br />" + toStr(intet.game) + "<br />"; //+
-                //"others:<br />" + toStr(intet.other);
+                var interests = "music:<br />&nbsp;&nbsp;" + toStr(intet.music) + "<br />" +
+                    "sports:<br />&nbsp;&nbsp;" + toStr(intet.sport) + "<br />" +
+                    "book:<br />&nbsp;&nbsp;" + toStr(intet.book) + "<br />" +
+                    "movie:<br />&nbsp;&nbsp;" + toStr(intet.movie) + "<br />" +
+                    "game:<br />&nbsp;&nbsp;" + toStr(intet.game) + "<br />" +
+                    "others:<br />&nbsp;&nbsp;" + toStr(intet.other);
                 $(".self_bottom_left .self_bottom_item p").html(interests);
             }
 
@@ -281,30 +281,44 @@ $(document).ready(function () {
             // 填充编辑页面中的信息
             //
 
-            if(realname !== "")
-                $("#input1 input").val(realname);
-            if(nickname !== "")
-                $("#inickname").val(nickname);
-            if(school !== "")
-                $("#ischool").val(school);
-            if(department !== "")
-                $("#idepartment").val(department);
-            if(grade !== "")
-                $("#igrade").val(grade);
-            if(contactway !== "")
-                $("#icontactway").val(contactway);
-            if(hometown !== "")
-                $("#ihometown").val(hometown);
-            if(sex == "male" || sex == "female")
-                $("#isex").val(sex);
+            // 基本信息
+            if(realname !== "") {
+                $("#irealname").attr("placeholder", realname);
+            }
+            if(nickname !== "") {
+                $("#inickname").attr("placeholder", nickname);
+            }
+            if(school !== "") {
+                $("#ischool").attr("placeholder", school);
+            }
+            if(department !== "") {
+                $("#idepartment").attr("placeholder", department);
+            }
+            if(grade !== "") {
+                $("#igrade").attr("placeholder", grade);
+            }
+            if(contactway !== "") {
+                $("#icontactway").attr("placeholder", contactway);
+            }
+            if(hometown !== "") {
+                $("#ihometown").attr("placeholder", hometown);
+            }
+            if(sex === "male") {
+                // 这样就设置了默认值
+                $("#isex  option[value='male']").attr("selected",true);
+            } else {
+                $("#isex  option[value='female']").attr("selected",true);
+            }
 
-            // 生日格式化
+            // 生日格式化，并设置默认值
             if(birthday !== "")
             {
                 var bdate = new Date(birthday);
-                $("#ibirthday").val(bdate.pattern("yyyy-MM-dd"));
+                $("#ibirthday")[0].defaultValue = bdate.pattern("yyyy-MM-dd");
             }
 
+
+            // 兴趣信息
             if(intet !== null) {
                 if(intet.music !== "")
                     $("#imusic").attr("placeholder", intet.music);
@@ -318,6 +332,14 @@ $(document).ready(function () {
                     $("#igame").attr("placeholder", intet.game);
                 if(intet.other)
                     $("#iother").attr("placeholder", intet.other);
+            }
+
+            // 个人简介和个性签名
+            if(description !== "") {
+                $("#idescription").attr("placeholder", description);
+            }
+            if(signature !== "") {
+                $("#isignature").attr("placeholder", signature);
             }
 
         }
@@ -366,8 +388,122 @@ $(document).ready(function () {
     pic.addEventListener("change", uploadHandle, false);
 
 
-    // 编辑页面中的确认按钮，取消按钮
+    // 编辑页面中的确认按钮
 
+    //userForm
+    $("#userForm").ajaxForm({
+        type: "POST",
+        url: "self",
+        dataType: "json",
+        data: {
+
+        },
+        timeout: 5000,
+        cache: false,
+        async: false,
+        //resetForm: true,
+        beforeSubmit: function (arr, $form, option) {
+
+            // if(arr[1].value === "") {
+            //     arr.splice(1, 1);
+            // }
+
+            var tagid;
+            for(var x in arr) {
+
+                if(arr[x].value !== null && arr[x].value !== "") {
+                    if(arr[x].name === "birthday") {
+                        $("#ibirthday")[0].defaultValue = arr[x].value;
+                        var bdate = new Date(arr[x].value);
+                        arr[x].value = bdate.getTime();
+                        alert(arr[x].value);
+                    } else if(arr[x].name === "sex") {
+                        if(arr[x].value === "male") {
+                            $("#isex  option[value='male']").attr("selected",true);
+                        } else if(arr[x].value === "female") {
+                            $("#isex  option[value='female']").attr("selected",true);
+                        }
+                    } else {
+                        tagid = "#i" + arr[x].name;
+                        $(tagid).attr("placeholder", arr[x].value);
+                    }
+                } else {
+                    arr[x].name = "nouse";
+                }
+            }
+
+        },
+        error: function () {
+
+        },
+        success: function (res) {
+            //
+            // // 基本信息
+            // if(realname !== "") {
+            //     $("#irealname").attr("placeholder", realname);
+            // }
+            // if(nickname !== "") {
+            //     $("#inickname").attr("placeholder", nickname);
+            // }
+            // if(school !== "") {
+            //     $("#ischool").attr("placeholder", school);
+            // }
+            // if(department !== "") {
+            //     $("#idepartment").attr("placeholder", department);
+            // }
+            // if(grade !== "") {
+            //     $("#igrade").attr("placeholder", grade);
+            // }
+            // if(contactway !== "") {
+            //     $("#icontactway").attr("placeholder", contactway);
+            // }
+            // if(hometown !== "") {
+            //     $("#ihometown").attr("placeholder", hometown);
+            // }
+            // if(sex === "male") {
+            //     // 这样就设置了默认值
+            //     $("#isex  option[value='male']").attr("selected",true);
+            // } else {
+            //     $("#isex  option[value='female']").attr("selected",true);
+            // }
+            //
+            // // 生日格式化，并设置默认值
+            // if(birthday !== "")
+            // {
+            //     var bdate = new Date(birthday);
+            //     $("#ibirthday")[0].defaultValue = bdate.pattern("yyyy-MM-dd");
+            // }
+            //
+            //
+            // // 兴趣信息
+            // if(intet !== null) {
+            //     if(intet.music !== "")
+            //         $("#imusic").attr("placeholder", intet.music);
+            //     if(intet.sport)
+            //         $("#isport").attr("placeholder", intet.sport);
+            //     if(intet.book !== "")
+            //         $("#ibook").attr("placeholder", intet.book);
+            //     if(intet.movie)
+            //         $("#imovie").attr("placeholder", intet.movie);
+            //     if(intet.game)
+            //         $("#igame").attr("placeholder", intet.game);
+            //     if(intet.other)
+            //         $("#iother").attr("placeholder", intet.other);
+            // }
+            //
+            // // 个人简介和个性签名
+            // if(description !== "") {
+            //     $("#idescription").attr("placeholder", description);
+            // }
+            // if(signature !== "") {
+            //     $("#isignature").attr("placeholder", signature);
+            // }
+
+        }
+
+    }).submit(function () {
+        return false;
+    })
 
 
 

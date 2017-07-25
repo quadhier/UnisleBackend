@@ -257,6 +257,35 @@ public class FriendController {
         return result;
     }
 
+
+    @RequestMapping(value = "/maybefriend", method = RequestMethod.GET)
+    @ResponseBody
+    public Object recommendFriend(@RequestParam(value = "size", required = false) Integer size,
+                                  HttpServletRequest request) {
+
+        ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+
+        if(size == null) {
+            size = 5;
+        }
+
+        String userid = ControllerUtil.getUidFromReq(request);
+        List<Object> maybeFriend;
+        try {
+            maybeFriend = FriendshipDAO.getInterestedUserInfoList(userid, size);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rinfo.setReason("E_GOT_NOTHING");
+            return rinfo;
+        }
+
+        rinfo.setResult("SUCCESS");
+        rinfo.setData(maybeFriend);
+        return rinfo;
+    }
+
     //tested
     /*
     @RequestMapping(value = "/getFriend",method = RequestMethod.GET)
