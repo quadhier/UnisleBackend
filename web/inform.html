@@ -56,10 +56,10 @@
                 var senderEntity;
                 $.ajax({
                     type: "GET",
-                    url: "forum/userinfo",
+                    url: "friend/getDetails",
                     dataType: "json",
                     data: {
-                        'userid': informer
+                        'friendid': informer
                     },
                     async: false,
                     timeout: 5000,
@@ -86,10 +86,10 @@
                 var senderEntity;
                 $.ajax({
                     type: "GET",
-                    url: "forum/userinfo",
+                    url: "friend/getDetails",
                     dataType: "json",
                     data: {
-                        'userid': informer
+                        'friendid': informer
                     },
                     async: false,
                     timeout: 5000,

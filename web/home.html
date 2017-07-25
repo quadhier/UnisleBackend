@@ -179,9 +179,9 @@
                         var senderData = null;
                         $.ajax({
                             type: 'GET',
-                            url: 'forum/userinfo',
+                            url: 'friend/getDetails',
                             dataType: 'json',
-                            data: {'userid': unreadMessageSource[i]},
+                            data: {'friendid': unreadMessageSource[i]},
                             timeout: 2000,
                             async: false,
                             success: function (res) {
@@ -340,6 +340,12 @@
             };
 
             $('#signoutContainer').click(function () {
+                var sendJson = JSON.stringify({
+                    'askcode': '999',
+                    'userid': userid
+                });
+                websocket.send(sendJson);
+                websocket.close();
                 $.ajax({
                     type: "GET",
                     url: "logout",
@@ -348,13 +354,14 @@
                     timeout: 5000,
                     cache: false
                 });
+                window.location.replace('login.html');
             });
         });
     </script>
     <title>Home</title>
 </head>
 <body>
-<img id="bg" src="images/bg.jpg" rel="background">
+<!--<img id="bg" src="images/bg.jpg" rel="background">-->
 
 <!--导航栏-->
 <div id="navigation">

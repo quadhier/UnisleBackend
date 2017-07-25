@@ -169,6 +169,54 @@ public class FriendController {
         return result;
     }
 
+    @RequestMapping(value = "/getDetails",method = RequestMethod.GET)
+    @ResponseBody
+    public Object getDetails(HttpServletRequest req,
+                             @RequestParam(value = "friendid") String friendid) {
+        ResultInfo result = new ResultInfo();
+        String userid = ControllerUtil.getUidFromReq(req);
+
+        Map<String, String> map = FriendshipDAO.getFriendIDNoteMap(userid);
+        String note = null;
+        if (map != null && map.containsKey(friendid))
+            note = map.get(friendid);
+
+        class FriendNoteAdapter {
+            public String userid;
+            public String nickname;
+            public String sex;
+            public String userpic;
+            public String note;
+            public String school;
+            public String department;
+            public String grade;
+        }
+
+        UuserEntity entity = null;
+        FriendNoteAdapter adapter = null;
+        entity = (UuserEntity) CommonDAO.getItemByPK(UuserEntity.class, friendid);
+        if (entity == null) {
+            result.setResult("ERROR");
+            result.setReason("NO_SUCH_USER");
+            return result;
+        }
+        adapter = new FriendNoteAdapter();
+        adapter.userid = entity.getUserid();
+        adapter.nickname = entity.getNickname();
+        adapter.sex = entity.getSex();
+        adapter.userpic = entity.getUserpic();
+        if (note != null) adapter.note = note;
+        adapter.school = entity.getSchool();
+        adapter.department = entity.getDepartment();
+        adapter.grade = entity.getGrade();
+
+
+        result.setResult("SUCCESS");
+        result.setData(adapter);
+
+        return result;
+    }
+
     @RequestMapping(value = "/deleteFriend", method = RequestMethod.POST)
     @ResponseBody
     public Object deleteFriend(HttpServletRequest req,
