@@ -31,19 +31,24 @@ public class RegisterController {
                            @RequestParam(value = "grade", required = false) String grade) {
 
         ResultInfo rinfo = new ResultInfo();
+        rinfo.setResult("ERROR");
+        if(vcode == null) {
+            vcode = "";
+        }
+
         // If information is not complete
-        if(userAccount == null || nickname == null || password == null || vcode == null) {
+        if(userAccount == null || userAccount.equals("") ||
+                nickname == null || nickname.equals("") ||
+                password == null || password.equals("") ||
+                validationCode == null || validationCode.equals("")) {
             rinfo.setResult("ERROR");
             rinfo.setReason("E_INCOMPELETE_INFO");
         }
         else {
             if(UserInfoDAO.seekReuseEmail(userAccount)) {
-                rinfo.setResult("ERROR");
                 rinfo.setReason("E_ACCOUNT_USED");
             }
-            else if(validationCode == null && !validationCode.equals(vcode))
-            {
-                rinfo.setResult("ERROR");
+            else if(!validationCode.equals(vcode)) {
                 rinfo.setReason("E_WRONG_VCODE");
             }
             else {
@@ -52,6 +57,7 @@ public class RegisterController {
                 rinfo.setResult("SUCCESS");
             }
         }
+        vcode = null;
         return rinfo;
     }
 

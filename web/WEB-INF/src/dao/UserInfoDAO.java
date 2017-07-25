@@ -129,7 +129,9 @@ public class UserInfoDAO {
             Criteria user = s.createCriteria(UuserEntity.class);
             user.add(Restrictions.eq("email",contact));
             List result = user.list();
-
+            if(result == null || result.isEmpty()) {
+                return null;
+            }
             UuserEntity entity = (UuserEntity) result.get(0);
             userid = entity.getUserid();
         }catch (Exception e){

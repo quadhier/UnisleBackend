@@ -178,6 +178,13 @@ $(document).ready(function () {
     };
 
 
+    // 产生图片后缀，强制图片更新
+    function randomTail() {
+        return "?r=" + Math.random();
+    }
+
+
+
     /*
      *
      * 个人信息加载
@@ -225,7 +232,7 @@ $(document).ready(function () {
             owner = res.data.user;
             ownerid = owner.userid;
             signature = toStr(owner.signature);
-            userHeadImg = getHeadImg(owner);
+            userHeadImg = getHeadImg(owner) + randomTail();
             nickname = toStr(owner.nickname);
             realname = toStr(owner.realname);
             school = toStr(owner.school);
