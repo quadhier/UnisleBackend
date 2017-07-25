@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
 
+
+
     /*
      *
      * 函数定义
@@ -42,10 +44,9 @@ $(document).ready(function () {
         commentDisplay = commentDisplay + "";
 
 
-
         // 组成图片展示的字符串
         var picDisplay = "";
-        if(activity.attachment !== null) {
+        if (activity.attachment !== null) {
             picDisplay = "<img class='activitypic' src='" + activity.attachment + "'/>";
         }
 
@@ -152,9 +153,9 @@ $(document).ready(function () {
                 userheadImgNode.src = userheadImg + randomTail();
             } else {
                 userheadImgNode.src = "pic/userpic/default.jpg";
-                if(sex === "male") {
+                if (sex === "male") {
                     userheadImgNode.src = "pic/userpic/male.jpg";
-                } else if(sex === "female") {
+                } else if (sex === "female") {
                     userheadImgNode.src = "pic/userpic/female.jpeg"
                 }
             }
@@ -165,7 +166,6 @@ $(document).ready(function () {
         }
 
     });
-
 
 
     /*
@@ -281,7 +281,6 @@ $(document).ready(function () {
     });
 
 
-
     /*
      *
      * 提交表格，发布动态
@@ -292,18 +291,16 @@ $(document).ready(function () {
         type: "POST",
         url: "activity",
         dataType: "json",
-        data: {
-
-        },
-        forceSync:true,
+        data: {},
+        forceSync: true,
         timeout: 5000,
         cache: false,
         beforeSubmit: function (arr, $form, option) {
-            if(arr[0].value === "") {
+            if (arr[0].value === "") {
                 alert("输入内容不能为空");
                 return false;
             }
-            if(arr[1].value === "") {
+            if (arr[1].value === "") {
                 // !!! 如果文件为空，则删除该元素
                 // !!! 否则spring会将其作为字符串处理，进而报错
                 arr.splice(1, 1);
@@ -321,7 +318,7 @@ $(document).ready(function () {
                 var activityid = res.data.activityid;
 
                 var picDisplay = "";
-                if(res.data.actpic !== null) {
+                if (res.data.actpic !== null) {
                     picDisplay = "<img class='activitypic' src='" + res.data.actpic + "'/>";
                 }
 
@@ -355,7 +352,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
 
     /*
@@ -401,15 +397,15 @@ $(document).ready(function () {
                     //发送通知：动态点赞
                     //this在此处取父元素是取不到的，必须在上边取发布者id.
                     $.ajax({
-                        type:'POST',
-                        url:'notice/sendNotice',
-                        dataType:'json',
-                        data:{
-                            'receiver':publisher,
-                            'type':'activityproed',
-                            'content':'赞！'
+                        type: 'POST',
+                        url: 'notice/sendNotice',
+                        dataType: 'json',
+                        data: {
+                            'receiver': publisher,
+                            'type': 'activityproed',
+                            'content': '赞！'
                         },
-                        timeout:10000
+                        timeout: 10000
                     });
                 }
             });
@@ -505,15 +501,15 @@ $(document).ready(function () {
                 success: function (res) {
                     //发送通知：动态评论
                     $.ajax({
-                        type:'POST',
-                        url:'notice/sendNotice',
-                        dataType:'json',
-                        data:{
-                            'receiver':publisher,
-                            'type':'activitycommented',
-                            'content':input
+                        type: 'POST',
+                        url: 'notice/sendNotice',
+                        dataType: 'json',
+                        data: {
+                            'receiver': publisher,
+                            'type': 'activitycommented',
+                            'content': input
                         },
-                        timeout:10000
+                        timeout: 10000
                     });
 
                     var pdiv = "#" + activityid;
@@ -536,14 +532,13 @@ $(document).ready(function () {
     });
 
 
-
     // 为删除动态键绑定事件
     $(".container .activity_x_img").live("click", function () {
         var publisherid = $(this).parents(".container").children(0).attr("class");
         var activityid = $(this).parents(".container").attr("id");
         var targetDiv = $(this).parents(".container");
 
-        if(publisherid === userid) {
+        if (publisherid === userid) {
 
             $.ajax({
                 type: "POST",
@@ -561,7 +556,7 @@ $(document).ready(function () {
 
                 },
                 success: function (res) {
-                    if(res.result === "SUCCESS") {
+                    if (res.result === "SUCCESS") {
                         alert("删除成功");
                         targetDiv.remove();
                     } else {
@@ -582,7 +577,7 @@ $(document).ready(function () {
         var publishtime = $(this).parents(".commentDiv").children(":first").next().attr("class");
         var targetDiv = $(this).parents(".commentDiv");
 
-        if(commenterid === userid) {
+        if (commenterid === userid) {
 
             $.ajax({
                 type: "POST",
@@ -602,7 +597,7 @@ $(document).ready(function () {
 
                 },
                 success: function (res) {
-                    if(res.result === "SUCCESS") {
+                    if (res.result === "SUCCESS") {
                         alert("删除评论成功");
                         targetDiv.remove();
                     } else {
@@ -616,6 +611,47 @@ $(document).ready(function () {
     });
 
 
+    /*
+    *
+    * 为群组公告部分绑定按键
+    *
+    * */
+
+    $(".message_content").hide();
+
+    $(".message_title").hover(function () {
+        $(this).css({
+            "opacity": "0.7"
+        });
+    }, function () {
+        $(this).css({
+            "opacity": "1"
+        });
+    });
+
+    $(".message_title").click(function () {
+        $(".message_content p").text("This is a public message");
+        $("#headline").slideUp(500, function () {
+            $(".message_title").slideUp(500, function () {
+                $(".message_content").slideDown(500);
+            });
+        });
+        $(".message_content").hover(function () {
+        }, function () {
+
+            $(".message_content").slideUp(500, function () {
+                $("#headline").slideDown(500, function () {
+                    $(".message_title").slideDown(500);
+                });
+            });
+
+        });
+    });
+
+
+
+
+    // 输入框被选中事件
     $("input").focus(function () {
         $(this).parent().css("border-color", "#bbbbff");
         $(this).parent().css("box-shadow", "0 0 4px #bbbbff");
@@ -637,7 +673,7 @@ $(document).ready(function () {
     $(".container").live("mouseenter", function () {
 
         publisherid = $(this).children(":first").attr("class");
-        if(publisherid === userid)
+        if (publisherid === userid)
             $(this).children(".activity_x_img").show();
 
     }).live("mouseleave", function () {
@@ -650,7 +686,7 @@ $(document).ready(function () {
     $(".container .commentDiv").live("mouseenter", function () {
 
         commenterid = $(this).children(":first").attr("class");
-        if(commenterid === userid)
+        if (commenterid === userid)
             $(this).children(".comment_x_img").show();
 
     }).live("mouseleave", function () {
