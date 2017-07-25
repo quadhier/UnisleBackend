@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+	/*
+	*
+	*  展示函数定义
+	*
+	* */
 	
     //组长权限
     function mainAdmin() {
@@ -44,6 +50,7 @@ $(document).ready(function () {
             alert("");
         })
     }
+
     // 陌生人权限
     function strangerEntry() {
         $(".Btn").css("display","none");
@@ -65,7 +72,7 @@ $(document).ready(function () {
     function appendMemberCard(place){
     	
     	//在这请求所有成员列表...
-    	var jsonObj_MemberInfo='[{"nickname":"GoBang","mailBox":"goBang@163.com","admin":"false","userID":"o1"},'+
+    	var jsonMemberInfo='[{"nickname":"GoBang","mailBox":"goBang@163.com","admin":"false","userID":"o1"},'+
 			'{"nickname":"Miku","mailBox":"mikujam@sina.com","admin":"false","userID":"o2"},'+
 			'{"nickname":"Kid","mailBox":"kid@sina.com","admin":"false","userID":"o3"},'+
 			'{"nickname":"friendA","mailBox":"627695620@qq.com","admin":"false","userID":"o4"},'+
@@ -75,7 +82,7 @@ $(document).ready(function () {
 			'{"nickname":"Kudo","mailBox":"kudo@qq.com","admin":"true","userID":"o8"}'+
 			']';
     	
-    	$.each(JSON.parse(jsonObj_MemberInfo),function(index,obj){
+    	$.each(JSON.parse(jsonMemberInfo),function(index,obj){
     		var color="#666666";
     		if(obj.admin==="true"){
     			color="#FF6489"
@@ -204,57 +211,81 @@ $(document).ready(function () {
     //以下与后台接口
     
     //check...
-    var result = "SUCCESS";
-    var reason = "null";
-    
-    if(result === "LOGINERROR"){
-    	
-    	window.location.replace("login.html");//can't back...
-    }else if(result === "ERROR"){
-    	alert(reason);
-    }else if(result === "SUCCESS"){
-    	//continue...
-    	
-    	//check the user's privilege    head-组长/admin-管理员/creator-创建时的选项/stranger-陌生人选项/member-成员选项
-    	var jsonObj_user_privilege='{"privilege":"head"}';
-    	var json = JSON.parse(jsonObj_user_privilege);
-    	
-    	if(json.privilege === "head"){
-    		mainAdmin();
-    		dismissGroup();
-    		
-    		opLoading();
-    		appendMemberCard("head");	
-    		
-    		opPro();
-    	    
+
+    $.ajax({
+        type: "GET",
+        url: "group",
+        dataType: "json",
+        data: {
+            "groupid": groupid
+        },
+        async:false,
+        timeout: 5000,
+        cache: false,
+        beforeSend: function () {
+
+        },
+        error: function () {
+
+        },
+        success: function (res) {
+
+            if(res.result === "LOGINERROR") {
+                window.location.replace("home.html");
+            } else if(res.result === "SUCCESS") {
+                var group = res.data;
+                $("#o_orgName").text(group.name);
+                $("#o_tag").val(group.tag);
+                $("#o_belong").val(group.school + "  " + group.department);
+                $("#o_inform").val("");
+                $("#o_description").val(group.description);
 
 
-    	}else if(json.privilege === "member"){
-    		memberEntry();
-    		opLoading();
-    	}else if(json.privilege === "creator"){
-    		mainAdmin();
-    		createGroup();
-    		opPro();
-    	}else if(json.privilege === "admin"){
-    		appendMemberCard("admin");
-    		opLoading();
-    		opPro();
+                //check the user's privilege    head-组长/admin-管理员/creator-创建时的选项/stranger-陌生人选项/member-成员选项
 
-    	}else if(json.privilege === "stranger"){
-    		strangerEntry();
-    		opLoading();
-    		
-    	}else{
-    		alert("ERROR");
-    	}
-    	
-    	
-    }else{
-    
-    	window.location.replace("login.html");
-    }
+
+                if(json.privilege === "head"){
+                    mainAdmin();
+                    dismissGroup();
+
+                    opLoading();
+                    appendMemberCard("head");
+
+                    opPro();
+
+
+                }else if(json.privilege === "member"){
+                    memberEntry();
+                    opLoading();
+                }else if(json.privilege === "creator"){
+                    mainAdmin();
+                    createGroup();
+                    opPro();
+                }else if(json.privilege === "admin"){
+                    appendMemberCard("admin");
+                    opLoading();
+                    opPro();
+
+                }else if(json.privilege === "stranger"){
+                    strangerEntry();
+                    opLoading();
+
+                }else{
+                    alert("ERROR");
+                }
+
+
+            }else{
+
+                window.location.replace("login.html");
+            }
+
+        }
+
+    });
+
+
+
     
     
     $(".triangle-right").click(function () {
