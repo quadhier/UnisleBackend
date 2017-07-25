@@ -88,7 +88,6 @@
                             "<div class='message_card_p_div'><p class='message_card_p'>" + friendShowName + "</p></div>"
                         );
                     }
-                    $('.message_card').die();
                     $('.message_card').live('click', function () {
                         start = 0;
                         $('.message_my_word_div').remove();
@@ -133,7 +132,6 @@
                 }
             }
             function getHistoryMessage(friendid,minnum){
-                start = start+minDef;
                 currentChatterID = friendid;
                 $('#current_chat_title').text('与 '+$('#'+currentChatterID).attr('title')+' 聊天中');
                 var unreadNumber;
@@ -156,7 +154,6 @@
                         unreadNumber = res.data;
                     }
                 });
-
                 $.ajax({
                     type: 'GET',
                     url: 'chat/getHistoryMessage',
@@ -177,6 +174,7 @@
                             alert('获取消息列表失败，请刷新。')
                         }
                         var messageList = res.data;
+
                         for(var i=0;i<messageList.length;i++){
                             var message = messageList[i];
                             if(message.chatrecordEntityPK.sender == userID)
@@ -203,6 +201,7 @@
                         }
                     }
                 });
+                start = start+(unreadNumber>minnum?unreadNumber:minnum);//必须加括号
             }
             $('#message_btn').die();
             $('#message_btn').live('click',function () {
@@ -237,13 +236,14 @@
                 //注意没有滚动条的时候scrolltop也为0
                 if(scrolltop == 0)
                     return;
-                if(scrolltop <= 2 ) {
+                if(scrolltop <= 20 ) {
                     getHistoryMessage(currentChatterID, minDef);
 
-                    $(this).scrollTop(300*minDef/(start+minDef));
+                    $(this).scrollTop(100+200*minDef/(start+minDef));
                 }
             })
             //跳转到其他页面时，需要关闭消息页面的websocket
+            /*
             $('#contentLoadContainer').on = function () {
                 var sendJson = JSON.stringify({
                     'askcode': '999',
@@ -252,6 +252,7 @@
                 websocket.send(sendJson);
                 websocket.close();
             };
+            */
             //初始化执行区
             $.ajax({
                 type: "GET",
@@ -277,6 +278,8 @@
             searchFriendList(null);
             if(friendList != null)
                 getHistoryMessage(friendList[0].userid,minDef);
+                //$('#'+friendList[0]).click();
+
             $('.message_content').scrollTop($('.message_content').get(0).scrollHeight);
             if('WebSocket' in window){
 

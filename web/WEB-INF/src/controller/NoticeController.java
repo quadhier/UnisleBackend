@@ -85,6 +85,24 @@ public class NoticeController {
         return result;
     }
 
+    @RequestMapping(value = "getUnreadNumber" , method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUnreadNumber(HttpServletRequest req){
+        String userid = ControllerUtil.getUidFromReq(req);
+        ResultInfo result = new ResultInfo();
+        int number = NoticeDAO.getNoticenum(userid);
+        if(number < 0){
+            result.setResult("ERROR");
+            result.setReason("E_GET_FAILED");
+            return result;
+        }
+
+        result.setResult("SUCCESS");
+        result.setData(number);
+
+        return result;
+    }
+
     @RequestMapping(value = "getAllNotice" , method = RequestMethod.GET)
     @ResponseBody
     public Object getAllNotice(HttpServletRequest req,

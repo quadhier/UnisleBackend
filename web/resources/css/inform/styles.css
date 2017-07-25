@@ -2,26 +2,49 @@ body
 {
     margin: 0px;
     padding:0px;
-    /*background-image: url("/unisle/images/bg.jpg");*/
+    background-image: url("../../images/bg.jpg");
     background-attachment:fixed;
     background-size: cover;
 }
-
-.inform_container
+.inform_contentBtn
 {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #006285;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.inform_contentBtn:hover
+{
+    background-color: rgba(0,98,133,0.8);
+}
+
+.inform_contentBtn span
+{
+    position: relative;
+    top: 4px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: '微软雅黑';
+}
+
+.inform_container{
     position: absolute;
     padding: 0px;
     width:1000px;
     height:550px;
     margin-left: -500px;
-    /*margin-top: 50px;*/
+    margin-top: -260px;
     left: 50%;
-    top: 50px;
+    top:50%;
     background: rgba(255,255,255,0.57);
 }
-
-.inform_title_p
-{
+.inform_title_p{
     position: relative;
     margin-left: 4%;
     padding: 0px;
@@ -31,8 +54,8 @@ body
     text-align: left;
 }
 
-.inform_new_title
-{
+
+.inform_new_title{
     position: absolute;
     width:220px;
     height: 187px;
@@ -40,27 +63,21 @@ body
     top:11px;
     background: rgba(255,255,255,0.88);
 }
-
-.inform_title_head
-{
+.inform_title_head{
     position:relative;
     width:92%;
     height:30px;
     margin-left:4%;
     border-bottom: 1px solid #999999;
 }
-
-.inform_new_title_body
-{
+.inform_new_title_body{
     position: relative;
     margin-left:4%;
     width:92%;
     height:132px;
     overflow: auto;
 }
-
-.inform_history_title_body
-{
+.inform_history_title_body{
     position: relative;
     margin-left:4%;
     width:92%;
@@ -68,8 +85,7 @@ body
     overflow: auto;
 }
 
-.inform_history_title
-{
+.inform_history_title{
     position: absolute;
     width: 220px;
     height:330px;
@@ -77,51 +93,84 @@ body
     top: 209px;
     background: rgba(255,255,255,0.88);
 }
-
-.inform_content
-{
+.inform_content{
     position: absolute;
     width: 750px;
     height: 528px;
     right: 10px;
     top: 11px;
     background: rgba(255,255,255,0.57);
-}
 
-#inform_content_id
-{
-    position: relative;
-    font-size: 14px;
     font-family: 微软雅黑;
-    color:#666666;
-    text-align: center;
-    top:50%;
-    margin-top: -12px;
-    text-align: center;
-    width:100%;
 }
 
-.inform_title_container
-{
+
+.inform_title_container{
     padding:0;
     position: relative;
     background: #ffffff;
     width:100%;
     height:20px;
 }
-
-.title_content
-{
+.title_content{
     font-size: 14px;
     font-family: 微软雅黑;
     color:#666666;
     float:left;
 }
-
-.title_img
-{
+.title_img{
     width:20px;
     height:100%;
     float:right
 }
 
+.inform_content_title{
+    position: relative;
+    margin-left:50px;
+    width:605px;
+    height:50px;
+    line-height: 50px;
+    font-weight: 800;
+    padding-left: 5px;
+    border-radius: 5px;
+    background-color: white;
+
+}
+
+.inform_content_div{
+    position: absolute;
+    top:50%;
+    margin-top: -125px;
+
+}
+.inform_content_content{
+    position: relative;
+    width:700px;
+    height:200px;
+    padding:0;
+}
+.inform_content_content p{
+    margin-top: 2px;
+    margin-bottom: 0;
+    position: relative;
+    width:600px;
+    height:130px;
+    display: inline-block;
+    font-size: 14px;
+    left:50px;
+    background: white;
+    padding:10px 5px 5px 5px;
+    border-radius: 5px;
+    text-indent: 24px;
+    /*word-break:break-all;*/
+    color:#666666;
+}
+
+#agree{
+    top:120px;
+    left:585px;
+}
+#reject{
+    left:485px;
+    top: 90px;
+}

@@ -298,8 +298,9 @@ public class Runner {
         //System.out.println(FriendshipDAO.getInterestedUserInfoList("10000000001",10).toString());
         //System.out.println(FriendshipDAO.getInterestedGroupInfoList("10000000001",10).toString());
 
-        System.out.println(ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()) , 1, "friend"));
+        //System.out.println(ActivityDAO.getActivities("10000000001",new Timestamp(System.currentTimeMillis()) , 1, "friend"));
 
+        //System.out.println(ChatDAO.getMessageList("10000000001", "10000000004", new Timestamp(System.currentTimeMillis()), 0, number));//ChatDAO.getUnreadMessageSender("10000000001"));
         HibernateUtil.closeSessionFactory();
     }
 }
