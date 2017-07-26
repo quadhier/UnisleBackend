@@ -128,7 +128,6 @@ body
 {
     position: relative;
     width: 100%;
-    height: 210px;
     background-color: rgba(255,255,255,0.57);
 }
 
@@ -144,15 +143,41 @@ body
     outline:none;
 }
 
+.actDiv .viewImg
+{
+    position: relative;
+    margin: 10px 0 0 0;
+    width: 392px;
+    height: 200px;
+    top: 20px;
+    left: 15px;
+    background-color: #ffffff;
+    display: none;
+}
+
+.actDiv .fillDiv
+{
+    position: relative;
+    margin: 0;
+    width: 420px;
+    height: 70px;
+}
+
+
 #releaseBtn
 {
     position: relative;
-    width: 100px;
-    height: 40px;
+    width: 60px;
+    height: 30px;
+    border: 0;
     border-radius: 10px;
     float: right;
+    z-index: 1;
     top: 30px;
     right: 15px;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: '微软雅黑';
     background-color: #006285;
     text-align: center;
     cursor: pointer;
@@ -163,15 +188,6 @@ body
 #releaseBtn:hover
 {
     background-color: rgba(0,98,133,0.8);
-}
-
-#releaseBtn span
-{
-    position: relative;
-    top: 5px;
-    color: #ffffff;
-    font-size: 20px;
-    font-family: '微软雅黑';
 }
 
 #actContainer
@@ -392,25 +408,26 @@ hr
     height: 30px;
     top: 30px;
     left: 15px;
+    z-index: 1;
     text-align: center;
     background: url('/unisle/images/activity/addImg.png');
     background-size: 100% 100%;
-    opacity: 0.5;
+    opacity: 1;
     cursor: pointer;
     -moz-user-select:none;
     -webkit-user-select:none;
 }
 
-#addImgBtn input
+#addImg_input
 {
     opacity: 0;
-    width: 40px;
-    height: 30px;
+    width: 392px;
+    height: 200px;
 }
 
 #addImgBtn:hover
 {
-    opacity: 1;
+    opacity: 0.5;
 }
 
 
@@ -454,4 +471,25 @@ hr
 
     font-family: '微软雅黑';
     color: #757575;
+}
+
+#viewImage
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-width: 390px;
+    max-height: 200px;
+}
+
+#addImg_icon
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    opacity: 0.5;
+    margin-left: -30px;
+    margin-top: -30px;
 }

@@ -143,6 +143,7 @@ public class ControllerUtil {
     // 将字节数组转化为文件存入文件系统中并且返回储存路径
     public static String storeFile(byte[] buf, String filename, String other, String type) {
 
+        //此处必须是你服务器war文件夹中tmp/pic文件夹的本机上的绝对路径
         String realPrefix = "/Users/qudaohan/Devel/IdeaProjects/UnisleBackend/out/artifacts/UnisleBackend_war_exploded/tmp/pic"  +
                 File.separator + type;
         byteToFile(buf, realPrefix, filename);

@@ -9,6 +9,10 @@
 		<title>Sign up</title>
 		<link rel="stylesheet" type="text/css" href="css/signup/styles.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
+		<script src="js/jquery-form-3.51.0.min.js"></script>
+		<script src="js/signup/signup.js"></script>
 
 	</head>
 
@@ -65,47 +69,47 @@
         			</li>
         			<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
       			</ul>
-    		</div>                  
- 	</div>           
+    		</div>
+ 	</div>
 </nav>-->
 
 <!--
 	导航条-end
--->	
+-->
 	
 	<div id="registerPanel">
-		<form class="form-horizontal" style="margin: 40px 0px 0px 0px;">
+		<form id="signupForm" class="form-horizontal" style="margin: 40px 0px 0px 0px;">
 			<center>
 			<div class="form-group">
     			<p class="poem">Join Unisle, and connect to the continent.</p>
   			</div>
 			<div class="form-group" style="margin: 30px 80px 20px 80px;">
-   				 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+   				 <input type="email" name="userAccount" required class="form-control" id="iemail" placeholder="Email">
  			</div>
  			<div class="form-group" style="margin: 0px 0px 0px 80px;float: left;width: 210px">
-   				 <input type="text" class="form-control" placeholder="验证码">
+   				 <input type="text" name="validationCode" required class="form-control" placeholder="验证码">
  			</div>
- 			<button type="submit" class="btn btn-primary" style="margin: 10px 50px 10px 0px;background-color: #006285;">
+ 			<div type="submit" id="vcodeBtn" class="btn btn-primary" style="margin: 10px 50px 10px 0px;background-color: #006285;">
   				获取验证码
-  			</button>
+  			</div>
   			<div class="form-group" style="margin: 0px 80px 20px 80px;">
-   				 <input type="text" class="form-control" placeholder="用户名">
+   				 <input type="text" name="nickname" required class="form-control" placeholder="昵称">
  			</div>
   			<div class="form-group" style="margin: 0px 80px 20px 80px;">
-    			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    			<input type="password" name="password" required class="form-control" id="exampleInputPassword1" placeholder="Password">
   			</div>
 			
   			<div class="form-group" style="margin: 0px 80px 20px 80px;">
-   				 <input type="text" class="form-control" placeholder="真实姓名">
+   				 <input type="text" name="realname"  class="form-control" placeholder="真实姓名">
  			</div>
   			<div class="form-group" style="margin: 0px 80px 20px 80px;">
-   				 <input type="text" class="form-control" placeholder="所属院校">
+   				 <input type="text" name="school" class="form-control" placeholder="所属院校">
  			</div>
  			<div class="form-group" style="margin: 0px 80px 20px 80px;">
-   				 <input type="text" class="form-control" placeholder="年级">
+   				 <input type="text" name="grade" class="form-control" placeholder="年级">
  			</div>
 			<div class="form-group" style="margin: 0px 80px 10px 80px;color: #666666;">
-				<select class="form-control" style="float: right;">
+				<select name="sex" class="form-control" style="float: right;">
 					<option>性别</option>
 					<option>男</option>
 					<option>女</option>
@@ -117,7 +121,7 @@
   			<div class="form-group" style="margin: 0px 80px 20px 80px;color: #666666;">
   				<div class="form-group" style="margin: 0px 0px 5px 0px;">
 
-    				<input type="date" class="form-control" id="birthday_input" placeholder="">
+    				<input type="date" name="birthday" class="form-control" id="birthday_input" placeholder="">
   				</div>
   			</div>
   			<!--

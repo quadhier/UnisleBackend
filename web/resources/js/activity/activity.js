@@ -195,7 +195,7 @@ $(document).ready(function () {
             if (res.result === "SUCCESS") {
                 appendCard(res.data);
             } else {
-                alert(res.reason);
+                //alert(res.reason);
             }
         }
     });
@@ -225,7 +225,7 @@ $(document).ready(function () {
                 if (res.result === "SUCCESS") {
                     appendCard(res.data);
                 } else {
-                    alert(res.reason);
+                    //alert(res.reason);
                 }
             }
         });
@@ -696,12 +696,12 @@ $(document).ready(function () {
     });
 
     // 添加图片按钮特效
-    $("#addImgBtn").change(function () {
-        if ($(this).children("input").val().length === 0)
-            $(this).css("opacity", "0.5");
-        else
-            $(this).css("opacity", "1");
-    });
+    // $("#addImgBtn").change(function () {
+    //     if ($(this).children("input").val().length === 0)
+    //         $(this).css("opacity", "0.5");
+    //     else
+    //         $(this).css("opacity", "1");
+    // });
 
     // 删除动态的叉叉的特效
     $(".container").live("mouseenter", function () {
@@ -729,5 +729,30 @@ $(document).ready(function () {
 
     });
 
+    $("#addImgBtn").click(function () {
+        $(".viewImg").slideToggle(300);
+        $("#viewImage").attr("src","");
+        $("#addImg_icon").remove();
+        $("#addImg_input").remove();
+        $(".viewImg").prepend("<img id='addImg_icon' src='images/activity/addImage.jpg'>");
+        $(".viewImg").append("<input id='addImg_input' name='picture' type='file'>");
+    });
+
+    $("#addImg_input").live('change',function () {
+        var file = this.files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件
+            $("#viewImage").attr("src","");
+            reader.onloadend = function (e) {
+                $("#viewImage").attr("src",e.target.result);//e.target.result就是最后的路径地址
+                $("#viewImage").load(function () {
+                    $("#viewImage").css("margin-left",$("#viewImage").width()/(-2)).css("margin-top",$("#viewImage").height()/(-2));
+                    $("#addImg_icon").remove();
+                })
+            };
+        }
+    })
 
 });
